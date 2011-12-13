@@ -24,7 +24,7 @@ $wgExtensionCredits['other'][] = array(
 	'name' => 'FanBox',
 	'version' => '2.0',
 	'author' => array( 'Aaron Wright', 'David Pean', 'Robert Lefkowitz', 'Jack Phoenix' ),
-	'url' => 'http://www.mediawiki.org/wiki/Extension:FanBox',
+	'url' => 'https://www.mediawiki.org/wiki/Extension:FanBox',
 	'description' => 'A new way of creating and using userboxes, based on special pages',
 );
 
