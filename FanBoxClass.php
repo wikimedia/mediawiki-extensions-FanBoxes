@@ -38,7 +38,7 @@ class FanBox {
 	 * Constructor
 	 */
 	public function __construct( $title ) {
-		if( !is_object( $title ) ) {
+		if ( !is_object( $title ) ) {
 			throw new MWException( 'FanBox constructor given bogus title.' );
 		}
 		$this->title =& $title;
@@ -76,13 +76,13 @@ class FanBox {
 		$dbw = wfGetDB( DB_MASTER );
 
 		$descTitle = $this->getTitle();
-		$desc = wfMsgForContent( 'fanbox-summary-new' );
+		$desc = wfMessage( 'fanbox-summary-new' )->inContentLanguage()->parse();
 		$article = new Article( $descTitle );
 
 		$categories_wiki = '';
-		if( $categories ) {
+		if ( $categories ) {
 			$categories_a = explode( ',', $categories );
-			foreach( $categories_a as $category ) {
+			foreach ( $categories_a as $category ) {
 				$categories_wiki .= '[[' .
 					$wgContLang->getNsText( NS_CATEGORY ) . ':' .
 					trim( $category ) . "]]\n";
@@ -94,7 +94,7 @@ class FanBox {
 			$this->getBaseCategories() . "\n" . $categories_wiki .
 			"\n__NOEDITSECTION__";
 
-		if( $descTitle->exists() ) {
+		if ( $descTitle->exists() ) {
 			# Invalidate the cache for the description page
 			$descTitle->invalidateCache();
 			$descTitle->purgeSquid();
@@ -106,7 +106,8 @@ class FanBox {
 		# Test to see if the row exists using INSERT IGNORE
 		# This avoids race conditions by locking the row until the commit, and also
 		# doesn't deadlock. SELECT FOR UPDATE causes a deadlock for every race condition.
-		$dbw->insert( 'fantag',
+		$dbw->insert(
+			'fantag',
 			array(
 				'fantag_title' => $this->getName(),
 				'fantag_left_text' => $fantag_left_text,
@@ -168,12 +169,12 @@ class FanBox {
 	public function getBaseCategories() {
 		global $wgUser, $wgContLang;
 		$creator = $this->getUserName();
-		if( !$creator ) {
+		if ( !$creator ) {
 			$creator = $wgUser->getName();
 		}
 		$ctg = '{{DEFAULTSORT:{{PAGENAME}}}}';
 		$ctg .= '[[' . $wgContLang->getNsText( NS_CATEGORY ) . ':' .
-			wfMsgForContent( 'fanbox-userbox-category' ) . "]]\n";
+			wfMessage( 'fanbox-userbox-category' )->inContentLanguage()->parse() . "]]\n";
 		return $ctg;
 	}
 
@@ -183,7 +184,7 @@ class FanBox {
 		$fantag_right_bgcolor, $fantag_image_name, $fantag_left_textsize,
 		$fantag_right_textsize, $fanboxId, $categories
 	) {
-		global $wgUser, $wgMemc, $wgContLang;
+		global $wgMemc, $wgContLang;
 
 		$dbw = wfGetDB( DB_MASTER );
 
@@ -207,9 +208,9 @@ class FanBox {
 		$wgMemc->delete( $key );
 
 		$categories_wiki = '';
-		if( $categories ) {
+		if ( $categories ) {
 			$categories_a = explode( ',', $categories );
-			foreach( $categories_a as $category ) {
+			foreach ( $categories_a as $category ) {
 				$categories_wiki .= '[[' . $wgContLang->getNsText( NS_CATEGORY ) .
 					':' . trim( $category ) . "]]\n";
 			}
@@ -220,7 +221,7 @@ class FanBox {
 			$this->getBaseCategories() . "\n" . $categories_wiki .
 			"\n__NOEDITSECTION__";
 
-		$article->doEdit( $article_content, wfMsgForContent( 'fanbox-summary-update' ) );
+		$article->doEdit( $article_content, wfMessage( 'fanbox-summary-update' )->inContentLanguage()->parse() );
 	}
 
 	/**
@@ -251,19 +252,21 @@ class FanBox {
 	function changeCount( $fanBoxId, $number ) {
 		$dbw = wfGetDB( DB_MASTER );
 
-		$count = (int)$dbw->selectField(
+		$count = $dbw->selectField(
 			'fantag',
 			'fantag_count',
-			array( 'fantag_id' => intval( $fanBoxId ) ),
+			array( 'fantag_id' => $fanBoxId ),
 			__METHOD__
 		);
 
-		$res = $dbw->update(
+		$dbw->update(
 			'fantag',
-			array( 'fantag_count' => "{$count}+{$number}" ),
-			array( 'fantag_id' => intval( $fanBoxId ) ),
+			array( "fantag_count = {$count}+{$number}" ),
+			array( 'fantag_id' => $fanBoxId ),
 			__METHOD__
 		);
+
+		$dbw->commit();
 	}
 
 	/**
@@ -280,7 +283,7 @@ class FanBox {
 		$key = wfMemcKey( 'fantag', 'page', $this->name );
 		$data = $wgMemc->get( $key );
 
-		if( !empty( $data ) && is_array( $data ) ) {
+		if ( !empty( $data ) && is_array( $data ) ) {
 			$this->id = $data['id'];
 			$this->left_text = $data['lefttext'];
 			$this->left_textcolor = $data['lefttextcolor'];
@@ -398,7 +401,7 @@ class FanBox {
 
 		$tagParser = new Parser();
 
-		if( $this->getFanBoxImage() ) {
+		if ( $this->getFanBoxImage() ) {
 			$fantag_image_width = 45;
 			$fantag_image_height = 53;
 			$fantag_image = wfFindFile( $this->getFanBoxImage() );
@@ -412,7 +415,7 @@ class FanBox {
 			$fantag_image_tag = '<img alt="" src="' . $fantag_image_url . '"/>';
 		}
 
-		if( $this->getFanBoxLeftText() == '' ) {
+		if ( $this->getFanBoxLeftText() == '' ) {
 			$fantag_leftside = $fantag_image_tag;
 		} else {
 			$fantag_leftside = $this->getFanBoxLeftText();
@@ -428,27 +431,33 @@ class FanBox {
 		$fantag_title = Title::makeTitle( NS_FANTAG, $this->name );
 		$individual_fantag_id = $this->getFanBoxId();
 
-		if( $this->getFanBoxPageID() == $wgTitle->getArticleID() ) {
+		if ( $this->getFanBoxPageID() == $wgTitle->getArticleID() ) {
 			$fantag_perma = '';
 		} else {
-			$fantag_perma = "<a class=\"perma\" style=\"font-size:8px; color:" .
-				$this->getFanBoxRightTextColor() . "\" href=\"" .
-				$fantag_title->escapeFullURL() . "\" title=\"{$this->name}\">" .
-				wfMsg( 'fanbox-perma' ) . '</a>';
+			$fantag_perma = Linker::link(
+				$fantag_title,
+				wfMessage( 'fanbox-perma' )->plain(),
+				array(
+					'class' => 'perma',
+					'style' => 'font-size:8px; color:' .
+						$this->getFanBoxRightTextColor(),
+					'title' => $this->name
+				)
+			);
 		}
 
 		$leftfontsize = '12px';
-		if( $this->getFanBoxLeftTextSize() == 'mediumfont' ) {
+		if ( $this->getFanBoxLeftTextSize() == 'mediumfont' ) {
 			$leftfontsize = '14px';
 		}
-		if( $this->getFanBoxLeftTextSize() == 'bigfont' ) {
+		if ( $this->getFanBoxLeftTextSize() == 'bigfont' ) {
 			$leftfontsize = '20px';
 		}
 
-		if( $this->getFanBoxRightTextSize() == 'smallfont' ) {
+		if ( $this->getFanBoxRightTextSize() == 'smallfont' ) {
 			$rightfontsize = '12px';
 		}
-		if( $this->getFanBoxRightTextSize() == 'mediumfont' ) {
+		if ( $this->getFanBoxRightTextSize() == 'mediumfont' ) {
 			$rightfontsize = '14px';
 		}
 
@@ -463,7 +472,7 @@ class FanBox {
 				<div class=\"permalink-container\">
 					$fantag_perma
 				</div>
-				<table class=\"fanBoxTable\" onclick=\"javascript:FanBoxes.openFanBoxPopup('fanboxPopUpBox{$individual_fantag_id}','individualFanbox{$individual_fantag_id}')\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
+				<table class=\"fanBoxTable\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
 					<tr>
 						<td id=\"fanBoxLeftSideOutput\" style=\"color:" . $this->getFanBoxLeftTextColor() . "; font-size:$leftfontsize\" bgcolor=\"" . $this->getFanBoxLeftBgColor() . "\">" . $fantag_leftside . "</td>
 						<td id=\"fanBoxRightSideOutput\" style=\"color:" . $this->getFanBoxRightTextColor() . "; font-size:$rightfontsize\" bgcolor=\"" . $this->getFanBoxRightBgColor() . "\">" . $right_text . "</td>
@@ -481,7 +490,7 @@ class FanBox {
 		global $wgUser;
 
 		$dbw = wfGetDB( DB_MASTER );
-		/*$check_fanbox_count = $dbw->selectField(
+		$check_fanbox_count = $dbw->selectField(
 			'user_fantag',
 			array( 'COUNT(*) AS count' ),
 			array(
@@ -489,59 +498,61 @@ class FanBox {
 				'userft_fantag_id' => $this->getFanBoxId()
 			),
 			__METHOD__
-		);*/
-		$sql = "SELECT COUNT(*) AS count
-			FROM {$dbw->tableName( 'user_fantag' )}
-			WHERE userft_user_name = '{$wgUser->getName()}' && userft_fantag_id = '{$this->getFanBoxId()}'";
-		$res = $dbw->query( $sql, __METHOD__ );
-		$row = $dbw->fetchObject( $res );
-		$check_fanbox_count = 0;
-		if( $row ) {
-			$check_fanbox_count = $row->count;
-		}
+		);
+
 		return $check_fanbox_count;
 	}
 
 	public function outputIfUserHasFanBox() {
-		$fanboxtitle = $this->getTitle();
-		$fanboxtitle = $fanboxtitle->getText();
+		$fanboxTitle = $this->getTitle();
+
+		// Some healthy paranoia
+		if ( !$fanboxTitle instanceof Title ) {
+			return '';
+		}
+
+		$fanboxTitle = $fanboxTitle->getText();
 		$individual_fantag_id = $this->getFanBoxId();
 
-		$output = "
-			<div class=\"fanbox-pop-up-box\" id=\"fanboxPopUpBox" . $individual_fantag_id . "\">
-			<table cellpadding=\"0\" cellspacing=\"0\" width=\"258px\">
+		$output = '
+			<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $individual_fantag_id . '">
+			<table cellpadding="0" cellspacing="0" width="258px">
 				<tr>
-					<td align=\"center\">" . wfMsg( 'fanbox-remove-fanbox' ) ."</td>
+					<td align="center">' .
+						wfMessage( 'fanbox-remove-fanbox' )->plain() .
+					'</td>
 				<tr>
-					<td align=\"center\">
-					<input type=\"button\" value=\"" . wfMsg( 'fanbox-remove' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$individual_fantag_id}','individualFanbox{$individual_fantag_id}'); FanBoxes.showMessage(2, '$fanboxtitle', $individual_fantag_id) \" />
-					<input type=\"button\" value=\"" . wfMsg( 'cancel' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$individual_fantag_id}','individualFanbox{$individual_fantag_id}')\" />
+					<td align="center">
+					<input type="button" class="fanbox-remove-has-button" data-fanbox-title="' . $fanboxTitle . '" value="' . wfMessage( 'fanbox-remove' )->plain() . '" size="20" />
+					<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->plain() . '" size="20" />
 				</td>
 			</table>
-			</div>";
+			</div>';
 
 		return $output;
 	}
 
 	public function outputIfUserDoesntHaveFanBox() {
-		$fanboxtitle = $this->getTitle();
-		$fanboxtitle = $fanboxtitle->getText();
+		$fanboxTitle = $this->getTitle();
+		$fanboxTitle = $fanboxTitle->getText();
 		$individual_fantag_id = $this->getFanBoxId();
 
-		$output = "
-			<div class=\"fanbox-pop-up-box\" id=\"fanboxPopUpBox" . $individual_fantag_id . "\">
-			<table cellpadding=\"0\" cellspacing=\"0\" width=\"258px\">
+		$output = '
+			<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $individual_fantag_id . '">
+			<table cellpadding="0" cellspacing="0" width="258px">
 				<tr>
-					<td align=\"center\">" . wfMsg( 'fanbox-add-fanbox' ) . "</td>
+					<td align="center">' .
+						wfMessage( 'fanbox-add-fanbox' )->plain() .
+					'</td>
 				</tr>
 				<tr>
-					<td align=\"center\">
-						<input type=\"button\" value=\"" . wfMsg( 'fanbox-add' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$individual_fantag_id}','individualFanbox{$individual_fantag_id}'); FanBoxes.showMessage(1, '$fanboxtitle', $individual_fantag_id) \"/>
-						<input type=\"button\" value=\"" . wfMsg( 'cancel' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$individual_fantag_id}','individualFanbox{$individual_fantag_id}')\" />
+					<td align="center">
+						<input type="button" class="fanbox-add-doesnt-have-button" data-fanbox-title="' . $fanboxTitle . '" value="' . wfMessage( 'fanbox-add' )->plain() . '" size="20" />
+						<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->plain() . '" size="20" />
 					</td>
 				</tr>
 			</table>
-			</div>";
+			</div>';
 
 		return $output;
 	}
@@ -550,20 +561,20 @@ class FanBox {
 		// The fantag ID in the div element is needed for the "login" popup
 		// to work properly
 		$individual_fantag_id = $this->getFanBoxId();
-		$login = SpecialPage::getTitleFor( 'Userlogin' );
-		$output = "<div class=\"fanbox-pop-up-box\" id=\"fanboxPopUpBox" . $individual_fantag_id . "\">
-			<table cellpadding=\"0\" cellspacing=\"0\" width=\"258px\">
+		$output = '<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $individual_fantag_id . '">
+			<table cellpadding="0" cellspacing="0" width="258px">
 				<tr>
-					<td align=\"center\">" . wfMsg( 'fanbox-add-fanbox-login' ) .
-					" <a href=\"{$login->getFullURL()}\">" . wfMsg( 'fanbox-login' ) . "</a></td>
+					<td align="center">' .
+						wfMessage( 'fanbox-add-fanbox-login' )->parse() .
+					'</td>
 				</tr>
 				<tr>
-					<td align=\"center\">
-						<input type=\"button\" value=\"" . wfMsg( 'cancel' ) . "\" size=\"20\" onclick=\"FanBoxes.openFanBoxPopup('fanboxPopUpBox{$individual_fantag_id}','individualFanbox{$individual_fantag_id}')\" />
+					<td align="center">
+						<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->plain() . '" size="20" />
 					</td>
 				</tr>
 			</table>
-			</div>";
+			</div>';
 		return $output;
 	}
 

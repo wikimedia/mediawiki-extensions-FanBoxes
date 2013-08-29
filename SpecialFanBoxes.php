@@ -21,49 +21,46 @@ class FanBoxes extends SpecialPage {
 	 * @param $par Mixed: parameter passed to the page or null
 	 */
 	public function execute( $par ) {
-		global $wgOut, $wgUser, $wgRequest, $wgHooks, $wgFanBoxScripts;
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+		$user = $this->getUser();
 
 		// Set it up so that you must be logged in to create a userbox
-		if( $wgUser->getID() == 0 ) {
-			$wgOut->setPageTitle( wfMsgHtml( 'fanbox-woops-title' ) );
+		if ( $user->getID() == 0 ) {
+			$out->setPageTitle( $this->msg( 'fanbox-woops-title' )->plain() );
 			$login = SpecialPage::getTitleFor( 'Userlogin' );
-			$wgOut->redirect( $login->getFullURL( 'returnto=Special:UserBoxes' ) );
+			$out->redirect( $login->getFullURL( 'returnto=Special:UserBoxes' ) );
 			return false;
 		}
 
 		// Don't allow blocked users (RT #12589)
-		if( $wgUser->isBlocked() ) {
-			$wgOut->blockedPage();
+		if ( $user->isBlocked() ) {
+			$out->blockedPage();
 			return true;
 		}
 
 		// If the database is in read-only mode, bail out
-		if( wfReadOnly() ) {
-			$wgOut->readOnlyPage();
+		if ( wfReadOnly() ) {
+			$out->readOnlyPage();
 			return true;
 		}
 
 		// Extension's CSS & JS
-		$wgOut->addScriptFile( $wgFanBoxScripts . '/FanBoxes.js' );
-		$wgOut->addExtensionStyle( $wgFanBoxScripts . '/FanBoxes.css' );
+		$out->addModules( 'ext.fanBoxes' );
 
 		// colorpicker
-		$wgOut->addScript( "<script type=\"text/javascript\" src=\"http://yui.yahooapis.com/2.5.2/build/utilities/utilities.js\"></script>\n" );
-		$wgOut->addScript( "<script type=\"text/javascript\" src=\"http://yui.yahooapis.com/2.5.2/build/slider/slider-min.js\"></script>\n" );
-		$wgOut->addScript( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://yui.yahooapis.com/2.5.2/build/colorpicker/assets/skins/sam/colorpicker.css\"/>\n" );
-		$wgOut->addScript( "<script type=\"text/javascript\" src=\"http://yui.yahooapis.com/2.5.2/build/colorpicker/colorpicker-min.js\"></script>\n" );
-
-		// Add i18n messages as JS globals (this can be removed once we require
-		// ResourceLoader/MW 1.17+)
-		$wgHooks['MakeGlobalVariablesScript'][] = 'FanBoxes::addJSGlobals';
+		$out->addScript( "<script type=\"text/javascript\" src=\"http://yui.yahooapis.com/2.5.2/build/utilities/utilities.js\"></script>\n" );
+		$out->addScript( "<script type=\"text/javascript\" src=\"http://yui.yahooapis.com/2.5.2/build/slider/slider-min.js\"></script>\n" );
+		$out->addScript( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://yui.yahooapis.com/2.5.2/build/colorpicker/assets/skins/sam/colorpicker.css\"/>\n" );
+		$out->addScript( "<script type=\"text/javascript\" src=\"http://yui.yahooapis.com/2.5.2/build/colorpicker/colorpicker-min.js\"></script>\n" );
 
 		$output = '';
-		$title = str_replace( '#', '', $wgRequest->getVal( 'wpTitle' ) );
-		$fanboxId = $wgRequest->getInt( 'id' );
+		$title = str_replace( '#', '', $request->getVal( 'wpTitle' ) );
+		$fanboxId = $request->getInt( 'id' );
 		$categories = '';
 
 		// Set up the edit fanbox part
-		if( $fanboxId ) {
+		if ( $fanboxId ) {
 			$title = Title::newFromID( $fanboxId );
 			$update_fan = new FanBox( $title );
 
@@ -76,9 +73,9 @@ class FanBoxes extends SpecialPage {
 				__METHOD__
 			);
 
-			$fanboxCategory = wfMsgForContent( 'fanbox-userbox-category' );
-			foreach( $res as $row ) {
-				if(
+			$fanboxCategory = $this->msg( 'fanbox-userbox-category' )->inContentLanguage()->parse();
+			foreach ( $res as $row ) {
+				if (
 					$row->cl_to != $fanboxCategory &&
 					// @todo FIXME: i18n
 					strpos( $row->cl_to, 'Userboxes_by_User_' ) === false
@@ -98,7 +95,7 @@ class FanBoxes extends SpecialPage {
 			<input type=\"hidden\" name=\"bgColorRightSideColor\" id=\"bgColorRightSideColor\" value=\"{$update_fan->getFanBoxRightBgColor()}\">
 			<input type=\"hidden\" name=\"textColorRightSideColor\" id=\"textColorRightSideColor\" value=\"{$update_fan->getFanBoxRightTextColor()}\">";
 
-			if( $update_fan->getFanBoxImage() ) {
+			if ( $update_fan->getFanBoxImage() ) {
 				$fantag_image_width = 45;
 				$fantag_image_height = 53;
 				$fantag_image = wfFindFile( $update_fan->getFanBoxImage() );
@@ -112,7 +109,7 @@ class FanBoxes extends SpecialPage {
 				$fantag_image_tag = '<img alt="" src="' . $fantag_image_url . '" />';
 			}
 
-			if( $update_fan->getFanBoxLeftText() == '' ) {
+			if ( $update_fan->getFanBoxLeftText() == '' ) {
 				$fantag_leftside = $fantag_image_tag;
 				$fantag_imageholder = $fantag_image_tag;
 			} else {
@@ -121,17 +118,17 @@ class FanBoxes extends SpecialPage {
 			}
 
 			$leftfontsize = $rightfontsize = '';
-			if( $update_fan->getFanBoxLeftTextSize() == 'mediumfont' ) {
+			if ( $update_fan->getFanBoxLeftTextSize() == 'mediumfont' ) {
 				$leftfontsize = '14px';
 			}
-			if( $update_fan->getFanBoxLeftTextSize() == 'bigfont' ) {
+			if ( $update_fan->getFanBoxLeftTextSize() == 'bigfont' ) {
 				$leftfontsize = '20px';
 			}
 
-			if( $update_fan->getFanBoxRightTextSize() == 'smallfont' ) {
+			if ( $update_fan->getFanBoxRightTextSize() == 'smallfont' ) {
 				$rightfontsize = '12px';
 			}
-			if( $update_fan->getFanBoxRightTextSize() == 'mediumfont' ) {
+			if ( $update_fan->getFanBoxRightTextSize() == 'mediumfont' ) {
 				$rightfontsize = '14px';
 			}
 
@@ -159,33 +156,28 @@ class FanBoxes extends SpecialPage {
 					</td>
 				</table>';
 
-			$output .= '<h1>' . wfMsg( 'fanbox-addtext' ) . '</h1>
+			$output .= '<h1>' . $this->msg( 'fanbox-addtext' )->plain() . '</h1>
 				<div class="create-fanbox-text">
 					<div id="fanbox-left-text">
-						<h3>' . wfMsg( 'fanbox-leftsidetext' ) . "<span id=\"addImage\" onclick=\"FanBoxes.displayAddImage('create-fanbox-image', 'addImage', 'closeImage')\">" .
-							wfMsg( 'fanbox-display-image' ) . "</span> <span id=\"closeImage\" onclick=\"FanBoxes.displayAddImage('create-fanbox-image', 'closeImage', 'addImage')\">" .
-							wfMsg( 'fanbox-close-image' ) . "</span></h3>
-						<input type=\"text\" name=\"inputLeftSide\" id=\"inputLeftSide\" value=\"{$update_fan->getFanBoxLeftText()}\" oninput=\"FanBoxes.displayLeftSide(); FanBoxes.leftSideFanBoxFormat()\" onkeyup=\"FanBoxes.displayLeftSide(); FanBoxes.leftSideFanBoxFormat()\" onkeydown=\"FanBoxes.displayLeftSide(); FanBoxes.leftSideFanBoxFormat()\" onpaste=\"FanBoxes.displayLeftSide(); FanBoxes.leftSideFanBoxFormat()\" onkeypress=\"FanBoxes.displayLeftSide(); FanBoxes.leftSideFanBoxFormat()\" maxlength=\"11\"><br />
-						<font size=\"1\">" . wfMsg( 'fanbox-leftsideinstructions' ) . '</font>
+						<h3>' . $this->msg( 'fanbox-leftsidetext' )->plain() . '<span id="addImage">' .
+							$this->msg( 'fanbox-display-image' )->plain() . '</span> <span id="closeImage">' .
+							$this->msg( 'fanbox-close-image' )->plain() . "</span></h3>
+						<input type=\"text\" name=\"inputLeftSide\" id=\"inputLeftSide\" value=\"{$update_fan->getFanBoxLeftText()}\" maxlength=\"11\"><br />
+						<font size=\"1\">" . $this->msg( 'fanbox-leftsideinstructions' )->plain() . '</font>
 					</div>
 					<div id="fanbox-right-text">
-						<h3>' . wfMsg( 'fanbox-rightsidetext' ) . '<span class="fanbox-right-text-message">' . wfMsg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" style="width:20px; height:15px;" value="70" /> ' ) . "</span></h3>
-						<input type=\"text\" name=\"inputRightSide\" id=\"inputRightSide\" style=\"width:350px\" value=\"{$update_fan->getFanBoxRightText()}\" oninput=\"FanBoxes.displayRightSide();
-						rightSideFanBoxFormat()\"
-						onkeydown=\"FanBoxes.limitText(this.form.inputRightSide,this.form.countdown,70); FanBoxes.displayRightSide(); FanBoxes.rightSideFanBoxFormat()\"
-						onkeyup=\"FanBoxes.limitText(this.form.inputRightSide,this.form.countdown,70); FanBoxes.displayRightSide(); FanBoxes.rightSideFanBoxFormat()\"
-						onpaste=\"FanBoxes.limitText(this.form.inputRightSide,this.form.countdown,70); FanBoxes.displayRightSide(); FanBoxes.rightSideFanBoxFormat()\"
-						onkeypress=\"FanBoxes.limitText(this.form.inputRightSide,this.form.countdown,70); FanBoxes.displayRightSide(); FanBoxes.rightSideFanBoxFormat()\"
-						maxlength=\"70\" /><br />
-						<font size=\"1\">" . wfMsg( 'fanbox-rightsideinstructions' ) . '</font>
+						<h3>' . $this->msg( 'fanbox-rightsidetext' )->plain() . '<span class="fanbox-right-text-message">' . $this->msg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" style="width:20px; height:15px;" value="70" /> ' )->text() . "</span></h3>
+						<input type=\"text\" name=\"inputRightSide\" id=\"inputRightSide\" style=\"width:350px\" value=\"{$update_fan->getFanBoxRightText()}\" maxlength=\"70\" /><br />
+						<font size=\"1\">" . $this->msg( 'fanbox-rightsideinstructions' )->plain() . '</font>
 					</div>
-					</form>
-				</div>';
+				</div>
+			</form>';
 
 			$output .= '
 					<div id="create-fanbox-image" class="create-fanbox-image">
-						<h1>' . wfMsg( 'fanbox-leftsideimage' ) . ' <font size="1">' . wfMsg( 'fanbox-leftsideimageinstructions' ) . " </font></h1>
-						<div id=\"fanbox_image\" onclick=\"FanBoxes.insertImageToLeft()\">$fantag_imageholder</div>
+						<h1>' . $this->msg( 'fanbox-leftsideimage' )->plain() .
+							' <font size="1">' . $this->msg( 'fanbox-leftsideimageinstructions' )->plain() . " </font></h1>
+						<div id=\"fanbox_image\">$fantag_imageholder</div>
 						<div id=\"fanbox_image2\"> </div>
 						<div id=\"real-form\" style=\"display:block;height:70px;\">
 						<iframe id=\"imageUpload-frame\" class=\"imageUpload-frame\" width=\"700\"
@@ -198,33 +190,33 @@ class FanBoxes extends SpecialPage {
 			$output .= $this->colorPickerAndCategoryCloud( $categories );
 
 			$output .= '<div class="create-fanbox-buttons">
-				<input type="button" class="site-button" value="' .
-					wfMsg( 'fanbox-update-button' ) .
-					'" size="20" onclick="FanBoxes.createFantagSimple()" />
+				<input type="button" class="site-button fanbox-simple-button" value="' .
+					$this->msg( 'fanbox-update-button' )->plain() .
+					'" size="20" />
 			</div>';
 		}
 
 		// Set it up so that the page title includes the title of the red link that the user clicks on
-		$destination = $wgRequest->getVal( 'destName' );
-		$page_title = wfMsg( 'fan-addfan-title' );
-		if( $destination ) {
-			$page_title = wfMsg( 'fan-createfor', str_replace( '_', ' ', $destination ) );
+		$destination = $request->getVal( 'destName' );
+		$page_title = $this->msg( 'fan-addfan-title' )->plain();
+		if ( $destination ) {
+			$page_title = $this->msg( 'fan-createfor', str_replace( '_', ' ', $destination ) )->parse();
 		}
-		if( $fanboxId ) {
-			$page_title = wfMsg( 'fan-updatefan', str_replace( '_', ' ', $update_fan->getName() ) );
+		if ( $fanboxId ) {
+			$page_title = $this->msg( 'fan-updatefan', str_replace( '_', ' ', $update_fan->getName() ) )->parse();
 		}
 
-		$wgOut->setPageTitle( $page_title );
+		$out->setPageTitle( $page_title );
 
 		// Set it up so that the title of the page the user creates using the create form ends
 		// up being the title of the red link he clicked on to get to the create form
-		if( $destination ) {
+		if ( $destination ) {
 			$title = $destination;
 		}
 
-		if( !$fanboxId ) {
+		if ( !$fanboxId ) {
 			$output .= '<div class="lr-right">' .
-				wfMsgExt( 'userboxes-instructions', 'parse' ) .
+				$this->msg( 'userboxes-instructions' )->parse() .
 			'</div>
 
 			<form action="" method="post" name="form1">
@@ -238,13 +230,13 @@ class FanBoxes extends SpecialPage {
 			<input type="hidden" name="bgColorRightSideColor" id="bgColorRightSideColor" value="" />
 			<input type="hidden" name="textColorRightSideColor" id="textColorRightSideColor" value="" />';
 
-			if( !$destination ) {
-				$output .= '<h1>' . wfMsg( 'fanbox-title' ) . '</h1>
+			if ( !$destination ) {
+				$output .= '<h1>' . $this->msg( 'fanbox-title' )->plain() . '</h1>
 					<div class="create-fanbox-title">
 						<input type="text" name="wpTitle" id="wpTitle" value="' .
-							$wgRequest->getVal( 'wpTitle' ) .
+							$request->getVal( 'wpTitle' ) .
 							'" style="width:350px" maxlength="60" /><br />
-						<font size="1">(' . wfMsg( 'fanboxes-maxchars-sixty' ) . ')</font><br />
+						<font size="1">(' . $this->msg( 'fanboxes-maxchars-sixty' )->plain() . ')</font><br />
 					</div>';
 			} else {
 				$output .= Html::hidden( 'wpTitle', $destination, array( 'id' => 'wpTitle' ) );
@@ -269,36 +261,31 @@ class FanBoxes extends SpecialPage {
 				</tr>
 			</table>' . "\n";
 
-			$output.= '<h1>' . wfMsg( 'fanbox-addtext' ) . '</h1>
+			$output.= '<h1>' . $this->msg( 'fanbox-addtext' )->plain() . '</h1>
 				<div class="create-fanbox-text">
 					<div id="fanbox-left-text">
-						<h3>' . wfMsg( 'fanbox-leftsidetext' ) . "<span id=\"addImage\" onclick=\"FanBoxes.displayAddImage('create-fanbox-image', 'addImage', 'closeImage')\">" . wfMsg( 'fanbox-display-image' ) . "</span> <span id=\"closeImage\" onclick=\"FanBoxes.displayAddImage('create-fanbox-image', 'closeImage', 'addImage')\">" . wfMsg( 'fanbox-close-image' ) . '</span></h3>
-						<input type="text" name="inputLeftSide" id="inputLeftSide" oninput="FanBoxes.displayLeftSide(); FanBoxes.leftSideFanBoxFormat()" onkeyup="FanBoxes.displayLeftSide(); FanBoxes.leftSideFanBoxFormat()" onkeydown="FanBoxes.displayLeftSide(); FanBoxes.leftSideFanBoxFormat()" onpaste="FanBoxes.displayLeftSide(); FanBoxes.leftSideFanBoxFormat()" onkeypress="FanBoxes.displayLeftSide(); FanBoxes.leftSideFanBoxFormat()"
-						maxlength="11" /><br />
-						<font size="1">' . wfMsgForContent( 'fanbox-leftsideinstructions' ) . '</font>
+						<h3>' . $this->msg( 'fanbox-leftsidetext' )->plain() .
+							'<span id="addImage">' . $this->msg( 'fanbox-display-image' )->plain() .
+							'</span> <span id="closeImage">' . $this->msg( 'fanbox-close-image' )->plain() . '</span></h3>
+						<input type="text" name="inputLeftSide" id="inputLeftSide" maxlength="11" /><br />
+						<font size="1">' . $this->msg( 'fanbox-leftsideinstructions' )->inContentLanguage()->parse() . '</font>
 					</div>
 					<div id="fanbox-right-text">
-					<h3>' . wfMsgForContent( 'fanbox-rightsidetext' ) . '<span id="countdownbox"> <span class="fanbox-right-text-message">'
-						. wfMsg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" style="width:20px; height:15px;" value="70" />' ) . '</span></span></h3>
-						<input type="text" name="inputRightSide" id="inputRightSide" style="width:350px" oninput="FanBoxes.displayRightSide();
-						FanBoxes.rightSideFanBoxFormat()"
-						onkeydown="FanBoxes.limitText(this.form.inputRightSide,this.form.countdown,70); FanBoxes.displayRightSide(); FanBoxes.rightSideFanBoxFormat()"
-						onkeyup="FanBoxes.limitText(this.form.inputRightSide,this.form.countdown,70); FanBoxes.displayRightSide(); FanBoxes.rightSideFanBoxFormat()"
-						onpaste="FanBoxes.limitText(this.form.inputRightSide,this.form.countdown,70); FanBoxes.displayRightSide(); FanBoxes.rightSideFanBoxFormat()"
-						onkeypress="FanBoxes.limitText(this.form.inputRightSide,this.form.countdown,70); FanBoxes.displayRightSide(); FanBoxes.rightSideFanBoxFormat()"
-						maxlength="70" /><br />
-						<font size="1">' . wfMsg( 'fanbox-rightsideinstructions' ) . '</font>
+					<h3>' . $this->msg( 'fanbox-rightsidetext' )->inContentLanguage()->parse() . '<span id="countdownbox"> <span class="fanbox-right-text-message">'
+						. $this->msg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" style="width:20px; height:15px;" value="70" />' )->text() . '</span></span></h3>
+						<input type="text" name="inputRightSide" id="inputRightSide" style="width:350px" maxlength="70" /><br />
+						<font size="1">' . $this->msg( 'fanbox-rightsideinstructions' ) . '</font>
 					</div>
 					<div class="cleared"></div>
 					</form>
 				</div>';
 
 			$output .= '<div id="create-fanbox-image" class="create-fanbox-image">
-						<h1>' . wfMsg( 'fanbox-leftsideimage' ) .
+						<h1>' . $this->msg( 'fanbox-leftsideimage' )->plain() .
 							' <font size="1">' .
-							wfMsgForContent( 'fanbox-leftsideimageinstructions' ) .
+							$this->msg( 'fanbox-leftsideimageinstructions' )->inContentLanguage()->parse() .
 							' </font></h1>
-						<div id="fanbox_image" onclick="FanBoxes.insertImageToLeft()"></div>
+						<div id="fanbox_image"></div>
 						<div id="fanbox_image2"></div>
 
 						<div id="real-form" style="display: block; height: 70px;">
@@ -311,68 +298,68 @@ class FanBoxes extends SpecialPage {
 			$output .= $this->colorPickerAndCategoryCloud( $categories );
 
 			$output .= '<div class="create-fanbox-buttons">
-				<input type="button" class="site-button" value="' . wfMsg( 'fanbox-create-button' ) . '" size="20" onclick="FanBoxes.createFantag()" />
+				<input type="button" class="site-button" value="' . $this->msg( 'fanbox-create-button' )->plain() . '" size="20" />
 			</div>';
 		}
 
-		$wgOut->addHTML( $output );
+		$out->addHTML( $output );
 
 		// Send values to database and create fantag page when form is submitted
-		if( $wgRequest->wasPosted() ) {
-			if( !$fanboxId ) {
+		if ( $request->wasPosted() ) {
+			if ( !$fanboxId ) {
 				$fan = FanBox::newFromName( $title );
 				$fantagId = $fan->addFan(
-					$wgRequest->getVal( 'inputLeftSide' ),
-					$wgRequest->getVal( 'textColorLeftSideColor' ),
-					$wgRequest->getVal( 'bgColorLeftSideColor' ),
-					$wgRequest->getVal( 'inputRightSide' ),
-					$wgRequest->getVal( 'textColorRightSideColor' ),
-					$wgRequest->getVal( 'bgColorRightSideColor' ),
-					$wgRequest->getVal( 'fantag_image_name' ),
-					$wgRequest->getVal( 'textSizeLeftSide' ),
-					$wgRequest->getVal( 'textSizeRightSide' ),
-					$wgRequest->getVal( 'pageCtg' )
+					$request->getVal( 'inputLeftSide' ),
+					$request->getVal( 'textColorLeftSideColor' ),
+					$request->getVal( 'bgColorLeftSideColor' ),
+					$request->getVal( 'inputRightSide' ),
+					$request->getVal( 'textColorRightSideColor' ),
+					$request->getVal( 'bgColorRightSideColor' ),
+					$request->getVal( 'fantag_image_name' ),
+					$request->getVal( 'textSizeLeftSide' ),
+					$request->getVal( 'textSizeRightSide' ),
+					$request->getVal( 'pageCtg' )
 				);
 				$fan->addUserFan( $fantagId );
-				$wgOut->redirect( $fan->title->getFullURL() );
+				$out->redirect( $fan->title->getFullURL() );
 			}
-			if( $fanboxId ) {
+			if ( $fanboxId ) {
 				$title = Title::newFromID( $fanboxId );
 				$update_fan = new FanBox( $title );
 				$update_fan->updateFan(
-					$wgRequest->getVal( 'inputLeftSide' ),
-					$wgRequest->getVal( 'textColorLeftSideColor' ),
-					$wgRequest->getVal( 'bgColorLeftSideColor' ),
-					$wgRequest->getVal( 'inputRightSide' ),
-					$wgRequest->getVal( 'textColorRightSideColor' ),
-					$wgRequest->getVal( 'bgColorRightSideColor' ),
-					$wgRequest->getVal( 'fantag_image_name' ),
-					$wgRequest->getVal( 'textSizeLeftSide' ),
-					$wgRequest->getVal( 'textSizeRightSide' ),
+					$request->getVal( 'inputLeftSide' ),
+					$request->getVal( 'textColorLeftSideColor' ),
+					$request->getVal( 'bgColorLeftSideColor' ),
+					$request->getVal( 'inputRightSide' ),
+					$request->getVal( 'textColorRightSideColor' ),
+					$request->getVal( 'bgColorRightSideColor' ),
+					$request->getVal( 'fantag_image_name' ),
+					$request->getVal( 'textSizeLeftSide' ),
+					$request->getVal( 'textSizeRightSide' ),
 					$fanboxId,
-					$wgRequest->getVal( 'pageCtg' )
+					$request->getVal( 'pageCtg' )
 				);
-				$wgOut->redirect( $update_fan->title->getFullURL() );
+				$out->redirect( $update_fan->title->getFullURL() );
 			}
 		}
 	}
 
 	function colorPickerAndCategoryCloud( $categories ) {
 		$output = '<div class="add-colors">
-					<h1>' . wfMsg( 'fan-add-colors' ) . '</h1>
+					<h1>' . $this->msg( 'fan-add-colors' )->plain() . '</h1>
 					<div id="add-colors-left">
 						<form name="colorpickerradio" action="">
 						<input type="radio" name="colorpickerchoice" value="leftBG" checked="checked" />' .
-							wfMsg( 'fanbox-leftbg-color' ) .
+							$this->msg( 'fanbox-leftbg-color' )->plain() .
 						'<br />
 						<input type="radio" name="colorpickerchoice" value="leftText" />' .
-							wfMsg( 'fanbox-lefttext-color' ) .
+							$this->msg( 'fanbox-lefttext-color' )->plain() .
 						'<br />
 						<input type="radio" name="colorpickerchoice" value="rightBG" />' .
-							wfMsg( 'fanbox-rightbg-color' ) .
+							$this->msg( 'fanbox-rightbg-color' )->plain() .
 						'<br />
 						<input type="radio" name="colorpickerchoice" value="rightText" />' .
-						wfMsg( 'fanbox-righttext-color' ) . "
+						$this->msg( 'fanbox-righttext-color' )->plain() . "
 						</form>
 					</div>
 
@@ -380,7 +367,8 @@ class FanBoxes extends SpecialPage {
 					<div id=\"colorpickerholder\"></div>
 					</div>
 
-						<script type=\"text/javascript\">
+					<script type=\"text/javascript\">
+					jQuery( document ).ready( function() {
 						var colorPickerTest = new YAHOO.widget.ColorPicker( 'colorpickerholder', {
 							showhsvcontrols: true,
 							showhexcontrols: true,
@@ -393,44 +381,45 @@ class FanBoxes extends SpecialPage {
 						colorPickerTest.on( 'rgbChange', function( p_oEvent ) {
 							var sColor = '#' + this.get( 'hex' );
 
-							if( document.colorpickerradio.colorpickerchoice[0].checked ) {
+							if ( document.colorpickerradio.colorpickerchoice[0].checked ) {
 								document.getElementById( 'fanBoxLeftSideOutput2' ).style.backgroundColor = sColor;
 								// The commented-out line below is the original NYC code but I noticed that it doesn't work
 								//document.getElementById( 'fanBoxLeftSideContainer' ).style.backgroundColor = sColor;
 								document.getElementById( 'bgColorLeftSideColor' ).value = sColor;
 							}
 
-							if( document.colorpickerradio.colorpickerchoice[1].checked ) {
+							if ( document.colorpickerradio.colorpickerchoice[1].checked ) {
 								document.getElementById( 'fanBoxLeftSideOutput2' ).style.color = sColor;
 								document.getElementById( 'textColorLeftSideColor' ).value = sColor;
 							}
 
-							if( document.colorpickerradio.colorpickerchoice[2].checked ) {
+							if ( document.colorpickerradio.colorpickerchoice[2].checked ) {
 								document.getElementById( 'fanBoxRightSideOutput2' ).style.backgroundColor = sColor;
 								// The commented-out line below is the original NYC code but I noticed that it doesn't work
 								//document.getElementById( 'fanBoxRightSideContainer' ).style.backgroundColor = sColor;
 								document.getElementById( 'bgColorRightSideColor' ).value = sColor;
 							}
 
-							if( document.colorpickerradio.colorpickerchoice[3].checked ) {
+							if ( document.colorpickerradio.colorpickerchoice[3].checked ) {
 								document.getElementById( 'fanBoxRightSideOutput2' ).style.color = sColor;
 								document.getElementById( 'textColorRightSideColor' ).value = sColor;
 							}
 						});
-						</script>
-						<div class=\"cleared\"></div>
-					</div>";
+					} );
+					</script>
+					<div class=\"cleared\"></div>
+				</div>";
 
 		// Category cloud stuff
 		$cloud = new TagCloud( 10 );
-		$categoriesLabel = wfMsg( 'fanbox-categories-label' );
-		$categoriesHelpText = wfMsg( 'fanbox-categories-help' );
+		$categoriesLabel = $this->msg( 'fanbox-categories-label' )->plain();
+		$categoriesHelpText = $this->msg( 'fanbox-categories-help' )->parse();
 
 		$output .= '<div class="category-section">';
 		$tagcloud = '<div id="create-tagcloud" style="line-height: 25pt; width: 600px; padding-bottom: 15px;">';
 		$tagnumber = 0;
 		$tabcounter = 1;
-		foreach( $cloud->tags as $tag => $att ) {
+		foreach ( $cloud->tags as $tag => $att ) {
 			$tag = str_replace( 'Fans', '', $tag );
 			$tag = trim( $tag );
 			$slashedTag = $tag; // define variable
@@ -439,7 +428,7 @@ class FanBoxes extends SpecialPage {
 				$slashedTag = str_replace( "'", "\'", $tag );
 			}
 			$tagcloud .= " <span id=\"tag-{$tagnumber}\" style=\"font-size:{$cloud->tags[$tag]['size']}{$cloud->tags_size_type}\">
-				<a style='cursor:hand;cursor:pointer;text-decoration:underline' onclick=\"javascript:FanBoxes.insertTag('" . $slashedTag . "',{$tagnumber});\">{$tag}</a>
+				<a style='cursor:hand;cursor:pointer;text-decoration:underline' data-slashed-tag=\"{$slashedTag}\">{$tag}</a>
 			</span>\n";
 			$tagnumber++;
 		}
@@ -455,23 +444,5 @@ class FanBoxes extends SpecialPage {
 		$output .= '</div>';
 
 		return $output;
-	}
-
-	/**
-	 * Add some new JS globals into the page output. This can be replaced by
-	 * ResourceLoader in the future.
-	 *
-	 * @param $vars Array: array of pre-existing JS globals
-	 * @return Boolean: true
-	 */
-	public static function addJSGlobals( $vars ) {
-		$vars['__FANBOX_MUSTENTER_LEFT__'] = wfMsg( 'fanbox-mustenter-left' );
-		$vars['__FANBOX_MUSTENTER_RIGHT__'] = wfMsg( 'fanbox-mustenter-right' );
-		$vars['__FANBOX_MUSTENTER_RIGHT_OR__'] = wfMsg( 'fanbox-mustenter-right-or' );
-		$vars['__FANBOX_MUSTENTER_TITLE__'] = wfMsg( 'fanbox-mustenter-title' );
-		$vars['__FANBOX_HASH__'] = wfMsg( 'fanbox-hash' );
-		$vars['__FANBOX_CHOOSE_ANOTHER__'] = wfMsg( 'fanbox-choose-another' );
-		$vars['__FANBOX_UPLOAD_NEW_IMAGE__'] = wfMsg( 'fanbox-upload-new-image' );
-		return true;
 	}
 }

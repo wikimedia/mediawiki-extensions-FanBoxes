@@ -19,7 +19,7 @@ class FanBoxHooks {
 	 * @return Boolean: true
 	 */
 	public static function updateFanBoxTitle( &$title, &$newtitle, &$user, $oldid, $newid ) {
-		if( $title->getNamespace() == NS_FANTAG ) {
+		if ( $title->getNamespace() == NS_FANTAG ) {
 			$dbw = wfGetDB( DB_MASTER );
 			$dbw->update(
 				'fantag',
@@ -43,7 +43,8 @@ class FanBoxHooks {
 	 */
 	public static function deleteFanBox( &$article, &$user, $reason ) {
 		global $wgTitle, $wgSupressPageTitle;
-		if( $wgTitle->getNamespace() == NS_FANTAG ) {
+
+		if ( $wgTitle->getNamespace() == NS_FANTAG ) {
 			$wgSupressPageTitle = true;
 
 			$dbw = wfGetDB( DB_MASTER );
@@ -70,6 +71,7 @@ class FanBoxHooks {
 				$dbw->commit();
 			}
 		}
+
 		return true;
 	}
 
@@ -104,13 +106,13 @@ class FanBoxHooks {
 		$fan_name = $params[0];
 		$fan_name = Title::newFromDBKey( $fan_name );
 
-		if( !is_object( $fan_name ) ) {
+		if ( !is_object( $fan_name ) ) {
 			return '';
 		}
 
 		$fan = FanBox::newFromName( $fan_name->getText() );
 
-		if( $fan->exists() ) {
+		if ( $fan->exists() ) {
 			$output = "<fan name=\"{$fan->getName()}\"></fan>";
 			return $output;
 		}
@@ -128,17 +130,19 @@ class FanBoxHooks {
 	 * @return Boolean: true
 	 */
 	public static function fantagFromTitle( &$title, &$article ) {
-		global $wgRequest, $wgOut, $wgTitle, $wgSupressPageTitle, $wgSupressPageCategories, $wgFanBoxScripts;
+		global $wgRequest, $wgOut, $wgTitle, $wgSupressPageTitle, $wgSupressPageCategories;
 
 		if ( $title->getNamespace() == NS_FANTAG ) {
 			$wgSupressPageTitle = true;
 
-			$wgOut->addExtensionStyle( $wgFanBoxScripts . '/FanBoxes.css' );
+			// Add CSS
+			$wgOut->addModuleStyles( 'ext.fanBoxes' );
 
-			if( $wgRequest->getVal( 'action' ) == 'edit' ) {
+			// Prevent normal edit attempts
+			if ( $wgRequest->getVal( 'action' ) == 'edit' ) {
 				$addTitle = SpecialPage::getTitleFor( 'UserBoxes' );
 				$fan = FanBox::newFromName( $title->getText() );
-				if( !$fan->exists() ) {
+				if ( !$fan->exists() ) {
 					$wgOut->redirect( $addTitle->getFullURL( 'destName=' . $fan->getName() ) );
 				} else {
 					$update = SpecialPage::getTitleFor( 'UserBoxes' );
@@ -180,21 +184,21 @@ class FanBoxHooks {
 		$wgHooks['BeforePageDisplay'][] = 'FanBoxHooks::addFanBoxScripts';
 
 		$fan_name = $argv['name'];
-		if( !$fan_name ) {
+		if ( !$fan_name ) {
 			return '';
 		}
 
 		$fan = FanBox::newFromName( $fan_name );
 
 		$output = '';
-		if( $fan->exists() ) {
+		if ( $fan->exists() ) {
 			$output .= $fan->outputFanBox();
 			$fantagId = $fan->getFanBoxId();
 
 			$output .= '<div id="show-message-container' . intval( $fantagId ) . '">';
-			if( $wgUser->isLoggedIn() ) {
+			if ( $wgUser->isLoggedIn() ) {
 				$check = $fan->checkIfUserHasFanBox();
-				if( $check == 0 ) {
+				if ( $check == 0 ) {
 					$output .= $fan->outputIfUserDoesntHaveFanBox();
 				} else {
 					$output .= $fan->outputIfUserHasFanBox();
@@ -217,30 +221,22 @@ class FanBoxHooks {
 	 * @return Boolean: true
 	 */
 	public static function addFanBoxScripts( &$out, &$skin ) {
-		global $wgFanBoxScripts;
-		$out->addScriptFile( $wgFanBoxScripts . '/FanBoxes.js' );
-		$out->addExtensionStyle( $wgFanBoxScripts . '/FanBoxes.css' );
+		$out->addModules( 'ext.fanBoxes' );
 		return true;
 	}
 
 	/**
 	 * Creates the necessary database tables when the user runs
-	 * maintenance/update.php.
+	 * maintenance/update.php, the core MediaWiki updater script.
 	 *
-	 * @param $updater Object: instance of DatabaseUpdater
+	 * @param $updater DatabaseUpdater
 	 * @return Boolean: true
 	 */
-	public static function addTables( $updater = null ) {
+	public static function addTables( $updater ) {
 		$dir = dirname( __FILE__ );
 		$file = "$dir/fantag.sql";
-		if ( $updater === null ) {
-			global $wgExtNewTables;
-			$wgExtNewTables[] = array( 'fantag', $file );
-			$wgExtNewTables[] = array( 'user_fantag', $file );
-		} else {
-			$updater->addExtensionUpdate( array( 'addTable', 'fantag', $file, true ) );
-			$updater->addExtensionUpdate( array( 'addTable', 'user_fantag', $file, true ) );
-		}
+		$updater->addExtensionUpdate( array( 'addTable', 'fantag', $file, true ) );
+		$updater->addExtensionUpdate( array( 'addTable', 'user_fantag', $file, true ) );
 		return true;
 	}
 

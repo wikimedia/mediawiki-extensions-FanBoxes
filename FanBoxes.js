@@ -28,7 +28,7 @@ var FanBoxes = {
 
 	// Countdown as user types characters
 	limitText: function( limitField, limitCount, limitNum ) {
-		if( limitField.value.length > limitNum ) {
+		if ( limitField.value.length > limitNum ) {
 			limitField.value = limitField.value.substring( 0, limitNum );
 		} else {
 			limitCount.value = limitNum - limitField.value.length;
@@ -41,13 +41,13 @@ var FanBoxes = {
 		var str_left_side_length = document.form1.inputLeftSide.value.length;
 		var space_position = str_left_side.substring(
 			str_left_side_length - 5, str_left_side_length ).search( ' ' );
-		if( str_left_side.length < 6 ) {
+		if ( str_left_side.length < 6 ) {
 			document.form1.inputLeftSide.maxLength = 11;
 		}
-		if( space_position == -1 && str_left_side.length > 6 ) {
+		if ( space_position == -1 && str_left_side.length > 6 ) {
 			document.form1.inputLeftSide.maxLength = str_left_side.length;
 		}
-		if( space_position == -1 && str_left_side.length == 6 ) {
+		if ( space_position == -1 && str_left_side.length == 6 ) {
 			document.form1.inputLeftSide.value =
 				document.form1.inputLeftSide.value.substring( 0, 5 ) + ' ' +
 				document.form1.inputLeftSide.value.substring( 5, 6 );
@@ -55,7 +55,7 @@ var FanBoxes = {
 				document.form1.inputLeftSide.value.substring( 0, 5 ) + ' ' +
 				document.form1.inputLeftSide.value.substring( 5, 7 );
 		}
-		if( str_left_side.length >= 5 ) {
+		if ( str_left_side.length >= 5 ) {
 			document.getElementById( 'fanBoxLeftSideOutput2' ).style.fontSize = '14px';
 			document.getElementById( 'textSizeLeftSide' ).value = 'mediumfont';
 		} else {
@@ -73,13 +73,13 @@ var FanBoxes = {
 		var str_right_side_length = document.form1.inputRightSide.value.length;
 		var space_position = str_right_side.substring(
 			str_right_side_length - 17, str_right_side_length ).search( ' ' );
-		if( str_right_side.length < 18 ) {
+		if ( str_right_side.length < 18 ) {
 			document.form1.inputRightSide.maxLength = 70;
 		}
-		if( space_position == -1 && str_right_side.length > 18 ) {
+		if ( space_position == -1 && str_right_side.length > 18 ) {
 			document.form1.inputRightSide.maxLength = str_right_side.length;
 		}
-		if( space_position == -1 && str_right_side.length == 18 ) {
+		if ( space_position == -1 && str_right_side.length == 18 ) {
 			document.form1.inputRightSide.value =
 				document.form1.inputRightSide.value.substring( 0, 17 ) + ' ' +
 				document.form1.inputRightSide.value.substring( 17, 18 );
@@ -88,7 +88,7 @@ var FanBoxes = {
 				document.form1.inputRightSide.value.substring( 17, 19 );
 		}
 
-		if( str_right_side.length >= 52 ) {
+		if ( str_right_side.length >= 52 ) {
 			document.getElementById( 'fanBoxRightSideOutput2' ).style.fontSize = '12px';
 			document.getElementById( 'textSizeRightSide' ).value = 'smallfont';
 		} else {
@@ -102,17 +102,25 @@ var FanBoxes = {
 	 * popup box when you click on it
 	 */
 	openFanBoxPopup: function( popupBox, fanBox ) {
-		popupBox = document.getElementById( popupBox );
-		fanBox = document.getElementById( fanBox );
-		popupBox.style.display = ( popupBox.style.display == 'block' ) ? 'none' : 'block';
-		fanBox.style.display = ( fanBox.style.display == 'none' ) ? 'block' : 'none';
+		var $popupBox = jQuery( '#' + popupBox ),
+			$fanBox = jQuery( '#' + fanBox );
+		if ( $popupBox.is( ':visible' ) ) {
+			$popupBox.hide();
+		} else {
+			$popupBox.show();
+		}
+		if ( !$fanBox.is( ':visible' ) ) {
+			$fanBox.show();
+		} else {
+			$fanBox.hide();
+		}
 	},
 
 	closeFanboxAdd: function( popupBox, fanBox ) {
-		popupBox = document.getElementById( popupBox );
-		fanBox = document.getElementById( fanBox );
-		popupBox.style.display = 'none';
-		fanBox.style.display = 'block';
+		var $popupBox = jQuery( '#' + popupBox ),
+			$fanBox = jQuery( '#' + fanBox );
+		$popupBox.hide();
+		$fanBox.show();
 	},
 
 	/**
@@ -135,35 +143,50 @@ var FanBoxes = {
 	 * @param tagnumber Integer
 	 */
 	insertTag: function( tagname, tagnumber ) {
-		document.getElementById( 'tag-' + tagnumber ).style.color = '#CCCCCC';
-		document.getElementById( 'tag-' + tagnumber ).innerHTML = tagname;
+		jQuery( '#tag-' + tagnumber ).css( 'color', '#CCCCCC' ).html( tagname );
 		// Funny...if you move this getElementById call into a variable and use
 		// that variable here, this won't work as intended
 		document.getElementById( 'pageCtg' ).value += ( ( document.getElementById( 'pageCtg' ).value ) ? ', ' : '' ) + tagname;
 	},
 
 	showMessage: function( addRemove, title, fantagId ) {
-		document.getElementById( 'show-message-container' + fantagId ).style.display = 'none';
-		document.getElementById( 'show-message-container' + fantagId ).style.visibility = 'hidden';
-		sajax_request_type = 'POST';
-		sajax_do_call( 'wfFanBoxShowaddRemoveMessage', [ addRemove, title, fantagId ], function( request ) {
-			document.getElementById( 'show-message-container' + fantagId ).innerHTML = request.responseText;
-			jQuery( '#show-message-container' + fantagId ).fadeIn( 2000 );
-			document.getElementById( 'show-message-container' + fantagId ).style.display = 'block';
-			document.getElementById( 'show-message-container' + fantagId ).style.visibility = 'visible';
-		});
+		var $container = jQuery( '#show-message-container' + fantagId );
+
+		jQuery.post(
+			mw.util.wikiScript( 'api' ), {
+				action: 'fanboxes',
+				what: 'showAddRemoveMessage',
+				'addRemove': addRemove,
+				'title': title,
+				'fantagId': fantagId,
+				format: 'json'
+			},
+			function( data ) {
+				jQuery( '#show-message-container' + fantagId ).html( data.fanboxes.result ).fadeIn( 1000 );
+			}
+		);
 	},
 
+	/**
+	 * @todo FIXME: the animations suck
+	 */
 	showAddRemoveMessageUserPage: function( addRemove, id, style ) {
-		document.getElementById( 'show-message-container' + id ).style.display = 'none';
-		document.getElementById( 'show-message-container' + id ).style.visibility = 'hidden';
-		sajax_request_type = 'POST';
-		sajax_do_call( 'wfMessageAddRemoveUserPage', [ addRemove, id, style ], function( request ) {
-			document.getElementById( 'show-message-container' + id ).innerHTML = request.responseText;
-			jQuery( '#show-message-container' + id ).fadeIn( 2000 );
-			document.getElementById( 'show-message-container' + id ).style.display = 'block';
-			document.getElementById( 'show-message-container' + id ).style.visibility = 'visible';
-		});
+		var $container = jQuery( '#show-message-container' + id );
+		$container.fadeOut( 1000 );
+
+		jQuery.post(
+			mw.util.wikiScript( 'api' ), {
+				action: 'fanboxes',
+				what: 'messageAddRemoveUserPage',
+				'addRemove': addRemove,
+				'fantagId': id,
+				'style': style,
+				format: 'json'
+			},
+			function( data ) {
+				$container.html( data.fanboxes.result ).fadeIn( 1000 );
+			}
+		);
 	},
 
 	/**
@@ -173,43 +196,46 @@ var FanBoxes = {
 	 * Moved from SpecialFanBoxes.php
 	 */
 	createFantag: function() {
-		if( !document.getElementById( 'inputRightSide' ).value ) {
-			alert( __FANBOX_MUSTENTER_RIGHT_OR__ );
+		if ( !document.getElementById( 'inputRightSide' ).value ) {
+			alert( mw.msg( 'fanbox-mustenter-right-or' ) );
 			return '';
 		}
 
-		if(
+		if (
 			!document.getElementById( 'inputLeftSide' ).value &&
 			!document.getElementById( 'fantag_image_name' ).value
 		)
 		{
-			alert( __FANBOX_MUSTENTER_LEFT__ );
+			alert( mw.msg( 'fanbox-mustenter-left' ) );
 			return '';
 		}
 
 		var title = document.getElementById( 'wpTitle' ).value;
-		if( !title ) {
-			alert( __FANBOX_MUSTENTER_TITLE__ );
+		if ( !title ) {
+			alert( mw.msg( 'fanbox-mustenter-title' ) );
 			return '';
 		}
 
-		if( title.indexOf( '#' ) > -1 ) {
-			alert( __FANBOX_HASH__ );
+		if ( title.indexOf( '#' ) > -1 ) {
+			alert( mw.msg( 'fanbox-hash' ) );
 			return '';
 		}
 
 		// Encode ampersands
 		title = title.replace( '&', '%26' );
 
-		sajax_request_type = 'POST';
-		sajax_do_call(
-			'wfFanBoxesTitleExists',
-			[ encodeURIComponent( document.getElementById( 'wpTitle' ) ) ],
-			function( req ) {
-				if( req.responseText.indexOf( 'OK' ) >= 0 ) {
+		jQuery.post(
+			mw.util.wikiScript( 'api' ), {
+				action: 'fanboxes',
+				what: 'checkTitleExistence',
+				page_name: encodeURIComponent( document.getElementById( 'wpTitle' ).value ),
+				format: 'json'
+			},
+			function( data ) {
+				if ( data.error ) {
+					alert( 'API error! ' + data.error.info );
+				} else if ( data.fanboxes.result.indexOf( 'OK' ) >= 0 ) {
 					document.form1.submit();
-				} else {
-					alert( __FANBOX_CHOOSE_ANOTHER__ );
 				}
 			}
 		);
@@ -221,17 +247,17 @@ var FanBoxes = {
 	 * something and then submits the form.
 	 */
 	createFantagSimple: function() {
-		if( !document.getElementById( 'inputRightSide' ).value ) {
-			alert( __FANBOX_MUSTENTER_RIGHT__ );
+		if ( !document.getElementById( 'inputRightSide' ).value ) {
+			alert( mw.msg( 'fanbox-mustenter-right' ) );
 			return '';
 		}
 
-		if(
+		if (
 			!document.getElementById( 'inputLeftSide' ).value &&
 			!document.getElementById( 'fantag_image_name' ).value
 		)
 		{
-			alert( __FANBOX_MUSTENTER_LEFT__ );
+			alert( mw.msg( 'fanbox-mustenter-left' ) );
 			return '';
 		}
 
@@ -240,14 +266,14 @@ var FanBoxes = {
 
 	resetUpload: function() {
 		var frame = document.getElementById( 'imageUpload-frame' );
-		frame.src = wgScriptPath + '/index.php?title=Special:FanBoxAjaxUpload';
+		frame.src = mw.config.get( 'wgScriptPath' ) + '/index.php?title=Special:FanBoxAjaxUpload';
 		frame.style.display = 'block';
 		frame.style.visibility = 'visible';
 	},
 
 	completeImageUpload: function() {
 		var html = '<div style="margin:0px 0px 10px 0px;"><img height="30" width="30" src="' +
-			wgScriptPath + '/extensions/FanBoxes/ajax-loader-white.gif" alt="" /></div>';
+			mw.config.get( 'wgExtensionAssetsPath' ) + '/FanBoxes/ajax-loader-white.gif" alt="" /></div>';
 		document.getElementById( 'fanbox_image' ).innerHTML = html;
 		document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = html;
 	},
@@ -256,7 +282,7 @@ var FanBoxes = {
 		document.getElementById( 'fanbox_image' ).innerHTML = img_tag;
 		document.getElementById( 'fanbox_image2' ).innerHTML =
 			'<p><a href="javascript:FanBoxes.resetUpload();">' +
-			__FANBOX_UPLOAD_NEW_IMAGE__ + '</a></p>';
+			mw.msg( 'fanbox-upload-new-image' ) + '</a></p>';
 		document.getElementById( 'fanbox_image' ).value = img_name;
 
 		document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = img_tag;
@@ -267,3 +293,189 @@ var FanBoxes = {
 		document.getElementById( 'imageUpload-frame' ).style.visibility = 'hidden';
 	}
 };
+
+jQuery( document ).ready( function() {
+	if ( mw.config.get( 'wgCanonicalSpecialPageName' ) == 'UserBoxes' ) {
+		jQuery( 'div.create-fanbox-buttons input[type="button"].fanbox-simple-button' ).on( 'click', function() {
+			FanBoxes.createFantagSimple();
+		} );
+
+		jQuery( 'div#fanbox_image' ).on( 'click', function() {
+			FanBoxes.insertImageToLeft();
+		} );
+
+		jQuery( 'span#addImage' ).on( 'click', function() {
+			FanBoxes.displayAddImage( 'create-fanbox-image', 'addImage', 'closeImage' );
+		} );
+
+		jQuery( 'span#closeImage' ).on( 'click', function() {
+			FanBoxes.displayAddImage( 'create-fanbox-image', 'closeImage', 'addImage' );
+		} );
+
+		jQuery( 'input#inputLeftSide' ).on( {
+			'input': function() {
+				FanBoxes.displayLeftSide();
+				FanBoxes.leftSideFanBoxFormat();
+			},
+			'keydown': function() {
+				FanBoxes.displayLeftSide();
+				FanBoxes.leftSideFanBoxFormat();
+			},
+			'keyup': function() {
+				FanBoxes.displayLeftSide();
+				FanBoxes.leftSideFanBoxFormat();
+			},
+			'paste': function() {
+				FanBoxes.displayLeftSide();
+				FanBoxes.leftSideFanBoxFormat();
+			},
+			'keypress': function() {
+				FanBoxes.displayLeftSide();
+				FanBoxes.leftSideFanBoxFormat();
+			}
+		} );
+
+		jQuery( 'input#inputRightSide' ).on( {
+			'input': function() {
+				FanBoxes.displayRightSide();
+				FanBoxes.rightSideFanBoxFormat();
+			},
+			'keydown': function() {
+				FanBoxes.limitText( this.form.inputRightSide, this.form.countdown, 70 );
+				FanBoxes.displayRightSide();
+				FanBoxes.rightSideFanBoxFormat();
+			},
+			'keyup': function() {
+				FanBoxes.limitText( this.form.inputRightSide, this.form.countdown, 70 );
+				FanBoxes.displayRightSide();
+				FanBoxes.rightSideFanBoxFormat();
+			},
+			'paste': function() {
+				FanBoxes.limitText( this.form.inputRightSide, this.form.countdown, 70 );
+				FanBoxes.displayRightSide();
+				FanBoxes.rightSideFanBoxFormat();
+			},
+			'keypress': function() {
+				FanBoxes.limitText( this.form.inputRightSide, this.form.countdown, 70 );
+				FanBoxes.displayRightSide();
+				FanBoxes.rightSideFanBoxFormat();
+			}
+		} );
+
+		jQuery( 'div.create-fanbox-buttons input[type="button"]' ).on( 'click', function() {
+			FanBoxes.createFantag();
+		} );
+
+		// Tag cloud
+		jQuery( 'div#create-tagcloud span[id^="tag-"] a' ).on( 'click', function() {
+			FanBoxes.insertTag(
+				jQuery( this ).data( 'slashed-tag' ),
+				jQuery( this ).parent().attr( 'id' ).replace( /tag-/, '' )
+			);
+		} );
+	} // if Special:UserBoxes check
+
+	// Special:TopUserBoxes, Special:ViewUserBoxes, <userboxes /> parser hook,
+	// and /extensions/SocialProfile/UserProfile/UserProfilePage.php
+	jQuery( 'body' ).on( 'click', 'input.fanbox-cancel-button', function() {
+		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		FanBoxes.closeFanboxAdd(
+			'fanboxPopUpBox' + $fantagId,
+			'individualFanbox' + $fantagId
+		);
+	} );
+
+	// FanBoxClass.php
+	jQuery( 'div.individual-fanbox table.fanBoxTable' ).on( 'click', function() {
+		var $fantagId = jQuery( 'div[id^="individualFanbox"]' ).attr( 'id' ).replace( /individualFanbox/, '' );
+		FanBoxes.openFanBoxPopup(
+			'fanboxPopUpBox' + $fantagId,
+			'individualFanbox' + $fantagId
+		);
+	} );
+
+	// Special:TopUserBoxes, Special:ViewUserBoxes
+	jQuery( 'body' ).on( 'click', 'div.show-message-container table.fanBoxTable', function() {
+		var $element = jQuery( 'div[id^="individualFanbox"]' );
+		var $fantagId = $element.attr( 'id' ).replace( /individualFanbox/, '' );
+		FanBoxes.openFanBoxPopup(
+			'fanboxPopUpBox' + $fantagId,
+			'individualFanbox' + $fantagId
+		);
+	} );
+
+	// UserBoxesHook.php (<userboxes /> parser hook) & /extensions/SocialProfile/UserProfile/UserProfilePage.php
+	jQuery( 'table.fanBoxTableProfile' ).on( 'click', function() {
+		var $fantagId, $element;
+
+		// UserBoxesHook.php
+		if ( jQuery( '.relativeposition' ).length > 0 ) {
+			$element = jQuery( this ).parent().parent();
+		} else {
+			// UserProfilePage.php
+			$element = jQuery( this ).parent();
+		}
+		$fantagId = $element.attr( 'id' ).replace( /show-message-container/, '' );
+
+		FanBoxes.openFanBoxPopup(
+			'fanboxPopUpBox' + $fantagId,
+			'individualFanbox' + $fantagId
+		);
+	} );
+
+	jQuery( 'input.fanbox-add-button-half' ).on( 'click', function() {
+		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		FanBoxes.closeFanboxAdd(
+			'fanboxPopUpBox' + $fantagId,
+			'individualFanbox' + $fantagId
+		);
+		FanBoxes.showAddRemoveMessageUserPage( 1, $fantagId, 'show-addremove-message-half' );
+	} );
+
+	jQuery( 'input.fanbox-remove-button-half' ).on( 'click', function() {
+		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		FanBoxes.closeFanboxAdd(
+			'fanboxPopUpBox' + $fantagId,
+			'individualFanbox' + $fantagId
+		);
+		FanBoxes.showAddRemoveMessageUserPage( 2, $fantagId, 'show-addremove-message-half' );
+	} );
+
+	// Special:TopUserBoxes & Special:ViewUserBoxes
+	jQuery( 'input.fanbox-add-button' ).on( 'click', function() {
+		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		FanBoxes.closeFanboxAdd(
+			'fanboxPopUpBox' + $fantagId,
+			'individualFanbox' + $fantagId
+		);
+		FanBoxes.showAddRemoveMessageUserPage( 1, $fantagId, 'show-addremove-message' );
+	} );
+
+	jQuery( 'input.fanbox-remove-button' ).on( 'click', function() {
+		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		FanBoxes.closeFanboxAdd(
+			'fanboxPopUpBox' + $fantagId,
+			'individualFanbox' + $fantagId
+		);
+		FanBoxes.showAddRemoveMessageUserPage( 2, $fantagId, 'show-addremove-message' );
+	} );
+
+	// FanBoxClass.php
+	jQuery( 'input.fanbox-remove-has-button' ).on( 'click', function() {
+		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		FanBoxes.closeFanboxAdd(
+			'fanboxPopUpBox' + $fantagId,
+			'individualFanbox' + $fantagId
+		);
+		FanBoxes.showMessage( 2, jQuery( this ).data( 'fanbox-title' ), $fantagId );
+	} );
+
+	jQuery( 'input.fanbox-add-doesnt-have-button' ).on( 'click', function() {
+		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		FanBoxes.closeFanboxAdd(
+			'fanboxPopUpBox' + $fantagId,
+			'individualFanbox' + $fantagId
+		);
+		FanBoxes.showMessage( 1, jQuery( this ).data( 'fanbox-title' ), $fantagId );
+	} );
+} );

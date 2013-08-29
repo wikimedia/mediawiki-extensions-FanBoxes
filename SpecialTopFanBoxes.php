@@ -21,52 +21,53 @@ class TopFanBoxes extends SpecialPage {
 	 * @param $par Mixed: parameter passed to the page or null
 	 */
 	public function execute( $par ) {
-		global $wgOut, $wgUser, $wgTitle, $wgRequest, $wgFanBoxScripts;
+		$out = $this->getOutput();
+		$request = $this->getRequest();
+		$user = $this->getUser();
 
 		// Add CSS & JS
-		$wgOut->addExtensionStyle( $wgFanBoxScripts . '/FanBoxes.css' );
-		$wgOut->addScriptFile( $wgFanBoxScripts . '/FanBoxes.js' );
+		$out->addModules( 'ext.fanBoxes' );
 
-		$topfanboxId = $wgRequest->getVal( 'id' );
-		$topfanboxCategory = $wgRequest->getVal( 'cat' );
+		$topfanboxId = $request->getVal( 'id' );
+		$topfanboxCategory = $request->getVal( 'cat' );
 
-		if( $topfanboxId == 'fantag_date' ) {
-			$wgOut->setPageTitle( wfMsg( 'most-recent-fanboxes-link' ) );
+		if ( $topfanboxId == 'fantag_date' ) {
+			$out->setPageTitle( $this->msg( 'most-recent-fanboxes-link' )->plain() );
 			$topfanboxes = $this->getTopFanboxes( 'fantag_date' );
 		} else {
-			$wgOut->setPageTitle( wfMsg( 'topuserboxes' ) );
+			$out->setPageTitle( $this->msg( 'topuserboxes' )->plain() );
 			$topfanboxes = $this->getTopFanboxes( 'fantag_count' );
 		}
 
 		$output = '';
 
-		// Make top right nav bar
+		// Make top right navigation bar
 		$output .= '<div class="fanbox-nav">
-			<h2>' . wfMsg( 'fanbox-nav-header' ) . "</h2>
+			<h2>' . $this->msg( 'fanbox-nav-header' )->plain() . "</h2>
 			<p><a href=\"{$this->getTitle()->escapeFullURL()}\">" .
-				wfMsg( 'top-fanboxes-link' ) . '</a></p>
+				$this->msg( 'top-fanboxes-link' )->plain() . '</a></p>
 			<p><a href="' . $this->getTitle()->escapeFullURL( 'id=fantag_date' ) . '">' .
-				wfMsg( 'most-recent-fanboxes-link' ) . '</a></p>
+				$this->msg( 'most-recent-fanboxes-link' )->plain() . '</a></p>
 		</div>';
 
 		// Nothing? That means that no userboxes have been created yet...so
 		// show a message to the user about that, prompting them to create some
 		// userboxes
 		if ( empty( $topfanboxes ) ) {
-			$output .= wfMsgExt( 'fanbox-top-list-is-empty', 'parse' );
+			$output .= $this->msg( 'fanbox-top-list-is-empty' )->parse();
 		}
 
-		if( !$topfanboxCategory ) {
+		if ( !$topfanboxCategory ) {
 			$x = 1;
 
 			$output .= '<div class="top-fanboxes">';
 
 			$tagParser = new Parser();
 
-			foreach( $topfanboxes as $topfanbox ) {
+			foreach ( $topfanboxes as $topfanbox ) {
 				$check_user_fanbox = $this->checkIfUserHasFanbox( $topfanbox['fantag_id'] );
 
-				if( $topfanbox['fantag_image_name'] ) {
+				if ( $topfanbox['fantag_image_name'] ) {
 					$fantag_image_width = 45;
 					$fantag_image_height = 53;
 					$fantag_image = wfFindFile( $topfanbox['fantag_image_name'] );
@@ -80,28 +81,28 @@ class TopFanBoxes extends SpecialPage {
 					$fantag_image_tag = '<img alt="" src="' . $fantag_image_url . '"/>';
 				}
 
-				if( $topfanbox['fantag_left_text'] == '' ) {
+				if ( $topfanbox['fantag_left_text'] == '' ) {
 					$fantag_leftside = $fantag_image_tag;
 				} else {
 					$fantag_leftside = $topfanbox['fantag_left_text'];
 					$fantag_leftside = $tagParser->parse(
-						$fantag_leftside, $wgTitle,
-						$wgOut->parserOptions(), false
+						$fantag_leftside, $this->getTitle(),
+						$out->parserOptions(), false
 					);
 					$fantag_leftside = $fantag_leftside->getText();
 				}
 
-				if( $topfanbox['fantag_left_textsize'] == 'mediumfont' ) {
+				if ( $topfanbox['fantag_left_textsize'] == 'mediumfont' ) {
 					$leftfontsize = '14px';
 				}
-				if( $topfanbox['fantag_left_textsize'] == 'bigfont' ) {
+				if ( $topfanbox['fantag_left_textsize'] == 'bigfont' ) {
 					$leftfontsize = '20px';
 				}
 
-				if( $topfanbox['fantag_right_textsize'] == 'smallfont' ) {
+				if ( $topfanbox['fantag_right_textsize'] == 'smallfont' ) {
 					$rightfontsize = '12px';
 				}
-				if( $topfanbox['fantag_right_textsize'] == 'mediumfont' ) {
+				if ( $topfanbox['fantag_right_textsize'] == 'mediumfont' ) {
 					$rightfontsize = '14px';
 				}
 
@@ -116,7 +117,7 @@ class TopFanBoxes extends SpecialPage {
 
 				$right_text = $topfanbox['fantag_right_text'];
 				$right_text = $tagParser->parse(
-					$right_text, $wgTitle, $wgOut->parserOptions(), false
+					$right_text, $this->getTitle(), $out->parserOptions(), false
 				);
 				$right_text = $right_text->getText();
 
@@ -129,8 +130,8 @@ class TopFanBoxes extends SpecialPage {
 				<div class=\"individual-fanbox\" id=\"individualFanbox" . $topfanbox['fantag_id'] . "\">
 					<div class=\"show-message-container\" id=\"show-message-container" . $topfanbox['fantag_id'] . "\">
 						<div class=\"permalink-container\">
-						<a class=\"perma\" style=\"font-size:8px; color:" . $topfanbox['fantag_right_textcolor'] . "\" href=\"" . $fantag_title->escapeFullURL() . "\" title=\"{$topfanbox['fantag_title']}\">" . wfMsg( 'fanbox-perma' ) . "</a>
-						<table class=\"fanBoxTable\" onclick=\"javascript:FanBoxes.openFanBoxPopup('fanboxPopUpBox{$topfanbox['fantag_id']}', 'individualFanbox{$topfanbox['fantag_id']}')\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
+						<a class=\"perma\" style=\"font-size:8px; color:" . $topfanbox['fantag_right_textcolor'] . "\" href=\"" . $fantag_title->escapeFullURL() . "\" title=\"{$topfanbox['fantag_title']}\">" . $this->msg( 'fanbox-perma' )->plain() . "</a>
+						<table class=\"fanBoxTable\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
 						<tr>
 							<td id=\"fanBoxLeftSideOutput\" style=\"color:" . $topfanbox['fantag_left_textcolor'] . "; font-size:$leftfontsize\" bgcolor=\"" . $topfanbox['fantag_left_bgcolor'] . "\">" . $fantag_leftside . "</td>
 							<td id=\"fanBoxRightSideOutput\" style=\"color:" . $topfanbox['fantag_right_textcolor'] . "; font-size:$rightfontsize\" bgcolor=\"" . $topfanbox['fantag_right_bgcolor'] . "\">" . $right_text . "</td>
@@ -140,56 +141,59 @@ class TopFanBoxes extends SpecialPage {
 					</div>
 				</div>";
 
-				if( $wgUser->isLoggedIn() ) {
-					if( $check_user_fanbox == 0 ) {
-						$output .= "
-					<div class=\"fanbox-pop-up-box\" id=\"fanboxPopUpBox" . $topfanbox['fantag_id'] . "\">
-					<table cellpadding=\"0\" cellspacing=\"0\" width=\"258px\">
+				if ( $user->isLoggedIn() ) {
+					if ( $check_user_fanbox == 0 ) {
+						$output .= '
+					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $topfanbox['fantag_id'] . '">
+					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>
-							<td align=\"center\">" . wfMsg( 'fanbox-add-fanbox' ) . "</td>
+							<td align="center">' .
+								$this->msg( 'fanbox-add-fanbox' )->plain() .
+							'</td>
 						</tr>
 						<tr>
-							<td align=\"center\">
-								<input type=\"button\" value=\"" . wfMsg( 'fanbox-add' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$topfanbox['fantag_id']}', 'individualFanbox{$topfanbox['fantag_id']}'); FanBoxes.showAddRemoveMessageUserPage(1, {$topfanbox['fantag_id']}, 'show-addremove-message')\" />
-								<input type=\"button\" value=\"" . wfMsg( 'cancel' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$topfanbox['fantag_id']}', 'individualFanbox{$topfanbox['fantag_id']}')\" />
+							<td align="center">
+								<input type="button" class="fanbox-add-button" value="' . $this->msg( 'fanbox-add' )->plain() . '" size="20" />
+								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->plain() . '" size="20" />
 							</td>
 						</tr>
 					</table>
-					</div>";
+					</div>';
 					} else {
-						$output .= "
-					<div class=\"fanbox-pop-up-box\" id=\"fanboxPopUpBox" . $topfanbox['fantag_id'] . "\">
-					<table cellpadding=\"0\" cellspacing=\"0\" width=\"258px\">
+						$output .= '
+					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $topfanbox['fantag_id'] . '">
+					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>
-							<td align=\"center\">" . wfMsg( 'fanbox-remove-fanbox' ) . "</td>
+							<td align="center">' .
+								$this->msg( 'fanbox-remove-fanbox' )->plain() .
+							'</td>
 						</tr>
 						<tr>
-							<td align=\"center\">
-								<input type=\"button\" value=\"" . wfMsg( 'fanbox-remove' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$topfanbox['fantag_id']}', 'individualFanbox{$topfanbox['fantag_id']}'); FanBoxes.showAddRemoveMessageUserPage(2, {$topfanbox['fantag_id']}, 'show-addremove-message')\" />
-								<input type=\"button\" value=\"" . wfMsg( 'cancel' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$topfanbox['fantag_id']}', 'individualFanbox{$topfanbox['fantag_id']}')\" />
+							<td align="center">
+								<input type="button" class="fanbox-remove-button" value="' . $this->msg( 'fanbox-remove' )->plain() . '" size="20" />
+								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->plain() . '" size="20" />
 							</td>
 						</tr>
 					</table>
-					</div>";
+					</div>';
 					}
 				}
 
-				if( $wgUser->getID() == 0 ) {
-					$login = SpecialPage::getTitleFor( 'Userlogin' );
-					$output .= "<div class=\"fanbox-pop-up-box\" id=\"fanboxPopUpBox" . $topfanbox['fantag_id'] . "\">
-					<table cellpadding=\"0\" cellspacing=\"0\" width=\"258px\">
+				if ( $user->getID() == 0 ) {
+					$output .= '<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $topfanbox['fantag_id'] . '">
+					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>
-							<td align=\"center\">" . wfMsg( 'fanbox-add-fanbox-login' ) .
-								" <a href=\"{$login->getFullURL()}\">" . wfMsg( 'fanbox-login' ) . "</a>
-							</td>
+							<td align="center">' .
+								$this->msg( 'fanbox-add-fanbox-login' )->parse() .
+							'</td>
 						</tr>
 						<tr>
-							<td align=\"center\">
-								<input type=\"button\" value=\"" . wfMsg( 'cancel' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$topfanbox['fantag_id']}', 'individualFanbox{$topfanbox['fantag_id']}')\" />
+							<td align="center">
+								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->plain() . '" size="20" />
 							</td>
 						</tr>
 					</table>
-					</div>";
+					</div>';
 				}
 
 				$output .= '</div></span>';
@@ -198,11 +202,11 @@ class TopFanBoxes extends SpecialPage {
 						<tr>
 							<td class="centerheight">
 								<b><a href="' . $fantag_title->escapeFullURL() . '">' .
-									wfMsgExt(
-										'fanbox-members',
-										'parsemag',
+									$this->msg(
+										'fanbox-members'
+									)->numParams(
 										$topfanbox['fantag_count']
-									) .
+									)->parse() .
 								'</a></b>
 							</td>
 						</tr>
@@ -212,12 +216,12 @@ class TopFanBoxes extends SpecialPage {
 				$output .= '</div>';
 
 				$x++;
-
 			}
+
 			$output .= '</div><div class="cleared"></div>';
 		}
 
-		if( $topfanboxCategory ) {
+		if ( $topfanboxCategory ) {
 			$x = 1;
 
 			$output .= '<div class="top-fanboxes">';
@@ -226,10 +230,10 @@ class TopFanBoxes extends SpecialPage {
 			// is 100% correct, but...
 			$categoryfanboxes = $this->getFanBoxByCategory( $topfanboxCategory );
 
-			foreach( $categoryfanboxes as $categoryfanbox ) {
+			foreach ( $categoryfanboxes as $categoryfanbox ) {
 				$check_user_fanbox = $this->checkIfUserHasFanbox( $categoryfanbox['fantag_id'] );
 
-				if( $categoryfanbox['fantag_image_name'] ) {
+				if ( $categoryfanbox['fantag_image_name'] ) {
 					$fantag_image_width = 45;
 					$fantag_image_height = 53;
 					$fantag_image = wfFindFile( $categoryfanbox['fantag_image_name'] );
@@ -243,23 +247,23 @@ class TopFanBoxes extends SpecialPage {
 					$fantag_image_tag = '<img alt="" src="' . $fantag_image_url . '"/>';
 				}
 
-				if( $categoryfanbox['fantag_left_text'] == '' ) {
+				if ( $categoryfanbox['fantag_left_text'] == '' ) {
 					$fantag_leftside = $fantag_image_tag;
 				} else {
 					$fantag_leftside = $categoryfanbox['fantag_left_text'];
 				}
 
-				if( $categoryfanbox['fantag_left_textsize'] == 'mediumfont' ) {
+				if ( $categoryfanbox['fantag_left_textsize'] == 'mediumfont' ) {
 					$leftfontsize = '14px';
 				}
-				if( $categoryfanbox['fantag_left_textsize'] == 'bigfont' ) {
+				if ( $categoryfanbox['fantag_left_textsize'] == 'bigfont' ) {
 					$leftfontsize = '20px';
 				}
 
-				if( $categoryfanbox['fantag_right_textsize'] == 'smallfont' ) {
+				if ( $categoryfanbox['fantag_right_textsize'] == 'smallfont' ) {
 					$rightfontsize = '12px';
 				}
-				if( $categoryfanbox['fantag_right_textsize'] == 'mediumfont' ) {
+				if ( $categoryfanbox['fantag_right_textsize'] == 'mediumfont' ) {
 					$rightfontsize = '14px';
 				}
 
@@ -281,8 +285,8 @@ class TopFanBoxes extends SpecialPage {
 				<div class=\"individual-fanbox\" id=\"individualFanbox" . $categoryfanbox['fantag_id'] . "\">
 				<div class=\"show-message-container\" id=\"show-message-container" . $categoryfanbox['fantag_id'] . "\">
 					<div class=\"permalink-container\">
-					<a class=\"perma\" style=\"font-size:8px; color:" . $categoryfanbox['fantag_right_textcolor'] . "\" href=\"" . $fantag_title->escapeFullURL() . "\" title=\"{$categoryfanbox['fantag_title']}\">" . wfMsg( 'fanbox-perma' ) . "</a>
-					<table class=\"fanBoxTable\" onclick=\"javascript:FanBoxes.openFanBoxPopup('fanboxPopUpBox{$categoryfanbox['fantag_id']}', 'individualFanbox{$categoryfanbox['fantag_id']}')\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
+					<a class=\"perma\" style=\"font-size:8px; color:" . $categoryfanbox['fantag_right_textcolor'] . "\" href=\"" . $fantag_title->escapeFullURL() . "\" title=\"{$categoryfanbox['fantag_title']}\">" . $this->msg( 'fanbox-perma' )->plain() . "</a>
+					<table class=\"fanBoxTable\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
 						<tr>
 							<td id=\"fanBoxLeftSideOutput\" style=\"color:" . $categoryfanbox['fantag_left_textcolor'] . "; font-size:$leftfontsize\" bgcolor=\"" . $categoryfanbox['fantag_left_bgcolor'] . "\">" . $fantag_leftside . "</td>
 							<td id=\"fanBoxRightSideOutput\" style=\"color:" . $categoryfanbox['fantag_right_textcolor'] . "; font-size:$rightfontsize\" bgcolor=\"" . $categoryfanbox['fantag_right_bgcolor'] . "\">" . $categoryfanbox['fantag_right_text'] . '</td>
@@ -292,63 +296,66 @@ class TopFanBoxes extends SpecialPage {
 				</div>
 				</div>';
 
-				if( $wgUser->isLoggedIn() ) {
-					if( $check_user_fanbox == 0 ) {
-						$output .= "
-					<div class=\"fanbox-pop-up-box\" id=\"fanboxPopUpBox" . $categoryfanbox['fantag_id'] . "\">
-					<table cellpadding=\"0\" cellspacing=\"0\" width=\"258px\">
+				if ( $user->isLoggedIn() ) {
+					if ( $check_user_fanbox == 0 ) {
+						$output .= '
+					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $categoryfanbox['fantag_id'] . '">
+					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>
-							<td align=\"center\">" . wfMsg( 'fanbox-add-fanbox' ) . "</td>
+							<td align="center">' .
+								$this->msg( 'fanbox-add-fanbox' )->plain() .
+							'</td>
 						</tr>
 						<tr>
-							<td align=\"center\">
-								<input type=\"button\" value=\"" . wfMsg( 'fanbox-add' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$categoryfanbox["fantag_id"]}', 'individualFanbox{$categoryfanbox["fantag_id"]}'); FanBoxes.showAddRemoveMessageUserPage(1, {$categoryfanbox["fantag_id"]}, 'show-addremove-message')\" />
-								<input type=\"button\" value=\"" . wfMsg( 'cancel' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$categoryfanbox["fantag_id"]}', 'individualFanbox{$categoryfanbox["fantag_id"]}')\" />
+							<td align="center">
+								<input type="button" class="fanbox-add-button" value="' . $this->msg( 'fanbox-add' )->plain() . '" size="20" />
+								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->plain() . '" size="20" />
 							</td>
 						</tr>
 					</table>
-					</div>";
+					</div>';
 					} else {
-						$output .= "
-					<div class=\"fanbox-pop-up-box\" id=\"fanboxPopUpBox" . $categoryfanbox['fantag_id'] . "\">
-					<table cellpadding=\"0\" cellspacing=\"0\" width=\"258px\">
+						$output .= '
+					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $categoryfanbox['fantag_id'] . '">
+					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>
-							<td align=\"center\">" . wfMsg( 'fanbox-remove-fanbox' ) . "</td>
+							<td align="center">' .
+								$this->msg( 'fanbox-remove-fanbox' )->plain() .
+							'</td>
 						</tr>
 						<tr>
-							<td align=\"center\">
-								<input type=\"button\" value=\"" . wfMsg( 'fanbox-remove' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$categoryfanbox['fantag_id']}', 'individualFanbox{$categoryfanbox['fantag_id']}'); FanBoxes.showAddRemoveMessageUserPage(2, {$categoryfanbox['fantag_id']}, 'show-addremove-message')\" />
-								<input type=\"button\" value=\"" . wfMsg( 'cancel' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$categoryfanbox['fantag_id']}', 'individualFanbox{$categoryfanbox['fantag_id']}')\" />
+							<td align="center">
+								<input type="button" class="fanbox-remove-button" value="' . $this->msg( 'fanbox-remove' )->plain() . '" size="20" />
+								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->plain() . '" size="20" />
 							</td>
 						</tr>
 					</table>
-					</div>";
+					</div>';
 					}
 				}
 
-				if( $wgUser->getID() == 0 ) {
-					$login = SpecialPage::getTitleFor( 'Userlogin' );
-					$output .= "<div class=\"fanbox-pop-up-box\" id=\"fanboxPopUpBox" . $categoryfanbox['fantag_id'] . "\">
-					<table cellpadding=\"0\" cellspacing=\"0\" width=\"258px\">
+				if ( $user->getID() == 0 ) {
+					$output .= '<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $categoryfanbox['fantag_id'] . '">
+					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>
-							<td align=\"center\">" . wfMsg( 'fanbox-add-fanbox-login' ) .
-								" <a href=\"{$login->getFullURL()}\">" . wfMsg( 'fanbox-login' ) . "</a>
-							</td>
+							<td align="center">' .
+								$this->msg( 'fanbox-add-fanbox-login' )->parse() .
+							'</td>
 						</tr>
 						<tr>
-							<td align=\"center\">
-								<input type=\"button\" value=\"" . wfMsg( 'cancel' ) . "\" size=\"20\" onclick=\"FanBoxes.closeFanboxAdd('fanboxPopUpBox{$categoryfanbox['fantag_id']}', 'individualFanbox{$categoryfanbox['fantag_id']}')\" />
+							<td align="center">
+								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->plain() . '" size="20" />
 							</td>
 						</tr>
 					</table>
-					</div>";
+					</div>';
 				}
 
 				$output .= '</div></div>';
 				$output .= '<div class="top-fanbox-creator">
 				<table>
 					<tr>
-					<td class="centerheight"> <b> ' . wfMsg( 'fanbox-created-by' ) . ' <b> </td>
+					<td class="centerheight"> <b> ' . $this->msg( 'fanbox-created-by' )->parse() . ' <b> </td>
 					<td class="centerheight"> <b> <a href="' . $user_title->escapeFullURL() . "\">
 						{$avatar->getAvatarURL()}
 						</a></b>
@@ -361,7 +368,7 @@ class TopFanBoxes extends SpecialPage {
 						<tr>
 							<td class="centerheight">
 								<b><a href="' . $fantag_title->escapeFullURL() . '">' .
-									wfMsg( 'fanbox-members', $categoryfanbox['fantag_count'] ).
+									$this->msg( 'fanbox-members' )->numParams( $categoryfanbox['fantag_count'] )->parse() .
 								'</a></b>
 							</td>
 						</tr>
@@ -376,8 +383,8 @@ class TopFanBoxes extends SpecialPage {
 			$output .= '</div><div class="cleared"></div>';
 
 		}
-		$wgOut->addHTML( $output );
 
+		$out->addHTML( $output );
 	}
 
 	function getTopFanboxes( $orderBy ) {
@@ -399,7 +406,7 @@ class TopFanBoxes extends SpecialPage {
 		);
 
 		$topFanboxes = array();
-		foreach( $res as $row ) {
+		foreach ( $res as $row ) {
 			$topFanboxes[] = array(
 				'fantag_id' => $row->fantag_id,
 				'fantag_title' => $row->fantag_title,
@@ -424,20 +431,19 @@ class TopFanBoxes extends SpecialPage {
 	}
 
 	function checkIfUserHasFanbox( $userft_fantag_id ) {
-		global $wgUser;
 		$dbr = wfGetDB( DB_SLAVE );
 		$res = $dbr->select(
 			'user_fantag',
 			array( 'COUNT(*) AS count' ),
 			array(
-				'userft_user_name' => $wgUser->getName(),
+				'userft_user_name' => $this->getUser()->getName(),
 				'userft_fantag_id' => intval( $userft_fantag_id )
 			),
 			__METHOD__
 		);
 		$row = $dbr->fetchObject( $res );
 		$check_fanbox_count = 0;
-		if( $row ) {
+		if ( $row ) {
 			$check_fanbox_count = $row->count;
 		}
 		return $check_fanbox_count;
@@ -464,7 +470,7 @@ class TopFanBoxes extends SpecialPage {
 		);
 
 		$categoryFanboxes = array();
-		foreach( $res as $row ) {
+		foreach ( $res as $row ) {
 			$categoryFanboxes[] = array(
 				'fantag_id' => $row->fantag_id,
 				'fantag_title' => $row->fantag_title,

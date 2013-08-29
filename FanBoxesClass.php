@@ -35,15 +35,13 @@ class UserFanBoxes {
 		$dbr = wfGetDB( DB_SLAVE );
 
 		$params['ORDER BY'] = 'userft_date DESC';
-		//$limit_sql = '';
-		if( $limit > 0 ) {
+		if ( $limit > 0 ) {
 			$limitvalue = 0;
-			if( $page ) {
+			if ( $page ) {
 				$limitvalue = $page * $limit - ( $limit );
 			}
 			$params['LIMIT'] = $limit;
 			$params['OFFSET'] = $limitvalue;
-			//$limit_sql = " LIMIT {$limitvalue},{$limit} ";
 		}
 
 		$res = $dbr->select(
@@ -107,7 +105,7 @@ class UserFanBoxes {
 		);
 		$row = $dbw->fetchObject( $res );
 		$user_fanbox_count = 0;
-		if( $row ) {
+		if ( $row ) {
 			$user_fanbox_count = $row->count;
 		}
 		return $user_fanbox_count;
@@ -134,7 +132,7 @@ class UserFanBoxes {
 		);
 		$row = $dbw->fetchObject( $res );
 		$check_fanbox_count = 0;
-		if( $row ) {
+		if ( $row ) {
 			$check_fanbox_count = $row->count;
 		}
 		return $check_fanbox_count;

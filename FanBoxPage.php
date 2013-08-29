@@ -11,7 +11,7 @@ class FanBoxPage extends Article {
 	var $authors = array();
 
 	/**
-	 * @var Object: instance of FanBox for the current Title
+	 * @var FanBox: FanBox for the current Title
 	 */
 	var $fan;
 
@@ -20,15 +20,14 @@ class FanBoxPage extends Article {
 	}
 
 	function view() {
-		global $wgOut, $wgUser, $wgTitle, $wgFanBoxScripts;
+		global $wgOut, $wgUser, $wgTitle;
 
-		$wgOut->addScriptFile( $wgFanBoxScripts . '/FanBoxes.js' );
+		// Add JS
+		$wgOut->addModuleScripts( 'ext.fanBoxes' );
 
+		// Set the page title
 		$wgOut->setHTMLTitle( $wgTitle->getText() );
 		$wgOut->setPageTitle( $wgTitle->getText() );
-
-		$this->fan = new FanBox( $this->getTitle() );
-		$fanboxTitle = Title::makeTitle( NS_FANTAG, $this->fan->getName() );
 
 		// Don't throw a bunch of E_NOTICEs when we're viewing the page of a
 		// nonexistent fanbox
@@ -36,6 +35,9 @@ class FanBoxPage extends Article {
 			parent::view();
 			return '';
 		}
+
+		$this->fan = new FanBox( $this->getTitle() );
+		$fanboxTitle = Title::makeTitle( NS_FANTAG, $this->fan->getName() );
 
 		$output = '';
 		$output .= "<h1 class=\"firstHeading\">{$fanboxTitle->getPrefixedText()}</h1>";
@@ -46,9 +48,9 @@ class FanBoxPage extends Article {
 
 		$output .= '<div id="show-message-container' . $fantag_id . '">';
 
-		if( $wgUser->isLoggedIn() ) {
+		if ( $wgUser->isLoggedIn() ) {
 			$check = $this->fan->checkIfUserHasFanBox();
-			if( $check == 0 ) {
+			if ( $check == 0 ) {
 				$output .= $this->fan->outputIfUserDoesntHaveFanBox();
 			} else {
 				$output .= $this->fan->outputIfUserHasFanBox();
@@ -62,9 +64,9 @@ class FanBoxPage extends Article {
 				$this->getEmbedThisTag() .
 			'</div>
 			<div class="users-with-fanbox">
-				<h2>' . wfMsg( 'fanbox-users-with-fanbox' ) . '</h2>
+				<h2>' . wfMessage( 'fanbox-users-with-fanbox' )->plain() . '</h2>
 				<div class="users-with-fanbox-message">' .
-					wfMsg( 'fanbox-users-with-fanbox-message' ) .
+					wfMessage( 'fanbox-users-with-fanbox-message' )->plain() .
 				'</div>' .
 				$this->fanBoxHolders() . "\n" .
 			'</div>
@@ -74,7 +76,7 @@ class FanBoxPage extends Article {
 
 		global $wgFanBoxPageDisplay;
 		// Display comments, if we want to display those.
-		if( $wgFanBoxPageDisplay['comments'] ) {
+		if ( $wgFanBoxPageDisplay['comments'] ) {
 			$wgOut->addWikiText( '<comments/>' );
 		}
 
@@ -116,7 +118,7 @@ class FanBoxPage extends Article {
 
 		$fanboxHolders = array();
 
-		foreach( $res as $row ) {
+		foreach ( $res as $row ) {
 			$fanboxHolders[] = array(
 				'userft_user_name' => $row->userft_user_name,
 				'userft_user_id' => $row->userft_user_id
@@ -136,7 +138,7 @@ class FanBoxPage extends Article {
 		$output = '';
 		$fanboxHolders = $this->getFanBoxHolders();
 
-		foreach( $fanboxHolders as $fanboxHolder ) {
+		foreach ( $fanboxHolders as $fanboxHolder ) {
 			$userftusername = $fanboxHolder['userft_user_name'];
 			$userftuserid = $fanboxHolder['userft_user_id'];
 			$userTitle = Title::makeTitle( NS_USER, $fanboxHolder['userft_user_name'] );
@@ -158,7 +160,7 @@ class FanBoxPage extends Article {
 		$code = $this->fan->getEmbedThisCode();
 		$code = preg_replace( '/[\n\r\t]/', '', $code ); // remove any non-space whitespace
 		$code = str_replace( '_', ' ', $code ); // replace underscores with spaces
-		return '<form name="embed_fan" action="">' . wfMsg( 'fan-embed' ) .
+		return '<form name="embed_fan" action="">' . wfMessage( 'fan-embed' )->plain() .
 			" <input name='embed_code' type='text' value='{$code}' onclick='javascript:document.embed_fan.embed_code.focus();document.embed_fan.embed_code.select();' readonly='readonly' /></form>";
 	}
 

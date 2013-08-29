@@ -6,7 +6,7 @@
  *
  * @file
  * @ingroup Extensions
- * @version 2.0
+ * @version 3.0
  * @author Aaron Wright <aaron.wright@gmail.com>
  * @author David Pean <david.pean@gmail.com>
  * @author Robert Lefkowitz
@@ -22,7 +22,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 // Extension credits that show up on Special:Version
 $wgExtensionCredits['other'][] = array(
 	'name' => 'FanBox',
-	'version' => '2.0',
+	'version' => '3.0',
 	'author' => array( 'Aaron Wright', 'David Pean', 'Robert Lefkowitz', 'Jack Phoenix' ),
 	'url' => 'https://www.mediawiki.org/wiki/Extension:FanBox',
 	'description' => 'A new way of creating and using userboxes, based on special pages',
@@ -43,11 +43,11 @@ $wgResourceModules['ext.fanBoxes'] = array(
 );
 
 // Global fantag namespace reference
-if( !defined( 'NS_FANTAG' ) ) {
+if ( !defined( 'NS_FANTAG' ) ) {
 	define( 'NS_FANTAG', 600 );
 }
 
-if( !defined( 'NS_FANTAG_TALK' ) ) {
+if ( !defined( 'NS_FANTAG_TALK' ) ) {
 	define( 'NS_FANTAG_TALK', 601 );
 }
 
@@ -74,17 +74,17 @@ $wgSpecialPageGroups['UserBoxes'] = 'users';
 $wgSpecialPageGroups['TopUserboxes'] = 'users';
 $wgSpecialPageGroups['ViewUserBoxes'] = 'users';
 
-// AJAX functions used by this extension
-require_once( 'FanBox_AjaxFunctions.php' );
+// API module
+$wgAutoloadClasses['ApiFanBoxes'] = $dir . 'ApiFanBoxes.php';
+$wgAPIModules['fanboxes'] = 'ApiFanBoxes';
 
 // <userboxes> parser hook
 require_once( 'UserBoxesHook.php' );
 
 # Configuration settings
-// Web-readable path to FanBox files (used to fetch CSS & JS)
-$wgFanBoxScripts = $wgScriptPath . '/extensions/FanBoxes';
 // Should we display comments on FanBox pages? Requires the Comments extension.
 $wgFanBoxPageDisplay['comments'] = true;
+# End configuration settings
 
 // Hooked functions
 $wgAutoloadClasses['FanBoxHooks'] = $dir . 'FanBoxHooks.php';
