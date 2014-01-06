@@ -1,6 +1,6 @@
 <?php
 /**
- * FanBox extension's hooked function. All class methods are obviously public
+ * FanBox extension's hooked functions. All class methods are obviously public
  * and static.
  *
  * @file
@@ -124,13 +124,12 @@ class FanBoxHooks {
 	 * Calls FanBoxPage instead of standard Article for pages in the NS_FANTAG
 	 * namespace.
 	 *
-	 * @param $title Object: instance of Title
-	 * @param $article Object: instance of Article that we transform into an
-	 *                         instance of FanBoxPage
+	 * @param $title Title
+	 * @param $article Article|WikiPage|FanBoxPage
 	 * @return Boolean: true
 	 */
 	public static function fantagFromTitle( &$title, &$article ) {
-		global $wgRequest, $wgOut, $wgTitle, $wgSupressPageTitle, $wgSupressPageCategories;
+		global $wgRequest, $wgOut, $wgSupressPageTitle;
 
 		if ( $title->getNamespace() == NS_FANTAG ) {
 			$wgSupressPageTitle = true;
@@ -146,11 +145,11 @@ class FanBoxHooks {
 					$wgOut->redirect( $addTitle->getFullURL( 'destName=' . $fan->getName() ) );
 				} else {
 					$update = SpecialPage::getTitleFor( 'UserBoxes' );
-					$wgOut->redirect( $update->getFullURL( 'id=' . $wgTitle->getArticleID() ) );
+					$wgOut->redirect( $update->getFullURL( 'id=' . $title->getArticleID() ) );
 				}
 			}
 
-			$article = new FanBoxPage( $wgTitle );
+			$article = new FanBoxPage( $title );
 		}
 
 		return true;
@@ -159,7 +158,7 @@ class FanBoxHooks {
 	/**
 	 * Register the new <fan> hook with the parser.
 	 *
-	 * @param $parser Object: instance of Parser (not necessarily $wgParser)
+	 * @param $parser Parser
 	 * @return Boolean: true
 	 */
 	public static function registerFanTag( &$parser ) {
@@ -173,7 +172,7 @@ class FanBoxHooks {
 	 *
 	 * @param $input
 	 * @param $argv Array: array of user-supplied arguments
-	 * @param $parser Object: instance of Parser
+	 * @param $parser Parser
 	 * @return String: HTML
 	 */
 	public static function embedFanBox( $input, $argv, $parser ) {
@@ -216,8 +215,8 @@ class FanBoxHooks {
 	/**
 	 * Add FanBox's CSS and JS into the page output.
 	 *
-	 * @param $out Object: instance of OutputPage
-	 * @param $skin Object: instance of Skin or a descendant class
+	 * @param $out OutputPage
+	 * @param $skin Skin
 	 * @return Boolean: true
 	 */
 	public static function addFanBoxScripts( &$out, &$skin ) {

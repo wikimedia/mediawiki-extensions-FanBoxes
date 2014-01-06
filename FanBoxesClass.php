@@ -1,5 +1,8 @@
 <?php
 /**
+ * Functions for handling the displaying of an individual user's fanboxes.
+ * Used by SpecialFanBoxes.php and UserBoxesHook.php.
+ *
  * @file
  * @todo document
  */

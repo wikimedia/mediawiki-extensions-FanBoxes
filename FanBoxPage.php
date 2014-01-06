@@ -20,14 +20,14 @@ class FanBoxPage extends Article {
 	}
 
 	function view() {
-		global $wgOut, $wgUser, $wgTitle;
+		global $wgOut, $wgUser;
 
 		// Add JS
 		$wgOut->addModuleScripts( 'ext.fanBoxes' );
 
 		// Set the page title
-		$wgOut->setHTMLTitle( $wgTitle->getText() );
-		$wgOut->setPageTitle( $wgTitle->getText() );
+		$wgOut->setHTMLTitle( $this->getTitle()->getText() );
+		$wgOut->setPageTitle( $this->getTitle()->getText() );
 
 		// Don't throw a bunch of E_NOTICEs when we're viewing the page of a
 		// nonexistent fanbox

@@ -16,6 +16,15 @@ class ViewFanBoxes extends SpecialPage {
 	}
 
 	/**
+	 * Group this special page under the correct header on Special:SpecialPages.
+	 *
+	 * @return String
+	 */
+	protected function getGroupName() {
+		return 'users';
+	}
+
+	/**
 	 * Show the special page
 	 *
 	 * @param $par Mixed: parameter passed to the page or null

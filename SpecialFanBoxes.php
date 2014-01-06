@@ -16,6 +16,15 @@ class FanBoxes extends SpecialPage {
 	}
 
 	/**
+	 * Group this special page under the correct header on Special:SpecialPages.
+	 *
+	 * @return String
+	 */
+	protected function getGroupName() {
+		return 'users';
+	}
+
+	/**
 	 * Show the special page
 	 *
 	 * @param $par Mixed: parameter passed to the page or null
@@ -46,7 +55,7 @@ class FanBoxes extends SpecialPage {
 		}
 
 		// Extension's CSS & JS
-		$out->addModules( 'ext.fanBoxes' );
+		$out->addModules( array( 'ext.fanBoxes', 'ext.fanBoxes.colorpicker' ) );
 
 		// colorpicker
 		$out->addScript( "<script type=\"text/javascript\" src=\"http://yui.yahooapis.com/2.5.2/build/utilities/utilities.js\"></script>\n" );
@@ -344,6 +353,12 @@ class FanBoxes extends SpecialPage {
 		}
 	}
 
+	/**
+	 * Return the HTML for the color picker and the category cloud.
+	 *
+	 * @param $categories String
+	 * @return String
+	 */
 	function colorPickerAndCategoryCloud( $categories ) {
 		$output = '<div class="add-colors">
 					<h1>' . $this->msg( 'fan-add-colors' )->plain() . '</h1>
@@ -359,56 +374,16 @@ class FanBoxes extends SpecialPage {
 							$this->msg( 'fanbox-rightbg-color' )->plain() .
 						'<br />
 						<input type="radio" name="colorpickerchoice" value="rightText" />' .
-						$this->msg( 'fanbox-righttext-color' )->plain() . "
+						$this->msg( 'fanbox-righttext-color' )->plain() . '
 						</form>
 					</div>
 
-					<div id=\"add-colors-right\">
-					<div id=\"colorpickerholder\"></div>
+					<div id="add-colors-right">
+					<div id="colorpickerholder"></div>
 					</div>
 
-					<script type=\"text/javascript\">
-					jQuery( document ).ready( function() {
-						var colorPickerTest = new YAHOO.widget.ColorPicker( 'colorpickerholder', {
-							showhsvcontrols: true,
-							showhexcontrols: true,
-							images: {
-								PICKER_THUMB: 'http://developer.yahoo.com/yui/build/colorpicker/assets/picker_thumb.png',
-								HUE_THUMB: 'http://developer.yahoo.com/yui/build/colorpicker/assets/hue_thumb.png'
-							}
-						});
-
-						colorPickerTest.on( 'rgbChange', function( p_oEvent ) {
-							var sColor = '#' + this.get( 'hex' );
-
-							if ( document.colorpickerradio.colorpickerchoice[0].checked ) {
-								document.getElementById( 'fanBoxLeftSideOutput2' ).style.backgroundColor = sColor;
-								// The commented-out line below is the original NYC code but I noticed that it doesn't work
-								//document.getElementById( 'fanBoxLeftSideContainer' ).style.backgroundColor = sColor;
-								document.getElementById( 'bgColorLeftSideColor' ).value = sColor;
-							}
-
-							if ( document.colorpickerradio.colorpickerchoice[1].checked ) {
-								document.getElementById( 'fanBoxLeftSideOutput2' ).style.color = sColor;
-								document.getElementById( 'textColorLeftSideColor' ).value = sColor;
-							}
-
-							if ( document.colorpickerradio.colorpickerchoice[2].checked ) {
-								document.getElementById( 'fanBoxRightSideOutput2' ).style.backgroundColor = sColor;
-								// The commented-out line below is the original NYC code but I noticed that it doesn't work
-								//document.getElementById( 'fanBoxRightSideContainer' ).style.backgroundColor = sColor;
-								document.getElementById( 'bgColorRightSideColor' ).value = sColor;
-							}
-
-							if ( document.colorpickerradio.colorpickerchoice[3].checked ) {
-								document.getElementById( 'fanBoxRightSideOutput2' ).style.color = sColor;
-								document.getElementById( 'textColorRightSideColor' ).value = sColor;
-							}
-						});
-					} );
-					</script>
-					<div class=\"cleared\"></div>
-				</div>";
+					<div class="cleared"></div>
+				</div>';
 
 		// Category cloud stuff
 		$cloud = new TagCloud( 10 );

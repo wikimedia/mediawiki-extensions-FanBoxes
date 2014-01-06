@@ -6,12 +6,12 @@
  *
  * @file
  * @ingroup Extensions
- * @version 3.0
+ * @version 3.1
  * @author Aaron Wright <aaron.wright@gmail.com>
  * @author David Pean <david.pean@gmail.com>
  * @author Robert Lefkowitz
  * @author Jack Phoenix <jack@countervandalism.net>
- * @link http://www.mediawiki.org/wiki/Extension:FanBox Documentation
+ * @link https://www.mediawiki.org/wiki/Extension:FanBox Documentation
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
@@ -22,9 +22,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 // Extension credits that show up on Special:Version
 $wgExtensionCredits['other'][] = array(
 	'name' => 'FanBox',
-	'version' => '3.0',
+	'version' => '3.1',
 	'author' => array( 'Aaron Wright', 'David Pean', 'Robert Lefkowitz', 'Jack Phoenix' ),
-	'url' => 'https://www.mediawiki.org/wiki/Extension:FanBox',
+	'url' => 'https://www.mediawiki.org/wiki/Extension:FanBoxes',
 	'description' => 'A new way of creating and using userboxes, based on special pages',
 );
 
@@ -42,6 +42,12 @@ $wgResourceModules['ext.fanBoxes'] = array(
 	'position' => 'top' // available since r85616
 );
 
+$wgResourceModules['ext.fanBoxes.colorpicker'] = array(
+	'scripts' => 'color-picker.js',
+	'localBasePath' => dirname( __FILE__ ),
+	'remoteExtPath' => 'FanBoxes',
+);
+
 // Global fantag namespace reference
 if ( !defined( 'NS_FANTAG' ) ) {
 	define( 'NS_FANTAG', 600 );
@@ -55,6 +61,7 @@ if ( !defined( 'NS_FANTAG_TALK' ) ) {
 $dir = dirname( __FILE__ ) . '/';
 $wgExtensionMessagesFiles['FanBox'] = $dir . 'FanBox.i18n.php';
 $wgExtensionMessagesFiles['FanBoxNamespaces'] = $dir . 'FanBox.namespaces.php';
+
 $wgAutoloadClasses['FanBox'] = $dir . 'FanBoxClass.php';
 $wgAutoloadClasses['SpecialFanBoxAjaxUpload'] = $dir . 'MiniAjaxUpload.php';
 $wgAutoloadClasses['FanBoxAjaxUploadForm'] = $dir . 'MiniAjaxUpload.php';
@@ -65,14 +72,11 @@ $wgAutoloadClasses['TagCloud'] = $dir . 'TagCloudClass.php';
 $wgAutoloadClasses['TopFanBoxes'] = $dir . 'SpecialTopFanBoxes.php';
 $wgAutoloadClasses['UserFanBoxes'] = $dir . 'FanBoxesClass.php';
 $wgAutoloadClasses['ViewFanBoxes'] = $dir . 'SpecialViewFanBoxes.php';
+
 $wgSpecialPages['FanBoxAjaxUpload'] = 'SpecialFanBoxAjaxUpload';
 $wgSpecialPages['UserBoxes'] = 'FanBoxes';
 $wgSpecialPages['TopUserboxes'] = 'TopFanBoxes';
 $wgSpecialPages['ViewUserBoxes'] = 'ViewFanBoxes';
-// Special page groups for MW 1.13+
-$wgSpecialPageGroups['UserBoxes'] = 'users';
-$wgSpecialPageGroups['TopUserboxes'] = 'users';
-$wgSpecialPageGroups['ViewUserBoxes'] = 'users';
 
 // API module
 $wgAutoloadClasses['ApiFanBoxes'] = $dir . 'ApiFanBoxes.php';
