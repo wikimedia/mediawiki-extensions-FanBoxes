@@ -378,34 +378,35 @@ jQuery( document ).ready( function() {
 	// Special:TopUserBoxes, Special:ViewUserBoxes, <userboxes /> parser hook,
 	// and /extensions/SocialProfile/UserProfile/UserProfilePage.php
 	jQuery( 'body' ).on( 'click', 'input.fanbox-cancel-button', function() {
-		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		var $fantagId = jQuery( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 		FanBoxes.closeFanboxAdd(
 			'fanboxPopUpBox' + $fantagId,
 			'individualFanbox' + $fantagId
 		);
 	} );
 
-	// FanBoxClass.php
-	jQuery( 'div.individual-fanbox table.fanBoxTable' ).on( 'click', function() {
-		var $fantagId = jQuery( 'div[id^="individualFanbox"]' ).attr( 'id' ).replace( /individualFanbox/, '' );
-		FanBoxes.openFanBoxPopup(
-			'fanboxPopUpBox' + $fantagId,
-			'individualFanbox' + $fantagId
-		);
-	} );
+	// FanBoxClass.php (UserBox: pages), Special:TopUserBoxes, Special:ViewUserBoxes
+	if ( mw.config.get( 'wgCanonicalSpecialPageName' ) !== 'UserBoxes' ) {
+		jQuery( 'body' ).on( 'click', 'table.fanBoxTable', function() {
+			var $element;
+			if ( jQuery( this ).parent().attr( 'id' ) ) {
+				// FanBoxClass.php case
+				$element = jQuery( this ).parent();
+			} else {
+				// Special:TopUserBoxes, Special:ViewUserBoxes
+				$element = jQuery( this ).parent().parent().parent();
+			}
 
-	// Special:TopUserBoxes, Special:ViewUserBoxes
-	jQuery( 'body' ).on( 'click', 'div.show-message-container table.fanBoxTable', function() {
-		var $element = jQuery( 'div[id^="individualFanbox"]' );
-		var $fantagId = $element.attr( 'id' ).replace( /individualFanbox/, '' );
-		FanBoxes.openFanBoxPopup(
-			'fanboxPopUpBox' + $fantagId,
-			'individualFanbox' + $fantagId
-		);
-	} );
+			var $fantagId = $element.attr( 'id' ).replace( /individualFanbox/, '' );
+			FanBoxes.openFanBoxPopup(
+				'fanboxPopUpBox' + $fantagId,
+				'individualFanbox' + $fantagId
+			);
+		} );
+	}
 
 	// UserBoxesHook.php (<userboxes /> parser hook) & /extensions/SocialProfile/UserProfile/UserProfilePage.php
-	jQuery( 'table.fanBoxTableProfile' ).on( 'click', function() {
+	jQuery( 'body' ).on( 'click', 'table.fanBoxTableProfile', function() {
 		var $fantagId, $element;
 
 		// UserBoxesHook.php
@@ -424,7 +425,7 @@ jQuery( document ).ready( function() {
 	} );
 
 	jQuery( 'input.fanbox-add-button-half' ).on( 'click', function() {
-		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		var $fantagId = jQuery( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 		FanBoxes.closeFanboxAdd(
 			'fanboxPopUpBox' + $fantagId,
 			'individualFanbox' + $fantagId
@@ -433,7 +434,7 @@ jQuery( document ).ready( function() {
 	} );
 
 	jQuery( 'input.fanbox-remove-button-half' ).on( 'click', function() {
-		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		var $fantagId = jQuery( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 		FanBoxes.closeFanboxAdd(
 			'fanboxPopUpBox' + $fantagId,
 			'individualFanbox' + $fantagId
@@ -441,9 +442,10 @@ jQuery( document ).ready( function() {
 		FanBoxes.showAddRemoveMessageUserPage( 2, $fantagId, 'show-addremove-message-half' );
 	} );
 
-	// Special:TopUserBoxes & Special:ViewUserBoxes
+	// "Add this box to your user page?"/"Remove this box from your user page?"
+	// (the add/remove buttons) on Special:TopUserBoxes & Special:ViewUserBoxes
 	jQuery( 'input.fanbox-add-button' ).on( 'click', function() {
-		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		var $fantagId = jQuery( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 		FanBoxes.closeFanboxAdd(
 			'fanboxPopUpBox' + $fantagId,
 			'individualFanbox' + $fantagId
@@ -452,7 +454,7 @@ jQuery( document ).ready( function() {
 	} );
 
 	jQuery( 'input.fanbox-remove-button' ).on( 'click', function() {
-		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		var $fantagId = jQuery( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 		FanBoxes.closeFanboxAdd(
 			'fanboxPopUpBox' + $fantagId,
 			'individualFanbox' + $fantagId
@@ -462,7 +464,7 @@ jQuery( document ).ready( function() {
 
 	// FanBoxClass.php
 	jQuery( 'input.fanbox-remove-has-button' ).on( 'click', function() {
-		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		var $fantagId = jQuery( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 		FanBoxes.closeFanboxAdd(
 			'fanboxPopUpBox' + $fantagId,
 			'individualFanbox' + $fantagId
@@ -471,7 +473,7 @@ jQuery( document ).ready( function() {
 	} );
 
 	jQuery( 'input.fanbox-add-doesnt-have-button' ).on( 'click', function() {
-		var $fantagId = jQuery( 'div[id^="fanboxPopUpBox"]' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+		var $fantagId = jQuery( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 		FanBoxes.closeFanboxAdd(
 			'fanboxPopUpBox' + $fantagId,
 			'individualFanbox' + $fantagId
