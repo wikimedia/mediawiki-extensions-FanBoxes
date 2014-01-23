@@ -397,7 +397,7 @@ class FanBox {
 	}
 
 	public function outputFanBox() {
-		global $wgTitle, $wgOut;
+		global $wgOut;
 
 		$tagParser = new Parser();
 
@@ -421,7 +421,7 @@ class FanBox {
 			$fantag_leftside = $this->getFanBoxLeftText();
 			$fantag_leftside = $tagParser->parse(
 				$fantag_leftside,
-				$wgTitle,
+				$this->title,
 				$wgOut->parserOptions(),
 				false
 			);
@@ -431,7 +431,7 @@ class FanBox {
 		$fantag_title = Title::makeTitle( NS_FANTAG, $this->name );
 		$individual_fantag_id = $this->getFanBoxId();
 
-		if ( $this->getFanBoxPageID() == $wgTitle->getArticleID() ) {
+		if ( $this->getFanBoxPageID() == $this->title->getArticleID() ) {
 			$fantag_perma = '';
 		} else {
 			$fantag_perma = Linker::link(
@@ -463,7 +463,7 @@ class FanBox {
 
 		$right_text = $this->getFanBoxRightText();
 		$right_text = $tagParser->parse(
-			$right_text, $wgTitle, $wgOut->parserOptions(), false
+			$right_text, $this->title, $wgOut->parserOptions(), false
 		);
 		$right_text = $right_text->getText();
 

@@ -90,9 +90,7 @@ class FanBoxPage extends Article {
 	 *                array
 	 */
 	function getFanBoxHolders() {
-		global $wgTitle;
-
-		$pageTitleId = $wgTitle->getArticleID();
+		$pageTitleId = $this->getTitle()->getArticleID();
 
 		$dbr = wfGetDB( DB_SLAVE );
 		/* I don't know how the Database class handles the DISTINCT keyword,

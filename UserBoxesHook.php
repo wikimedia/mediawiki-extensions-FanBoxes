@@ -24,7 +24,7 @@ function wfUserBoxesHook( &$parser ) {
 }
 
 function UserBoxesHook( $input, $args, $parser ) {
-	global $wgOut, $wgUser, $wgTitle, $wgMemc;
+	global $wgOut, $wgUser, $wgMemc;
 
 	$parser->disableCache();
 
@@ -89,7 +89,7 @@ function UserBoxesHook( $input, $args, $parser ) {
 				$fantag_leftside = $fanbox['fantag_left_text'];
 				$fantag_leftside = $tagParser->parse(
 					$fantag_leftside,
-					$wgTitle,
+					$parser->getTitle(),
 					$wgOut->parserOptions(),
 					false
 				);
@@ -117,7 +117,7 @@ function UserBoxesHook( $input, $args, $parser ) {
 			$right_text = $fanbox['fantag_right_text'];
 			$right_text = $tagParser->parse(
 				$right_text,
-				$wgTitle,
+				$parser->getTitle(),
 				$wgOut->parserOptions(),
 				false
 			);
