@@ -1,0 +1,28 @@
+{
+    "@metadata": {
+        "authors": [
+            "Jack Phoenix <jack@countervandalism.net>"
+        ]
+    },
+    "fanbox-add": "Ajouter",
+    "fanbox-addtext": "Ajouter le texte",
+    "fanbox-categories-label": "Catégories",
+    "fanbox-create-button": "Créer",
+    "fanbox-members": "{{PLURAL:$1|un membre|$1 membres}}",
+    "fanbox-perma": "lien permanent",
+    "fan-addfan-title": "Créer une boîte utilisateur",
+    "fan-createfor": "Créer une boîte utilisateur pour $1",
+    "fan-createfannotloggedin": "Vous devez vous connecter pour créer une boîte utilisateur.",
+    "fan-updatefan": "Modifier boîte utilisateur pour $1",
+    "fanbox-title": "Titre",
+    "fanbox-upload-image-button": "Téléverser",
+    "fanbox-upload-new-image": "Téléverser une nouvelle image",
+    "fanbox-update-button": "Modifier",
+    "fanbox-userbox-category": "Boîtes utilisateur",
+    "fanbox-summary-new": "nouvelle boîte utilisateur",
+    "f-count": "$1 a $2 {{PLURAL:$2|boîte utilisateur|boîtes utilisateur}}.",
+    "fan-add-colors": "Ajouter coleurs",
+    "fanbox-nav-header": "Boîtes utilisateur",
+    "user-fanbox-title": "Boîtes utilisateur",
+    "userboxes": "Créer une boîte utilisateur"
+}

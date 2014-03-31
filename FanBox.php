@@ -6,7 +6,6 @@
  *
  * @file
  * @ingroup Extensions
- * @version 3.1
  * @author Aaron Wright <aaron.wright@gmail.com>
  * @author David Pean <david.pean@gmail.com>
  * @author Robert Lefkowitz
@@ -22,7 +21,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 // Extension credits that show up on Special:Version
 $wgExtensionCredits['other'][] = array(
 	'name' => 'FanBox',
-	'version' => '3.1',
+	'version' => '3.2.0',
 	'author' => array( 'Aaron Wright', 'David Pean', 'Robert Lefkowitz', 'Jack Phoenix' ),
 	'url' => 'https://www.mediawiki.org/wiki/Extension:FanBoxes',
 	'description' => 'A new way of creating and using userboxes, based on special pages',
@@ -59,8 +58,9 @@ if ( !defined( 'NS_FANTAG_TALK' ) ) {
 
 // Set up the new special pages
 $dir = dirname( __FILE__ ) . '/';
-$wgExtensionMessagesFiles['FanBox'] = $dir . 'FanBox.i18n.php';
-$wgExtensionMessagesFiles['FanBoxNamespaces'] = $dir . 'FanBox.namespaces.php';
+$wgMessagesDirs['FanBoxes'] = __DIR__ . '/i18n';
+$wgExtensionMessagesFiles['FanBoxes'] = $dir . 'FanBox.i18n.php';
+$wgExtensionMessagesFiles['FanBoxesNamespaces'] = $dir . 'FanBox.namespaces.php';
 
 $wgAutoloadClasses['FanBox'] = $dir . 'FanBoxClass.php';
 $wgAutoloadClasses['SpecialFanBoxAjaxUpload'] = $dir . 'MiniAjaxUpload.php';
