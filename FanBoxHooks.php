@@ -42,9 +42,9 @@ class FanBoxHooks {
 	 * @return Boolean: true
 	 */
 	public static function deleteFanBox( &$article, &$user, $reason ) {
-		global $wgTitle, $wgSupressPageTitle;
+		global $wgSupressPageTitle;
 
-		if ( $wgTitle->getNamespace() == NS_FANTAG ) {
+		if ( $article->getTitle()->getNamespace() == NS_FANTAG ) {
 			$wgSupressPageTitle = true;
 
 			$dbw = wfGetDB( DB_MASTER );
