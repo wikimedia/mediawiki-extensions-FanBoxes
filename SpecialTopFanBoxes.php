@@ -53,9 +53,9 @@ class TopFanBoxes extends SpecialPage {
 		// Make top right navigation bar
 		$output .= '<div class="fanbox-nav">
 			<h2>' . $this->msg( 'fanbox-nav-header' )->plain() . "</h2>
-			<p><a href=\"{$this->getTitle()->escapeFullURL()}\">" .
+			<p><a href=\"{$this->getPageTitle()->escapeFullURL()}\">" .
 				$this->msg( 'top-fanboxes-link' )->plain() . '</a></p>
-			<p><a href="' . $this->getTitle()->escapeFullURL( 'id=fantag_date' ) . '">' .
+			<p><a href="' . $this->getPageTitle()->escapeFullURL( 'id=fantag_date' ) . '">' .
 				$this->msg( 'most-recent-fanboxes-link' )->plain() . '</a></p>
 		</div>';
 
@@ -95,7 +95,7 @@ class TopFanBoxes extends SpecialPage {
 				} else {
 					$fantag_leftside = $topfanbox['fantag_left_text'];
 					$fantag_leftside = $tagParser->parse(
-						$fantag_leftside, $this->getTitle(),
+						$fantag_leftside, $this->getPageTitle(),
 						$out->parserOptions(), false
 					);
 					$fantag_leftside = $fantag_leftside->getText();
@@ -126,7 +126,7 @@ class TopFanBoxes extends SpecialPage {
 
 				$right_text = $topfanbox['fantag_right_text'];
 				$right_text = $tagParser->parse(
-					$right_text, $this->getTitle(), $out->parserOptions(), false
+					$right_text, $this->getPageTitle(), $out->parserOptions(), false
 				);
 				$right_text = $right_text->getText();
 

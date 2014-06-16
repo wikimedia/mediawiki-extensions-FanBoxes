@@ -116,7 +116,7 @@ class ViewFanBoxes extends SpecialPage {
 				} else {
 					$fantag_leftside = $userfanbox['fantag_left_text'];
 					$fantag_leftside = $tagParser->parse(
-						$fantag_leftside, $this->getTitle(),
+						$fantag_leftside, $this->getPageTitle(),
 						$out->parserOptions(), false
 					);
 					$fantag_leftside = $fantag_leftside->getText();
@@ -144,7 +144,7 @@ class ViewFanBoxes extends SpecialPage {
 				$right_text = $userfanbox['fantag_right_text'];
 				$right_text = $tagParser->parse(
 					$right_text,
-					$this->getTitle(),
+					$this->getPageTitle(),
 					$out->parserOptions(),
 					false
 				);
@@ -236,7 +236,7 @@ class ViewFanBoxes extends SpecialPage {
 		// Build next/prev nav
 		$numofpages = $total / $per_page;
 
-		$pageLink = $this->getTitle();
+		$pageLink = $this->getPageTitle();
 		if ( $numofpages > 1 ) {
 			$output .= '<div class="page-nav">';
 

@@ -146,7 +146,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 			'destwarningack' => (bool)$this->mDestWarningAck,
 			'destfile' => $this->mDesiredDestName,
 		) );
-		$form->setTitle( $this->getTitle() );
+		$form->setTitle( $this->getPageTitle() );
 
 		# Check the token, but only if necessary
 		if ( !$this->mTokenOk && !$this->mCancelUpload
