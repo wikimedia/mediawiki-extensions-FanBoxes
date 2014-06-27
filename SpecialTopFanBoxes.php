@@ -53,9 +53,9 @@ class TopFanBoxes extends SpecialPage {
 		// Make top right navigation bar
 		$output .= '<div class="fanbox-nav">
 			<h2>' . $this->msg( 'fanbox-nav-header' )->plain() . "</h2>
-			<p><a href=\"{$this->getPageTitle()->escapeFullURL()}\">" .
+			<p><a href=\"{htmlspecialchars( $this->getPageTitle()->getFullURL() )}\">" .
 				$this->msg( 'top-fanboxes-link' )->plain() . '</a></p>
-			<p><a href="' . $this->getPageTitle()->escapeFullURL( 'id=fantag_date' ) . '">' .
+			<p><a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'id=fantag_date' ) ) . '">' .
 				$this->msg( 'most-recent-fanboxes-link' )->plain() . '</a></p>
 		</div>';
 
@@ -139,7 +139,7 @@ class TopFanBoxes extends SpecialPage {
 				<div class=\"individual-fanbox\" id=\"individualFanbox" . $topfanbox['fantag_id'] . "\">
 					<div class=\"show-message-container\" id=\"show-message-container" . $topfanbox['fantag_id'] . "\">
 						<div class=\"permalink-container\">
-						<a class=\"perma\" style=\"font-size:8px; color:" . $topfanbox['fantag_right_textcolor'] . "\" href=\"" . $fantag_title->escapeFullURL() . "\" title=\"{$topfanbox['fantag_title']}\">" . $this->msg( 'fanbox-perma' )->plain() . "</a>
+						<a class=\"perma\" style=\"font-size:8px; color:" . $topfanbox['fantag_right_textcolor'] . "\" href=\"" . htmlspecialchars( $fantag_title->getFullURL() ) . "\" title=\"{$topfanbox['fantag_title']}\">" . $this->msg( 'fanbox-perma' )->plain() . "</a>
 						<table class=\"fanBoxTable\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
 						<tr>
 							<td id=\"fanBoxLeftSideOutput\" style=\"color:" . $topfanbox['fantag_left_textcolor'] . "; font-size:$leftfontsize\" bgcolor=\"" . $topfanbox['fantag_left_bgcolor'] . "\">" . $fantag_leftside . "</td>
@@ -210,7 +210,7 @@ class TopFanBoxes extends SpecialPage {
 					<table>
 						<tr>
 							<td class="centerheight">
-								<b><a href="' . $fantag_title->escapeFullURL() . '">' .
+								<b><a href="' . htmlspecialchars( $fantag_title->getFullURL() ) . '">' .
 									$this->msg(
 										'fanbox-members'
 									)->numParams(
@@ -294,7 +294,7 @@ class TopFanBoxes extends SpecialPage {
 				<div class=\"individual-fanbox\" id=\"individualFanbox" . $categoryfanbox['fantag_id'] . "\">
 				<div class=\"show-message-container\" id=\"show-message-container" . $categoryfanbox['fantag_id'] . "\">
 					<div class=\"permalink-container\">
-					<a class=\"perma\" style=\"font-size:8px; color:" . $categoryfanbox['fantag_right_textcolor'] . "\" href=\"" . $fantag_title->escapeFullURL() . "\" title=\"{$categoryfanbox['fantag_title']}\">" . $this->msg( 'fanbox-perma' )->plain() . "</a>
+					<a class=\"perma\" style=\"font-size:8px; color:" . $categoryfanbox['fantag_right_textcolor'] . "\" href=\"" . htmlspecialchars( $fantag_title->getFullURL() ) . "\" title=\"{$categoryfanbox['fantag_title']}\">" . $this->msg( 'fanbox-perma' )->plain() . "</a>
 					<table class=\"fanBoxTable\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
 						<tr>
 							<td id=\"fanBoxLeftSideOutput\" style=\"color:" . $categoryfanbox['fantag_left_textcolor'] . "; font-size:$leftfontsize\" bgcolor=\"" . $categoryfanbox['fantag_left_bgcolor'] . "\">" . $fantag_leftside . "</td>
@@ -365,7 +365,7 @@ class TopFanBoxes extends SpecialPage {
 				<table>
 					<tr>
 					<td class="centerheight"> <b> ' . $this->msg( 'fanbox-created-by' )->parse() . ' <b> </td>
-					<td class="centerheight"> <b> <a href="' . $user_title->escapeFullURL() . "\">
+					<td class="centerheight"> <b> <a href="' . htmlspecialchars( $user_title->getFullURL() ) . "\">
 						{$avatar->getAvatarURL()}
 						</a></b>
 					</td>
@@ -376,7 +376,7 @@ class TopFanBoxes extends SpecialPage {
 					<table>
 						<tr>
 							<td class="centerheight">
-								<b><a href="' . $fantag_title->escapeFullURL() . '">' .
+								<b><a href="' . htmlspecialchars( $fantag_title->getFullURL() ) . '">' .
 									$this->msg( 'fanbox-members' )->numParams( $categoryfanbox['fantag_count'] )->parse() .
 								'</a></b>
 							</td>

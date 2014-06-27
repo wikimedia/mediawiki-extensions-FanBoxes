@@ -39,7 +39,7 @@ class ViewFanBoxes extends SpecialPage {
 		// Redirect Non-logged in users to Login Page
 		if ( $currentUser->getID() == 0 && $user_name == '' ) {
 			$login = SpecialPage::getTitleFor( 'Userlogin' );
-			$out->redirect( $login->escapeFullURL( 'returnto=Special:ViewUserBoxes' ) );
+			$out->redirect( htmlspecialchars( $login->getFullURL( 'returnto=Special:ViewUserBoxes' ) ) );
 			return false;
 		}
 
@@ -156,7 +156,7 @@ class ViewFanBoxes extends SpecialPage {
 				<div class="individual-fanboxtest" id="individualFanbox' . $userfanbox['fantag_id'] . '">
 					<div class="show-message-container" id="show-message-container' . $userfanbox['fantag_id'] . '">
 						<div class="permalink-container">
-							<a class="perma" style="font-size:8px; color:' . $userfanbox['fantag_right_textcolor'] . '" href="' . $fantag_title->escapeFullURL() . "\" title=\"{$userfanbox['fantag_title']}\">" . $this->msg( 'fanbox-perma' )->plain() . "</a>
+							<a class="perma" style="font-size:8px; color:' . $userfanbox['fantag_right_textcolor'] . '" href="' . htmlspecialchars( $fantag_title->getFullURL() ) . "\" title=\"{$userfanbox['fantag_title']}\">" . $this->msg( 'fanbox-perma' )->plain() . "</a>
 							<table class=\"fanBoxTable\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
 								<tr>
 									<td id=\"fanBoxLeftSideOutput\" style=\"color:" . $userfanbox['fantag_left_textcolor'] . "; font-size:$leftfontsize\" bgcolor=\"" . $userfanbox['fantag_left_bgcolor'] . '">' . $fantag_leftside . "</td>

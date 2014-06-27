@@ -141,7 +141,7 @@ class FanBoxPage extends Article {
 			$userftuserid = $fanboxHolder['userft_user_id'];
 			$userTitle = Title::makeTitle( NS_USER, $fanboxHolder['userft_user_name'] );
 			$avatar = new wAvatar( $fanboxHolder['userft_user_id'], 'ml' );
-			$output .= "<a href=\"" . $userTitle->escapeFullURL() . "\">
+			$output .= "<a href=\"" . htmlspecialchars( $userTitle->getFullURL() ) . "\">
 				{$avatar->getAvatarURL()}
 			</a>";
 		}

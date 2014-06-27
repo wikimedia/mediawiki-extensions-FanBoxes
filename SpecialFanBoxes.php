@@ -191,7 +191,7 @@ class FanBoxes extends SpecialPage {
 						<div id=\"real-form\" style=\"display:block;height:70px;\">
 						<iframe id=\"imageUpload-frame\" class=\"imageUpload-frame\" width=\"700\"
 							scrolling=\"no\" frameborder=\"0\" src=\"" .
-							SpecialPage::getTitleFor( 'FanBoxAjaxUpload' )->escapeFullURL() . '">
+							htmlspecialchars( SpecialPage::getTitleFor( 'FanBoxAjaxUpload' )->getFullURL() ) . '">
 						</iframe>
 						</div>
 					</div>';
@@ -299,7 +299,7 @@ class FanBoxes extends SpecialPage {
 
 						<div id="real-form" style="display: block; height: 70px;">
 						<iframe id="imageUpload-frame" class="imageUpload-frame" width="700"
-							scrolling="no" frameborder="0" src="' . SpecialPage::getTitleFor( 'FanBoxAjaxUpload' )->escapeFullURL() . '">
+							scrolling="no" frameborder="0" src="' . htmlspecialchars( SpecialPage::getTitleFor( 'FanBoxAjaxUpload' )->getFullURL() ) . '">
 						</iframe>
 						</div>
 					</div>';
