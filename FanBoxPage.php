@@ -7,13 +7,13 @@
  */
 class FanBoxPage extends Article {
 
-	var $title = null;
-	var $authors = array();
+	public $title = null;
+	public $authors = array();
 
 	/**
 	 * @var FanBox: FanBox for the current Title
 	 */
-	var $fan;
+	public $fan;
 
 	function __construct( Title $title ) {
 		parent::__construct( $title );

@@ -8,8 +8,8 @@
  */
 class UserFanBoxes {
 
-	var $user_id;	# Text form (spaces not underscores) of the main part
-	var $user_name;	# Text form (spaces not underscores) of the main part
+	public $user_id;	# Text form (spaces not underscores) of the main part
+	public $user_name;	# Text form (spaces not underscores) of the main part
 
 	/**
 	 * Constructor

@@ -7,7 +7,7 @@
  */
 class FanBox {
 
-	var $name,
+	public $name,
 		$title,
 		$exists,
 		$create_date,
