@@ -52,8 +52,8 @@ class TopFanBoxes extends SpecialPage {
 
 		// Make top right navigation bar
 		$output .= '<div class="fanbox-nav">
-			<h2>' . $this->msg( 'fanbox-nav-header' )->plain() . "</h2>
-			<p><a href=\"{htmlspecialchars( $this->getPageTitle()->getFullURL() )}\">" .
+			<h2>' . $this->msg( 'fanbox-nav-header' )->plain() . '</h2>
+			<p><a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL() ) . '">' .
 				$this->msg( 'top-fanboxes-link' )->plain() . '</a></p>
 			<p><a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'id=fantag_date' ) ) . '">' .
 				$this->msg( 'most-recent-fanboxes-link' )->plain() . '</a></p>
