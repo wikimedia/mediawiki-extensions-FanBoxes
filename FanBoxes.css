@@ -5,7 +5,7 @@
 	margin-bottom: 10px;
 }
 
-h3 {
+.mw-body h3, .mw-body-primary h3 {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	font-size: 14px;
@@ -24,7 +24,7 @@ h3 {
 	width: 550px;
 }
 
-h1 {
+.mw-body h1, .mw-body-primary h1 {
 	font-size: 16px;
 	margin: 10px 0px 10px 0px !important;
 	border-bottom: none;
