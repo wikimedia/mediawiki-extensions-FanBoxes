@@ -25,6 +25,7 @@ $wgExtensionCredits['other'][] = array(
 	'author' => array( 'Aaron Wright', 'David Pean', 'Robert Lefkowitz', 'Jack Phoenix' ),
 	'url' => 'https://www.mediawiki.org/wiki/Extension:FanBoxes',
 	'description' => 'A new way of creating and using userboxes, based on special pages',
+	'license-name' => 'GPL-2.0+',
 );
 
 // ResourceLoader support for MediaWiki 1.17+
