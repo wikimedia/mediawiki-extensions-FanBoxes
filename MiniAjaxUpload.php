@@ -323,7 +323,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 			+ $this->getDescriptionSection()
 			+ $this->getOptionsSection();
 
-		//wfRunHooks( 'UploadFormInitDescriptor', array( &$descriptor ) );
+		//Hooks::run( 'UploadFormInitDescriptor', array( &$descriptor ) );
 		HTMLForm::__construct( $descriptor, 'upload' );
 
 		# Set some form properties
