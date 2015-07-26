@@ -14,14 +14,10 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
-if ( !defined( 'MEDIAWIKI' ) ) {
-	die( 'This is not a valid entry point to MediaWiki.' );
-}
-
 // Extension credits that show up on Special:Version
 $wgExtensionCredits['other'][] = array(
 	'name' => 'FanBox',
-	'version' => '3.2.0',
+	'version' => '3.2.1',
 	'author' => array( 'Aaron Wright', 'David Pean', 'Robert Lefkowitz', 'Jack Phoenix' ),
 	'url' => 'https://www.mediawiki.org/wiki/Extension:FanBoxes',
 	'description' => 'A new way of creating and using userboxes, based on special pages',
@@ -82,7 +78,8 @@ $wgAutoloadClasses['ApiFanBoxes'] = __DIR__ . '/ApiFanBoxes.php';
 $wgAPIModules['fanboxes'] = 'ApiFanBoxes';
 
 // <userboxes> parser hook
-require_once( 'UserBoxesHook.php' );
+$wgAutoloadClasses['UserBoxesHook'] = __DIR__ . '/UserBoxesHook.php';
+$wgHooks['ParserFirstCallInit'][] = 'UserBoxesHook::onParserFirstCallInit';
 
 # Configuration settings
 // Should we display comments on FanBox pages? Requires the Comments extension.

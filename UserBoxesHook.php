@@ -6,142 +6,154 @@
  * @file
  * @ingroup Extensions
  */
-if ( !defined( 'MEDIAWIKI' ) ) {
-	die( "Not a valid entry point.\n" );
-}
 
-$wgHooks['ParserFirstCallInit'][] = 'wfUserBoxesHook';
-
-/**
- * Register the <userboxes> tag with the Parser.
- *
- * @param $parser Object: instance of Parser (not necessarily $wgParser)
- * @return Boolean: true
- */
-function wfUserBoxesHook( &$parser ) {
-	$parser->setHook( 'userboxes', 'UserBoxesHook' );
-	return true;
-}
-
-function UserBoxesHook( $input, $args, $parser ) {
-	global $wgOut, $wgUser, $wgMemc;
-
-	$parser->disableCache();
-
-	// Add CSS & JS
-	$wgOut->addModules( 'ext.fanBoxes' );
-
-	$user_name = ( isset( $args['user'] ) ? $args['user'] : $wgUser->getName() );
-
-	$limit = 10;
-	if ( isset( $args['limit'] ) && is_numeric( $args['limit'] ) ) {
-		$limit = intval( $args['limit'] );
+class UserBoxesHook {
+	/**
+	 * Register the <userboxes> tag with the Parser.
+	 *
+	 * @param Parser $parser
+	 * @return bool
+	 */
+	public static function onParserFirstCallInit( &$parser ) {
+		$parser->setHook( 'userboxes', array( 'UserBoxesHook', 'renderUserBoxesHook' ) );
+		return true;
 	}
 
-	$f = new UserFanBoxes( $user_name );
+	/**
+	 * Callback for the above function.
+	 *
+	 * @param string $input User-supplied input
+	 * @param array $args Tag arguments, if any
+	 * @param Parser $parser
+	 * @return string HTML
+	 */
+	public static function renderUserBoxesHook( $input, $args, $parser ) {
+		global $wgOut, $wgUser, $wgMemc;
 
-	// Try cache
-	//$key = wfMemcKey( 'user', 'profile', 'fanboxes', $f->user_id );
-	//$data = $wgMemc->get( $key );
+		$parser->disableCache();
 
-	//if ( !$data ) {
-	//	wfDebug( "Got profile fanboxes for user {$user_name} from DB\n" );
-	//	$fanboxes = $f->getUserFanboxes( 0, $limit );
-	//	$wgMemc->set( $key, $fanboxes );
-	//} else {
-	//	wfDebug( "Got profile fanboxes for user {$user_name} from cache\n" );
-	//	$fanboxes = $data;
-	//}
+		// Add CSS & JS
+		$wgOut->addModules( 'ext.fanBoxes' );
 
-	$fanboxes = $f->getUserFanboxes( 0, $limit );
+		$user_name = ( isset( $args['user'] ) ? $args['user'] : $wgUser->getName() );
 
-	$fanbox_count = $f->getFanBoxCountByUsername( $user_name );
-	$fanbox_link = SpecialPage::getTitleFor( 'ViewUserBoxes' );
-	$per_row = 1;
-	$output = '';
+		$limit = 10;
+		if ( isset( $args['limit'] ) && is_numeric( $args['limit'] ) ) {
+			$limit = intval( $args['limit'] );
+		}
 
-	if ( $fanboxes ) {
-		$output .= '<div class="clearfix"><div class="user-fanbox-container">';
+		$f = new UserFanBoxes( $user_name );
 
-		$x = 1;
-		$tagParser = new Parser();
+		// Try cache
+		//$key = wfMemcKey( 'user', 'profile', 'fanboxes', $f->user_id );
+		//$data = $wgMemc->get( $key );
 
-		foreach ( $fanboxes as $fanbox ) {
-			$check_user_fanbox = $f->checkIfUserHasFanbox( $fanbox['fantag_id'] );
+		//if ( !$data ) {
+		//	wfDebug( "Got profile fanboxes for user {$user_name} from DB\n" );
+		//	$fanboxes = $f->getUserFanboxes( 0, $limit );
+		//	$wgMemc->set( $key, $fanboxes );
+		//} else {
+		//	wfDebug( "Got profile fanboxes for user {$user_name} from cache\n" );
+		//	$fanboxes = $data;
+		//}
 
-			if ( $fanbox['fantag_image_name'] ) {
-				$fantag_image_width = 45;
-				$fantag_image_height = 53;
-				$fantag_image = wfFindFile( $fanbox['fantag_image_name'] );
-				$fantag_image_url = '';
-				if ( is_object( $fantag_image ) ) {
-					$fantag_image_url = $fantag_image->createThumb(
-						$fantag_image_width,
-						$fantag_image_height
-					);
+		$fanboxes = $f->getUserFanboxes( 0, $limit );
+
+		$fanbox_count = $f->getFanBoxCountByUsername( $user_name );
+		$fanbox_link = SpecialPage::getTitleFor( 'ViewUserBoxes' );
+		$per_row = 1;
+		$output = '';
+
+		if ( $fanboxes ) {
+			$output .= '<div class="clearfix"><div class="user-fanbox-container">';
+
+			$x = 1;
+			$tagParser = new Parser();
+
+			foreach ( $fanboxes as $fanbox ) {
+				$check_user_fanbox = $f->checkIfUserHasFanbox( $fanbox['fantag_id'] );
+
+				if ( $fanbox['fantag_image_name'] ) {
+					$fantag_image_width = 45;
+					$fantag_image_height = 53;
+					$fantag_image = wfFindFile( $fanbox['fantag_image_name'] );
+					$fantag_image_url = '';
+					if ( is_object( $fantag_image ) ) {
+						$fantag_image_url = $fantag_image->createThumb(
+							$fantag_image_width,
+							$fantag_image_height
+						);
+					}
+					$fantag_image_tag = '<img alt="" src="' . $fantag_image_url . '" />';
 				}
-				$fantag_image_tag = '<img alt="" src="' . $fantag_image_url . '" />';
-			}
 
-			if ( $fanbox['fantag_left_text'] == '' ) {
-				$fantag_leftside = $fantag_image_tag;
-			} else {
-				$fantag_leftside = $fanbox['fantag_left_text'];
-				$fantag_leftside = $tagParser->parse(
-					$fantag_leftside,
+				if ( $fanbox['fantag_left_text'] == '' ) {
+					$fantag_leftside = $fantag_image_tag;
+				} else {
+					$fantag_leftside = $fanbox['fantag_left_text'];
+					$fantag_leftside = $tagParser->parse(
+						$fantag_leftside,
+						$parser->getTitle(),
+						$wgOut->parserOptions(),
+						false
+					);
+					$fantag_leftside = $fantag_leftside->getText();
+				}
+
+				$leftFontSize = '10px';
+				if ( $fanbox['fantag_left_textsize'] == 'mediumfont' ) {
+					$leftFontSize = '11px';
+				}
+				if ( $fanbox['fantag_left_textsize'] == 'bigfont' ) {
+					$leftFontSize = '15px';
+				}
+				$rightFontSize = '10px';
+				if ( $fanbox['fantag_right_textsize'] == 'smallfont' ) {
+					$rightFontSize = '10px';
+				}
+				if ( $fanbox['fantag_right_textsize'] == 'mediumfont' ) {
+					$rightFontSize = '11px';
+				}
+
+				// Get permalink
+				$fantag_title = Title::makeTitle( NS_FANTAG, $fanbox['fantag_title'] );
+
+				$right_text = $fanbox['fantag_right_text'];
+				$right_text = $tagParser->parse(
+					$right_text,
 					$parser->getTitle(),
 					$wgOut->parserOptions(),
 					false
 				);
-				$fantag_leftside = $fantag_leftside->getText();
-			}
+				$right_text = $right_text->getText();
 
-			$leftfontsize = '10px';
-			if ( $fanbox['fantag_left_textsize'] == 'mediumfont' ) {
-				$leftfontsize = '11px';
-			}
-			if ( $fanbox['fantag_left_textsize'] == 'bigfont' ) {
-				$leftfontsize = '15px';
-			}
-			$rightfontsize = '10px';
-			if ( $fanbox['fantag_right_textsize'] == 'smallfont' ) {
-				$rightfontsize = '10px';
-			}
-			if ( $fanbox['fantag_right_textsize'] == 'mediumfont' ) {
-				$rightfontsize = '11px';
-			}
+				$permaLink = Linker::link(
+					$fantag_title,
+					wfMessage( 'fanbox-perma' )->plain(),
+					array(
+						'title' => $fanbox['fantag_title'],
+						'style' => 'font-size:8px; color:' . $fanbox['fantag_right_textcolor']
+					)
+				);
 
-			// Get permalink
-			$fantag_title = Title::makeTitle( NS_FANTAG, $fanbox['fantag_title'] );
-
-			$right_text = $fanbox['fantag_right_text'];
-			$right_text = $tagParser->parse(
-				$right_text,
-				$parser->getTitle(),
-				$wgOut->parserOptions(),
-				false
-			);
-			$right_text = $right_text->getText();
-
-			// Output fanboxes
-			$output .= "<span class=\"top-fanbox\"><div class=\"fanbox-item\">
-			<div class=\"individual-fanbox\" id=\"individualFanbox" . $fanbox['fantag_id'] . "\">
-				<div class=\"show-message-container-profile\" id=\"show-message-container" . $fanbox['fantag_id'] . "\">
-					<div class=\"relativeposition\">
-					<a class=\"perma\" style=\"font-size:8px; color:" . $fanbox['fantag_right_textcolor'] . "\" href=\"" . htmlspecialchars( $fantag_title->getFullURL() ) . "\" title=\"{$fanbox['fantag_title']}\">" . wfMessage( 'fanbox-perma' )->plain() . "</a>
-					<table class=\"fanBoxTableProfile\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
+				// Output fanboxes
+				$output .= '<span class="top-fanbox"><div class="fanbox-item">
+				<div class="individual-fanbox" id="individualFanbox' . $fanbox['fantag_id'] . '">
+				<div class="show-message-container-profile" id="show-message-container' . $fanbox['fantag_id'] . '">
+					<div class="relativeposition">' . $permaLink .
+					'<table class="fanBoxTableProfile" border="0" cellpadding="0" cellspacing="0">
 						<tr>
-							<td id=\"fanBoxLeftSideOutputProfile\" style=\"color:" . $fanbox['fantag_left_textcolor'] . "; font-size:$leftfontsize\" bgcolor=\"" . $fanbox['fantag_left_bgcolor'] . "\">" . $fantag_leftside . "</td>
-							<td id=\"fanBoxRightSideOutputProfile\" style=\"color:" . $fanbox['fantag_right_textcolor'] . "; font-size:$rightfontsize\" bgcolor=\"" . $fanbox['fantag_right_bgcolor'] . "\">" . $right_text . "</td>
+							<td id="fanBoxLeftSideOutputProfile" style="color:' . $fanbox['fantag_left_textcolor'] . "; font-size:$leftFontSize; background-color:" . $fanbox['fantag_left_bgcolor'] . ';">' . $fantag_leftside . '</td>
+							<td id="fanBoxRightSideOutputProfile" style="color:' . $fanbox['fantag_right_textcolor'] . "; font-size:$rightFontSize; background-color:" . $fanbox['fantag_right_bgcolor'] . ';">' . $right_text . '</td>
 						</tr>
 					</table>
 					</div>
 				</div>
-				</div>";
+				</div>';
 
-			if ( $wgUser->isLoggedIn() ) {
-				if ( $check_user_fanbox == 0 ) {
-					$output .= '
+				if ( $wgUser->isLoggedIn() ) {
+					if ( $check_user_fanbox == 0 ) {
+						$output .= '
 					<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . $fanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0">
 						<tr>
@@ -157,8 +169,8 @@ function UserBoxesHook( $input, $args, $parser ) {
 						</tr>
 					</table>
 					</div>';
-				} else {
-					$output .= '
+					} else {
+						$output .= '
 					<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . $fanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0">
 						<tr>
@@ -174,11 +186,11 @@ function UserBoxesHook( $input, $args, $parser ) {
 						</tr>
 					</table>
 					</div>';
+					}
 				}
-			}
 
-			if ( $wgUser->getID() == 0 ) {
-				$output .= '<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . $fanbox['fantag_id'] . '">
+				if ( $wgUser->getId() == 0 ) {
+					$output .= '<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . $fanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0">
 						<tr>
 							<td style="font-size: 10px" align="center">' .
@@ -191,15 +203,17 @@ function UserBoxesHook( $input, $args, $parser ) {
 							</tr>
 						</table>
 					</div>';
+				}
+
+				$output .= '</div></span><div class="cleared"></div>';
+				//if ( $x == count( $fanboxes ) || $x != 1 && $x % $per_row == 0 ) $output .= '<div class="cleared"></div>';
+				$x++;
 			}
 
-			$output .= '</div></span><div class="cleared"></div>';
-			//if ( $x == count( $fanboxes ) || $x != 1 && $x % $per_row == 0 ) $output .= '<div class="cleared"></div>';
-			$x++;
+			$output .= '</div></div>';
 		}
 
-		$output .= '</div></div>';
+		return $output;
 	}
 
-	return $output;
 }
