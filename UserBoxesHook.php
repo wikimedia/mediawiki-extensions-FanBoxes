@@ -131,6 +131,7 @@ class UserBoxesHook {
 					$fantag_title,
 					wfMessage( 'fanbox-perma' )->plain(),
 					array(
+						'class' => 'perma',
 						'title' => $fanbox['fantag_title'],
 						'style' => 'font-size:8px; color:' . $fanbox['fantag_right_textcolor']
 					)
