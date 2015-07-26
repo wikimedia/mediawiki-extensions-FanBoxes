@@ -1,0 +1,128 @@
+/* Create Form */
+.create-fanbox-text-and-color {
+	width: 550px;
+	margin-bottom: 10px;
+}
+
+.mw-body h3, .mw-body-primary h3 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: 14px;
+}
+
+.create-fanbox-title {
+	margin-bottom: 10px;
+	width: 550px;
+}
+
+.create-fanbox-text {
+	width: 550px;
+}
+
+.category-section {
+	width: 550px;
+}
+
+.mw-body h1, .mw-body-primary h1 {
+	font-size: 16px;
+	margin: 10px 0px 10px 0px !important;
+	border-bottom: none;
+	font-weight: bold;
+}
+
+table.fanBoxTable {
+	border: 0;
+	border-collapse: collapse; /* cellspacing=0 equivalent */
+	padding: 0;
+}
+
+#fanBoxLeftSideContainer table {
+	border-collapse: collapse; /* cellspacing=0 equivalent */
+	height: 55px;
+	width: 63px;
+}
+
+#fanBoxRightSideContainer table {
+	border-collapse: collapse; /* cellspacing=0 equivalent */
+}
+
+#addImage {
+	font-size: 9px;
+	color: #285C98;
+	cursor: pointer;
+	display: inline;
+}
+
+#closeImage {
+	font-size: 9px;
+	color: #285C98;
+	cursor: pointer;
+	display: none;
+}
+
+.create-fanbox-image {
+	display: none;
+}
+
+#real-form {
+	display: block;
+	height: 70px;
+}
+
+#countdownbox {
+	padding-left: 10px;
+}
+
+input[name="countdown"] {
+	height: 15px;
+	width: 20px;
+}
+
+#fanbox-left-text {
+	float: left;
+	width: 180px;
+	padding-right: 10px;
+}
+
+#fanbox-right-text {
+	float: right;
+	width: 350px;
+}
+
+#inputRightSide {
+	width: 350px;
+}
+
+#add-colors-left {
+	width: 150px;
+	margin: 0px 2px 0px 0px;
+	float: left;
+}
+
+#colorpickerholder {
+	position: relative;
+	padding: 6px;
+	background-color: #eeeeee;
+	width: 370px;
+	height: 190px;
+	float: left;
+}
+
+.imageUpload-frame {
+	height: 90px;
+}
+
+.categorytext {
+	width: 700px;
+}
+
+#create-tagcloud {
+	line-height: 25pt;
+	padding-bottom: 15px;
+	width: 600px;
+}
+
+#create-tagcloud span a {
+	cursor: pointer;
+	text-decoration: underline;
+}

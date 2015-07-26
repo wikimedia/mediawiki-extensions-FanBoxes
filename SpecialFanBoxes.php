@@ -55,7 +55,11 @@ class FanBoxes extends SpecialPage {
 		}
 
 		// Extension's CSS & JS
-		$out->addModules( array( 'ext.fanBoxes', 'ext.fanBoxes.colorpicker' ) );
+		$out->addModules( array(
+			'ext.fanBoxes',
+			'ext.fanBoxes.colorpicker',
+			'ext.fanBoxes.createform'
+		) );
 
 		// colorpicker
 		$out->addScript( "<script type=\"text/javascript\" src=\"http://yui.yahooapis.com/2.5.2/build/utilities/utilities.js\"></script>\n" );
@@ -141,10 +145,10 @@ class FanBoxes extends SpecialPage {
 				$rightfontsize = '14px';
 			}
 
-			$output .= "\n" . '<table class="fanBoxTable" border="0" cellpadding="0" cellspacing="0">
+			$output .= "\n" . '<table class="fanBoxTable">
 					<tr>
-						<td id="fanBoxLeftSideContainer" bgcolor="' . $update_fan->getFanBoxLeftBgColor() . '">
-						<table cellspacing="0" width="55px" height="63px">
+						<td id="fanBoxLeftSideContainer" style="background-color:' . $update_fan->getFanBoxLeftBgColor() . ';">
+						<table>
 							<tr>
 							<td id="fanBoxLeftSideOutput2" style="color:' .
 								$update_fan->getFanBoxLeftTextColor() .
@@ -153,8 +157,8 @@ class FanBoxes extends SpecialPage {
 							'</td>
 						</table>
 						</td>
-					<td id="fanBoxRightSideContainer" bgcolor="' . $update_fan->getFanBoxRightBgColor() . '">
-						<table cellspacing="0">
+					<td id="fanBoxRightSideContainer" style="background-color:' . $update_fan->getFanBoxRightBgColor() . ';">
+						<table>
 							<tr>
 							<td id="fanBoxRightSideOutput2" style="color:' .
 								$update_fan->getFanBoxRightTextColor() .
@@ -175,8 +179,8 @@ class FanBoxes extends SpecialPage {
 						<font size=\"1\">" . $this->msg( 'fanbox-leftsideinstructions' )->plain() . '</font>
 					</div>
 					<div id="fanbox-right-text">
-						<h3>' . $this->msg( 'fanbox-rightsidetext' )->plain() . '<span class="fanbox-right-text-message">' . $this->msg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" style="width:20px; height:15px;" value="70" /> ' )->text() . "</span></h3>
-						<input type=\"text\" name=\"inputRightSide\" id=\"inputRightSide\" style=\"width:350px\" value=\"{$update_fan->getFanBoxRightText()}\" maxlength=\"70\" /><br />
+						<h3>' . $this->msg( 'fanbox-rightsidetext' )->plain() . '<span class="fanbox-right-text-message">' . $this->msg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" value="70" /> ' )->text() . "</span></h3>
+						<input type=\"text\" name=\"inputRightSide\" id=\"inputRightSide\" value=\"{$update_fan->getFanBoxRightText()}\" maxlength=\"70\" /><br />
 						<font size=\"1\">" . $this->msg( 'fanbox-rightsideinstructions' )->plain() . '</font>
 					</div>
 				</div>
@@ -188,7 +192,7 @@ class FanBoxes extends SpecialPage {
 							' <font size="1">' . $this->msg( 'fanbox-leftsideimageinstructions' )->plain() . " </font></h1>
 						<div id=\"fanbox_image\">$fantag_imageholder</div>
 						<div id=\"fanbox_image2\"> </div>
-						<div id=\"real-form\" style=\"display:block;height:70px;\">
+						<div id=\"real-form\">
 						<iframe id=\"imageUpload-frame\" class=\"imageUpload-frame\" width=\"700\"
 							scrolling=\"no\" frameborder=\"0\" src=\"" .
 							htmlspecialchars( SpecialPage::getTitleFor( 'FanBoxAjaxUpload' )->getFullURL() ) . '">
@@ -251,17 +255,17 @@ class FanBoxes extends SpecialPage {
 				$output .= Html::hidden( 'wpTitle', $destination, array( 'id' => 'wpTitle' ) );
 			}
 
-			$output .= '<table class="fanBoxTable" border="0" cellpadding="0" cellspacing="0">
+			$output .= '<table class="fanBoxTable">
 				<tr>
 				<td id="fanBoxLeftSideContainer">
-					<table cellspacing="0" width="55px" height="63px">
+					<table>
 						<tr>
 							<td id="fanBoxLeftSideOutput2"></td>
 						</tr>
 					</table>
 				</td>
 				<td id="fanBoxRightSideContainer">
-					<table cellspacing="0" width="212px" height="63px">
+					<table style="width: 212px; height: 63px;">
 						<tr>
 							<td id="fanBoxRightSideOutput2"></td>
 						</tr>
@@ -281,8 +285,8 @@ class FanBoxes extends SpecialPage {
 					</div>
 					<div id="fanbox-right-text">
 					<h3>' . $this->msg( 'fanbox-rightsidetext' )->inContentLanguage()->parse() . '<span id="countdownbox"> <span class="fanbox-right-text-message">'
-						. $this->msg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" style="width:20px; height:15px;" value="70" />' )->text() . '</span></span></h3>
-						<input type="text" name="inputRightSide" id="inputRightSide" style="width:350px" maxlength="70" /><br />
+						. $this->msg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" value="70" />' )->text() . '</span></span></h3>
+						<input type="text" name="inputRightSide" id="inputRightSide" maxlength="70" /><br />
 						<font size="1">' . $this->msg( 'fanbox-rightsideinstructions' ) . '</font>
 					</div>
 					<div class="cleared"></div>
@@ -297,7 +301,7 @@ class FanBoxes extends SpecialPage {
 						<div id="fanbox_image"></div>
 						<div id="fanbox_image2"></div>
 
-						<div id="real-form" style="display: block; height: 70px;">
+						<div id="real-form">
 						<iframe id="imageUpload-frame" class="imageUpload-frame" width="700"
 							scrolling="no" frameborder="0" src="' . htmlspecialchars( SpecialPage::getTitleFor( 'FanBoxAjaxUpload' )->getFullURL() ) . '">
 						</iframe>
@@ -391,7 +395,7 @@ class FanBoxes extends SpecialPage {
 		$categoriesHelpText = $this->msg( 'fanbox-categories-help' )->parse();
 
 		$output .= '<div class="category-section">';
-		$tagcloud = '<div id="create-tagcloud" style="line-height: 25pt; width: 600px; padding-bottom: 15px;">';
+		$tagcloud = '<div id="create-tagcloud">';
 		$tagnumber = 0;
 		$tabcounter = 1;
 		foreach ( $cloud->tags as $tag => $att ) {
@@ -403,7 +407,7 @@ class FanBoxes extends SpecialPage {
 				$slashedTag = str_replace( "'", "\'", $tag );
 			}
 			$tagcloud .= " <span id=\"tag-{$tagnumber}\" style=\"font-size:{$cloud->tags[$tag]['size']}{$cloud->tags_size_type}\">
-				<a style='cursor:hand;cursor:pointer;text-decoration:underline' data-slashed-tag=\"{$slashedTag}\">{$tag}</a>
+				<a data-slashed-tag=\"{$slashedTag}\">{$tag}</a>
 			</span>\n";
 			$tagnumber++;
 		}

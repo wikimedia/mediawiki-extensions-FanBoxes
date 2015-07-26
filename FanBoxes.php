@@ -38,6 +38,13 @@ $wgResourceModules['ext.fanBoxes'] = array(
 	'position' => 'top' // available since r85616
 );
 
+$wgResourceModules['ext.fanBoxes.createform'] = array(
+	'styles' => 'SpecialFanBoxes.css',
+	'localBasePath' => __DIR__,
+	'remoteExtPath' => 'FanBoxes',
+	'position' => 'top' // available since r85616
+);
+
 $wgResourceModules['ext.fanBoxes.colorpicker'] = array(
 	'scripts' => 'color-picker.js',
 	'localBasePath' => __DIR__,

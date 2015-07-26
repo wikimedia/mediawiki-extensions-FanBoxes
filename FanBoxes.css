@@ -1,88 +1,4 @@
 /* CSS for FanBoxes extension */
-/* Create Form */
-.create-fanbox-text-and-color {
-	width: 550px;
-	margin-bottom: 10px;
-}
-
-.mw-body h3, .mw-body-primary h3 {
-	margin-top: 5px;
-	margin-bottom: 5px;
-	font-size: 14px;
-}
-
-.create-fanbox-title {
-	margin-bottom: 10px;
-	width: 550px;
-}
-
-.create-fanbox-text {
-	width: 550px;
-}
-
-.category-section {
-	width: 550px;
-}
-
-.mw-body h1, .mw-body-primary h1 {
-	font-size: 16px;
-	margin: 10px 0px 10px 0px !important;
-	border-bottom: none;
-	font-weight: bold;
-}
-
-#addImage {
-	font-size: 9px;
-	color: #285C98;
-	cursor: pointer;
-	display: inline;
-}
-
-#closeImage {
-	font-size: 9px;
-	color: #285C98;
-	cursor: pointer;
-	display: none;
-}
-
-.create-fanbox-image {
-	display: none;
-}
-
-#countdownbox {
-	padding-left: 10px;
-}
-
-#fanbox-left-text {
-	float: left;
-	width: 180px;
-	padding-right: 10px;
-}
-
-#fanbox-right-text {
-	float: right;
-	width: 350px;
-}
-
-#add-colors-left {
-	width: 150px;
-	margin: 0px 2px 0px 0px;
-	float: left;
-}
-
-#colorpickerholder {
-	position: relative;
-	padding: 6px;
-	background-color: #eeeeee;
-	width: 370px;
-	height: 190px;
-	float: left;
-}
-
-.imageUpload-frame {
-	height: 90px;
-}
-
 .fanBoxTable {
 	cursor: pointer;
 	height: 65px;
@@ -166,10 +82,7 @@
 	border-right: 1px #000000 solid;
 }
 
-.categorytext {
-	width: 700px;
-}
-
+/* LinkFilter stuff */
 .lr-left {
 	float: left;
 	width: 55%;
@@ -184,7 +97,7 @@
 	width: 40%;
 }
 
-/* End of Create Form */
+/* End LinkFilter-related rules */
 
 .fantag-image {
 	margin: 0px 0px 24px 0px;
@@ -295,20 +208,6 @@ a.perma {
 	padding-top: 10px;
 }
 
-.verticalalign {
-	vertical-align: middle;
-}
-
-#messageforaddremove {
-	display: none;
-}
-
-.fan-error {
-	color: #ff0000;
-	font-size: 16px;
-	font-weight: bold;
-}
-
 .back-links {
 	margin: 0px 0px 10px 0px;
 }
@@ -375,7 +274,7 @@ a.perma {
 	color: #333333;
 	padding: 0px 0px 3px 0px;
 	border-bottom: 1px solid #dcdcdc;
-	margin:0px 0px 10px 0px !important;
+	margin: 0px 0px 10px 0px !important;
 }
 
 .fanbox-nav a {
@@ -399,12 +298,12 @@ a.perma {
 	float: left;
 }
 
-.view-fanboxes-container{
+.view-fanboxes-container {
 	padding: 0px 0px 25px 0px;
 	position: relative;
 }
 
-.fanboxitem-container{
+.fanboxitem-container {
 	padding-right: 10px;
 	float: left;
 }
