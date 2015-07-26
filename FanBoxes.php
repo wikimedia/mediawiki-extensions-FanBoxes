@@ -37,14 +37,14 @@ $wgResourceModules['ext.fanBoxes'] = array(
 		'fanbox-mustenter-right-or', 'fanbox-mustenter-title', 'fanbox-hash',
 		'fanbox-choose-another', 'fanbox-upload-new-image'
 	),
-	'localBasePath' => dirname( __FILE__ ),
+	'localBasePath' => __DIR__,
 	'remoteExtPath' => 'FanBoxes',
 	'position' => 'top' // available since r85616
 );
 
 $wgResourceModules['ext.fanBoxes.colorpicker'] = array(
 	'scripts' => 'color-picker.js',
-	'localBasePath' => dirname( __FILE__ ),
+	'localBasePath' => __DIR__,
 	'remoteExtPath' => 'FanBoxes',
 );
 
@@ -58,21 +58,19 @@ if ( !defined( 'NS_FANTAG_TALK' ) ) {
 }
 
 // Set up the new special pages
-$dir = dirname( __FILE__ ) . '/';
 $wgMessagesDirs['FanBoxes'] = __DIR__ . '/i18n';
-$wgExtensionMessagesFiles['FanBoxes'] = $dir . 'FanBox.i18n.php';
-$wgExtensionMessagesFiles['FanBoxesNamespaces'] = $dir . 'FanBox.namespaces.php';
+$wgExtensionMessagesFiles['FanBoxesNamespaces'] = __DIR__ . '/FanBox.namespaces.php';
 
-$wgAutoloadClasses['FanBox'] = $dir . 'FanBoxClass.php';
-$wgAutoloadClasses['SpecialFanBoxAjaxUpload'] = $dir . 'MiniAjaxUpload.php';
-$wgAutoloadClasses['FanBoxAjaxUploadForm'] = $dir . 'MiniAjaxUpload.php';
-$wgAutoloadClasses['FanBoxUpload'] = $dir . 'MiniAjaxUpload.php';
-$wgAutoloadClasses['FanBoxPage'] = $dir . 'FanBoxPage.php';
-$wgAutoloadClasses['FanBoxes'] = $dir . 'SpecialFanBoxes.php';
-$wgAutoloadClasses['TagCloud'] = $dir . 'TagCloudClass.php';
-$wgAutoloadClasses['TopFanBoxes'] = $dir . 'SpecialTopFanBoxes.php';
-$wgAutoloadClasses['UserFanBoxes'] = $dir . 'FanBoxesClass.php';
-$wgAutoloadClasses['ViewFanBoxes'] = $dir . 'SpecialViewFanBoxes.php';
+$wgAutoloadClasses['FanBox'] = __DIR__ . '/FanBoxClass.php';
+$wgAutoloadClasses['SpecialFanBoxAjaxUpload'] = __DIR__ . '/MiniAjaxUpload.php';
+$wgAutoloadClasses['FanBoxAjaxUploadForm'] = __DIR__ . '/MiniAjaxUpload.php';
+$wgAutoloadClasses['FanBoxUpload'] = __DIR__ . '/MiniAjaxUpload.php';
+$wgAutoloadClasses['FanBoxPage'] = __DIR__ . '/FanBoxPage.php';
+$wgAutoloadClasses['FanBoxes'] = __DIR__ . '/SpecialFanBoxes.php';
+$wgAutoloadClasses['TagCloud'] = __DIR__ . '/TagCloudClass.php';
+$wgAutoloadClasses['TopFanBoxes'] = __DIR__ . '/SpecialTopFanBoxes.php';
+$wgAutoloadClasses['UserFanBoxes'] = __DIR__ . '/FanBoxesClass.php';
+$wgAutoloadClasses['ViewFanBoxes'] = __DIR__ . '/SpecialViewFanBoxes.php';
 
 $wgSpecialPages['FanBoxAjaxUpload'] = 'SpecialFanBoxAjaxUpload';
 $wgSpecialPages['UserBoxes'] = 'FanBoxes';
@@ -80,7 +78,7 @@ $wgSpecialPages['TopUserboxes'] = 'TopFanBoxes';
 $wgSpecialPages['ViewUserBoxes'] = 'ViewFanBoxes';
 
 // API module
-$wgAutoloadClasses['ApiFanBoxes'] = $dir . 'ApiFanBoxes.php';
+$wgAutoloadClasses['ApiFanBoxes'] = __DIR__ . '/ApiFanBoxes.php';
 $wgAPIModules['fanboxes'] = 'ApiFanBoxes';
 
 // <userboxes> parser hook
@@ -92,7 +90,7 @@ $wgFanBoxPageDisplay['comments'] = true;
 # End configuration settings
 
 // Hooked functions
-$wgAutoloadClasses['FanBoxHooks'] = $dir . 'FanBoxHooks.php';
+$wgAutoloadClasses['FanBoxHooks'] = __DIR__ . '/FanBoxHooks.php';
 
 $wgHooks['TitleMoveComplete'][] = 'FanBoxHooks::updateFanBoxTitle';
 $wgHooks['ArticleDelete'][] = 'FanBoxHooks::deleteFanBox';
