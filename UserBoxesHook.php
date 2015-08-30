@@ -206,8 +206,8 @@ class UserBoxesHook {
 					</div>';
 				}
 
-				$output .= '</div></span><div class="cleared"></div>';
-				//if ( $x == count( $fanboxes ) || $x != 1 && $x % $per_row == 0 ) $output .= '<div class="cleared"></div>';
+				$output .= '</div></span><div class="visualClear"></div>';
+				//if ( $x == count( $fanboxes ) || $x != 1 && $x % $per_row == 0 ) $output .= '<div class="visualClear"></div>';
 				$x++;
 			}
 

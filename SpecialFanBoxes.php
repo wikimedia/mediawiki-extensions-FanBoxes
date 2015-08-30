@@ -289,7 +289,7 @@ class FanBoxes extends SpecialPage {
 						<input type="text" name="inputRightSide" id="inputRightSide" maxlength="70" /><br />
 						<font size="1">' . $this->msg( 'fanbox-rightsideinstructions' ) . '</font>
 					</div>
-					<div class="cleared"></div>
+					<div class="visualClear"></div>
 					</form>
 				</div>';
 
@@ -386,7 +386,7 @@ class FanBoxes extends SpecialPage {
 					<div id="colorpickerholder"></div>
 					</div>
 
-					<div class="cleared"></div>
+					<div class="visualClear"></div>
 				</div>';
 
 		// Category cloud stuff

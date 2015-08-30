@@ -221,13 +221,13 @@ class TopFanBoxes extends SpecialPage {
 						</tr>
 					</table>
 				</div>';
-				$output .= '<div class="cleared"></div>';
+				$output .= '<div class="visualClear"></div>';
 				$output .= '</div>';
 
 				$x++;
 			}
 
-			$output .= '</div><div class="cleared"></div>';
+			$output .= '</div><div class="visualClear"></div>';
 		}
 
 		if ( $topfanboxCategory ) {
@@ -383,13 +383,13 @@ class TopFanBoxes extends SpecialPage {
 						</tr>
 					</table>
 				</div>';
-				$output .= '<div class="cleared"></div>';
+				$output .= '<div class="visualClear"></div>';
 				$output .= '</div>';
 
 				$x++;
 
 			}
-			$output .= '</div><div class="cleared"></div>';
+			$output .= '</div><div class="visualClear"></div>';
 
 		}
 

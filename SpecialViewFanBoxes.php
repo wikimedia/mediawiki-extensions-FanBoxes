@@ -225,7 +225,7 @@ class ViewFanBoxes extends SpecialPage {
 				$output .= '</div></span>';
 
 				if ( $x == count( $userFanboxes ) || $x != 1 && $x % $per_row == 0 ) {
-					$output .= '<div class="cleared"></div>';
+					$output .= '<div class="visualClear"></div>';
 				}
 				$x++;
 			}
