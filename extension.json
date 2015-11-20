@@ -1,0 +1,117 @@
+{
+	"name": "FanBox",
+	"version": "3.2.2",
+	"author": [
+		"Aaron Wright",
+		"David Pean",
+		"Robert Lefkowitz",
+		"Jack Phoenix"
+	],
+	"license-name": "GPL-2.0+",
+	"url": "https://www.mediawiki.org/wiki/Extension:FanBoxes",
+	"description": "A new way of creating and using userboxes, based on special pages",
+	"type": "other",
+	"config": {
+		"FanBoxPageDisplay": {
+			"comments": true
+		}
+	},
+	"SpecialPages": {
+		"FanBoxAjaxUpload": "SpecialFanBoxAjaxUpload",
+		"UserBoxes": "FanBoxes",
+		"TopUserboxes": "TopFanBoxes",
+		"ViewUserBoxes": "ViewFanBoxes"
+	},
+	"MessagesDirs": {
+		"FanBoxes": [
+			"i18n"
+		]
+	},
+	"namespaces": [
+		{
+			"id": 600,
+			"constant": "NS_FANBOX",
+			"name": "UserBox"
+		},
+		{
+			"id": 601,
+			"constant": "NS_FANBOX_TALK",
+			"name": "UserBox_talk"
+		}
+	],
+	"APIModules": {
+		"fanboxes": "ApiFanBoxes"
+	},
+	"ExtensionMessagesFiles": {
+		"FanBoxesAlias": "FanBox.alias.php",
+		"FanBoxesNamespaces": "FanBox.namespaces.php"
+	},
+	"AutoloadClasses": {
+		"ApiFanBoxes": "ApiFanBoxes.php",
+		"FanBox": "FanBoxClass.php",
+		"SpecialFanBoxAjaxUpload": "MiniAjaxUpload.php",
+		"FanBoxAjaxUploadForm": "MiniAjaxUpload.php",
+		"FanBoxUpload": "MiniAjaxUpload.php",
+		"FanBoxPage": "FanBoxPage.php",
+		"FanBoxes": "SpecialFanBoxes.php",
+		"TagCloud": "TagCloudClass.php",
+		"TopFanBoxes": "SpecialTopFanBoxes.php",
+		"UserBoxesHook": "UserBoxesHook.php",
+		"UserFanBoxes": "FanBoxesClass.php",
+		"ViewFanBoxes": "SpecialViewFanBoxes.php",
+		"FanBoxHooks": "FanBoxHooks.php"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": [
+			"UserBoxesHook::onParserFirstCallInit"
+		],
+		"TitleMoveComplete": [
+			"FanBoxHooks::updateFanBoxTitle"
+		],
+		"ArticleDelete": [
+			"FanBoxHooks::deleteFanBox"
+		],
+		"ArticleFromTitle": [
+			"FanBoxHooks::fantagFromTitle"
+		],
+		"ParserBeforeStrip": [
+			"FanBoxHooks::transformFanBoxTags"
+		],
+		"ParserFirstCallInit": [
+			"FanBoxHooks::registerFanTag"
+		],
+		"LoadExtensionSchemaUpdates": [
+			"FanBoxHooks::addTables"
+		],
+		"RenameUserSQL": [
+			"FanBoxHooks::onUserRename"
+		],
+		"CanonicalNamespaces": [
+			"FanBoxHooks::onCanonicalNamespaces"
+		]
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "FanBoxes"
+	},
+	"ResourceModules": {
+		"ext.fanBoxes": {
+			"styles": "FanBoxes.css",
+			"scripts": "FanBoxes.js",
+			"messages": [
+				"fanbox-mustenter-left", "fanbox-mustenter-right",
+				"fanbox-mustenter-right-or", "fanbox-mustenter-title", "fanbox-hash",
+				"fanbox-choose-another", "fanbox-upload-new-image"
+			],
+			"position": "top"
+		},
+		"ext.fanBoxes": {
+			"styles": "SpecialFanBoxes.css",
+			"position": "top"
+		},
+		"ext.fanBoxes.colorpicker": {
+			"scripts": "color-picker.js"
+		}
+	},
+	"manifest_version": 1
+}
