@@ -30,12 +30,12 @@
 	"namespaces": [
 		{
 			"id": 600,
-			"constant": "NS_FANBOX",
+			"constant": "NS_FANTAG",
 			"name": "UserBox"
 		},
 		{
 			"id": 601,
-			"constant": "NS_FANBOX_TALK",
+			"constant": "NS_FANTAG_TALK",
 			"name": "UserBox_talk"
 		}
 	],
