@@ -17,7 +17,7 @@
 // Extension credits that show up on Special:Version
 $wgExtensionCredits['other'][] = array(
 	'name' => 'FanBox',
-	'version' => '3.2.1',
+	'version' => '3.2.2',
 	'author' => array( 'Aaron Wright', 'David Pean', 'Robert Lefkowitz', 'Jack Phoenix' ),
 	'url' => 'https://www.mediawiki.org/wiki/Extension:FanBoxes',
 	'description' => 'A new way of creating and using userboxes, based on special pages',
