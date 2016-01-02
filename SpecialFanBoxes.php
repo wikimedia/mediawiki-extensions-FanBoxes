@@ -44,8 +44,7 @@ class FanBoxes extends SpecialPage {
 
 		// Don't allow blocked users (RT #12589)
 		if ( $user->isBlocked() ) {
-			$out->blockedPage();
-			return true;
+			throw new UserBlockedError( $user->getBlock() );
 		}
 
 		// If the database is in read-only mode, bail out
