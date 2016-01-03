@@ -327,7 +327,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 		HTMLForm::__construct( $descriptor, 'upload' );
 
 		# Set some form properties
-		$this->setSubmitText( wfMsg( 'uploadbtn' ) );
+		$this->setSubmitText( $this->msg( 'uploadbtn' )->text() );
 		$this->setSubmitName( 'wpUpload' );
 		$this->setSubmitTooltip( 'upload' );
 		$this->setId( 'mw-upload-form' );
