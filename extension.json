@@ -105,7 +105,7 @@
 			],
 			"position": "top"
 		},
-		"ext.fanBoxes": {
+		"ext.fanBoxes.createform": {
 			"styles": "SpecialFanBoxes.css",
 			"position": "top"
 		},
