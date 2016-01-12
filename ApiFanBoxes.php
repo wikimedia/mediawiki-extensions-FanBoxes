@@ -144,7 +144,6 @@ class ApiFanBoxes extends ApiBase {
 				),
 				__METHOD__
 			);
-			$dbw->commit();
 
 			$out .= "<div class=\"$style\">" .
 				wfMessage( 'fanbox-successful-add' )->plain() .
@@ -162,7 +161,6 @@ class ApiFanBoxes extends ApiBase {
 				),
 				__METHOD__
 			);
-			$dbw->commit();
 
 			$out .= "<div class=\"$style\">" .
 				wfMessage( 'fanbox-successful-remove' )->plain() .
@@ -178,7 +176,6 @@ class ApiFanBoxes extends ApiBase {
 				__METHOD__
 			);
 
-			$dbw->commit();
 		}
 
 		return $out;

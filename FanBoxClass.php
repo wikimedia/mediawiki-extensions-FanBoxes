@@ -240,7 +240,6 @@ class FanBox {
 			),
 			__METHOD__
 		);
-		$dbw->commit();
 	}
 
 	/**
@@ -265,8 +264,6 @@ class FanBox {
 			array( 'fantag_id' => $fanBoxId ),
 			__METHOD__
 		);
-
-		$dbw->commit();
 	}
 
 	/**

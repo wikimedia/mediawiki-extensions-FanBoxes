@@ -27,7 +27,6 @@ class FanBoxHooks {
 				array( 'fantag_pg_id' => intval( $oldid ) ),
 				__METHOD__
 			);
-			$dbw->commit();
 		}
 		return true;
 	}
@@ -68,7 +67,6 @@ class FanBoxHooks {
 					array( 'fantag_pg_id' => intval( $article->getID() ) ),
 					__METHOD__
 				);
-				$dbw->commit();
 			}
 		}
 
