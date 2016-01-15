@@ -15,6 +15,10 @@ class FanBoxes extends SpecialPage {
 		parent::__construct( 'UserBoxes' );
 	}
 
+	public function doesWrites() {
+		return true;
+	}
+
 	/**
 	 * Group this special page under the correct header on Special:SpecialPages.
 	 *
