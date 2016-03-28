@@ -8,7 +8,7 @@ jQuery( document ).ready( function() {
 		}
 	} );
 
-	colorPickerTest.on( 'rgbChange', function( p_oEvent ) {
+	colorPickerTest.on( 'rgbChange', function() {
 		var sColor = '#' + this.get( 'hex' );
 
 		if ( document.colorpickerradio.colorpickerchoice[0].checked ) {

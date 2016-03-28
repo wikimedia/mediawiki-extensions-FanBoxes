@@ -44,10 +44,10 @@ var FanBoxes = {
 		if ( str_left_side.length < 6 ) {
 			document.form1.inputLeftSide.maxLength = 11;
 		}
-		if ( space_position == -1 && str_left_side.length > 6 ) {
+		if ( space_position === -1 && str_left_side.length > 6 ) {
 			document.form1.inputLeftSide.maxLength = str_left_side.length;
 		}
-		if ( space_position == -1 && str_left_side.length == 6 ) {
+		if ( space_position === -1 && str_left_side.length === 6 ) {
 			document.form1.inputLeftSide.value =
 				document.form1.inputLeftSide.value.substring( 0, 5 ) + ' ' +
 				document.form1.inputLeftSide.value.substring( 5, 6 );
@@ -76,10 +76,10 @@ var FanBoxes = {
 		if ( str_right_side.length < 18 ) {
 			document.form1.inputRightSide.maxLength = 70;
 		}
-		if ( space_position == -1 && str_right_side.length > 18 ) {
+		if ( space_position === -1 && str_right_side.length > 18 ) {
 			document.form1.inputRightSide.maxLength = str_right_side.length;
 		}
-		if ( space_position == -1 && str_right_side.length == 18 ) {
+		if ( space_position === -1 && str_right_side.length === 18 ) {
 			document.form1.inputRightSide.value =
 				document.form1.inputRightSide.value.substring( 0, 17 ) + ' ' +
 				document.form1.inputRightSide.value.substring( 17, 18 );
@@ -128,7 +128,7 @@ var FanBoxes = {
 	 */
 	displayAddImage: function( el, el2, el3 ) {
 		el = document.getElementById( el );
-		el.style.display = ( el.style.display == 'block' ) ? 'none' : 'block';
+		el.style.display = ( el.style.display === 'block' ) ? 'none' : 'block';
 		el2 = document.getElementById( el2 );
 		el3 = document.getElementById( el3 );
 		el2.style.display = 'none';
@@ -150,10 +150,8 @@ var FanBoxes = {
 	},
 
 	showMessage: function( addRemove, title, fantagId ) {
-		var $container = jQuery( '#show-message-container' + fantagId );
-
 		jQuery.post(
-			mw.util.wikiScript( 'api' ), {
+			mediaWiki.util.wikiScript( 'api' ), {
 				action: 'fanboxes',
 				what: 'showAddRemoveMessage',
 				'addRemove': addRemove,
@@ -175,7 +173,7 @@ var FanBoxes = {
 		$container.fadeOut( 1000 );
 
 		jQuery.post(
-			mw.util.wikiScript( 'api' ), {
+			mediaWiki.util.wikiScript( 'api' ), {
 				action: 'fanboxes',
 				what: 'messageAddRemoveUserPage',
 				'addRemove': addRemove,
@@ -197,7 +195,7 @@ var FanBoxes = {
 	 */
 	createFantag: function() {
 		if ( !document.getElementById( 'inputRightSide' ).value ) {
-			alert( mw.msg( 'fanbox-mustenter-right-or' ) );
+			alert( mediaWiki.msg( 'fanbox-mustenter-right-or' ) );
 			return '';
 		}
 
@@ -206,18 +204,18 @@ var FanBoxes = {
 			!document.getElementById( 'fantag_image_name' ).value
 		)
 		{
-			alert( mw.msg( 'fanbox-mustenter-left' ) );
+			alert( mediaWiki.msg( 'fanbox-mustenter-left' ) );
 			return '';
 		}
 
 		var title = document.getElementById( 'wpTitle' ).value;
 		if ( !title ) {
-			alert( mw.msg( 'fanbox-mustenter-title' ) );
+			alert( mediaWiki.msg( 'fanbox-mustenter-title' ) );
 			return '';
 		}
 
 		if ( title.indexOf( '#' ) > -1 ) {
-			alert( mw.msg( 'fanbox-hash' ) );
+			alert( mediaWiki.msg( 'fanbox-hash' ) );
 			return '';
 		}
 
@@ -225,7 +223,7 @@ var FanBoxes = {
 		title = title.replace( '&', '%26' );
 
 		jQuery.post(
-			mw.util.wikiScript( 'api' ), {
+			mediaWiki.util.wikiScript( 'api' ), {
 				action: 'fanboxes',
 				what: 'checkTitleExistence',
 				page_name: encodeURIComponent( document.getElementById( 'wpTitle' ).value ),
@@ -248,7 +246,7 @@ var FanBoxes = {
 	 */
 	createFantagSimple: function() {
 		if ( !document.getElementById( 'inputRightSide' ).value ) {
-			alert( mw.msg( 'fanbox-mustenter-right' ) );
+			alert( mediaWiki.msg( 'fanbox-mustenter-right' ) );
 			return '';
 		}
 
@@ -257,7 +255,7 @@ var FanBoxes = {
 			!document.getElementById( 'fantag_image_name' ).value
 		)
 		{
-			alert( mw.msg( 'fanbox-mustenter-left' ) );
+			alert( mediaWiki.msg( 'fanbox-mustenter-left' ) );
 			return '';
 		}
 
@@ -266,14 +264,14 @@ var FanBoxes = {
 
 	resetUpload: function() {
 		var frame = document.getElementById( 'imageUpload-frame' );
-		frame.src = mw.config.get( 'wgScriptPath' ) + '/index.php?title=Special:FanBoxAjaxUpload';
+		frame.src = mediaWiki.config.get( 'wgScriptPath' ) + '/index.php?title=Special:FanBoxAjaxUpload';
 		frame.style.display = 'block';
 		frame.style.visibility = 'visible';
 	},
 
 	completeImageUpload: function() {
 		var html = '<div style="margin:0px 0px 10px 0px;"><img height="30" width="30" src="' +
-			mw.config.get( 'wgExtensionAssetsPath' ) + '/FanBoxes/ajax-loader-white.gif" alt="" /></div>';
+			mediaWiki.config.get( 'wgExtensionAssetsPath' ) + '/FanBoxes/ajax-loader-white.gif" alt="" /></div>';
 		document.getElementById( 'fanbox_image' ).innerHTML = html;
 		document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = html;
 	},
@@ -282,7 +280,7 @@ var FanBoxes = {
 		document.getElementById( 'fanbox_image' ).innerHTML = img_tag;
 		document.getElementById( 'fanbox_image2' ).innerHTML =
 			'<p><a href="javascript:FanBoxes.resetUpload();">' +
-			mw.msg( 'fanbox-upload-new-image' ) + '</a></p>';
+			mediaWiki.msg( 'fanbox-upload-new-image' ) + '</a></p>';
 		document.getElementById( 'fanbox_image' ).value = img_name;
 
 		document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = img_tag;
@@ -295,7 +293,7 @@ var FanBoxes = {
 };
 
 jQuery( document ).ready( function() {
-	if ( mw.config.get( 'wgCanonicalSpecialPageName' ) == 'UserBoxes' ) {
+	if ( mediaWiki.config.get( 'wgCanonicalSpecialPageName' ) === 'UserBoxes' ) {
 		jQuery( 'div.create-fanbox-buttons input[type="button"].fanbox-simple-button' ).on( 'click', function() {
 			FanBoxes.createFantagSimple();
 		} );
@@ -386,7 +384,7 @@ jQuery( document ).ready( function() {
 	} );
 
 	// FanBoxClass.php (UserBox: pages), Special:TopUserBoxes, Special:ViewUserBoxes
-	if ( mw.config.get( 'wgCanonicalSpecialPageName' ) !== 'UserBoxes' ) {
+	if ( mediaWiki.config.get( 'wgCanonicalSpecialPageName' ) !== 'UserBoxes' ) {
 		jQuery( 'body' ).on( 'click', 'table.fanBoxTable', function() {
 			var $element;
 			if ( jQuery( this ).parent().attr( 'id' ) ) {
