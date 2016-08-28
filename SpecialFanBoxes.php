@@ -12,7 +12,7 @@ class FanBoxes extends SpecialPage {
 	 * Constructor
 	 */
 	public function __construct() {
-		parent::__construct( 'UserBoxes' );
+		parent::__construct( 'UserBoxes', 'create-userbox' );
 	}
 
 	public function doesWrites() {
@@ -46,15 +46,18 @@ class FanBoxes extends SpecialPage {
 			return false;
 		}
 
-		// Don't allow blocked users (RT #12589)
-		if ( $user->isBlocked() ) {
-			throw new UserBlockedError( $user->getBlock() );
-		}
+		// Can the user execute the action?
+		$this->checkPermissions();
 
 		// If the database is in read-only mode, bail out
 		if ( wfReadOnly() ) {
 			$out->readOnlyPage();
 			return true;
+		}
+
+		// Don't allow blocked users (RT #12589)
+		if ( $user->isBlocked() ) {
+			throw new UserBlockedError( $user->getBlock() );
 		}
 
 		// Extension's CSS & JS

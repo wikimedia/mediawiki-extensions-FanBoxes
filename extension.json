@@ -1,6 +1,6 @@
 {
 	"name": "FanBox",
-	"version": "3.2.2",
+	"version": "3.2.3",
 	"author": [
 		"Aaron Wright",
 		"David Pean",
@@ -111,6 +111,14 @@
 		},
 		"ext.fanBoxes.colorpicker": {
 			"scripts": "color-picker.js"
+		}
+	},
+	"AvailableRights": [
+		"create-userbox"
+	],
+	"GroupPermissions": {
+		"user": {
+			"create-userbox": true
 		}
 	},
 	"manifest_version": 1

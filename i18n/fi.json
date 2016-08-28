@@ -69,5 +69,7 @@
     "user-fanbox-title": "Käyttäjälaatikot",
     "topuserboxes": "Parhaimmat käyttäjälaatikot",
     "viewuserboxes": "Katso käyttäjälaatikkoja",
-    "userboxes": "Luo käyttäjälaatikko"
+    "userboxes": "Luo käyttäjälaatikko",
+	"right-create-userbox": "Luoda käyttäjälaatikoita [[Special:UserBoxes]]-toimintosivun avulla",
+	"action-create-userbox": "luoda käyttäjälaatikoita [[Special:UserBoxes]]-toimintosivun avulla"
 }
