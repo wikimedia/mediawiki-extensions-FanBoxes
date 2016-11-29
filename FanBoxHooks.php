@@ -18,7 +18,7 @@ class FanBoxHooks {
 	 * @param $newid Integer:
 	 * @return Boolean: true
 	 */
-	public static function updateFanBoxTitle( &$title, &$newtitle, &$user, $oldid, $newid ) {
+	public static function updateFanBoxTitle( &$title, &$newtitle, $user, $oldid, $newid ) {
 		if ( $title->getNamespace() == NS_FANTAG ) {
 			$dbw = wfGetDB( DB_MASTER );
 			$dbw->update(
