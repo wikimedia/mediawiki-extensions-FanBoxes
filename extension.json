@@ -63,7 +63,8 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": [
-			"UserBoxesHook::onParserFirstCallInit"
+			"UserBoxesHook::onParserFirstCallInit",
+			"FanBoxHooks::registerFanTag"
 		],
 		"TitleMoveComplete": [
 			"FanBoxHooks::updateFanBoxTitle"
@@ -76,9 +77,6 @@
 		],
 		"ParserBeforeStrip": [
 			"FanBoxHooks::transformFanBoxTags"
-		],
-		"ParserFirstCallInit": [
-			"FanBoxHooks::registerFanTag"
 		],
 		"LoadExtensionSchemaUpdates": [
 			"FanBoxHooks::addTables"
