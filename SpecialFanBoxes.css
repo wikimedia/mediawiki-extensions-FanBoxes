@@ -66,7 +66,7 @@ table.fanBoxTable {
 
 #real-form {
 	display: block;
-	height: 70px;
+	height: auto;
 }
 
 #countdownbox {
@@ -106,10 +106,6 @@ input[name="countdown"] {
 	width: 370px;
 	height: 190px;
 	float: left;
-}
-
-.imageUpload-frame {
-	height: 90px;
 }
 
 .categorytext {
