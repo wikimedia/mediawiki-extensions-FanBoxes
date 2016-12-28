@@ -404,18 +404,20 @@ class FanBoxes extends SpecialPage {
 		$tagcloud = '<div id="create-tagcloud">';
 		$tagnumber = 0;
 		$tabcounter = 1;
-		foreach ( $cloud->tags as $tag => $att ) {
-			$tag = str_replace( 'Fans', '', $tag );
-			$tag = trim( $tag );
-			$slashedTag = $tag; // define variable
-			// Fix for categories that contain an apostrophe
-			if ( strpos( $tag, "'" ) ) {
-				$slashedTag = str_replace( "'", "\'", $tag );
-			}
-			$tagcloud .= " <span id=\"tag-{$tagnumber}\" style=\"font-size:{$cloud->tags[$tag]['size']}{$cloud->tags_size_type}\">
+		if ( isset( $cloud->tags ) && $cloud->tags ) {
+			foreach ( $cloud->tags as $tag => $att ) {
+				$tag = str_replace( 'Fans', '', $tag );
+				$tag = trim( $tag );
+				$slashedTag = $tag; // define variable
+				// Fix for categories that contain an apostrophe
+				if ( strpos( $tag, "'" ) ) {
+					$slashedTag = str_replace( "'", "\'", $tag );
+				}
+				$tagcloud .= " <span id=\"tag-{$tagnumber}\" style=\"font-size:{$cloud->tags[$tag]['size']}{$cloud->tags_size_type}\">
 				<a data-slashed-tag=\"{$slashedTag}\">{$tag}</a>
 			</span>\n";
-			$tagnumber++;
+				$tagnumber++;
+			}
 		}
 
 		$tagcloud .= '</div>';

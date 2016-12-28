@@ -8,6 +8,7 @@ class TagCloud {
 	public $tags_max_pts = 32;
 	public $tags_highest_count = 0;
 	public $tags_size_type = 'pt';
+	public $tags = array();
 
 	public function __construct( $limit = 10 ) {
 		$this->limit = $limit;
