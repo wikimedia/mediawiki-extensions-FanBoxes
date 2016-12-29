@@ -1,6 +1,6 @@
 {
-	"name": "FanBox",
-	"version": "3.2.3",
+	"name": "FanBoxes",
+	"version": "3.2.4",
 	"author": [
 		"Aaron Wright",
 		"David Pean",
@@ -9,7 +9,7 @@
 	],
 	"license-name": "GPL-2.0+",
 	"url": "https://www.mediawiki.org/wiki/Extension:FanBoxes",
-	"description": "A new way of creating and using userboxes, based on special pages",
+	"descriptionmsg": "fanbox-desc",
 	"type": "other",
 	"config": {
 		"FanBoxPageDisplay": {
