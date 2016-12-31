@@ -93,6 +93,10 @@ input[name="countdown"] {
 	width: 350px;
 }
 
+.add-colors h1 {
+	clear: both;
+}
+
 #add-colors-left {
 	width: 150px;
 	margin: 0px 2px 0px 0px;
