@@ -88,11 +88,7 @@ class FanBox {
 					trim( $category ) . "]]\n";
 			}
 		}
-		$article = new Article( $this->title );
-
-		$article_content = $this->buildWikiText() . "\n\n" .
-			$this->getBaseCategories() . "\n" . $categories_wiki .
-			"\n__NOEDITSECTION__";
+		$page = WikiPage::factory( $this->title );
 
 		if ( $descTitle->exists() ) {
 			# Invalidate the cache for the description page
@@ -100,7 +96,13 @@ class FanBox {
 			$descTitle->purgeSquid();
 		} else {
 			// New fantag; create the description page.
-			$article->doEdit( $this->buildWikiText() . "\n\n" . $article_content, $desc );
+			$pageContent = ContentHandler::makeContent(
+				$this->buildWikiText() . "\n\n" .
+				$this->getBaseCategories() . "\n" . $categories_wiki .
+				"\n__NOEDITSECTION__",
+				$page->getTitle()
+			);
+			$page->doEditContent( $pageContent, $desc );
 		}
 
 		# Test to see if the row exists using INSERT IGNORE
@@ -215,13 +217,16 @@ class FanBox {
 					':' . trim( $category ) . "]]\n";
 			}
 		}
-		$article = new Article( $this->title );
+		$page = WikiPage::factory( $this->title );
 
-		$article_content = $this->buildWikiText() . "\n" .
+		$pageContent = ContentHandler::makeContent(
+			$this->buildWikiText() . "\n" .
 			$this->getBaseCategories() . "\n" . $categories_wiki .
-			"\n__NOEDITSECTION__";
+			"\n__NOEDITSECTION__",
+			$page->getTitle()
+		);
 
-		$article->doEdit( $article_content, wfMessage( 'fanbox-summary-update' )->inContentLanguage()->parse() );
+		$page->doEditContent( $pageContent, wfMessage( 'fanbox-summary-update' )->inContentLanguage()->parse() );
 	}
 
 	/**
