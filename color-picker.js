@@ -1,4 +1,4 @@
-jQuery( document ).ready( function() {
+jQuery( function() {
 	var colorPickerTest = new YAHOO.widget.ColorPicker( 'colorpickerholder', {
 		showhsvcontrols: true,
 		showhexcontrols: true,

@@ -292,7 +292,7 @@ var FanBoxes = {
 	}
 };
 
-jQuery( document ).ready( function() {
+jQuery( function() {
 	if ( mediaWiki.config.get( 'wgCanonicalSpecialPageName' ) === 'UserBoxes' ) {
 		jQuery( 'div.create-fanbox-buttons input[type="button"].fanbox-simple-button' ).on( 'click', function() {
 			FanBoxes.createFantagSimple();
