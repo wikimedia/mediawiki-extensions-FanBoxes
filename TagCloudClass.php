@@ -18,28 +18,27 @@ class TagCloud {
 	public function initialize() {
 		$dbr = wfGetDB( DB_MASTER );
 		$res = $dbr->select(
-			'categorylinks',
-			array( 'cl_to', 'COUNT(*) AS count' ),
+			'category',
+			array( 'cat_title', 'cat_pages' ),
 			array(),
 			__METHOD__,
 			array(
-				'GROUP BY' => 'cl_to',
-				'ORDER BY' => 'count DESC',
+				'ORDER BY' => 'cat_pages DESC',
 				'LIMIT' => $this->limit
 			)
 		);
-		wfSuppressWarnings(); // prevent PHP from bitching about strtotime()
+		MediaWiki\suppressWarnings(); // prevent PHP from bitching about strtotime()
 		foreach ( $res as $row ) {
-			$tag_name = Title::makeTitle( NS_CATEGORY, $row->cl_to );
+			$tag_name = Title::makeTitle( NS_CATEGORY, $row->cat_title );
 			$tag_text = $tag_name->getText();
 			if ( strtotime( $tag_text ) == '' ) { // don't want dates to show up
-				if ( $row->count > $this->tags_highest_count ) {
-					$this->tags_highest_count = $row->count;
+				if ( $row->cat_pages > $this->tags_highest_count ) {
+					$this->tags_highest_count = $row->cat_pages;
 				}
-				$this->tags[$tag_text] = array( 'count' => $row->count );
+				$this->tags[$tag_text] = array( 'count' => $row->cat_pages );
 			}
 		}
-		wfRestoreWarnings();
+		MediaWiki\restoreWarnings();
 
 		// sort tag array by key (tag name)
 		if ( $this->tags_highest_count == 0 ) {
