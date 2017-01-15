@@ -232,6 +232,8 @@ var FanBoxes = {
 			function( data ) {
 				if ( data.error ) {
 					alert( 'API error! ' + data.error.info );
+				} else if ( data.fanboxes.result === 'Page exists' ) {
+					alert( mediaWiki.msg( 'fan-addfan-exists' ) );
 				} else if ( data.fanboxes.result.indexOf( 'OK' ) >= 0 ) {
 					document.form1.submit();
 				}
