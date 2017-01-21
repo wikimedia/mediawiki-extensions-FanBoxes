@@ -6,10 +6,10 @@
  * @ingroup Extensions
  */
 
-$aliases = array();
+$specialPageAliases = array();
 
 /** English */
-$aliases['en'] = array(
+$specialPageAliases['en'] = array(
 	'FanBoxAjaxUpload' => array( 'FanBoxAjaxUpload' ),
 	'UserBoxes' => array( 'UserBoxes' ),
 	'TopUserboxes' => array( 'TopUserboxes' ),
@@ -17,14 +17,14 @@ $aliases['en'] = array(
 );
 
 /** Finnish (Suomi) */
-$aliases['fi'] = array(
+$specialPageAliases['fi'] = array(
 	'UserBoxes' => array( 'Käyttäjälaatikot' ),
 	'TopUserboxes' => array( 'Suosituimmat käyttäjälaatikot' ),
 	'ViewUserBoxes' => array( 'Katso käyttäjälaatikkoja' ),
 );
 
 /** Dutch (Nederlands) */
-$aliases['nl'] = array(
+$specialPageAliases['nl'] = array(
 	'UserBoxes' => array( 'Gebruikers boxen' ),
 	'TopUserboxes' => array( 'Top gebruikers boxen' ),
 	'ViewUserBoxes' => array( 'Bekijk gebruikers boxen' ),
