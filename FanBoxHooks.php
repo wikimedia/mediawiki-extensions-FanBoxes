@@ -41,11 +41,7 @@ class FanBoxHooks {
 	 * @return Boolean: true
 	 */
 	public static function deleteFanBox( &$article, &$user, $reason ) {
-		global $wgSupressPageTitle;
-
 		if ( $article->getTitle()->getNamespace() == NS_FANTAG ) {
-			$wgSupressPageTitle = true;
-
 			$dbw = wfGetDB( DB_MASTER );
 
 			$s = $dbw->selectRow(
@@ -127,11 +123,9 @@ class FanBoxHooks {
 	 * @return Boolean: true
 	 */
 	public static function fantagFromTitle( &$title, &$article ) {
-		global $wgRequest, $wgOut, $wgSupressPageTitle;
+		global $wgRequest, $wgOut;
 
 		if ( $title->getNamespace() == NS_FANTAG ) {
-			$wgSupressPageTitle = true;
-
 			// Add CSS
 			$wgOut->addModuleStyles( 'ext.fanBoxes' );
 

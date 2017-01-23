@@ -175,27 +175,27 @@ class FanBoxes extends SpecialPage {
 					</td>
 				</table>';
 
-			$output .= '<h1>' . $this->msg( 'fanbox-addtext' )->plain() . '</h1>
+			$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-addtext' )->plain() . '</h2>
 				<div class="create-fanbox-text">
 					<div id="fanbox-left-text">
 						<h3>' . $this->msg( 'fanbox-leftsidetext' )->plain() . '<span id="addImage">' .
 							$this->msg( 'fanbox-display-image' )->plain() . '</span> <span id="closeImage">' .
 							$this->msg( 'fanbox-close-image' )->plain() . "</span></h3>
 						<input type=\"text\" name=\"inputLeftSide\" id=\"inputLeftSide\" value=\"{$update_fan->getFanBoxLeftText()}\" maxlength=\"11\"><br />
-						<font size=\"1\">" . $this->msg( 'fanbox-leftsideinstructions' )->plain() . '</font>
+						<p>" . $this->msg( 'fanbox-leftsideinstructions' )->plain() . '</p>
 					</div>
 					<div id="fanbox-right-text">
 						<h3>' . $this->msg( 'fanbox-rightsidetext' )->plain() . '<span class="fanbox-right-text-message">' . $this->msg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" value="70" /> ' )->text() . "</span></h3>
 						<input type=\"text\" name=\"inputRightSide\" id=\"inputRightSide\" value=\"{$update_fan->getFanBoxRightText()}\" maxlength=\"70\" /><br />
-						<font size=\"1\">" . $this->msg( 'fanbox-rightsideinstructions' )->plain() . '</font>
+						<p>" . $this->msg( 'fanbox-rightsideinstructions' )->plain() . '</p>
 					</div>
 				</div>
 			</form>';
 
 			$output .= '
 					<div id="create-fanbox-image" class="create-fanbox-image">
-						<h1>' . $this->msg( 'fanbox-leftsideimage' )->plain() .
-							' <font size="1">' . $this->msg( 'fanbox-leftsideimageinstructions' )->plain() . " </font></h1>
+						<h2 class="fanbox-form-label visualClear">' . $this->msg( 'fanbox-leftsideimage' )->plain() . '</h2>
+						<p>' . $this->msg( 'fanbox-leftsideimageinstructions' )->plain() . " </p>
 						<div id=\"fanbox_image\">$fantag_imageholder</div>
 						<div id=\"fanbox_image2\"> </div>
 						<div id=\"real-form\">
@@ -250,7 +250,7 @@ class FanBoxes extends SpecialPage {
 			<input type="hidden" name="textColorRightSideColor" id="textColorRightSideColor" value="" />';
 
 			if ( !$destination ) {
-				$output .= '<h1>' . $this->msg( 'fanbox-title' )->plain() . '</h1>
+				$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-title' )->plain() . '</h2>
 					<div class="create-fanbox-title">
 						<input type="text" name="wpTitle" id="wpTitle" value="' .
 							$request->getVal( 'wpTitle' ) .
@@ -280,7 +280,7 @@ class FanBoxes extends SpecialPage {
 				</tr>
 			</table>' . "\n";
 
-			$output.= '<h1>' . $this->msg( 'fanbox-addtext' )->plain() . '</h1>
+			$output.= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-addtext' )->plain() . '</h2>
 				<div class="create-fanbox-text">
 					<div id="fanbox-left-text">
 						<h3>' . $this->msg( 'fanbox-leftsidetext' )->plain() .
@@ -300,10 +300,10 @@ class FanBoxes extends SpecialPage {
 				</div>';
 
 			$output .= '<div id="create-fanbox-image" class="create-fanbox-image">
-						<h1>' . $this->msg( 'fanbox-leftsideimage' )->plain() .
+						<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-leftsideimage' )->plain() .
 							' <font size="1">' .
 							$this->msg( 'fanbox-leftsideimageinstructions' )->inContentLanguage()->parse() .
-							' </font></h1>
+							' </font></h2>
 						<div id="fanbox_image"></div>
 						<div id="fanbox_image2"></div>
 
@@ -371,7 +371,7 @@ class FanBoxes extends SpecialPage {
 	 */
 	function colorPickerAndCategoryCloud( $categories ) {
 		$output = '<div class="add-colors">
-					<h1>' . $this->msg( 'fan-add-colors' )->plain() . '</h1>
+					<h2 class="fanbox-form-label visualClear">' . $this->msg( 'fan-add-colors' )->plain() . '</h2>
 					<div id="add-colors-left">
 						<form name="colorpickerradio" action="">
 						<input type="radio" name="colorpickerchoice" value="leftBG" checked="checked" />' .
@@ -422,9 +422,9 @@ class FanBoxes extends SpecialPage {
 
 		$tagcloud .= '</div>';
 		$output .= '<div class="create-category-title">';
-		$output .= "<h1>$categoriesLabel</h1>";
+		$output .= '<h2 class="fanbox-form-label">' . $categoriesLabel . '</h2>';
 		$output .= '</div>';
-		$output .= "<div class=\"categorytext\">$categoriesHelpText</div>";
+		$output .= '<div class="categorytext">' . $categoriesHelpText. '</div>';
 		$output .= $tagcloud;
 		$output .= '<textarea class="createbox" tabindex="' . $tabcounter . '" accesskey="," name="pageCtg" id="pageCtg" rows="2" cols="80">' .
 			$categories . '</textarea><br /><br />';

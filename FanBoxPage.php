@@ -40,7 +40,6 @@ class FanBoxPage extends Article {
 		$fanboxTitle = Title::makeTitle( NS_FANTAG, $this->fan->getName() );
 
 		$output = '';
-		$output .= "<h1 class=\"firstHeading\">{$fanboxTitle->getPrefixedText()}</h1>";
 
 		$output .= '<div class="fanbox-page-container clearfix">' .
 			$this->fan->outputFanBox();
