@@ -1,5 +1,5 @@
 CREATE TABLE /*_*/fantag (
-  fantag_id int(11) NOT NULL auto_increment PRIMARY KEY,
+  fantag_id int(11) NOT NULL PRIMARY KEY auto_increment,
   fantag_title varchar(100) NOT NULL,
   fantag_pg_id int(11) NOT NULL,
   fantag_left_text varchar(20) default NULL,
@@ -21,7 +21,7 @@ CREATE INDEX /*i*/fantag_user_id ON /*_*/fantag (fantag_user_id);
 CREATE INDEX /*i*/fantag_pg_id ON /*_*/fantag (fantag_pg_id);
 
 CREATE TABLE /*_*/user_fantag (
-  userft_id int(11) NOT NULL auto_increment PRIMARY KEY,
+  userft_id int(11) NOT NULL PRIMARY KEY auto_increment,
   userft_fantag_id int(11) NOT NULL,
   userft_user_id int(11) NOT NULL,
   userft_user_name varchar(255) NOT NULL,
