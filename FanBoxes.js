@@ -294,6 +294,11 @@ var FanBoxes = {
 	}
 };
 
+// Expose as a global object because the MiniAjaxUpload page calls some methods
+// of this class
+// @see https://phabricator.wikimedia.org/T158228#3030457
+window.FanBoxes = FanBoxes;
+
 jQuery( function() {
 	if ( mediaWiki.config.get( 'wgCanonicalSpecialPageName' ) === 'UserBoxes' ) {
 		jQuery( 'div.create-fanbox-buttons input[type="button"].fanbox-simple-button' ).on( 'click', function() {
