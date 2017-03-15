@@ -50,10 +50,7 @@ class FanBoxes extends SpecialPage {
 		$this->checkPermissions();
 
 		// If the database is in read-only mode, bail out
-		if ( wfReadOnly() ) {
-			$out->readOnlyPage();
-			return true;
-		}
+		$this->checkReadOnly();
 
 		// Don't allow blocked users (RT #12589)
 		if ( $user->isBlocked() ) {
