@@ -224,7 +224,7 @@ class FanBoxHooks {
 	 * @return Boolean: true
 	 */
 	public static function addTables( $updater ) {
-		$file = __DIR__ . '/fantag.sql';
+		$file = __DIR__ . '/../sql/fantag.sql';
 		$updater->addExtensionUpdate( array( 'addTable', 'fantag', $file, true ) );
 		$updater->addExtensionUpdate( array( 'addTable', 'user_fantag', $file, true ) );
 		return true;

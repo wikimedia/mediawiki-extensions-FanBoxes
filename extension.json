@@ -1,6 +1,6 @@
 {
 	"name": "FanBoxes",
-	"version": "3.2.7",
+	"version": "3.3.0",
 	"author": [
 		"Aaron Wright",
 		"David Pean",
@@ -43,23 +43,23 @@
 		"fanboxes": "ApiFanBoxes"
 	},
 	"ExtensionMessagesFiles": {
-		"FanBoxesAlias": "FanBox.alias.php",
-		"FanBoxesNamespaces": "FanBox.namespaces.php"
+		"FanBoxesAlias": "includes/FanBoxes.alias.php",
+		"FanBoxesNamespaces": "includes/FanBoxes.namespaces.php"
 	},
 	"AutoloadClasses": {
-		"ApiFanBoxes": "ApiFanBoxes.php",
-		"FanBox": "FanBoxClass.php",
-		"SpecialFanBoxAjaxUpload": "MiniAjaxUpload.php",
-		"FanBoxAjaxUploadForm": "MiniAjaxUpload.php",
-		"FanBoxUpload": "MiniAjaxUpload.php",
-		"FanBoxPage": "FanBoxPage.php",
-		"FanBoxes": "SpecialFanBoxes.php",
-		"TagCloud": "TagCloudClass.php",
-		"TopFanBoxes": "SpecialTopFanBoxes.php",
-		"UserBoxesHook": "UserBoxesHook.php",
-		"UserFanBoxes": "FanBoxesClass.php",
-		"ViewFanBoxes": "SpecialViewFanBoxes.php",
-		"FanBoxHooks": "FanBoxHooks.php"
+		"ApiFanBoxes": "includes/api/ApiFanBoxes.php",
+		"FanBox": "includes/FanBox.class.php",
+		"SpecialFanBoxAjaxUpload": "includes/specials/SpecialFanBoxAjaxUpload.php",
+		"FanBoxAjaxUploadForm": "includes/upload/FanBoxAjaxUploadForm.class.php",
+		"FanBoxUpload": "includes/upload/FanBoxUpload.class.php",
+		"FanBoxPage": "includes/FanBoxPage.class.php",
+		"FanBoxes": "includes/specials/SpecialFanBoxes.php",
+		"TagCloud": "includes/TagCloud.class.php",
+		"TopFanBoxes": "includes/specials/SpecialTopFanBoxes.php",
+		"UserBoxesHook": "includes/UserBoxes.hooks.php",
+		"UserFanBoxes": "includes/UserFanBoxes.class.php",
+		"ViewFanBoxes": "includes/specials/SpecialViewFanBoxes.php",
+		"FanBoxHooks": "includes/FanBox.hooks.php"
 	},
 	"Hooks": {
 		"ParserFirstCallInit": [
@@ -94,8 +94,8 @@
 	},
 	"ResourceModules": {
 		"ext.fanBoxes": {
-			"styles": "FanBoxes.css",
-			"scripts": "FanBoxes.js",
+			"styles": "resources/css/FanBoxes.css",
+			"scripts": "resources/js/FanBoxes.js",
 			"messages": [
 				"fanbox-mustenter-left", "fanbox-mustenter-right",
 				"fanbox-mustenter-right-or", "fanbox-mustenter-title", "fanbox-hash",
@@ -105,11 +105,11 @@
 			"position": "top"
 		},
 		"ext.fanBoxes.createform": {
-			"styles": "SpecialFanBoxes.css",
+			"styles": "resources/css/SpecialFanBoxes.css",
 			"position": "top"
 		},
 		"ext.fanBoxes.colorpicker": {
-			"scripts": "color-picker.js"
+			"scripts": "resources/js/color-picker.js"
 		}
 	},
 	"AvailableRights": [

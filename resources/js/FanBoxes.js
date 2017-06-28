@@ -273,7 +273,7 @@ var FanBoxes = {
 
 	completeImageUpload: function() {
 		var html = '<div style="margin:0px 0px 10px 0px;"><img height="30" width="30" src="' +
-			mediaWiki.config.get( 'wgExtensionAssetsPath' ) + '/FanBoxes/ajax-loader-white.gif" alt="" /></div>';
+			mediaWiki.config.get( 'wgExtensionAssetsPath' ) + '/FanBoxes/resources/images/ajax-loader-white.gif" alt="" /></div>';
 		document.getElementById( 'fanbox_image' ).innerHTML = html;
 		document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = html;
 	},
