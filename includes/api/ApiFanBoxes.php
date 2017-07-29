@@ -209,13 +209,6 @@ class ApiFanBoxes extends ApiBase {
 	}
 
 	/**
-	 * @return String: human-readable module description
-	 */
-	public function getDescription() {
-		return 'Backend API for the FanBoxes extension';
-	}
-
-	/**
 	 * @return Array
 	 */
 	public function getAllowedParams() {
@@ -242,22 +235,10 @@ class ApiFanBoxes extends ApiBase {
 		);
 	}
 
-	// Describe the parameter
-	public function getParamDescription() {
+	protected function getExamplesMessages() {
 		return array(
-			'what' => 'What to do?',
-			'addRemove' => '1 to add a userbox to a user profile, 2 to delete it',
-			'style' => 'Class for the success div element',
-			'fantagId' => 'UserBox identifier (number)',
-			'page_name' => 'Name of the page (in the userbox namespace) whose existence you want to check',
-			'title' => 'TODO DOCUMENT ME!',
-		);
-	}
-
-	// Get examples
-	public function getExamples() {
-		return array(
-			'api.php?action=fanboxes&what=checkTitleExistence&page_name=Foo bar' => 'Check if there\'s a fanbox called "Foo bar" in the database'
+			'action=fanboxes&what=checkTitleExistence&page_name=Foo bar'
+				=> 'apihelp-fanboxes-example-1',
 		);
 	}
 }
