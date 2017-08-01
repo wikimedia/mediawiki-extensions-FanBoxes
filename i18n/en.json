@@ -75,5 +75,13 @@
 	"userboxes-instructions": "<!-- Put instructions or stuff here -->",
 	"fanbox-top-list-is-empty": "There are no top userboxes yet. [[Special:UserBoxes|Create a userbox!]]",
 	"right-create-userbox": "Create user boxes via [[Special:UserBoxes]]",
-	"action-create-userbox": "create user boxes via [[Special:UserBoxes]]"
+	"action-create-userbox": "create user boxes via [[Special:UserBoxes]]",
+	"apihelp-fanboxes-summary": "Backend API for the FanBoxes extension",
+	"apihelp-fanboxes-param-what": "What to do?",
+	"apihelp-fanboxes-param-addRemove": "1 to add a userbox to a user profile, 2 to delete it",
+	"apihelp-fanboxes-param-style": "Class for the success div element",
+	"apihelp-fanboxes-param-fantagId": "UserBox identifier (number)",
+	"apihelp-fanboxes-param-page_name": "Name of the page (in the userbox namespace) whose existence you want to check",
+	"apihelp-fanboxes-param-title": "Name of the page (in the userbox namespace) where you want to add or remove messages",
+	"apihelp-fanboxes-example-1": "Check if there's a fanbox called \"Foo bar\" in the database"
 }
