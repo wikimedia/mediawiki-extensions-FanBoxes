@@ -91,7 +91,7 @@ class FanBoxPage extends Article {
 	function getFanBoxHolders() {
 		$pageTitleId = $this->getTitle()->getArticleID();
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		/* I don't know how the Database class handles the DISTINCT keyword,
 		but it won't do a join without the ON part, sadly; see
 		DatabaseBase::tableNamesWithUseIndexOrJOIN() which is where it forces

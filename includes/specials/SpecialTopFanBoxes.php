@@ -440,7 +440,7 @@ class TopFanBoxes extends SpecialPage {
 	}
 
 	function checkIfUserHasFanbox( $userft_fantag_id ) {
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select(
 			'user_fantag',
 			array( 'COUNT(*) AS count' ),

@@ -81,7 +81,7 @@ class FanBoxes extends SpecialPage {
 			$update_fan = new FanBox( $title );
 
 			// Get categories
-			$dbr = wfGetDB( DB_SLAVE );
+			$dbr = wfGetDB( DB_REPLICA );
 			$res = $dbr->select(
 				'categorylinks',
 				'cl_to',

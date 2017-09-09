@@ -35,7 +35,7 @@ class UserFanBoxes {
 	 * @return Array
 	 */
 	public function getUserFanboxes( $type, $limit = 0, $page = 0 ) {
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 
 		$params['ORDER BY'] = 'userft_date DESC';
 		if ( $limit > 0 ) {
