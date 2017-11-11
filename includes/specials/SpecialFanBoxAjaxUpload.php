@@ -9,7 +9,7 @@
  * @file
  * @ingroup SpecialPage
  * @ingroup Upload
- * @author Jack Phoenix <jack@countervandalism.net>
+ * @author Jack Phoenix
  * @date 29 August 2013
  * @note Based on 1.16 core SpecialUpload.php (GPL-licensed) by Bryan et al.
  */
