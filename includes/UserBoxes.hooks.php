@@ -30,7 +30,7 @@ class UserBoxesHook {
 	public static function renderUserBoxesHook( $input, $args, $parser ) {
 		global $wgOut, $wgUser, $wgMemc;
 
-		$parser->disableCache();
+		$parser->getOutput()->updateCacheExpiry( 0 );
 
 		// Add CSS & JS
 		$wgOut->addModules( 'ext.fanBoxes' );

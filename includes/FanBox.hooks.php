@@ -170,7 +170,7 @@ class FanBoxHooks {
 	public static function embedFanBox( $input, $argv, $parser ) {
 		global $wgUser, $wgHooks;
 
-		$parser->disableCache();
+		$parser->getOutput()->updateCacheExpiry( 0 );
 
 		$wgHooks['BeforePageDisplay'][] = 'FanBoxHooks::addFanBoxScripts';
 
