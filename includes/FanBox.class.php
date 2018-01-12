@@ -206,7 +206,7 @@ class FanBox {
 			array( 'fantag_pg_id' => intval( $fanboxId ) ),
 			__METHOD__
 		);
-		$key = wfMemcKey( 'fantag', 'page', $this->name );
+		$key = $wgMemc->makeKey( 'fantag', 'page', $this->name );
 		$wgMemc->delete( $key );
 
 		$categories_wiki = '';
@@ -279,10 +279,9 @@ class FanBox {
 	private function loadFromCache() {
 		global $wgMemc;
 
-		wfProfileIn( __METHOD__ );
 		$this->dataLoaded = false;
 
-		$key = wfMemcKey( 'fantag', 'page', $this->name );
+		$key = $wgMemc->makeKey( 'fantag', 'page', $this->name );
 		$data = $wgMemc->get( $key );
 
 		if ( !empty( $data ) && is_array( $data ) ) {
@@ -310,7 +309,6 @@ class FanBox {
 			wfIncrStats( 'fantag_cache_miss' );
 		}
 
-		wfProfileOut( __METHOD__ );
 		return $this->dataLoaded;
 	}
 
@@ -320,7 +318,7 @@ class FanBox {
 	private function saveToCache() {
 		global $wgMemc;
 
-		$key = wfMemcKey( 'fantag', 'page', $this->name );
+		$key = $wgMemc->makeKey( 'fantag', 'page', $this->name );
 		if ( $this->exists() ) {
 			$cachedValues = array(
 				'id' => $this->id,

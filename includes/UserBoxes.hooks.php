@@ -45,7 +45,7 @@ class UserBoxesHook {
 		$f = new UserFanBoxes( $user_name );
 
 		// Try cache
-		//$key = wfMemcKey( 'user', 'profile', 'fanboxes', $f->user_id );
+		//$key = $wgMemc->makeKey( 'user', 'profile', 'fanboxes', $f->user_id );
 		//$data = $wgMemc->get( $key );
 
 		//if ( !$data ) {
