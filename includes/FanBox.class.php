@@ -344,8 +344,6 @@ class FanBox {
 	}
 
 	function loadFromDB() {
-		wfProfileIn( __METHOD__ );
-
 		$dbw = wfGetDB( DB_MASTER );
 
 		$row = $dbw->selectRow(
@@ -380,7 +378,6 @@ class FanBox {
 
 		# Unconditionally set loaded=true, we don't want the accessors constantly rechecking
 		$this->dataLoaded = true;
-		wfProfileOut( __METHOD__ );
 	}
 
 	/**
