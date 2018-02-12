@@ -27,7 +27,7 @@ class TagCloud {
 				'LIMIT' => $this->limit
 			)
 		);
-		MediaWiki\suppressWarnings(); // prevent PHP from bitching about strtotime()
+		Wikimedia\suppressWarnings(); // prevent PHP from bitching about strtotime()
 		foreach ( $res as $row ) {
 			$tag_name = Title::makeTitle( NS_CATEGORY, $row->cat_title );
 			$tag_text = $tag_name->getText();
@@ -38,7 +38,7 @@ class TagCloud {
 				$this->tags[$tag_text] = array( 'count' => $row->cat_pages );
 			}
 		}
-		MediaWiki\restoreWarnings();
+		Wikimedia\restoreWarnings();
 
 		// sort tag array by key (tag name)
 		if ( $this->tags_highest_count == 0 ) {
