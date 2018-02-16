@@ -10,9 +10,6 @@
 	"license-name": "GPL-2.0-or-later",
 	"url": "https://www.mediawiki.org/wiki/Extension:FanBoxes",
 	"descriptionmsg": "fanbox-desc",
-	"requires": {
-		"MediaWiki": ">= 1.31.0"
-	},
 	"type": "other",
 	"config": {
 		"FanBoxPageDisplay": {
