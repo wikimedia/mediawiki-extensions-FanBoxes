@@ -48,8 +48,8 @@ class UserFanBoxes {
 		}
 
 		$res = $dbr->select(
-			array( 'fantag', 'user_fantag' ),
-			array(
+			[ 'fantag', 'user_fantag' ],
+			[
 				'fantag_id',
 				'fantag_title',
 				'fantag_left_text',
@@ -62,16 +62,16 @@ class UserFanBoxes {
 				'fantag_image_name',
 				'fantag_left_textsize',
 				'fantag_right_textsize'
-			),
-			array( 'userft_user_id' => $this->user_id ),
+			],
+			[ 'userft_user_id' => $this->user_id ],
 			__METHOD__,
 			$params,
-			array( 'user_fantag' => array( 'INNER JOIN', 'userft_fantag_id = fantag_id' ) )
+			[ 'user_fantag' => [ 'INNER JOIN', 'userft_fantag_id = fantag_id' ] ]
 		);
 
-		$userFanboxes = array();
+		$userFanboxes = [];
 		foreach ( $res as $row ) {
-			$userFanboxes[] = array(
+			$userFanboxes[] = [
 				'fantag_id' => $row->fantag_id,
 				'fantag_title' => $row->fantag_title,
 				'fantag_left_text' => $row->fantag_left_text,
@@ -83,7 +83,7 @@ class UserFanBoxes {
 				'fantag_image_name' => $row->fantag_image_name,
 				'fantag_left_textsize' => $row->fantag_left_textsize,
 				'fantag_right_textsize' => $row->fantag_right_textsize
-			);
+			];
 		}
 
 		return $userFanboxes;
@@ -95,16 +95,16 @@ class UserFanBoxes {
 	 *
 	 * @param $user_name String: name of the user whose fanbox count we want to
 	 *                           get
-	 * @return Integer: amount of fanboxes the user has, or 0 if they have none
+	 * @return Integer amount of fanboxes the user has, or 0 if they have none
 	 */
 	static function getFanBoxCountByUsername( $user_name ) {
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
 			'user_fantag',
-			array( 'COUNT(*) AS count' ),
-			array( 'userft_user_name' => $user_name ),
+			[ 'COUNT(*) AS count' ],
+			[ 'userft_user_name' => $user_name ],
 			__METHOD__,
-			array( 'LIMIT' => 1 )
+			[ 'LIMIT' => 1 ]
 		);
 		$row = $dbw->fetchObject( $res );
 		$user_fanbox_count = 0;
@@ -119,18 +119,18 @@ class UserFanBoxes {
 	 * Remove fanbox
 	 *
 	 * @param $userft_fantag_id Integer: user ID number
-	 * @return Integer:
+	 * @return Integer
 	 */
 	public function checkIfUserHasFanbox( $userft_fantag_id ) {
 		global $wgUser;
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
 			'user_fantag',
-			array( 'COUNT(*) AS count' ),
-			array(
+			[ 'COUNT(*) AS count' ],
+			[
 				'userft_user_name' => $wgUser->getName(),
 				'userft_fantag_id' => intval( $userft_fantag_id )
-			),
+			],
 			__METHOD__
 		);
 		$row = $dbw->fetchObject( $res );

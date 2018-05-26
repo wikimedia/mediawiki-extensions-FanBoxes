@@ -40,8 +40,7 @@ class ApiFanBoxes extends ApiBase {
 				!$addRemove || $addRemove === null || !$title || $title === null ||
 				!$individualFantagId || $individualFantagId === null
 			)
-		)
-		{
+		) {
 			$this->dieUsage( 'missingparam', 'qwerty' );
 		} elseif (
 			$what == 'messageAddRemoveUserPage' &&
@@ -49,8 +48,7 @@ class ApiFanBoxes extends ApiBase {
 				!$addRemove || $addRemove === null || !$individualFantagId || $individualFantagId === null ||
 				!$style || $style === null
 			)
-		)
-		{
+		) {
 			$this->dieUsage( 'missingparam', 'fsdf' );
 		}
 
@@ -71,7 +69,7 @@ class ApiFanBoxes extends ApiBase {
 
 		// Top level
 		$this->getResult()->addValue( null, $this->getModuleName(),
-			array( 'result' => $output )
+			[ 'result' => $output ]
 		);
 
 		return true;
@@ -97,7 +95,7 @@ class ApiFanBoxes extends ApiBase {
 				$out .= $fanbox->outputIfUserNotLoggedIn();
 			}
 
-			$out.= '<div class="show-individual-addremove-message">' .
+			$out .= '<div class="show-individual-addremove-message">' .
 				wfMessage( 'fanbox-successful-add' )->plain() .
 			'</div>';
 		}
@@ -117,7 +115,7 @@ class ApiFanBoxes extends ApiBase {
 				$out .= $fanbox->outputIfUserNotLoggedIn();
 			}
 
-			$out.= '<div class="show-individual-addremove-message">' .
+			$out .= '<div class="show-individual-addremove-message">' .
 				wfMessage( 'fanbox-successful-remove' )->plain() .
 			'</div>';
 		}
@@ -136,12 +134,12 @@ class ApiFanBoxes extends ApiBase {
 
 			$dbw->insert(
 				'user_fantag',
-				array(
+				[
 					'userft_fantag_id' => $id,
 					'userft_user_id' => $this->getUser()->getId(),
 					'userft_user_name' => $this->getUser()->getName(),
 					'userft_date' => date( 'Y-m-d H:i:s' ),
-				),
+				],
 				__METHOD__
 			);
 
@@ -155,10 +153,10 @@ class ApiFanBoxes extends ApiBase {
 
 			$dbw->delete(
 				'user_fantag',
-				array(
+				[
 					'userft_user_id' => $this->getUser()->getId(),
 					'userft_fantag_id' => $id
-				),
+				],
 				__METHOD__
 			);
 
@@ -171,8 +169,8 @@ class ApiFanBoxes extends ApiBase {
 		if ( $number == -1 || $number == +1 ) {
 			$dbw->update(
 				'fantag',
-				/* SET */array( "fantag_count = fantag_count+{$number}" ),
-				/* WHERE */array( 'fantag_id' => $id ),
+				/* SET */[ "fantag_count = fantag_count+{$number}" ],
+				/* WHERE */[ 'fantag_id' => $id ],
 				__METHOD__
 			);
 
@@ -185,7 +183,7 @@ class ApiFanBoxes extends ApiBase {
 	 * Check if there's already a FanBox with the given name.
 	 *
 	 * @param $page_name String: FanBox name to check
-	 * @return String: "OK" if the page can be created, else "Page exists"
+	 * @return String "OK" if the page can be created, else "Page exists"
 	 */
 	function checkTitleExistence( $page_name ) {
 		// Construct page title object to convert to Database Key
@@ -196,8 +194,8 @@ class ApiFanBoxes extends ApiBase {
 		$dbw = wfGetDB( DB_MASTER );
 		$s = $dbw->selectRow(
 			'page',
-			array( 'page_id' ),
-			array( 'page_title' => $dbKey, 'page_namespace' => NS_FANTAG ),
+			[ 'page_id' ],
+			[ 'page_title' => $dbKey, 'page_namespace' => NS_FANTAG ],
 			__METHOD__
 		);
 
@@ -212,33 +210,33 @@ class ApiFanBoxes extends ApiBase {
 	 * @return Array
 	 */
 	public function getAllowedParams() {
-		return array(
-			'what' => array(
+		return [
+			'what' => [
 				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_REQUIRED => true
-			),
-			'addRemove' => array(
+			],
+			'addRemove' => [
 				ApiBase::PARAM_TYPE => 'integer',
-			),
-			'fantagId' => array(
+			],
+			'fantagId' => [
 				ApiBase::PARAM_TYPE => 'integer',
-			),
-			'page_name' => array(
+			],
+			'page_name' => [
 				ApiBase::PARAM_TYPE => 'string',
-			),
-			'style' => array(
+			],
+			'style' => [
 				ApiBase::PARAM_TYPE => 'string',
-			),
-			'title' => array(
+			],
+			'title' => [
 				ApiBase::PARAM_TYPE => 'string',
-			),
-		);
+			],
+		];
 	}
 
 	protected function getExamplesMessages() {
-		return array(
+		return [
 			'action=fanboxes&what=checkTitleExistence&page_name=Foo bar'
 				=> 'apihelp-fanboxes-example-1',
-		);
+		];
 	}
 }

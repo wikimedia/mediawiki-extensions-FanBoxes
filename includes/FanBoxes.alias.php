@@ -6,26 +6,26 @@
  * @ingroup Extensions
  */
 
-$specialPageAliases = array();
+$specialPageAliases = [];
 
 /** English */
-$specialPageAliases['en'] = array(
-	'FanBoxAjaxUpload' => array( 'FanBoxAjaxUpload' ),
-	'UserBoxes' => array( 'UserBoxes' ),
-	'TopUserboxes' => array( 'TopUserboxes' ),
-	'ViewUserBoxes' => array( 'ViewUserBoxes' ),
-);
+$specialPageAliases['en'] = [
+	'FanBoxAjaxUpload' => [ 'FanBoxAjaxUpload' ],
+	'UserBoxes' => [ 'UserBoxes' ],
+	'TopUserboxes' => [ 'TopUserboxes' ],
+	'ViewUserBoxes' => [ 'ViewUserBoxes' ],
+];
 
 /** Finnish (Suomi) */
-$specialPageAliases['fi'] = array(
-	'UserBoxes' => array( 'Käyttäjälaatikot' ),
-	'TopUserboxes' => array( 'Suosituimmat käyttäjälaatikot' ),
-	'ViewUserBoxes' => array( 'Katso käyttäjälaatikkoja' ),
-);
+$specialPageAliases['fi'] = [
+	'UserBoxes' => [ 'Käyttäjälaatikot' ],
+	'TopUserboxes' => [ 'Suosituimmat käyttäjälaatikot' ],
+	'ViewUserBoxes' => [ 'Katso käyttäjälaatikkoja' ],
+];
 
 /** Dutch (Nederlands) */
-$specialPageAliases['nl'] = array(
-	'UserBoxes' => array( 'Gebruikers boxen' ),
-	'TopUserboxes' => array( 'Top gebruikers boxen' ),
-	'ViewUserBoxes' => array( 'Bekijk gebruikers boxen' ),
-);
+$specialPageAliases['nl'] = [
+	'UserBoxes' => [ 'Gebruikers boxen' ],
+	'TopUserboxes' => [ 'Top gebruikers boxen' ],
+	'ViewUserBoxes' => [ 'Bekijk gebruikers boxen' ],
+];

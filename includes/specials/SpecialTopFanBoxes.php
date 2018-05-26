@@ -401,22 +401,22 @@ class TopFanBoxes extends SpecialPage {
 
 		$res = $dbr->select(
 			'fantag',
-			array(
+			[
 				'fantag_id', 'fantag_title', 'fantag_pg_id', 'fantag_left_text',
 				'fantag_left_textcolor', 'fantag_left_bgcolor',
 				'fantag_right_text', 'fantag_right_textcolor',
 				'fantag_right_bgcolor', 'fantag_image_name',
 				'fantag_left_textsize', 'fantag_right_textsize', 'fantag_count',
 				'fantag_user_id', 'fantag_user_name', 'fantag_date'
-			),
-			array(),
+			],
+			[],
 			__METHOD__,
-			array( 'ORDER BY' => "$orderBy DESC", 'LIMIT' => 50 )
+			[ 'ORDER BY' => "$orderBy DESC", 'LIMIT' => 50 ]
 		);
 
-		$topFanboxes = array();
+		$topFanboxes = [];
 		foreach ( $res as $row ) {
-			$topFanboxes[] = array(
+			$topFanboxes[] = [
 				'fantag_id' => $row->fantag_id,
 				'fantag_title' => $row->fantag_title,
 				'fantag_pg_id' => $row->fantag_pg_id,
@@ -433,7 +433,7 @@ class TopFanBoxes extends SpecialPage {
 				'fantag_user_id' => $row->fantag_user_id,
 				'fantag_user_name' => $row->fantag_user_name,
 				'fantag_date' => $row->fantag_date,
-			);
+			];
 		}
 
 		return $topFanboxes;
@@ -443,11 +443,11 @@ class TopFanBoxes extends SpecialPage {
 		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select(
 			'user_fantag',
-			array( 'COUNT(*) AS count' ),
-			array(
+			[ 'COUNT(*) AS count' ],
+			[
 				'userft_user_name' => $this->getUser()->getName(),
 				'userft_fantag_id' => intval( $userft_fantag_id )
-			),
+			],
 			__METHOD__
 		);
 		$row = $dbr->fetchObject( $res );
@@ -462,8 +462,8 @@ class TopFanBoxes extends SpecialPage {
 		$dbr = wfGetDB( DB_MASTER );
 
 		$res = $dbr->select(
-			array( 'fantag', 'categorylinks' ),
-			array(
+			[ 'fantag', 'categorylinks' ],
+			[
 				'fantag_id', 'fantag_title', 'fantag_pg_id',
 				'fantag_left_text', 'fantag_left_textcolor',
 				'fantag_left_bgcolor', 'fantag_right_text',
@@ -471,16 +471,16 @@ class TopFanBoxes extends SpecialPage {
 				'fantag_image_name', 'fantag_left_textsize',
 				'fantag_right_textsize', 'fantag_count',
 				'fantag_user_id', 'fantag_user_name'
-			),
-			array( 'cl_to' => $category ),
+			],
+			[ 'cl_to' => $category ],
 			__METHOD__,
-			array( 'ORDER BY' => 'fantag_count DESC' ),
-			array( 'categorylinks' => array( 'INNER JOIN', 'cl_from = fantag_pg_id' ) )
+			[ 'ORDER BY' => 'fantag_count DESC' ],
+			[ 'categorylinks' => [ 'INNER JOIN', 'cl_from = fantag_pg_id' ] ]
 		);
 
-		$categoryFanboxes = array();
+		$categoryFanboxes = [];
 		foreach ( $res as $row ) {
-			$categoryFanboxes[] = array(
+			$categoryFanboxes[] = [
 				'fantag_id' => $row->fantag_id,
 				'fantag_title' => $row->fantag_title,
 				'fantag_pg_id' => $row->fantag_pg_id,
@@ -496,7 +496,7 @@ class TopFanBoxes extends SpecialPage {
 				'fantag_count' => $row->fantag_count,
 				'fantag_user_id' => $row->fantag_user_id,
 				'fantag_user_name' => $row->fantag_user_name,
-			);
+			];
 		}
 
 		return $categoryFanboxes;

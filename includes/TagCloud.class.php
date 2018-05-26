@@ -1,14 +1,14 @@
 <?php
 /**
  * @copyright Copyright © 2007, Wikia Inc.
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0-or-later
  */
 class TagCloud {
 	public $tags_min_pts = 8;
 	public $tags_max_pts = 32;
 	public $tags_highest_count = 0;
 	public $tags_size_type = 'pt';
-	public $tags = array();
+	public $tags = [];
 
 	public function __construct( $limit = 10 ) {
 		$this->limit = $limit;
@@ -19,13 +19,13 @@ class TagCloud {
 		$dbr = wfGetDB( DB_MASTER );
 		$res = $dbr->select(
 			'category',
-			array( 'cat_title', 'cat_pages' ),
-			array(),
+			[ 'cat_title', 'cat_pages' ],
+			[],
 			__METHOD__,
-			array(
+			[
 				'ORDER BY' => 'cat_pages DESC',
 				'LIMIT' => $this->limit
-			)
+			]
 		);
 		MediaWiki\suppressWarnings(); // prevent PHP from bitching about strtotime()
 		foreach ( $res as $row ) {
@@ -35,7 +35,7 @@ class TagCloud {
 				if ( $row->cat_pages > $this->tags_highest_count ) {
 					$this->tags_highest_count = $row->cat_pages;
 				}
-				$this->tags[$tag_text] = array( 'count' => $row->cat_pages );
+				$this->tags[$tag_text] = [ 'count' => $row->cat_pages ];
 			}
 		}
 		MediaWiki\restoreWarnings();

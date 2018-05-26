@@ -15,7 +15,7 @@ class UserBoxesHook {
 	 * @return bool
 	 */
 	public static function onParserFirstCallInit( &$parser ) {
-		$parser->setHook( 'userboxes', array( 'UserBoxesHook', 'renderUserBoxesHook' ) );
+		$parser->setHook( 'userboxes', [ 'UserBoxesHook', 'renderUserBoxesHook' ] );
 		return true;
 	}
 
@@ -45,17 +45,17 @@ class UserBoxesHook {
 		$f = new UserFanBoxes( $user_name );
 
 		// Try cache
-		//$key = $wgMemc->makeKey( 'user', 'profile', 'fanboxes', $f->user_id );
-		//$data = $wgMemc->get( $key );
+		// $key = $wgMemc->makeKey( 'user', 'profile', 'fanboxes', $f->user_id );
+		// $data = $wgMemc->get( $key );
 
-		//if ( !$data ) {
-		//	wfDebug( "Got profile fanboxes for user {$user_name} from DB\n" );
-		//	$fanboxes = $f->getUserFanboxes( 0, $limit );
-		//	$wgMemc->set( $key, $fanboxes );
-		//} else {
-		//	wfDebug( "Got profile fanboxes for user {$user_name} from cache\n" );
-		//	$fanboxes = $data;
-		//}
+		// if ( !$data ) {
+		// wfDebug( "Got profile fanboxes for user {$user_name} from DB\n" );
+		// $fanboxes = $f->getUserFanboxes( 0, $limit );
+		// $wgMemc->set( $key, $fanboxes );
+		// } else {
+		// wfDebug( "Got profile fanboxes for user {$user_name} from cache\n" );
+		// $fanboxes = $data;
+		// }
 
 		$fanboxes = $f->getUserFanboxes( 0, $limit );
 
@@ -130,11 +130,11 @@ class UserBoxesHook {
 				$permaLink = Linker::link(
 					$fantag_title,
 					wfMessage( 'fanbox-perma' )->plain(),
-					array(
+					[
 						'class' => 'perma',
 						'title' => $fanbox['fantag_title'],
 						'style' => 'font-size:8px; color:' . $fanbox['fantag_right_textcolor']
-					)
+					]
 				);
 
 				// Output fanboxes
@@ -207,7 +207,7 @@ class UserBoxesHook {
 				}
 
 				$output .= '</div></span><div class="visualClear"></div>';
-				//if ( $x == count( $fanboxes ) || $x != 1 && $x % $per_row == 0 ) $output .= '<div class="visualClear"></div>';
+				// if ( $x == count( $fanboxes ) || $x != 1 && $x % $per_row == 0 ) $output .= '<div class="visualClear"></div>';
 				$x++;
 			}
 

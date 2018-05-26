@@ -58,11 +58,11 @@ class FanBoxes extends SpecialPage {
 		}
 
 		// Extension's CSS & JS
-		$out->addModules( array(
+		$out->addModules( [
 			'ext.fanBoxes',
 			'ext.fanBoxes.colorpicker',
 			'ext.fanBoxes.createform'
-		) );
+		] );
 
 		// colorpicker
 		$out->addScript( "<script type=\"text/javascript\" src=\"http://yui.yahooapis.com/2.5.2/build/utilities/utilities.js\"></script>\n" );
@@ -85,7 +85,7 @@ class FanBoxes extends SpecialPage {
 			$res = $dbr->select(
 				'categorylinks',
 				'cl_to',
-				array( 'cl_from' => intval( $fanboxId ) ),
+				[ 'cl_from' => intval( $fanboxId ) ],
 				__METHOD__
 			);
 
@@ -95,8 +95,7 @@ class FanBoxes extends SpecialPage {
 					$row->cl_to != $fanboxCategory &&
 					// @todo FIXME: i18n
 					strpos( $row->cl_to, 'Userboxes_by_User_' ) === false
-				)
-				{
+				) {
 					$categories .= ( ( $categories ) ? ', ' : '' ) . $row->cl_to;
 				}
 			}
@@ -255,7 +254,7 @@ class FanBoxes extends SpecialPage {
 						<font size="1">(' . $this->msg( 'fanboxes-maxchars-sixty' )->plain() . ')</font><br />
 					</div>';
 			} else {
-				$output .= Html::hidden( 'wpTitle', $destination, array( 'id' => 'wpTitle' ) );
+				$output .= Html::hidden( 'wpTitle', $destination, [ 'id' => 'wpTitle' ] );
 			}
 
 			$output .= '<table class="fanBoxTable">
@@ -277,7 +276,7 @@ class FanBoxes extends SpecialPage {
 				</tr>
 			</table>' . "\n";
 
-			$output.= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-addtext' )->plain() . '</h2>
+			$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-addtext' )->plain() . '</h2>
 				<div class="create-fanbox-text">
 					<div id="fanbox-left-text">
 						<h3>' . $this->msg( 'fanbox-leftsidetext' )->plain() .

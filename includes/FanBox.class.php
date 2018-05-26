@@ -51,7 +51,7 @@ class FanBox {
 	 *
 	 * @param $name String: name of the fanbox, used to create a title object
 	 *                      using Title::makeTitleSafe
-	 * @return Mixed: new instance of FanBox for the constructed title or null
+	 * @return Mixed new instance of FanBox for the constructed title or null
 	 */
 	public static function newFromName( $name ) {
 		$title = Title::makeTitleSafe( NS_FANTAG, $name );
@@ -110,7 +110,7 @@ class FanBox {
 		# doesn't deadlock. SELECT FOR UPDATE causes a deadlock for every race condition.
 		$dbw->insert(
 			'fantag',
-			array(
+			[
 				'fantag_title' => $this->getName(),
 				'fantag_left_text' => $fantag_left_text,
 				'fantag_left_textcolor' => $fantag_left_textcolor,
@@ -125,7 +125,7 @@ class FanBox {
 				'fantag_image_name' => $fantag_image_name,
 				'fantag_left_textsize' => $fantag_left_textsize,
 				'fantag_right_textsize' => $fantag_right_textsize,
-			),
+			],
 			__METHOD__,
 			'IGNORE'
 		);
@@ -143,12 +143,12 @@ class FanBox {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->insert(
 			'user_fantag',
-			array(
+			[
 				'userft_fantag_id' => intval( $userft_fantag_id ),
 				'userft_user_id' => $wgUser->getID(),
 				'userft_user_name' => $wgUser->getName(),
 				'userft_date' => date( 'Y-m-d H:i:s' ),
-			),
+			],
 			__METHOD__
 		);
 	}
@@ -192,7 +192,7 @@ class FanBox {
 
 		$dbw->update(
 			'fantag',
-			array(
+			[
 				'fantag_left_text' => $fantag_left_text,
 				'fantag_left_textcolor' => $fantag_left_textcolor,
 				'fantag_left_bgcolor' => $fantag_left_bgcolor,
@@ -202,8 +202,8 @@ class FanBox {
 				'fantag_image_name' => $fantag_image_name,
 				'fantag_left_textsize' => $fantag_left_textsize,
 				'fantag_right_textsize' => $fantag_right_textsize,
-			),
-			array( 'fantag_pg_id' => intval( $fanboxId ) ),
+			],
+			[ 'fantag_pg_id' => intval( $fanboxId ) ],
 			__METHOD__
 		);
 		$key = $wgMemc->makeKey( 'fantag', 'page', $this->name );
@@ -239,10 +239,10 @@ class FanBox {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->delete(
 			'user_fantag',
-			array(
+			[
 				'userft_user_name' => $wgUser->getName(),
 				'userft_fantag_id' => intval( $userft_fantag_id )
-			),
+			],
 			__METHOD__
 		);
 	}
@@ -259,14 +259,14 @@ class FanBox {
 		$count = $dbw->selectField(
 			'fantag',
 			'fantag_count',
-			array( 'fantag_id' => $fanBoxId ),
+			[ 'fantag_id' => $fanBoxId ],
 			__METHOD__
 		);
 
 		$dbw->update(
 			'fantag',
-			array( "fantag_count = {$count}+{$number}" ),
-			array( 'fantag_id' => $fanBoxId ),
+			[ "fantag_count = {$count}+{$number}" ],
+			[ 'fantag_id' => $fanBoxId ],
 			__METHOD__
 		);
 	}
@@ -320,7 +320,7 @@ class FanBox {
 
 		$key = $wgMemc->makeKey( 'fantag', 'page', $this->name );
 		if ( $this->exists() ) {
-			$cachedValues = array(
+			$cachedValues = [
 				'id' => $this->id,
 				'lefttext' => $this->left_text,
 				'lefttextcolor' => $this->left_textcolor,
@@ -334,7 +334,7 @@ class FanBox {
 				'userid' => $this->user_id,
 				'username' => $this->user_name,
 				'pgid' => $this->pg_id
-			);
+			];
 			$wgMemc->set( $key, $cachedValues, 60 * 60 * 24 * 7 ); // A week
 		} else {
 			// However we should clear them, so they aren't leftover
@@ -348,15 +348,15 @@ class FanBox {
 
 		$row = $dbw->selectRow(
 			'fantag',
-			array(
+			[
 				'fantag_id', 'fantag_left_text',
 				'fantag_left_textcolor', 'fantag_left_bgcolor',
 				'fantag_user_id', 'fantag_user_name',
 				'fantag_right_text', 'fantag_right_textcolor',
 				'fantag_right_bgcolor', 'fantag_image_name',
 				'fantag_left_textsize', 'fantag_right_textsize', 'fantag_pg_id'
-			),
-			array( 'fantag_title' => $this->name ),
+			],
+			[ 'fantag_title' => $this->name ],
 			__METHOD__
 		);
 		if ( $row ) {
@@ -434,12 +434,12 @@ class FanBox {
 			$fantag_perma = Linker::link(
 				$fantag_title,
 				wfMessage( 'fanbox-perma' )->plain(),
-				array(
+				[
 					'class' => 'perma',
 					'style' => 'font-size:8px; color:' .
 						$this->getFanBoxRightTextColor(),
 					'title' => $this->name
-				)
+				]
 			);
 		}
 
@@ -489,11 +489,11 @@ class FanBox {
 		$dbw = wfGetDB( DB_MASTER );
 		$check_fanbox_count = $dbw->selectField(
 			'user_fantag',
-			array( 'COUNT(*) AS count' ),
-			array(
+			[ 'COUNT(*) AS count' ],
+			[
 				'userft_user_name' => $wgUser->getName(),
 				'userft_fantag_id' => $this->getFanBoxId()
-			),
+			],
 			__METHOD__
 		);
 
@@ -576,21 +576,21 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: the name of this fanbox
+	 * @return String the name of this fanbox
 	 */
 	public function getName() {
 		return $this->name;
 	}
 
 	/**
-	 * @return Object: the associated Title object
+	 * @return Object the associated Title object
 	 */
 	public function getTitle() {
 		return $this->title;
 	}
 
 	/**
-	 * @return Integer: the ID number of the fanbox
+	 * @return Integer the ID number of the fanbox
 	 */
 	public function getFanBoxId() {
 		$this->load();
@@ -598,7 +598,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: left-hand text of the fanbox
+	 * @return String left-hand text of the fanbox
 	 */
 	public function getFanBoxLeftText() {
 		$this->load();
@@ -606,7 +606,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: the color of the left-side text
+	 * @return String the color of the left-side text
 	 */
 	public function getFanBoxLeftTextColor() {
 		$this->load();
@@ -614,7 +614,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: background color of the left side
+	 * @return String background color of the left side
 	 */
 	public function getFanBoxLeftBgColor() {
 		$this->load();
@@ -622,7 +622,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: right-hand text of the fanbox
+	 * @return String right-hand text of the fanbox
 	 */
 	public function getFanBoxRightText() {
 		$this->load();
@@ -630,7 +630,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: text color of the right side text
+	 * @return String text color of the right side text
 	 */
 	public function getFanBoxRightTextColor() {
 		$this->load();
@@ -638,7 +638,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: background color of the right side
+	 * @return String background color of the right side
 	 */
 	public function getFanBoxRightBgColor() {
 		$this->load();
@@ -646,7 +646,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: URL to the fanbox image (if any), I think
+	 * @return String URL to the fanbox image (if any), I think
 	 */
 	public function getFanBoxImage() {
 		$this->load();
@@ -654,7 +654,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: size of the left-hand text
+	 * @return String size of the left-hand text
 	 */
 	public function getFanBoxLeftTextSize() {
 		$this->load();
@@ -662,7 +662,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: size of the right-hand text
+	 * @return String size of the right-hand text
 	 */
 	public function getFanBoxRightTextSize() {
 		$this->load();
@@ -670,7 +670,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return Integer: page ID for the current page
+	 * @return Integer page ID for the current page
 	 */
 	public function getFanBoxPageID() {
 		$this->load();
@@ -678,7 +678,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return Integer: user ID of the user who created this FanBox
+	 * @return Integer user ID of the user who created this FanBox
 	 */
 	public function getUserID() {
 		$this->load();
@@ -686,7 +686,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: name of the user who created this FanBox
+	 * @return String name of the user who created this FanBox
 	 */
 	public function getUserName() {
 		$this->load();
@@ -694,7 +694,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return Boolean: true if the FanBox exists, else false
+	 * @return Boolean true if the FanBox exists, else false
 	 */
 	public function exists() {
 		$this->load();
@@ -702,7 +702,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String: the embed code for the current fanbox
+	 * @return String the embed code for the current fanbox
 	 */
 	public function getEmbedThisCode() {
 		$embedtitle = Title::makeTitle( NS_FANTAG, $this->getName() )->getPrefixedDBkey();

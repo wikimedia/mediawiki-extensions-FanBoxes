@@ -43,22 +43,22 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 				|| $request->getCheck( 'wpUploadIgnoreWarning' ) );
 
 		// Guess the desired name from the filename if not provided
-		$this->mDesiredDestName   = $request->getText( 'wpDestFile' );
-		if( !$this->mDesiredDestName && $request->getFileName( 'wpUploadFile' ) !== null ) {
+		$this->mDesiredDestName = $request->getText( 'wpDestFile' );
+		if ( !$this->mDesiredDestName && $request->getFileName( 'wpUploadFile' ) !== null ) {
 			$this->mDesiredDestName = $request->getFileName( 'wpUploadFile' );
 		}
 		$this->mComment           = $request->getText( 'wpUploadDescription' );
 		$this->mLicense           = $request->getText( 'wpLicense' );
 
 		$this->mDestWarningAck    = $request->getText( 'wpDestFileWarningAck' );
-		$this->mIgnoreWarning     = true;//$request->getCheck( 'wpIgnoreWarning' ) || $request->getCheck( 'wpUploadIgnoreWarning' );
+		$this->mIgnoreWarning     = true;// $request->getCheck( 'wpIgnoreWarning' ) || $request->getCheck( 'wpUploadIgnoreWarning' );
 		$this->mWatchthis         = $request->getBool( 'wpWatchthis' ) && $this->getUser()->isLoggedIn();
 		$this->mCopyrightStatus   = $request->getText( 'wpUploadCopyStatus' );
 		$this->mCopyrightSource   = $request->getText( 'wpUploadSource' );
 
 		$this->mForReUpload       = $request->getBool( 'wpForReUpload' ); // updating a file
 		$this->mCancelUpload      = $request->getCheck( 'wpCancelUpload' )
-		                         || $request->getCheck( 'wpReUpload' ); // b/w compat
+								 || $request->getCheck( 'wpReUpload' ); // b/w compat
 
 		// If it was posted check for the token (no remote POST'ing with user credentials)
 		$token = $request->getVal( 'wpEditToken' );
@@ -138,14 +138,14 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 */
 	protected function getUploadForm( $message = '', $sessionKey = '', $hideIgnoreWarning = false ) {
 		# Initialize form
-		$form = new FanBoxAjaxUploadForm( array(
+		$form = new FanBoxAjaxUploadForm( [
 			'watch' => $this->getWatchCheck(),
 			'forreupload' => $this->mForReUpload,
 			'sessionkey' => $sessionKey,
 			'hideignorewarning' => $hideIgnoreWarning,
 			'destwarningack' => (bool)$this->mDestWarningAck,
 			'destfile' => $this->mDesiredDestName,
-		) );
+		] );
 		$form->setTitle( $this->getPageTitle() );
 
 		# Check the token, but only if necessary
@@ -233,9 +233,9 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 		$this->mLocalFile = $this->mUpload->getLocalFile();
 
 		// Check warnings if necessary
-		if( !$this->mIgnoreWarning ) {
+		if ( !$this->mIgnoreWarning ) {
 			$warnings = $this->mUpload->checkWarnings();
-			if( $this->showUploadWarning( $warnings ) ) {
+			if ( $this->showUploadWarning( $warnings ) ) {
 				return;
 			}
 		}
@@ -269,7 +269,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 		// The old version below, which initially used $this->mDesiredDestName
 		// instead of that getTitle() caused plenty o' fatals...the new version
 		// seems to be OK...I think.
-		//$img = wfFindFile( $this->mUpload->getTitle() );
+		// $img = wfFindFile( $this->mUpload->getTitle() );
 		$img = $this->mLocalFile;
 
 		if ( !$img ) {
@@ -281,7 +281,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 			);
 		}
 
-		$thumb = $img->transform( array( 'width' => $thumbWidth ) );
+		$thumb = $img->transform( [ 'width' => $thumbWidth ] );
 		$img_tag = $thumb->toHtml();
 		$slashedImgTag = addslashes( $img_tag );
 

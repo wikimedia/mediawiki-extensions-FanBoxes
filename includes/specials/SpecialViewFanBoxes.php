@@ -244,11 +244,11 @@ class ViewFanBoxes extends SpecialPage {
 				$output .= Linker::link(
 					$pageLink,
 					$this->msg( 'fanbox-prev' )->plain(),
-					array().
-					array(
+					[].
+					[
 						'user' => $user_name,
 						'page' => ( $page - 1 )
-					)
+					]
 				) . $this->msg( 'word-separator' )->plain();
 			}
 
@@ -271,11 +271,11 @@ class ViewFanBoxes extends SpecialPage {
 					$output .= Linker::link(
 						$pageLink,
 						$i,
-						array().
-						array(
+						[].
+						[
 							'user' => $user_name,
 							'page' => $i
-						)
+						]
 					) . $this->msg( 'word-separator' )->plain();
 				}
 			}
@@ -285,11 +285,11 @@ class ViewFanBoxes extends SpecialPage {
 					Linker::link(
 						$pageLink,
 						$this->msg( 'fanbox-next' )->plain(),
-						array().
-						array(
+						[].
+						[
 							'user' => $user_name,
 							'page' => ( $page + 1 )
-						)
+						]
 					);
 			}
 

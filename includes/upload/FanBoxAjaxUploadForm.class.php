@@ -9,7 +9,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 
 	protected $mSourceIds;
 
-	public function __construct( $options = array() ) {
+	public function __construct( $options = [] ) {
 		$this->mWatch = !empty( $options['watch'] );
 		$this->mForReUpload = !empty( $options['forreupload'] );
 		$this->mSessionKey = isset( $options['sessionkey'] )
@@ -24,7 +24,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 			+ $this->getDescriptionSection()
 			+ $this->getOptionsSection();
 
-		//Hooks::run( 'UploadFormInitDescriptor', array( &$descriptor ) );
+		// Hooks::run( 'UploadFormInitDescriptor', array( &$descriptor ) );
 		HTMLForm::__construct( $descriptor, 'upload' );
 
 		# Set some form properties
@@ -34,7 +34,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 		$this->setId( 'mw-upload-form' );
 
 		# Build a list of IDs for JavaScript insertion
-		$this->mSourceIds = array();
+		$this->mSourceIds = [];
 		foreach ( $sourceDescriptor as $key => $field ) {
 			if ( !empty( $field['id'] ) ) {
 				$this->mSourceIds[] = $field['id'];
@@ -58,7 +58,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 	 * either
 	 *
 	 * @param $html String: HTML contents to wrap.
-	 * @return String: wrapped HTML.
+	 * @return String wrapped HTML.
 	 */
 	function wrapForm( $html ) {
 		# Include a <fieldset> wrapper for style, if requested.
@@ -70,13 +70,13 @@ class FanBoxAjaxUploadForm extends UploadForm {
 			? 'multipart/form-data'
 			: 'application/x-www-form-urlencoded';
 		# Attributes
-		$attribs = array(
+		$attribs = [
 			'action'  => $this->getTitle()->getFullURL(),
 			'method'  => 'post',
 			'class'   => 'visualClear',
 			'enctype' => $encType,
 			'onsubmit' => 'submitForm()' // changed
-		);
+		];
 		if ( !empty( $this->mId ) ) {
 			$attribs['id'] = $this->mId;
 		}
@@ -103,24 +103,24 @@ class FanBoxAjaxUploadForm extends UploadForm {
 	 */
 	protected function getSourceSection() {
 		if ( $this->mSessionKey ) {
-			return array(
-				'wpSessionKey' => array(
+			return [
+				'wpSessionKey' => [
 					'type' => 'hidden',
 					'default' => $this->mSessionKey,
-				),
-				'wpSourceType' => array(
+				],
+				'wpSourceType' => [
 					'type' => 'hidden',
 					'default' => 'Stash',
-				),
-			);
+				],
+			];
 		}
 
 		$canUploadByUrl = UploadFromUrl::isEnabled() && $this->getUser()->isAllowed( 'upload_by_url' );
 		$radio = $canUploadByUrl;
 		$selectedSourceType = strtolower( $this->getRequest()->getText( 'wpSourceType', 'File' ) );
 
-		$descriptor = array();
-		$descriptor['UploadFile'] = array(
+		$descriptor = [];
+		$descriptor['UploadFile'] = [
 			'class' => 'UploadSourceField',
 			'section' => 'source',
 			'type' => 'file',
@@ -130,9 +130,9 @@ class FanBoxAjaxUploadForm extends UploadForm {
 			'radio' => &$radio,
 			// help removed, we don't need any tl,dr on this mini-upload form
 			'checked' => $selectedSourceType == 'file',
-		);
+		];
 		if ( $canUploadByUrl ) {
-			$descriptor['UploadFileURL'] = array(
+			$descriptor['UploadFileURL'] = [
 				'class' => 'UploadSourceField',
 				'section' => 'source',
 				'id' => 'wpUploadFileURL',
@@ -140,7 +140,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 				'upload-type' => 'url',
 				'radio' => &$radio,
 				'checked' => $selectedSourceType == 'url',
-			);
+			];
 		}
 
 		return $descriptor;
@@ -157,8 +157,8 @@ class FanBoxAjaxUploadForm extends UploadForm {
 	 * @return array Descriptor array
 	 */
 	protected function getDescriptionSection() {
-		$descriptor = array(
-			'DestFile' => array(
+		$descriptor = [
+			'DestFile' => [
 				'type' => 'hidden',
 				'id' => 'wpDestFile',
 				'size' => 60,
@@ -166,23 +166,23 @@ class FanBoxAjaxUploadForm extends UploadForm {
 				# FIXME: hack to work around poor handling of the 'default' option in HTMLForm
 				'nodata' => strval( $this->mDestFile ) !== '',
 				'readonly' => true // users do not need to change the file name; normally this is true only when reuploading
-			)
-		);
+			]
+		];
 
 		global $wgUseCopyrightUpload;
 		if ( $wgUseCopyrightUpload ) {
-			$descriptor['UploadCopyStatus'] = array(
+			$descriptor['UploadCopyStatus'] = [
 				'type' => 'text',
 				'section' => 'description',
 				'id' => 'wpUploadCopyStatus',
 				'label-message' => 'filestatus',
-			);
-			$descriptor['UploadSource'] = array(
+			];
+			$descriptor['UploadSource'] = [
 				'type' => 'text',
 				'section' => 'description',
 				'id' => 'wpUploadSource',
 				'label-message' => 'filesource',
-			);
+			];
 		}
 
 		return $descriptor;
@@ -195,20 +195,20 @@ class FanBoxAjaxUploadForm extends UploadForm {
 	 * @return array Descriptor array
 	 */
 	protected function getOptionsSection() {
-		$descriptor = array();
+		$descriptor = [];
 
-		$descriptor['wpDestFileWarningAck'] = array(
+		$descriptor['wpDestFileWarningAck'] = [
 			'type' => 'hidden',
 			'id' => 'wpDestFileWarningAck',
 			'default' => $this->mDestWarningAck ? '1' : '',
-		);
+		];
 
 		if ( $this->mForReUpload ) {
-			$descriptor['wpForReUpload'] = array(
+			$descriptor['wpForReUpload'] = [
 				'type' => 'hidden',
 				'id' => 'wpForReUpload',
 				'default' => '1',
-			);
+			];
 		}
 
 		return $descriptor;

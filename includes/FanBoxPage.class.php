@@ -8,7 +8,7 @@
 class FanBoxPage extends Article {
 
 	public $title = null;
-	public $authors = array();
+	public $authors = [];
 
 	/**
 	 * @var FanBox: FanBox for the current Title
@@ -85,7 +85,7 @@ class FanBoxPage extends Article {
 	/**
 	 * Get the users who have the current fanbox.
 	 *
-	 * @return Array: array containing the users' names and IDs or an empty
+	 * @return Array array containing the users' names and IDs or an empty
 	 *                array
 	 */
 	function getFanBoxHolders() {
@@ -113,13 +113,13 @@ class FanBoxPage extends Article {
 				WHERE user_fantag.userft_fantag_id = fantag.fantag_id AND fantag.fantag_pg_id = {$pageTitleId}";
 		$res = $dbr->query( $sql, __METHOD__ );
 
-		$fanboxHolders = array();
+		$fanboxHolders = [];
 
 		foreach ( $res as $row ) {
-			$fanboxHolders[] = array(
+			$fanboxHolders[] = [
 				'userft_user_name' => $row->userft_user_name,
 				'userft_user_id' => $row->userft_user_id
-			);
+			];
 		};
 
 		return $fanboxHolders;
@@ -129,7 +129,7 @@ class FanBoxPage extends Article {
 	 * Get the users who have the current fanbox from the database and output
 	 * their avatars.
 	 *
-	 * @return String: HTML
+	 * @return String HTML
 	 */
 	function fanBoxHolders() {
 		$output = '';
@@ -151,7 +151,7 @@ class FanBoxPage extends Article {
 	/**
 	 * Get the wikitext code for embedding this fanbox on a wiki page.
 	 *
-	 * @return String: HTML
+	 * @return String HTML
 	 */
 	public function getEmbedThisTag() {
 		$code = $this->fan->getEmbedThisCode();
