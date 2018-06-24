@@ -244,7 +244,7 @@ class ViewFanBoxes extends SpecialPage {
 				$output .= Linker::link(
 					$pageLink,
 					$this->msg( 'fanbox-prev' )->plain(),
-					[].
+					[],
 					[
 						'user' => $user_name,
 						'page' => ( $page - 1 )
@@ -271,7 +271,7 @@ class ViewFanBoxes extends SpecialPage {
 					$output .= Linker::link(
 						$pageLink,
 						$i,
-						[].
+						[],
 						[
 							'user' => $user_name,
 							'page' => $i
@@ -285,7 +285,7 @@ class ViewFanBoxes extends SpecialPage {
 					Linker::link(
 						$pageLink,
 						$this->msg( 'fanbox-next' )->plain(),
-						[].
+						[],
 						[
 							'user' => $user_name,
 							'page' => ( $page + 1 )
