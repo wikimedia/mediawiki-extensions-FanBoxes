@@ -23,7 +23,7 @@ class FanBoxPage extends Article {
 		global $wgOut, $wgUser;
 
 		// Add JS
-		$wgOut->addModuleScripts( 'ext.fanBoxes' );
+		$wgOut->addModules( 'ext.fanBoxes' );
 
 		// Set the page title
 		$wgOut->setHTMLTitle( $this->getTitle()->getText() );
