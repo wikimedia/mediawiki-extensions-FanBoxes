@@ -92,26 +92,14 @@ class FanBoxPage extends Article {
 		$pageTitleId = $this->getTitle()->getArticleID();
 
 		$dbr = wfGetDB( DB_REPLICA );
-		/* I don't know how the Database class handles the DISTINCT keyword,
-		but it won't do a join without the ON part, sadly; see
-		DatabaseBase::tableNamesWithUseIndexOrJOIN() which is where it forces
-		the ON crap on us (pun not intended, I swear)
 		$res = $dbr->select(
-			array( 'user_fantag', 'fantag' ),
-			array( 'DISTINCT userft_user_name', 'userft_user_id' ),
-			array(
-				'userft_fantag_id = fantag_id',
-				'fantag_pg_id' => $pageTitleId
-			),
+			[ 'user_fantag', 'fantag' ],
+			[ 'DISTINCT userft_user_name', 'userft_user_id' ],
+			[ 'fantag_pg_id' => $pageTitleId ],
 			__METHOD__,
-			array(),
-			array( 'fantag' => array( 'INNER JOIN' ) )
+			[],
+			[ 'fantag' => [ 'INNER JOIN', 'userft_fantag_id = fantag_id' ] ]
 		);
-		*/
-		$sql = "SELECT DISTINCT userft_user_name, userft_user_id
-				FROM {$dbr->tableName( 'user_fantag' )} INNER JOIN {$dbr->tableName( 'fantag' )}
-				WHERE user_fantag.userft_fantag_id = fantag.fantag_id AND fantag.fantag_pg_id = {$pageTitleId}";
-		$res = $dbr->query( $sql, __METHOD__ );
 
 		$fanboxHolders = [];
 
@@ -120,7 +108,7 @@ class FanBoxPage extends Article {
 				'userft_user_name' => $row->userft_user_name,
 				'userft_user_id' => $row->userft_user_id
 			];
-		};
+		}
 
 		return $fanboxHolders;
 	}
