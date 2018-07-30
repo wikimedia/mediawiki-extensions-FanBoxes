@@ -82,6 +82,10 @@ input[name="countdown"] {
 	width: 350px;
 }
 
+#inputLeftSide {
+	width: 85%;
+}
+
 #inputRightSide {
 	width: 350px;
 }
