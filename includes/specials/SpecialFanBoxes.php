@@ -420,7 +420,7 @@ class FanBoxes extends SpecialPage {
 		$output .= '<div class="create-category-title">';
 		$output .= '<h2 class="fanbox-form-label">' . $categoriesLabel . '</h2>';
 		$output .= '</div>';
-		$output .= '<div class="categorytext">' . $categoriesHelpText. '</div>';
+		$output .= '<div class="categorytext">' . $categoriesHelpText . '</div>';
 		$output .= $tagcloud;
 		$output .= '<textarea class="createbox" tabindex="' . $tabcounter . '" accesskey="," name="pageCtg" id="pageCtg" rows="2" cols="80">' .
 			$categories . '</textarea><br /><br />';
