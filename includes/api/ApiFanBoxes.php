@@ -4,8 +4,7 @@
  *
  * @file
  * @ingroup API
- * @date 29 August 2013
- * @see http://www.mediawiki.org/wiki/API:Extensions#ApiSampleApiExtension.php
+ * @see https://www.mediawiki.org/wiki/API:Extensions#ApiSampleApiExtension.php
  */
 class ApiFanBoxes extends ApiBase {
 
@@ -27,13 +26,15 @@ class ApiFanBoxes extends ApiBase {
 
 		// Ensure that we know what to do...
 		if ( !$what || $what === null ) {
-			$this->dieUsageMsg( 'missingparam' );
+			$this->dieWithError( [ 'apierror-missingparam', 'what' ], 'missingparam' );
 		}
 
 		// Ensure that we have all the parameters required by each respective
 		// sub-function, too
 		if ( $what == 'checkTitleExistence' && ( !$pageName || $pageName === null ) ) {
-			$this->dieUsage( 'missingparam', 'asdf' );
+			// Hmm, apparently this is not properly dying if page_name param is empty:
+			// $this->requireAtLeastOneParameter( $params, 'page_name' );
+			$this->dieWithError( [ 'apierror-missingparam', 'page_name' ], 'missingparam-titlecheck' );
 		} elseif (
 			$what == 'showAddRemoveMessage' &&
 			(
@@ -41,7 +42,7 @@ class ApiFanBoxes extends ApiBase {
 				!$individualFantagId || $individualFantagId === null
 			)
 		) {
-			$this->dieUsage( 'missingparam', 'qwerty' );
+			$this->requireAtLeastOneParameter( $params, 'addRemove', 'title', 'fantagId' );
 		} elseif (
 			$what == 'messageAddRemoveUserPage' &&
 			(
@@ -49,7 +50,7 @@ class ApiFanBoxes extends ApiBase {
 				!$style || $style === null
 			)
 		) {
-			$this->dieUsage( 'missingparam', 'fsdf' );
+			$this->requireAtLeastOneParameter( $params, 'addRemove', 'fantagId', 'style' );
 		}
 
 		switch ( $what ) {
