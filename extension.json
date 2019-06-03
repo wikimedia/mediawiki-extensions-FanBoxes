@@ -100,16 +100,18 @@
 			"styles": "resources/css/FanBoxes.css",
 			"scripts": "resources/js/FanBoxes.js",
 			"messages": [
-				"fanbox-mustenter-left", "fanbox-mustenter-right",
-				"fanbox-mustenter-right-or", "fanbox-mustenter-title", "fanbox-hash",
-				"fanbox-choose-another", "fanbox-upload-new-image",
+				"fanbox-mustenter-left",
+				"fanbox-mustenter-right",
+				"fanbox-mustenter-right-or",
+				"fanbox-mustenter-title",
+				"fanbox-hash",
+				"fanbox-choose-another",
+				"fanbox-upload-new-image",
 				"fan-addfan-exists"
-			],
-			"position": "top"
+			]
 		},
 		"ext.fanBoxes.createform": {
-			"styles": "resources/css/SpecialFanBoxes.css",
-			"position": "top"
+			"styles": "resources/css/SpecialFanBoxes.css"
 		},
 		"ext.fanBoxes.colorpicker": {
 			"scripts": "resources/js/color-picker.js"
