@@ -76,7 +76,7 @@ class FanBoxPage extends Article {
 		global $wgFanBoxPageDisplay;
 		// Display comments, if we want to display those.
 		if ( $wgFanBoxPageDisplay['comments'] ) {
-			$wgOut->addWikiText( '<comments/>' );
+			$wgOut->addWikiTextAsInterface( '<comments/>' );
 		}
 
 		parent::view();
