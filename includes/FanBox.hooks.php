@@ -78,9 +78,8 @@ class FanBoxHooks {
 	 * @return Boolean true
 	 */
 	public static function transformFanBoxTags( &$parser, &$text, &$strip_state ) {
-		global $wgContLang;
-
-		$fantitle = $wgContLang->getNsText( NS_FANTAG );
+		$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+		$fantitle = $contLang->getNsText( NS_FANTAG );
 		$pattern = "@(\[\[$fantitle)([^\]]*?)].*?\]@si";
 		$text = preg_replace_callback( $pattern, 'FanBoxHooks::renderFanBoxTag', $text );
 

@@ -71,7 +71,7 @@ class FanBox {
 		$fantag_right_textcolor, $fantag_right_bgcolor, $fantag_image_name,
 		$fantag_left_textsize, $fantag_right_textsize, $categories
 	) {
-		global $wgUser, $wgContLang;
+		global $wgUser;
 
 		$dbw = wfGetDB( DB_MASTER );
 
@@ -82,9 +82,10 @@ class FanBox {
 		$categories_wiki = '';
 		if ( $categories ) {
 			$categories_a = explode( ',', $categories );
+			$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
 			foreach ( $categories_a as $category ) {
 				$categories_wiki .= '[[' .
-					$wgContLang->getNsText( NS_CATEGORY ) . ':' .
+					$contLang->getNsText( NS_CATEGORY ) . ':' .
 					trim( $category ) . "]]\n";
 			}
 		}
@@ -169,13 +170,14 @@ class FanBox {
 	}
 
 	public function getBaseCategories() {
-		global $wgUser, $wgContLang;
+		global $wgUser;
 		$creator = $this->getUserName();
 		if ( !$creator ) {
 			$creator = $wgUser->getName();
 		}
+		$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
 		$ctg = '{{DEFAULTSORT:{{PAGENAME}}}}';
-		$ctg .= '[[' . $wgContLang->getNsText( NS_CATEGORY ) . ':' .
+		$ctg .= '[[' . $contLang->getNsText( NS_CATEGORY ) . ':' .
 			wfMessage( 'fanbox-userbox-category' )->inContentLanguage()->parse() . "]]\n";
 		return $ctg;
 	}
@@ -186,7 +188,7 @@ class FanBox {
 		$fantag_right_bgcolor, $fantag_image_name, $fantag_left_textsize,
 		$fantag_right_textsize, $fanboxId, $categories
 	) {
-		global $wgMemc, $wgContLang;
+		global $wgMemc;
 
 		$dbw = wfGetDB( DB_MASTER );
 
@@ -212,8 +214,9 @@ class FanBox {
 		$categories_wiki = '';
 		if ( $categories ) {
 			$categories_a = explode( ',', $categories );
+			$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
 			foreach ( $categories_a as $category ) {
-				$categories_wiki .= '[[' . $wgContLang->getNsText( NS_CATEGORY ) .
+				$categories_wiki .= '[[' . $contLang->getNsText( NS_CATEGORY ) .
 					':' . trim( $category ) . "]]\n";
 			}
 		}
