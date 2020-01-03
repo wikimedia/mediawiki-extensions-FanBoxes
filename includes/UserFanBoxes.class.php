@@ -8,8 +8,10 @@
  */
 class UserFanBoxes {
 
-	public $user_id;	# Text form (spaces not underscores) of the main part
-	public $user_name;	# Text form (spaces not underscores) of the main part
+	/**
+	 * @var int Actor ID number
+	 */
+	public $actor;
 
 	/**
 	 * Constructor
@@ -19,9 +21,7 @@ class UserFanBoxes {
 	 * @private
 	 */
 	/* private */ function __construct( $username ) {
-		$title1 = Title::newFromDBkey( $username );
-		$this->user_name = $title1->getText();
-		$this->user_id = User::idFromName( $this->user_name );
+		$this->actor = User::newFromName( $username )->getActorId();
 	}
 
 	/**
@@ -63,7 +63,7 @@ class UserFanBoxes {
 				'fantag_left_textsize',
 				'fantag_right_textsize'
 			],
-			[ 'userft_user_id' => $this->user_id ],
+			[ 'userft_actor' => $this->actor ],
 			__METHOD__,
 			$params,
 			[ 'user_fantag' => [ 'INNER JOIN', 'userft_fantag_id = fantag_id' ] ]
@@ -99,10 +99,11 @@ class UserFanBoxes {
 	 */
 	static function getFanBoxCountByUsername( $user_name ) {
 		$dbw = wfGetDB( DB_MASTER );
+		$actorId = User::newFromName( $user_name )->getActorId();
 		$res = $dbw->select(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
-			[ 'userft_user_name' => $user_name ],
+			[ 'userft_actor' => $actorId ],
 			__METHOD__,
 			[ 'LIMIT' => 1 ]
 		);
@@ -128,7 +129,7 @@ class UserFanBoxes {
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
 			[
-				'userft_user_name' => $wgUser->getName(),
+				'userft_actor' => $wgUser->getActorId(),
 				'userft_fantag_id' => intval( $userft_fantag_id )
 			],
 			__METHOD__

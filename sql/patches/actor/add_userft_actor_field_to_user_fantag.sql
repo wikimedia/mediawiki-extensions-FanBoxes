@@ -1,0 +1,1 @@
+ALTER TABLE /*_*/user_fantag ADD COLUMN userft_actor bigint unsigned NOT NULL AFTER userft_fantag_id;

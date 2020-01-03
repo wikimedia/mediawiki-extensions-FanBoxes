@@ -14,7 +14,7 @@ class FanBox {
 		$type,
 		$fantag_id,
 		$fantag_title,
-		$user_name,
+		$actor,
 		$left_text,
 		$left_textcolor,
 		$left_bgcolor,
@@ -121,8 +121,7 @@ class FanBox {
 				'fantag_right_bgcolor' => $fantag_right_bgcolor,
 				'fantag_date' => date( 'Y-m-d H:i:s' ),
 				'fantag_pg_id' => $article->getID(),
-				'fantag_user_id' => $wgUser->getID(),
-				'fantag_user_name' => $wgUser->getName(),
+				'fantag_actor' => $wgUser->getActorId(),
 				'fantag_image_name' => $fantag_image_name,
 				'fantag_left_textsize' => $fantag_left_textsize,
 				'fantag_right_textsize' => $fantag_right_textsize,
@@ -146,8 +145,7 @@ class FanBox {
 			'user_fantag',
 			[
 				'userft_fantag_id' => intval( $userft_fantag_id ),
-				'userft_user_id' => $wgUser->getID(),
-				'userft_user_name' => $wgUser->getName(),
+				'userft_actor' => $wgUser->getActorId(),
 				'userft_date' => date( 'Y-m-d H:i:s' ),
 			],
 			__METHOD__
@@ -171,14 +169,16 @@ class FanBox {
 
 	public function getBaseCategories() {
 		global $wgUser;
-		$creator = $this->getUserName();
+		$creator = $this->getActor();
 		if ( !$creator ) {
 			$creator = $wgUser->getName();
+		} else {
+			$creator = User::newFromActorId( $creator )->getName();
 		}
 		$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
 		$ctg = '{{DEFAULTSORT:{{PAGENAME}}}}';
 		$ctg .= '[[' . $contLang->getNsText( NS_CATEGORY ) . ':' .
-			wfMessage( 'fanbox-userbox-category' )->inContentLanguage()->parse() . "]]\n";
+			wfMessage( 'fanbox-userbox-category', $creator )->inContentLanguage()->parse() . "]]\n";
 		return $ctg;
 	}
 
@@ -243,7 +243,7 @@ class FanBox {
 		$dbw->delete(
 			'user_fantag',
 			[
-				'userft_user_name' => $wgUser->getName(),
+				'userft_actor' => $wgUser->getActorId(),
 				'userft_fantag_id' => intval( $userft_fantag_id )
 			],
 			__METHOD__
@@ -299,8 +299,7 @@ class FanBox {
 			$this->left_textsize = $data['lefttextsize'];
 			$this->right_textsize = $data['righttextsize'];
 			$this->pg_id = $data['pgid'];
-			$this->user_id = $data['userid'];
-			$this->user_name = $data['username'];
+			$this->actor = $data['actor'];
 			$this->dataLoaded = true;
 			$this->exists = true;
 		}
@@ -334,8 +333,7 @@ class FanBox {
 				'fantagimage' => $this->fantag_image,
 				'lefttextsize' => $this->left_textsize,
 				'righttextsize' => $this->right_textsize,
-				'userid' => $this->user_id,
-				'username' => $this->user_name,
+				'actor' => $this->actor,
 				'pgid' => $this->pg_id
 			];
 			$wgMemc->set( $key, $cachedValues, 60 * 60 * 24 * 7 ); // A week
@@ -354,7 +352,7 @@ class FanBox {
 			[
 				'fantag_id', 'fantag_left_text',
 				'fantag_left_textcolor', 'fantag_left_bgcolor',
-				'fantag_user_id', 'fantag_user_name',
+				'fantag_actor',
 				'fantag_right_text', 'fantag_right_textcolor',
 				'fantag_right_bgcolor', 'fantag_image_name',
 				'fantag_left_textsize', 'fantag_right_textsize', 'fantag_pg_id'
@@ -375,8 +373,7 @@ class FanBox {
 			$this->left_textsize = $row->fantag_left_textsize;
 			$this->right_textsize = $row->fantag_right_textsize;
 			$this->pg_id = $row->fantag_pg_id;
-			$this->user_id = $row->fantag_user_id;
-			$this->user_name = $row->fantag_user_name;
+			$this->actor = $row->fantag_actor;
 		}
 
 		# Unconditionally set loaded=true, we don't want the accessors constantly rechecking
@@ -434,7 +431,7 @@ class FanBox {
 		if ( $this->getFanBoxPageID() == $this->title->getArticleID() ) {
 			$fantag_perma = '';
 		} else {
-			$fantag_perma = Linker::link(
+			$fantag_perma = MediaWiki\MediaWikiServices::getInstance()->getLinkRenderer()->makeLink(
 				$fantag_title,
 				wfMessage( 'fanbox-perma' )->plain(),
 				[
@@ -494,7 +491,7 @@ class FanBox {
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
 			[
-				'userft_user_name' => $wgUser->getName(),
+				'userft_actor' => $wgUser->getActorId(),
 				'userft_fantag_id' => $this->getFanBoxId()
 			],
 			__METHOD__
@@ -681,19 +678,11 @@ class FanBox {
 	}
 
 	/**
-	 * @return Integer user ID of the user who created this FanBox
+	 * @return int Actor ID of the user who created this FanBox
 	 */
-	public function getUserID() {
+	public function getActor() {
 		$this->load();
-		return $this->user_id;
-	}
-
-	/**
-	 * @return String name of the user who created this FanBox
-	 */
-	public function getUserName() {
-		$this->load();
-		return $this->user_name;
+		return $this->actor;
 	}
 
 	/**

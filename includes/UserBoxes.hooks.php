@@ -45,6 +45,10 @@ class UserBoxesHook {
 		$f = new UserFanBoxes( $user_name );
 
 		// Try cache
+		// @todo If this is ever uncommented:
+		// 1) $f->user_id needs to be changed to $f->actor
+		// 2) and the similar change needs to be done to SocialProfile's UserProfile/includes/UserProfilePage.php
+		// to keep the cache keys in sync
 		// $key = $wgMemc->makeKey( 'user', 'profile', 'fanboxes', $f->user_id );
 		// $data = $wgMemc->get( $key );
 
@@ -127,7 +131,7 @@ class UserBoxesHook {
 				);
 				$right_text = $right_text->getText();
 
-				$permaLink = Linker::link(
+				$permaLink = MediaWiki\MediaWikiServices::getInstance()->getLinkRenderer()->makeLink(
 					$fantag_title,
 					wfMessage( 'fanbox-perma' )->plain(),
 					[

@@ -1,6 +1,6 @@
 {
 	"name": "FanBoxes",
-	"version": "3.4.0",
+	"version": "3.5.0",
 	"author": [
 		"Aaron Wright",
 		"David Pean",
@@ -12,7 +12,7 @@
 	"descriptionmsg": "fanbox-desc",
 	"type": "other",
 	"requires": {
-		"MediaWiki": ">= 1.32.0"
+		"MediaWiki": ">= 1.34.0"
 	},
 	"config": {
 		"FanBoxPageDisplay": {
@@ -50,6 +50,7 @@
 		"FanBoxesNamespaces": "includes/FanBoxes.namespaces.php"
 	},
 	"AutoloadClasses": {
+		"MigrateOldFanBoxesUserColumnsToActor": "maintenance/migrateOldFanBoxesUserColumnsToActor.php",
 		"ApiFanBoxes": "includes/api/ApiFanBoxes.php",
 		"FanBox": "includes/FanBox.class.php",
 		"SpecialFanBoxAjaxUpload": "includes/specials/SpecialFanBoxAjaxUpload.php",
@@ -82,10 +83,7 @@
 			"FanBoxHooks::transformFanBoxTags"
 		],
 		"LoadExtensionSchemaUpdates": [
-			"FanBoxHooks::addTables"
-		],
-		"RenameUserSQL": [
-			"FanBoxHooks::onUserRename"
+			"FanBoxHooks::onLoadExtensionSchemaUpdates"
 		],
 		"CanonicalNamespaces": [
 			"FanBoxHooks::onCanonicalNamespaces"

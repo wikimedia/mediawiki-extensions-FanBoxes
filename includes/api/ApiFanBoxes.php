@@ -137,8 +137,7 @@ class ApiFanBoxes extends ApiBase {
 				'user_fantag',
 				[
 					'userft_fantag_id' => $id,
-					'userft_user_id' => $this->getUser()->getId(),
-					'userft_user_name' => $this->getUser()->getName(),
+					'userft_actor' => $this->getUser()->getActorId(),
 					'userft_date' => date( 'Y-m-d H:i:s' ),
 				],
 				__METHOD__
@@ -155,7 +154,7 @@ class ApiFanBoxes extends ApiBase {
 			$dbw->delete(
 				'user_fantag',
 				[
-					'userft_user_id' => $this->getUser()->getId(),
+					'userft_actor' => $this->getUser()->getActorId(),
 					'userft_fantag_id' => $id
 				],
 				__METHOD__

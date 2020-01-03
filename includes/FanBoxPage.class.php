@@ -94,7 +94,7 @@ class FanBoxPage extends Article {
 		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select(
 			[ 'user_fantag', 'fantag' ],
-			[ 'DISTINCT userft_user_name', 'userft_user_id' ],
+			[ 'DISTINCT userft_actor' ],
 			[ 'fantag_pg_id' => $pageTitleId ],
 			__METHOD__,
 			[],
@@ -105,8 +105,7 @@ class FanBoxPage extends Article {
 
 		foreach ( $res as $row ) {
 			$fanboxHolders[] = [
-				'userft_user_name' => $row->userft_user_name,
-				'userft_user_id' => $row->userft_user_id
+				'userft_actor' => $row->userft_actor
 			];
 		}
 
@@ -124,10 +123,8 @@ class FanBoxPage extends Article {
 		$fanboxHolders = $this->getFanBoxHolders();
 
 		foreach ( $fanboxHolders as $fanboxHolder ) {
-			$userftusername = $fanboxHolder['userft_user_name'];
-			$userftuserid = $fanboxHolder['userft_user_id'];
-			$userTitle = Title::makeTitle( NS_USER, $fanboxHolder['userft_user_name'] );
-			$avatar = new wAvatar( $fanboxHolder['userft_user_id'], 'ml' );
+			$actor = User::newFromActorId( $fanboxHolder['userft_actor'] );
+			$avatar = new wAvatar( $actor->getId(), 'ml' );
 			$output .= "<a href=\"" . htmlspecialchars( $userTitle->getFullURL() ) . "\">
 				{$avatar->getAvatarURL()}
 			</a>";

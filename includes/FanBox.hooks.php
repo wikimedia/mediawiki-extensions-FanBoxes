@@ -220,29 +220,70 @@ class FanBoxHooks {
 	 * maintenance/update.php, the core MediaWiki updater script.
 	 *
 	 * @param $updater DatabaseUpdater
-	 * @return Boolean true
 	 */
-	public static function addTables( $updater ) {
-		$file = __DIR__ . '/../sql/fantag.sql';
-		$updater->addExtensionTable( 'fantag', $file );
-		$updater->addExtensionTable( 'user_fantag', $file );
-		return true;
-	}
+	public static function onLoadExtensionSchemaUpdates( $updater ) {
+		$dir = __DIR__ . '/../sql';
 
-	/**
-	 * For the Renameuser extension.
-	 *
-	 * @param $renameUserSQL
-	 * @return Boolean true
-	 */
-	public static function onUserRename( $renameUserSQL ) {
-		$renameUserSQL->tables['fantag'] = [
-			'fantag_user_name', 'fantag_user_id'
-		];
-		$renameUserSQL->tables['user_fantag'] = [
-			'userft_user_name', 'userft_user_id'
-		];
-		return true;
+		$updater->addExtensionTable( 'fantag', $dir . '/fantag.sql' );
+		$updater->addExtensionTable( 'user_fantag', $dir . '/fantag.sql' );
+
+		$db = $updater->getDB();
+
+		$fantagTableHasActorField = $db->fieldExists( 'fantag', 'fantag_actor', __METHOD__ );
+		$userFantagTableHasActorField = $db->fieldExists( 'user_fantag', 'userft_actor', __METHOD__ );
+
+		// Actor support
+		if ( !$fantagTableHasActorField ) {
+			// 1) add new actor column
+			$updater->addExtensionField( 'fantag', 'fantag_actor', $dir . '/patches/actor/add_fantag_actor_field_to_fantag.sql' );
+
+			// 2) add the corresponding index
+			$updater->addExtensionIndex( 'fantag', 'fantag_actor', $dir . '/patches/actor/add_fantag_actor_index_to_fantag.sql' );
+		}
+
+		if ( !$userFantagTableHasActorField ) {
+			// 1) add new actor column
+			$updater->addExtensionField( 'user_fantag', 'userft_actor', $dir . '/patches/actor/add_userft_actor_field_to_user_fantag.sql' );
+
+			// 2) add the corresponding index
+			$updater->addExtensionIndex( 'user_fantag', 'userft_actor', $dir . '/patches/actor/add_userft_actor_index_to_user_fantag.sql' );
+		}
+
+		// The only time both tables have both an _actor and a _user_name column at
+		// the same time is when upgrading from an older version to v. 1.9.0;
+		// all versions prior to that will have only the _user_name columns (and the
+		// corresponding _user_id columns, but we assume here that if the _user_name
+		// columns are present, the _user_id ones must also be) and v. 1.9.0 and newer
+		// will only have the _actor columns.
+		// If both are present, then we know that we're in the middle of migration and
+		// we should complete the migration ASAP.
+		if (
+			$db->fieldExists( 'fantag', 'fantag_actor', __METHOD__ ) &&
+			$db->fieldExists( 'fantag', 'fantag_user_name', __METHOD__ ) &&
+			$db->fieldExists( 'user_fantag', 'userft_actor', __METHOD__ ) &&
+			$db->fieldExists( 'user_fantag', 'userft_user_name', __METHOD__ )
+		) {
+			// 3) populate the columns with correct values
+			// PITFALL WARNING! Do NOT change this to $updater->runMaintenance,
+			// THEY ARE NOT THE SAME THING and this MUST be using addExtensionUpdate
+			// instead for the code to work as desired!
+			// HT Skizzerz
+			$updater->addExtensionUpdate( [
+				'runMaintenance',
+				'MigrateOldFanBoxesUserColumnsToActor',
+				'../maintenance/migrateOldFanBoxesUserColumnsToActor.php'
+			] );
+
+			// 4) drop old columns + indexes
+			$updater->dropExtensionField( 'fantag', 'fantag_user_name', $dir . '/patches/actor/drop_fantag_user_name_field_from_fantag.sql' );
+			$updater->dropExtensionField( 'fantag', 'fantag_user_id', $dir . '/patches/actor/drop_fantag_user_id_field_from_fantag.sql' );
+			$updater->dropExtensionIndex( 'fantag', 'fantag_user_id', $dir . '/patches/actor/drop_fantag_user_id_index_from_fantag.sql' );
+
+			// 4) drop old columns + indexes
+			$updater->dropExtensionField( 'user_fantag', 'userft_user_name', $dir . '/patches/actor/drop_userft_user_name_field_from_user_fantag.sql' );
+			$updater->dropExtensionField( 'user_fantag', 'userft_user_id', $dir . '/patches/actor/drop_userft_user_id_field_from_user_fantag.sql' );
+			$updater->dropExtensionIndex( 'user_fantag', 'userft_user_id', $dir . '/patches/actor/drop_userft_user_id_index_from_user_fantag.sql' );
+		}
 	}
 
 	/**

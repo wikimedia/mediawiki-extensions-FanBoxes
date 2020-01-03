@@ -1,0 +1,1 @@
+ALTER TABLE /*_*/user_fantag DROP INDEX /*i*/userft_user_id;

@@ -79,14 +79,14 @@ class ViewFanBoxes extends SpecialPage {
 		$per_row = 3;
 
 		// Page title and top part
-		$out->setPageTitle( $this->msg( 'f-list-title', $userfan->user_name )->parse() );
+		$out->setPageTitle( $this->msg( 'f-list-title', $user_name )->parse() );
 		$output .= '<div class="back-links">
 				<a href="' . $user->getFullURL() . '">' .
-					$this->msg( 'f-back-link', $userfan->user_name )->parse() .
+					$this->msg( 'f-back-link', $user_name )->parse() .
 				'</a>
 			</div>
 			<div class="fanbox-count">' .
-				$this->msg( 'f-count', $userfan->user_name, $total )->parse() .
+				$this->msg( 'f-count', $user_name, $total )->parse() .
 			'</div>
 
 			<div class="view-fanboxes-container clearfix">';
@@ -237,11 +237,12 @@ class ViewFanBoxes extends SpecialPage {
 		$numofpages = $total / $per_page;
 
 		$pageLink = $this->getPageTitle();
+		$linkRenderer = $this->getLinkRenderer();
 		if ( $numofpages > 1 ) {
 			$output .= '<div class="page-nav">';
 
 			if ( $page > 1 ) {
-				$output .= Linker::link(
+				$output .= $linkRenderer->makeLink(
 					$pageLink,
 					$this->msg( 'fanbox-prev' )->plain(),
 					[],
@@ -268,7 +269,7 @@ class ViewFanBoxes extends SpecialPage {
 				if ( $i == $page ) {
 					$output .= ( $i . ' ' );
 				} else {
-					$output .= Linker::link(
+					$output .= $linkRenderer->makeLink(
 						$pageLink,
 						$i,
 						[],
@@ -282,7 +283,7 @@ class ViewFanBoxes extends SpecialPage {
 
 			if ( ( $total - ( $per_page * $page ) ) > 0 ) {
 				$output .= $this->msg( 'word-separator' )->plain() .
-					Linker::link(
+					$linkRenderer->makeLink(
 						$pageLink,
 						$this->msg( 'fanbox-next' )->plain(),
 						[],

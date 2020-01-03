@@ -1,0 +1,1 @@
+CREATE INDEX /*i*/fantag_actor ON /*_*/fantag (fantag_actor);

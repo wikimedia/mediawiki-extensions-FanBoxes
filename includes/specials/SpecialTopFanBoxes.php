@@ -119,10 +119,11 @@ class TopFanBoxes extends SpecialPage {
 				$fantag_title = Title::makeTitle( NS_FANTAG, $topfanbox['fantag_title'] );
 
 				// Get creator
-				$userftusername = $topfanbox['fantag_user_name'];
-				$userftuserid = $topfanbox['fantag_user_id'];
-				$user_title = Title::makeTitle( NS_USER, $topfanbox['fantag_user_name'] );
-				$avatar = new wAvatar( $topfanbox['fantag_user_id'], 'm' );
+				$creator = User::newFromActorId( $topfanbox['fantag_actor'] );
+				$userftusername = $creator->getName();
+				$userftuserid = $creator->getId();
+				$user_title = Title::makeTitle( NS_USER, $userftusername );
+				$avatar = new wAvatar( $userftuserid, 'm' );
 
 				$right_text = $topfanbox['fantag_right_text'];
 				$right_text = $tagParser->parse(
@@ -280,10 +281,11 @@ class TopFanBoxes extends SpecialPage {
 				$fantag_title = Title::makeTitle( NS_FANTAG, $categoryfanbox['fantag_title'] );
 
 				// Get creator
-				$userftusername = $categoryfanbox['fantag_user_name'];
-				$userftuserid = $categoryfanbox['fantag_user_id'];
-				$user_title = Title::makeTitle( NS_USER, $categoryfanbox['fantag_user_name'] );
-				$avatar = new wAvatar( $categoryfanbox['fantag_user_id'], 'm' );
+				$creator = User::newFromActorId( $categoryfanbox['fantag_actor'] );
+				$userftusername = $creator->getName();
+				$userftuserid = $creator->getId();
+				$user_title = $creator->getUserPage();
+				$avatar = new wAvatar( $userftuserid, 'm' );
 
 				$output .= "
 				<div class=\"top-fanbox-row\">
@@ -407,7 +409,7 @@ class TopFanBoxes extends SpecialPage {
 				'fantag_right_text', 'fantag_right_textcolor',
 				'fantag_right_bgcolor', 'fantag_image_name',
 				'fantag_left_textsize', 'fantag_right_textsize', 'fantag_count',
-				'fantag_user_id', 'fantag_user_name', 'fantag_date'
+				'fantag_actor', 'fantag_date'
 			],
 			[],
 			__METHOD__,
@@ -430,8 +432,7 @@ class TopFanBoxes extends SpecialPage {
 				'fantag_left_textsize' => $row->fantag_left_textsize,
 				'fantag_right_textsize' => $row->fantag_right_textsize,
 				'fantag_count' => $row->fantag_count,
-				'fantag_user_id' => $row->fantag_user_id,
-				'fantag_user_name' => $row->fantag_user_name,
+				'fantag_actor' => $row->fantag_actor,
 				'fantag_date' => $row->fantag_date,
 			];
 		}
@@ -445,7 +446,7 @@ class TopFanBoxes extends SpecialPage {
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
 			[
-				'userft_user_name' => $this->getUser()->getName(),
+				'userft_actor' => $this->getUser()->getActorId(),
 				'userft_fantag_id' => intval( $userft_fantag_id )
 			],
 			__METHOD__
@@ -470,7 +471,7 @@ class TopFanBoxes extends SpecialPage {
 				'fantag_right_textcolor', 'fantag_right_bgcolor',
 				'fantag_image_name', 'fantag_left_textsize',
 				'fantag_right_textsize', 'fantag_count',
-				'fantag_user_id', 'fantag_user_name'
+				'fantag_actor'
 			],
 			[ 'cl_to' => $category ],
 			__METHOD__,
@@ -494,8 +495,7 @@ class TopFanBoxes extends SpecialPage {
 				'fantag_left_textsize' => $row->fantag_left_textsize,
 				'fantag_right_textsize' => $row->fantag_right_textsize,
 				'fantag_count' => $row->fantag_count,
-				'fantag_user_id' => $row->fantag_user_id,
-				'fantag_user_name' => $row->fantag_user_name,
+				'fantag_actor' => $row->fantag_actor
 			];
 		}
 
