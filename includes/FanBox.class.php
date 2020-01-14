@@ -277,7 +277,7 @@ class FanBox {
 	/**
 	 * Try to load fan metadata from memcached.
 	 *
-	 * @return Boolean: true on success.
+	 * @return bool true on success.
 	 */
 	private function loadFromCache() {
 		global $wgMemc;
