@@ -1,38 +1,43 @@
 <?php
 /**
  * Functions for handling the displaying of an individual user's fanboxes.
- * Used by SpecialFanBoxes.php and UserBoxesHook.php.
+ *
+ * Used by SpecialFanBoxes.php and UserBoxesHook.php in FanBoxes, and also by
+ * SocialProfile's UserProfilePage.
  *
  * @file
- * @todo document
  */
 class UserFanBoxes {
 
 	/**
-	 * @var int Actor ID number
+	 * @var User User object whose userboxes we're dealing with here
 	 */
-	public $actor;
+	public $user;
 
 	/**
 	 * Constructor
-	 * @todo FIXME: we could, in theory, drop this function and the private
-	 *              class member variables as they are unused in here, we'd
-	 *              just need to fix all the callers
-	 * @private
+	 *
+	 * @param User|string $user User object (preferred) or user name (legacy b/c)
 	 */
-	/* private */ function __construct( $username ) {
-		$this->actor = User::newFromName( $username )->getActorId();
+	public function __construct( $user ) {
+		if ( $user instanceof User ) {
+			$this->user = $user;
+		} else {
+			$this->user = User::newFromName( $user );
+		}
 	}
 
 	/**
 	 * Used on SpecialViewFanBoxes page to get all the user's fanboxes
 	 *
-	 * @param $type Integer: unused
-	 * @param $limit Integer: LIMIT for the SQL query
-	 * @param $page Integer: the current page; used to build pagination links
+	 * @todo FIXME: remove $type since it does nothing
+	 *
+	 * @param int $type Unused
+	 * @param int $limit LIMIT for the SQL query
+	 * @param int $page The current page; used to build pagination links
 	 *                       and also used here to calculate the OFFSET for the
 	 *                       SQL query
-	 * @return Array
+	 * @return array
 	 */
 	public function getUserFanboxes( $type, $limit = 0, $page = 0 ) {
 		$dbr = wfGetDB( DB_REPLICA );
@@ -63,7 +68,7 @@ class UserFanBoxes {
 				'fantag_left_textsize',
 				'fantag_right_textsize'
 			],
-			[ 'userft_actor' => $this->actor ],
+			[ 'userft_actor' => $this->user->getActorId() ],
 			__METHOD__,
 			$params,
 			[ 'user_fantag' => [ 'INNER JOIN', 'userft_fantag_id = fantag_id' ] ]
@@ -93,17 +98,14 @@ class UserFanBoxes {
 	 * Used on Special:ViewFanBoxes page to get the count of a user's fanboxes
 	 * so we can build the prev/next bar
 	 *
-	 * @param $user_name String: name of the user whose fanbox count we want to
-	 *                           get
-	 * @return Integer amount of fanboxes the user has, or 0 if they have none
+	 * @return int Amount of fanboxes the user has, or 0 if they have none
 	 */
-	static function getFanBoxCountByUsername( $user_name ) {
+	public function getFanBoxCount() {
 		$dbw = wfGetDB( DB_MASTER );
-		$actorId = User::newFromName( $user_name )->getActorId();
 		$res = $dbw->select(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
-			[ 'userft_actor' => $actorId ],
+			[ 'userft_actor' => $this->user->getActorId() ],
 			__METHOD__,
 			[ 'LIMIT' => 1 ]
 		);
@@ -119,17 +121,16 @@ class UserFanBoxes {
 	 * Used on Special:ViewFanBoxes to know whether popup box should be Add or
 	 * Remove fanbox
 	 *
-	 * @param $userft_fantag_id Integer: user ID number
-	 * @return Integer
+	 * @param int $userft_fantag_id Userbox ID number
+	 * @return int
 	 */
 	public function checkIfUserHasFanbox( $userft_fantag_id ) {
-		global $wgUser;
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
 			[
-				'userft_actor' => $wgUser->getActorId(),
+				'userft_actor' => $this->user->getActorId(),
 				'userft_fantag_id' => intval( $userft_fantag_id )
 			],
 			__METHOD__

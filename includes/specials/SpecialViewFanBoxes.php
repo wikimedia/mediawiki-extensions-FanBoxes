@@ -72,10 +72,9 @@ class ViewFanBoxes extends SpecialPage {
 		$per_page = 30;
 
 		// Get all FanBoxes for this user into the array
-		// Calls the FanBoxesClass file
 		$userfan = new UserFanBoxes( $user_name );
 		$userFanboxes = $userfan->getUserFanboxes( 0, $per_page, $page );
-		$total = $userfan->getFanBoxCountByUsername( $user_name );
+		$total = $userfan->getFanBoxCount();
 		$per_row = 3;
 
 		// Page title and top part

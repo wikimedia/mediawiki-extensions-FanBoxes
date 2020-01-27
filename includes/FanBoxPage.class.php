@@ -124,8 +124,11 @@ class FanBoxPage extends Article {
 
 		foreach ( $fanboxHolders as $fanboxHolder ) {
 			$actor = User::newFromActorId( $fanboxHolder['userft_actor'] );
+			if ( !$actor || !$actor instanceof User ) {
+				continue;
+			}
 			$avatar = new wAvatar( $actor->getId(), 'ml' );
-			$output .= "<a href=\"" . htmlspecialchars( $userTitle->getFullURL() ) . "\">
+			$output .= "<a href=\"" . htmlspecialchars( $actor->getUserPage()->getFullURL() ) . "\">
 				{$avatar->getAvatarURL()}
 			</a>";
 		}

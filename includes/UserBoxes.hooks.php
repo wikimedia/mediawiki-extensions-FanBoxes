@@ -63,7 +63,7 @@ class UserBoxesHook {
 
 		$fanboxes = $f->getUserFanboxes( 0, $limit );
 
-		$fanbox_count = $f->getFanBoxCountByUsername( $user_name );
+		$fanbox_count = $f->getFanBoxCount();
 		$fanbox_link = SpecialPage::getTitleFor( 'ViewUserBoxes' );
 		$per_row = 1;
 		$output = '';
