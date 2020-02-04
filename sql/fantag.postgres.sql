@@ -31,9 +31,7 @@ CREATE TABLE user_fantag (
   userft_id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('user_fantag_userft_id_seq'),
   userft_fantag_id INTEGER NOT NULL,
   userft_actor INTEGER NOT NULL,
-  userft_date TIMESTAMPTZ NOT NULL,
-  -- @todo FIXME: Drop this column, see https://phabricator.wikimedia.org/T242868
-  userft_order INTEGER NOT NULL
+  userft_date TIMESTAMPTZ NOT NULL
 );
 
 ALTER SEQUENCE user_fantag_userft_id_seq OWNED BY user_fantag.userft_id;

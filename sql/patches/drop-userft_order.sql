@@ -1,0 +1,1 @@
+ALTER TABLE /*_*/user_fantag DROP COLUMN userft_order;

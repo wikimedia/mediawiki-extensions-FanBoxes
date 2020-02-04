@@ -289,6 +289,9 @@ class FanBoxHooks {
 			$updater->dropExtensionField( 'user_fantag', 'userft_user_id', $dir . '/patches/actor/drop_userft_user_id_field_from_user_fantag.sql' );
 			$updater->dropExtensionIndex( 'user_fantag', 'userft_user_id', $dir . '/patches/actor/drop_userft_user_id_index_from_user_fantag.sql' );
 		}
+
+		// Drop unused user_fantag.userft_order column (T242868)
+		$updater->dropExtensionField( 'user_fantag', 'userft_order', $dir . '/patches/drop-userft_order.sql' );
 	}
 
 	/**
