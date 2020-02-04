@@ -224,10 +224,15 @@ class FanBoxHooks {
 	public static function onLoadExtensionSchemaUpdates( $updater ) {
 		$dir = __DIR__ . '/../sql';
 
-		$updater->addExtensionTable( 'fantag', $dir . '/fantag.sql' );
-		$updater->addExtensionTable( 'user_fantag', $dir . '/fantag.sql' );
-
 		$db = $updater->getDB();
+		if ( $db->getType() === 'postgres' ) {
+			$file = $dir . '/fantag.postgres.sql';
+		} else {
+			$file = $dir . '/fantag.sql';
+		}
+
+		$updater->addExtensionTable( 'fantag', $file );
+		$updater->addExtensionTable( 'user_fantag', $file );
 
 		$fantagTableHasActorField = $db->fieldExists( 'fantag', 'fantag_actor', __METHOD__ );
 		$userFantagTableHasActorField = $db->fieldExists( 'user_fantag', 'userft_actor', __METHOD__ );
