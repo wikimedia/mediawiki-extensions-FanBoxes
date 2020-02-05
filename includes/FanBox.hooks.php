@@ -225,10 +225,11 @@ class FanBoxHooks {
 		$dir = __DIR__ . '/../sql';
 
 		$db = $updater->getDB();
+		$dbType = $db->getType();
 
 		$fantag = 'fantag.sql';
 		$userFantag = 'user_fantag.sql';
-		if ( !in_array( $db->getType(), [ 'mysql', 'sqlite' ] ) ) {
+		if ( !in_array( $dbType, [ 'mysql', 'sqlite' ] ) ) {
 			$fantag = "fantag.{$dbType}.sql";
 			$userFantag = "user_fantag.{$dbType}.sql";
 		}
