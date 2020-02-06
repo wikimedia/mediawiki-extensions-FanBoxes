@@ -80,13 +80,14 @@ class ApiFanBoxes extends ApiBase {
 		$out = '';
 
 		$fanbox = FanBox::newFromName( $title );
+		$user = $this->getUser();
 
 		if ( $addRemove === 1 ) {
 			$fanbox->changeCount( $individual_fantag_id, +1 );
-			$fanbox->addUserFan( $individual_fantag_id );
+			$fanbox->addUserFan( $user, $individual_fantag_id );
 
-			if ( $this->getUser()->isLoggedIn() ) {
-				$check = $fanbox->checkIfUserHasFanBox();
+			if ( $user->isLoggedIn() ) {
+				$check = $fanbox->checkIfUserHasFanBox( $user );
 				if ( $check === 0 ) {
 					$out .= $fanbox->outputIfUserDoesntHaveFanBox();
 				} else {
@@ -103,10 +104,10 @@ class ApiFanBoxes extends ApiBase {
 
 		if ( $addRemove === 2 ) {
 			$fanbox->changeCount( $individual_fantag_id, -1 );
-			$fanbox->removeUserFanBox( $individual_fantag_id );
+			$fanbox->removeUserFanBox( $user, $individual_fantag_id );
 
-			if ( $this->getUser()->isLoggedIn() ) {
-				$check = $fanbox->checkIfUserHasFanBox();
+			if ( $user->isLoggedIn() ) {
+				$check = $fanbox->checkIfUserHasFanBox( $user );
 				if ( $check === 0 ) {
 					$out .= $fanbox->outputIfUserDoesntHaveFanBox();
 				} else {

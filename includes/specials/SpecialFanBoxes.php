@@ -333,9 +333,10 @@ class FanBoxes extends SpecialPage {
 					$request->getVal( 'fantag_image_name' ),
 					$request->getVal( 'textSizeLeftSide' ),
 					$request->getVal( 'textSizeRightSide' ),
-					$request->getVal( 'pageCtg' )
+					$request->getVal( 'pageCtg' ),
+					$user
 				);
-				$fan->addUserFan( $fantagId );
+				$fan->addUserFan( $user, $fantagId );
 				$out->redirect( $fan->title->getFullURL() );
 			}
 			if ( $fanboxId ) {
@@ -352,7 +353,8 @@ class FanBoxes extends SpecialPage {
 					$request->getVal( 'textSizeLeftSide' ),
 					$request->getVal( 'textSizeRightSide' ),
 					$fanboxId,
-					$request->getVal( 'pageCtg' )
+					$request->getVal( 'pageCtg' ),
+					$user
 				);
 				$out->redirect( $update_fan->title->getFullURL() );
 			}
@@ -362,8 +364,8 @@ class FanBoxes extends SpecialPage {
 	/**
 	 * Return the HTML for the color picker and the category cloud.
 	 *
-	 * @param $categories String
-	 * @return String
+	 * @param string $categories
+	 * @return string
 	 */
 	function colorPickerAndCategoryCloud( $categories ) {
 		$output = '<div class="add-colors">

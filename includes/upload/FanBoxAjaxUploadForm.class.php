@@ -43,18 +43,15 @@ class FanBoxAjaxUploadForm extends UploadForm {
 	}
 
 	function displayForm( $submitResult ) {
-		global $wgOut;
 		parent::displayForm( $submitResult );
-		if ( method_exists( $wgOut, 'allowClickjacking' ) ) {
-			$wgOut->allowClickjacking();
-		}
+		$this->getOutput()->allowClickjacking();
 	}
 
 	/**
 	 * Wrap the form innards in an actual <form> element
 	 * This is here because HTMLForm's default wrapForm() is so stupid that it
 	 * doesn't let us add the onsubmit attribute...oh yeah, and because using
-	 * $wgOut->addInlineScript in that addUploadJS() function doesn't work,
+	 * $this->getOutput()->addInlineScript in that addUploadJS() function doesn't work,
 	 * either
 	 *
 	 * @param $html String: HTML contents to wrap.

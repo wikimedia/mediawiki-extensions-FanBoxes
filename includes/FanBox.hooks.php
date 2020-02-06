@@ -12,11 +12,11 @@ class FanBoxHooks {
 	 * When a fanbox is moved to a new title, update the records in the fantag
 	 * table.
 	 *
-	 * @param $title Object: Title object representing the old title
-	 * @param $newtitle Object: Title object representing the new title
-	 * @param $oldid Integer:
-	 * @param $newid Integer:
-	 * @return Boolean true
+	 * @param Title $title Title object representing the old title
+	 * @param Title $newtitle Title object representing the new title
+	 * @param int $oldid
+	 * @param int $newid
+	 * @return bool
 	 */
 	public static function updateFanBoxTitle( &$title, &$newtitle, $user, $oldid, $newid ) {
 		if ( $title->getNamespace() == NS_FANTAG ) {
@@ -35,10 +35,10 @@ class FanBoxHooks {
 	 * When a page in the NS_FANTAG namespace is deleted, delete all fantag
 	 * records associated with that page.
 	 *
-	 * @param $article Object: instance of Article or its descendant class
-	 * @param $user Object: the User performing the page deletion [unused]
-	 * @param $reason String: user-supplied reason for the deletion [unused]
-	 * @return Boolean true
+	 * @param Article $article Instance of Article or its descendant class
+	 * @param User $user The User performing the page deletion [unused]
+	 * @param string $reason User-supplied reason for the deletion [unused]
+	 * @return bool
 	 */
 	public static function deleteFanBox( &$article, &$user, $reason ) {
 		if ( $article->getTitle()->getNamespace() == NS_FANTAG ) {
@@ -72,10 +72,10 @@ class FanBoxHooks {
 	/**
 	 * Convert [[Fan:Fan Name]] tags to <fan></fan> hook
 	 *
-	 * @param $parser Unused
-	 * @param $text String: text to search for [[Fan:]] links
+	 * @param Parser $parser Unused
+	 * @param string $text Text to search for [[Fan:]] links
 	 * @param $strip_state Unused
-	 * @return Boolean true
+	 * @return bool
 	 */
 	public static function transformFanBoxTags( &$parser, &$text, &$strip_state ) {
 		$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
@@ -90,8 +90,8 @@ class FanBoxHooks {
 	 * On preg_replace_callback
 	 * Found a match of [[Fan:]], so get parameters and construct <fan> hook
 	 *
-	 * @param $matches Array
-	 * @return String HTML
+	 * @param array $matches
+	 * @return string HTML
 	 */
 	public static function renderFanBoxTag( $matches ) {
 		$name = $matches[2];
@@ -117,26 +117,26 @@ class FanBoxHooks {
 	 * Calls FanBoxPage instead of standard Article for pages in the NS_FANTAG
 	 * namespace.
 	 *
-	 * @param $title Title
-	 * @param $article Article|WikiPage|FanBoxPage
-	 * @return Boolean true
+	 * @param Title $title
+	 * @param Article|WikiPage|FanBoxPage $article
+	 * @param RequestContext $context
+	 * @return bool
 	 */
-	public static function fantagFromTitle( &$title, &$article ) {
-		global $wgRequest, $wgOut;
-
+	public static function fantagFromTitle( Title &$title, &$article, $context ) {
 		if ( $title->getNamespace() == NS_FANTAG ) {
+			$out = $context->getOutput();
 			// Add CSS
-			$wgOut->addModuleStyles( 'ext.fanBoxes' );
+			$out->addModuleStyles( 'ext.fanBoxes' );
 
 			// Prevent normal edit attempts
-			if ( $wgRequest->getVal( 'action' ) == 'edit' ) {
+			if ( $context->getRequest()->getVal( 'action' ) == 'edit' ) {
 				$addTitle = SpecialPage::getTitleFor( 'UserBoxes' );
 				$fan = FanBox::newFromName( $title->getText() );
 				if ( !$fan->exists() ) {
-					$wgOut->redirect( $addTitle->getFullURL( 'destName=' . $fan->getName() ) );
+					$out->redirect( $addTitle->getFullURL( 'destName=' . $fan->getName() ) );
 				} else {
 					$update = SpecialPage::getTitleFor( 'UserBoxes' );
-					$wgOut->redirect( $update->getFullURL( 'id=' . $title->getArticleID() ) );
+					$out->redirect( $update->getFullURL( 'id=' . $title->getArticleID() ) );
 				}
 			}
 
@@ -149,26 +149,25 @@ class FanBoxHooks {
 	/**
 	 * Register the new <fan> hook with the parser.
 	 *
-	 * @param $parser Parser
-	 * @return Boolean true
+	 * @param Parser $parser
 	 */
 	public static function registerFanTag( &$parser ) {
 		$parser->setHook( 'fan', [ 'FanBoxHooks', 'embedFanBox' ] );
-		return true;
 	}
 
 	/**
 	 * Callback function for the registerFanTag() function that expands <fan>
 	 * into valid HTML.
 	 *
-	 * @param $input
-	 * @param $argv Array: array of user-supplied arguments
-	 * @param $parser Parser
-	 * @return String HTML
+	 * @param string $input
+	 * @param array $argv User-supplied arguments
+	 * @param Parser $parser
+	 * @return string HTML
 	 */
 	public static function embedFanBox( $input, $argv, $parser ) {
-		global $wgUser, $wgHooks;
+		global $wgHooks;
 
+		$user = $parser->getUser();
 		$parser->getOutput()->updateCacheExpiry( 0 );
 
 		$wgHooks['BeforePageDisplay'][] = 'FanBoxHooks::addFanBoxScripts';
@@ -186,8 +185,8 @@ class FanBoxHooks {
 			$fantagId = $fan->getFanBoxId();
 
 			$output .= '<div id="show-message-container' . intval( $fantagId ) . '">';
-			if ( $wgUser->isLoggedIn() ) {
-				$check = $fan->checkIfUserHasFanBox();
+			if ( $user->isLoggedIn() ) {
+				$check = $fan->checkIfUserHasFanBox( $user );
 				if ( $check == 0 ) {
 					$output .= $fan->outputIfUserDoesntHaveFanBox();
 				} else {
@@ -206,13 +205,11 @@ class FanBoxHooks {
 	/**
 	 * Add FanBox's CSS and JS into the page output.
 	 *
-	 * @param $out OutputPage
-	 * @param $skin Skin
-	 * @return Boolean true
+	 * @param OutputPage $out
+	 * @param Skin $skin
 	 */
 	public static function addFanBoxScripts( &$out, &$skin ) {
 		$out->addModules( 'ext.fanBoxes' );
-		return true;
 	}
 
 	/**
@@ -300,13 +297,10 @@ class FanBoxHooks {
 	/**
 	 * Register the canonical names for our namespace and its talkspace.
 	 *
-	 * @param $list Array: array of namespace numbers with corresponding
-	 *                     canonical names
-	 * @return Boolean true
+	 * @param array $list Namespace numbers with corresponding canonical names
 	 */
 	public static function onCanonicalNamespaces( &$list ) {
 		$list[NS_FANTAG] = 'UserBox';
 		$list[NS_FANTAG_TALK] = 'UserBox_talk';
-		return true;
 	}
 }

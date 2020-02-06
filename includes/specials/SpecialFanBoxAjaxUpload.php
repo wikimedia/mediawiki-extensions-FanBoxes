@@ -199,13 +199,10 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 * Do the upload.
 	 * Checks are made in SpecialFanBoxAjaxUpload::execute()
 	 *
-	 * What was changed here: $wgRequest was added as a global, one hook and
-	 * the post-upload redirect were removed in favor of the code below
-	 * the $this->mUploadSuccessful = true; line
+	 * What was changed here: one hook and the post-upload redirect were removed
+	 * in favor of the code below the $this->mUploadSuccessful = true; line
 	 */
 	protected function processUpload() {
-		global $wgUser, $wgOut, $wgRequest;
-
 		// Fetch the file if required
 		$status = $this->mUpload->fetchFile();
 		if ( !$status->isOK() ) {

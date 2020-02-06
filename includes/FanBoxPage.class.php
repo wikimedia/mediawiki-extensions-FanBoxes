@@ -20,14 +20,16 @@ class FanBoxPage extends Article {
 	}
 
 	function view() {
-		global $wgOut, $wgUser;
+		$context = $this->getContext();
+		$out = $context->getOutput();
+		$user = $context->getUser();
 
 		// Add JS
-		$wgOut->addModules( 'ext.fanBoxes' );
+		$out->addModules( 'ext.fanBoxes' );
 
 		// Set the page title
-		$wgOut->setHTMLTitle( $this->getTitle()->getText() );
-		$wgOut->setPageTitle( $this->getTitle()->getText() );
+		$out->setHTMLTitle( $this->getTitle()->getText() );
+		$out->setPageTitle( $this->getTitle()->getText() );
 
 		// Don't throw a bunch of E_NOTICEs when we're viewing the page of a
 		// nonexistent fanbox
@@ -47,8 +49,8 @@ class FanBoxPage extends Article {
 
 		$output .= '<div id="show-message-container' . $fantag_id . '">';
 
-		if ( $wgUser->isLoggedIn() ) {
-			$check = $this->fan->checkIfUserHasFanBox();
+		if ( $user->isLoggedIn() ) {
+			$check = $this->fan->checkIfUserHasFanBox( $user );
 			if ( $check == 0 ) {
 				$output .= $this->fan->outputIfUserDoesntHaveFanBox();
 			} else {
@@ -71,12 +73,12 @@ class FanBoxPage extends Article {
 			'</div>
 		</div>';
 
-		$wgOut->addHTML( $output );
+		$out->addHTML( $output );
 
 		global $wgFanBoxPageDisplay;
 		// Display comments, if we want to display those.
 		if ( $wgFanBoxPageDisplay['comments'] ) {
-			$wgOut->addWikiTextAsInterface( '<comments/>' );
+			$out->addWikiTextAsInterface( '<comments/>' );
 		}
 
 		parent::view();

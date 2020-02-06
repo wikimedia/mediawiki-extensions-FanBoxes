@@ -12,11 +12,9 @@ class UserBoxesHook {
 	 * Register the <userboxes> tag with the Parser.
 	 *
 	 * @param Parser $parser
-	 * @return bool
 	 */
 	public static function onParserFirstCallInit( &$parser ) {
 		$parser->setHook( 'userboxes', [ 'UserBoxesHook', 'renderUserBoxesHook' ] );
-		return true;
 	}
 
 	/**
@@ -28,14 +26,16 @@ class UserBoxesHook {
 	 * @return string HTML
 	 */
 	public static function renderUserBoxesHook( $input, $args, $parser ) {
-		global $wgOut, $wgUser, $wgMemc;
+		global $wgOut, $wgMemc;
 
-		$parser->getOutput()->updateCacheExpiry( 0 );
+		$user = $parser->getUser();
+		$pOut = $parser->getOutput();
+		$pOut->updateCacheExpiry( 0 );
 
 		// Add CSS & JS
-		$wgOut->addModules( 'ext.fanBoxes' );
+		$pOut->addModules( 'ext.fanBoxes' );
 
-		$user_name = ( isset( $args['user'] ) ? $args['user'] : $wgUser->getName() );
+		$user_name = ( isset( $args['user'] ) ? $args['user'] : $user->getName() );
 
 		$limit = 10;
 		if ( isset( $args['limit'] ) && is_numeric( $args['limit'] ) ) {
@@ -156,7 +156,7 @@ class UserBoxesHook {
 				</div>
 				</div>';
 
-				if ( $wgUser->isLoggedIn() ) {
+				if ( $user->isLoggedIn() ) {
 					if ( $check_user_fanbox == 0 ) {
 						$output .= '
 					<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . $fanbox['fantag_id'] . '">
@@ -194,7 +194,7 @@ class UserBoxesHook {
 					}
 				}
 
-				if ( $wgUser->getId() == 0 ) {
+				if ( $user->getId() == 0 ) {
 					$output .= '<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . $fanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0">
 						<tr>

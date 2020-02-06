@@ -1,9 +1,8 @@
 <?php
 /**
- * FanBox class
+ * FanBox class - utilities for creating and managing fanboxes
  *
  * @file
- * @todo document
  */
 class FanBox {
 
@@ -36,6 +35,9 @@ class FanBox {
 
 	/**
 	 * Constructor
+	 *
+	 * @param Title $title
+	 * @throws MWException on invalid Title
 	 */
 	public function __construct( $title ) {
 		if ( !is_object( $title ) ) {
@@ -49,9 +51,9 @@ class FanBox {
 	/**
 	 * Create a Fantag object from a fantag name
 	 *
-	 * @param $name String: name of the fanbox, used to create a title object
+	 * @param string $name Name of the fanbox, used to create a title object
 	 *                      using Title::makeTitleSafe
-	 * @return Mixed new instance of FanBox for the constructed title or null
+	 * @return FanBox|null New instance of FanBox for the constructed title or null on failure
 	 */
 	public static function newFromName( $name ) {
 		$title = Title::makeTitleSafe( NS_FANTAG, $name );
@@ -65,14 +67,24 @@ class FanBox {
 
 	/**
 	 * Insert info into fantag table in the database when user creates fantag
+	 *
+	 * @param string $fantag_left_text Left side text
+	 * @param string $fantag_left_textcolor Left side text color as a valid CSS hex code (incl. the # sign)
+	 * @param string $fantag_left_bgcolor Left side background color as a valid CSS hex code (incl. the # sign)
+	 * @param string $fantag_right_text Right side text
+	 * @param string $fantag_right_textcolor Right side text color as a valid CSS hex code (incl. the # sign)
+	 * @param string $fantag_right_bgcolor Right side background color as a valid CSS hex code (incl. the # sign)
+	 * @param string $fantag_image_name Image name [optional, used only if the user chose to upload an image to the left side]
+	 * @param string $fantag_left_textsize Left side text size, either "smallfont" (12px), "mediumfont" (14px) or "bigfont" (20px)
+	 * @param string $fantag_right_textsize Right side text size, either "smallfont" (12px), "mediumfont" (14px) or "bigfont" (20px)
+	 * @param string $categories Categories as a comma-separated string
+	 * @param User $user User creating the fantag
 	 */
 	public function addFan( $fantag_left_text, $fantag_left_textcolor,
 		$fantag_left_bgcolor, $fantag_right_text,
 		$fantag_right_textcolor, $fantag_right_bgcolor, $fantag_image_name,
-		$fantag_left_textsize, $fantag_right_textsize, $categories
+		$fantag_left_textsize, $fantag_right_textsize, $categories, User $user
 	) {
-		global $wgUser;
-
 		$dbw = wfGetDB( DB_MASTER );
 
 		$descTitle = $this->getTitle();
@@ -99,7 +111,7 @@ class FanBox {
 			// New fantag; create the description page.
 			$pageContent = ContentHandler::makeContent(
 				$this->buildWikiText() . "\n\n" .
-				$this->getBaseCategories() . "\n" . $categories_wiki .
+				$this->getBaseCategories( $user ) . "\n" . $categories_wiki .
 				"\n__NOEDITSECTION__",
 				$page->getTitle()
 			);
@@ -121,7 +133,7 @@ class FanBox {
 				'fantag_right_bgcolor' => $fantag_right_bgcolor,
 				'fantag_date' => date( 'Y-m-d H:i:s' ),
 				'fantag_pg_id' => $article->getID(),
-				'fantag_actor' => $wgUser->getActorId(),
+				'fantag_actor' => $user->getActorId(),
 				'fantag_image_name' => $fantag_image_name,
 				'fantag_left_textsize' => $fantag_left_textsize,
 				'fantag_right_textsize' => $fantag_right_textsize,
@@ -135,23 +147,30 @@ class FanBox {
 	/**
 	 * Insert info into user_fantag table when user creates fantag or grabs it
 	 *
-	 * @param $userft_fantag_id Integer: fantag ID number
+	 * @param User $user
+	 * @param int $userft_fantag_id Fantag ID number
 	 */
-	public function addUserFan( $userft_fantag_id ) {
-		global $wgUser;
-
+	public function addUserFan( User $user, $userft_fantag_id ) {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->insert(
 			'user_fantag',
 			[
 				'userft_fantag_id' => intval( $userft_fantag_id ),
-				'userft_actor' => $wgUser->getActorId(),
+				'userft_actor' => $user->getActorId(),
 				'userft_date' => date( 'Y-m-d H:i:s' ),
 			],
 			__METHOD__
 		);
 	}
 
+	/**
+	 * Output information about the fanbox as a HTML comment.
+	 *
+	 * This is displayed on UserBox: page diffs (so that users can easily see
+	 * changes in hex colors and such).
+	 *
+	 * @return string
+	 */
 	public function buildWikiText() {
 		$output = '';
 		$output .= "left_text:{$this->getFanBoxLeftText()}\n";
@@ -167,11 +186,16 @@ class FanBox {
 		return $output;
 	}
 
-	public function getBaseCategories() {
-		global $wgUser;
+	/**
+	 * Get base category string, i.e. DEFAULTSORT + "Userboxes by <user name>" category.
+	 *
+	 * @param User $user User object to use if the fanbox's creator cannot be loaded
+	 * @return string Wikitext
+	 */
+	public function getBaseCategories( User $user ) {
 		$creator = $this->getActor();
 		if ( !$creator ) {
-			$creator = $wgUser->getName();
+			$creator = $user->getName();
 		} else {
 			$creator = User::newFromActorId( $creator )->getName();
 		}
@@ -182,11 +206,26 @@ class FanBox {
 		return $ctg;
 	}
 
-	// Update fan
+	/**
+	 * Update a fanbox.
+	 *
+	 * @param string $fantag_left_text Left side text
+	 * @param string $fantag_left_textcolor Left side text color as a valid CSS hex code (incl. the # sign)
+	 * @param string $fantag_left_bgcolor Left side background color as a valid CSS hex code (incl. the # sign)
+	 * @param string $fantag_right_text Right side text
+	 * @param string $fantag_right_textcolor Right side text color as a valid CSS hex code (incl. the # sign)
+	 * @param string $fantag_right_bgcolor Right side background color as a valid CSS hex code (incl. the # sign)
+	 * @param string $fantag_image_name Image name [optional, used only if the user chose to upload an image to the left side]
+	 * @param string $fantag_left_textsize Left side text size, either "smallfont" (12px), "mediumfont" (14px) or "bigfont" (20px)
+	 * @param string $fantag_right_textsize Right side text size, either "smallfont" (12px), "mediumfont" (14px) or "bigfont" (20px)
+	 * @param int $fanboxId Internal identifier of the fanbox we're updating
+	 * @param string $categories Categories as a comma-separated string
+	 * @param User $user User performing the update
+	 */
 	public function updateFan( $fantag_left_text, $fantag_left_textcolor,
 		$fantag_left_bgcolor, $fantag_right_text, $fantag_right_textcolor,
 		$fantag_right_bgcolor, $fantag_image_name, $fantag_left_textsize,
-		$fantag_right_textsize, $fanboxId, $categories
+		$fantag_right_textsize, $fanboxId, $categories, User $user
 	) {
 		global $wgMemc;
 
@@ -224,7 +263,7 @@ class FanBox {
 
 		$pageContent = ContentHandler::makeContent(
 			$this->buildWikiText() . "\n" .
-			$this->getBaseCategories() . "\n" . $categories_wiki .
+			$this->getBaseCategories( $user ) . "\n" . $categories_wiki .
 			"\n__NOEDITSECTION__",
 			$page->getTitle()
 		);
@@ -235,15 +274,15 @@ class FanBox {
 	/**
 	 * Remove fantag from user_fantag table when user removes it
 	 *
-	 * @param $userft_fantag_id Integer: fantag ID number
+	 * @param User $user
+	 * @param int $userft_fantag_id Fantag ID number
 	 */
-	function removeUserFanBox( $userft_fantag_id ) {
-		global $wgUser;
+	function removeUserFanBox( User $user, $userft_fantag_id ) {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->delete(
 			'user_fantag',
 			[
-				'userft_actor' => $wgUser->getActorId(),
+				'userft_actor' => $user->getActorId(),
 				'userft_fantag_id' => intval( $userft_fantag_id )
 			],
 			__METHOD__
@@ -253,8 +292,8 @@ class FanBox {
 	/**
 	 * Change count of fantag when user adds or removes it
 	 *
-	 * @param $fanBoxId Integer: fantag ID number
-	 * @param $number Integer
+	 * @param int $fanBoxId Fantag ID number
+	 * @param int $number
 	 */
 	function changeCount( $fanBoxId, $number ) {
 		$dbw = wfGetDB( DB_MASTER );
@@ -344,6 +383,10 @@ class FanBox {
 		}
 	}
 
+	/**
+	 * Populate class member variables directly from the database and set the flag
+	 * indicating we've done that so we know not to hit the DB again.
+	 */
 	function loadFromDB() {
 		$dbw = wfGetDB( DB_MASTER );
 
@@ -393,6 +436,11 @@ class FanBox {
 		}
 	}
 
+	/**
+	 * Output a fanbox's HTML.
+	 *
+	 * @return string
+	 */
 	public function outputFanBox() {
 		global $wgOut;
 
@@ -482,16 +530,17 @@ class FanBox {
 
 	/**
 	 * Check if user has fanbox and output the right (add vs. remove) popup box
+	 *
+	 * @param User $user
+	 * @return int
 	 */
-	public function checkIfUserHasFanBox() {
-		global $wgUser;
-
+	public function checkIfUserHasFanBox( User $user ) {
 		$dbw = wfGetDB( DB_MASTER );
 		$check_fanbox_count = $dbw->selectField(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
 			[
-				'userft_actor' => $wgUser->getActorId(),
+				'userft_actor' => $user->getActorId(),
 				'userft_fantag_id' => $this->getFanBoxId()
 			],
 			__METHOD__
@@ -500,6 +549,11 @@ class FanBox {
 		return $check_fanbox_count;
 	}
 
+	/**
+	 * Output some additional controls if a user has this fanbox.
+	 *
+	 * @return string
+	 */
 	public function outputIfUserHasFanBox() {
 		$fanboxTitle = $this->getTitle();
 
@@ -529,6 +583,12 @@ class FanBox {
 		return $output;
 	}
 
+	/**
+	 * Output the HTML allowing the user to add a fanbox to their profile if they
+	 * already don't have it.
+	 *
+	 * @return string
+	 */
 	public function outputIfUserDoesntHaveFanBox() {
 		$fanboxTitle = $this->getTitle();
 		$fanboxTitle = $fanboxTitle->getText();
@@ -576,21 +636,21 @@ class FanBox {
 	}
 
 	/**
-	 * @return String the name of this fanbox
+	 * @return string The name of this fanbox
 	 */
 	public function getName() {
 		return $this->name;
 	}
 
 	/**
-	 * @return Object the associated Title object
+	 * @return Title The associated Title object
 	 */
 	public function getTitle() {
 		return $this->title;
 	}
 
 	/**
-	 * @return Integer the ID number of the fanbox
+	 * @return int The ID number of the fanbox
 	 */
 	public function getFanBoxId() {
 		$this->load();
@@ -598,7 +658,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String left-hand text of the fanbox
+	 * @return string Left-hand text of the fanbox
 	 */
 	public function getFanBoxLeftText() {
 		$this->load();
@@ -606,7 +666,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String the color of the left-side text
+	 * @return string The color of the left-side text
 	 */
 	public function getFanBoxLeftTextColor() {
 		$this->load();
@@ -614,7 +674,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String background color of the left side
+	 * @return string Background color of the left side
 	 */
 	public function getFanBoxLeftBgColor() {
 		$this->load();
@@ -622,7 +682,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String right-hand text of the fanbox
+	 * @return string Right-hand text of the fanbox
 	 */
 	public function getFanBoxRightText() {
 		$this->load();
@@ -630,7 +690,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String text color of the right side text
+	 * @return string Text color of the right side text
 	 */
 	public function getFanBoxRightTextColor() {
 		$this->load();
@@ -638,7 +698,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String background color of the right side
+	 * @return string Background color of the right side
 	 */
 	public function getFanBoxRightBgColor() {
 		$this->load();
@@ -646,7 +706,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String URL to the fanbox image (if any), I think
+	 * @return string URL to the fanbox image (if any), I think
 	 */
 	public function getFanBoxImage() {
 		$this->load();
@@ -654,7 +714,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String size of the left-hand text
+	 * @return string Size of the left-hand text
 	 */
 	public function getFanBoxLeftTextSize() {
 		$this->load();
@@ -662,7 +722,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String size of the right-hand text
+	 * @return string Size of the right-hand text
 	 */
 	public function getFanBoxRightTextSize() {
 		$this->load();
@@ -670,7 +730,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return Integer page ID for the current page
+	 * @return int Page ID for the current page
 	 */
 	public function getFanBoxPageID() {
 		$this->load();
@@ -686,7 +746,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return Boolean true if the FanBox exists, else false
+	 * @return bool True if the FanBox exists, else false
 	 */
 	public function exists() {
 		$this->load();
@@ -694,7 +754,7 @@ class FanBox {
 	}
 
 	/**
-	 * @return String the embed code for the current fanbox
+	 * @return string The wikitext embed code for the current fanbox
 	 */
 	public function getEmbedThisCode() {
 		$embedtitle = Title::makeTitle( NS_FANTAG, $this->getName() )->getPrefixedDBkey();
