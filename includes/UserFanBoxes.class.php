@@ -30,16 +30,13 @@ class UserFanBoxes {
 	/**
 	 * Used on SpecialViewFanBoxes page to get all the user's fanboxes
 	 *
-	 * @todo FIXME: remove $type since it does nothing
-	 *
-	 * @param int $type Unused
 	 * @param int $limit LIMIT for the SQL query
 	 * @param int $page The current page; used to build pagination links
 	 *                       and also used here to calculate the OFFSET for the
 	 *                       SQL query
 	 * @return array
 	 */
-	public function getUserFanboxes( $type, $limit = 0, $page = 0 ) {
+	public function getUserFanboxes( $limit = 0, $page = 0 ) {
 		$dbr = wfGetDB( DB_REPLICA );
 
 		$params['ORDER BY'] = 'userft_date DESC';

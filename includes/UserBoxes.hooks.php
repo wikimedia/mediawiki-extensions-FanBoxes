@@ -54,14 +54,14 @@ class UserBoxesHook {
 
 		// if ( !$data ) {
 		// wfDebug( "Got profile fanboxes for user {$user_name} from DB\n" );
-		// $fanboxes = $f->getUserFanboxes( 0, $limit );
+		// $fanboxes = $f->getUserFanboxes( $limit );
 		// $wgMemc->set( $key, $fanboxes );
 		// } else {
 		// wfDebug( "Got profile fanboxes for user {$user_name} from cache\n" );
 		// $fanboxes = $data;
 		// }
 
-		$fanboxes = $f->getUserFanboxes( 0, $limit );
+		$fanboxes = $f->getUserFanboxes( $limit );
 
 		$fanbox_count = $f->getFanBoxCount();
 		$fanbox_link = SpecialPage::getTitleFor( 'ViewUserBoxes' );
