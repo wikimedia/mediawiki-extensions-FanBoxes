@@ -46,7 +46,7 @@ class ViewFanBoxes extends SpecialPage {
 			return false;
 		}
 
-		$tagParser = new Parser();
+		$tagParser = MediaWikiServices::getInstance()->getParserFactory()->create();
 
 		// Add CSS & JS
 		$out->addModules( 'ext.fanBoxes' );

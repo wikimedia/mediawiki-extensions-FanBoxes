@@ -447,7 +447,7 @@ class FanBox {
 	public function outputFanBox() {
 		global $wgOut;
 
-		$tagParser = new Parser();
+		$tagParser = MediaWikiServices::getInstance()->getParserFactory()->create();
 
 		if ( $this->getFanBoxImage() ) {
 			$fantag_image_width = 45;

@@ -75,7 +75,7 @@ class TopFanBoxes extends SpecialPage {
 
 			$output .= '<div class="top-fanboxes">';
 
-			$tagParser = new Parser();
+			$tagParser = MediaWikiServices::getInstance()->getParserFactory()->create();
 
 			foreach ( $topfanboxes as $topfanbox ) {
 				$check_user_fanbox = $this->checkIfUserHasFanbox( $topfanbox['fantag_id'] );

@@ -74,8 +74,8 @@ class UserBoxesHook {
 			$output .= '<div class="clearfix"><div class="user-fanbox-container">';
 
 			$x = 1;
-			$tagParser = new Parser();
 			$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
+			$tagParser = MediaWikiServices::getInstance()->getParserFactory()->create();
 
 			foreach ( $fanboxes as $fanbox ) {
 				$check_user_fanbox = $f->checkIfUserHasFanbox( $fanbox['fantag_id'] );
