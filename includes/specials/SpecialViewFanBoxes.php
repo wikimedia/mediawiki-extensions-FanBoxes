@@ -6,6 +6,9 @@
  * @file
  * @ingroup Extensions
  */
+
+use MediaWiki\MediaWikiServices;
+
 class ViewFanBoxes extends SpecialPage {
 
 	/**
@@ -92,6 +95,7 @@ class ViewFanBoxes extends SpecialPage {
 
 		if ( $userFanboxes ) {
 			$x = 1;
+			$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
 
 			foreach ( $userFanboxes as $userfanbox ) {
 				$check_user_fanbox = $userfan->checkIfUserHasFanbox( $userfanbox['fantag_id'] );
@@ -99,7 +103,7 @@ class ViewFanBoxes extends SpecialPage {
 				if ( $userfanbox['fantag_image_name'] ) {
 					$fantag_image_width = 45;
 					$fantag_image_height = 53;
-					$fantag_image = wfFindFile( $userfanbox['fantag_image_name'] );
+					$fantag_image = $repoGroup->findFile( $userfanbox['fantag_image_name'] );
 					$fantag_image_url = '';
 					if ( is_object( $fantag_image ) ) {
 						$fantag_image_url = $fantag_image->createThumb(

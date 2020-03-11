@@ -4,6 +4,9 @@
  *
  * @file
  */
+
+use MediaWiki\MediaWikiServices;
+
 class FanBox {
 
 	public $name,
@@ -449,7 +452,7 @@ class FanBox {
 		if ( $this->getFanBoxImage() ) {
 			$fantag_image_width = 45;
 			$fantag_image_height = 53;
-			$fantag_image = wfFindFile( $this->getFanBoxImage() );
+			$fantag_image = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $this->getFanBoxImage() );
 			$fantag_image_url = '';
 			if ( is_object( $fantag_image ) ) {
 				$fantag_image_url = $fantag_image->createThumb(

@@ -6,6 +6,9 @@
  * @file
  * @ingroup Extensions
  */
+
+use MediaWiki\MediaWikiServices;
+
 class TopFanBoxes extends SpecialPage {
 
 	/**
@@ -65,6 +68,7 @@ class TopFanBoxes extends SpecialPage {
 		if ( empty( $topfanboxes ) ) {
 			$output .= $this->msg( 'fanbox-top-list-is-empty' )->parse();
 		}
+		$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
 
 		if ( !$topfanboxCategory ) {
 			$x = 1;
@@ -79,7 +83,7 @@ class TopFanBoxes extends SpecialPage {
 				if ( $topfanbox['fantag_image_name'] ) {
 					$fantag_image_width = 45;
 					$fantag_image_height = 53;
-					$fantag_image = wfFindFile( $topfanbox['fantag_image_name'] );
+					$fantag_image = $repoGroup->findFile( $topfanbox['fantag_image_name'] );
 					$fantag_image_url = '';
 					if ( is_object( $fantag_image ) ) {
 						$fantag_image_url = $fantag_image->createThumb(
@@ -246,7 +250,7 @@ class TopFanBoxes extends SpecialPage {
 				if ( $categoryfanbox['fantag_image_name'] ) {
 					$fantag_image_width = 45;
 					$fantag_image_height = 53;
-					$fantag_image = wfFindFile( $categoryfanbox['fantag_image_name'] );
+					$fantag_image = $repoGroup->findFile( $categoryfanbox['fantag_image_name'] );
 					$fantag_image_url = '';
 					if ( is_object( $fantag_image ) ) {
 						$fantag_image_url = $fantag_image->createThumb(

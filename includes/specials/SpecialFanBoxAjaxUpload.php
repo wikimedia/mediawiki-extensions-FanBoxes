@@ -266,7 +266,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 		// The old version below, which initially used $this->mDesiredDestName
 		// instead of that getTitle() caused plenty o' fatals...the new version
 		// seems to be OK...I think.
-		// $img = wfFindFile( $this->mUpload->getTitle() );
+		// $img = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $this->mUpload->getTitle() );
 		$img = $this->mLocalFile;
 
 		if ( !$img ) {

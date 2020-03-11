@@ -7,6 +7,8 @@
  * @ingroup Extensions
  */
 
+use MediaWiki\MediaWikiServices;
+
 class UserBoxesHook {
 	/**
 	 * Register the <userboxes> tag with the Parser.
@@ -73,6 +75,7 @@ class UserBoxesHook {
 
 			$x = 1;
 			$tagParser = new Parser();
+			$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
 
 			foreach ( $fanboxes as $fanbox ) {
 				$check_user_fanbox = $f->checkIfUserHasFanbox( $fanbox['fantag_id'] );
@@ -80,7 +83,7 @@ class UserBoxesHook {
 				if ( $fanbox['fantag_image_name'] ) {
 					$fantag_image_width = 45;
 					$fantag_image_height = 53;
-					$fantag_image = wfFindFile( $fanbox['fantag_image_name'] );
+					$fantag_image = $repoGroup->findFile( $fanbox['fantag_image_name'] );
 					$fantag_image_url = '';
 					if ( is_object( $fantag_image ) ) {
 						$fantag_image_url = $fantag_image->createThumb(

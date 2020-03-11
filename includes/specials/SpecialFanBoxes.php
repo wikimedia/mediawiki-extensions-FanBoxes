@@ -6,6 +6,9 @@
  * @file
  * @ingroup Extensions
  */
+
+use MediaWiki\MediaWikiServices;
+
 class FanBoxes extends SpecialPage {
 
 	/**
@@ -113,7 +116,7 @@ class FanBoxes extends SpecialPage {
 			if ( $update_fan->getFanBoxImage() ) {
 				$fantag_image_width = 45;
 				$fantag_image_height = 53;
-				$fantag_image = wfFindFile( $update_fan->getFanBoxImage() );
+				$fantag_image = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $update_fan->getFanBoxImage() );
 				$fantag_image_url = '';
 				if ( is_object( $fantag_image ) ) {
 					$fantag_image_url = $fantag_image->createThumb(
