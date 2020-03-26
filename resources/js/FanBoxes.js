@@ -224,23 +224,20 @@ var FanBoxes = {
 		// Encode ampersands
 		title = title.replace( '&', '%26' );
 
-		$.post(
-			mw.util.wikiScript( 'api' ), {
-				action: 'fanboxes',
-				what: 'checkTitleExistence',
-				page_name: encodeURIComponent( document.getElementById( 'wpTitle' ).value ),
-				format: 'json'
-			},
-			function( data ) {
-				if ( data.error ) {
-					alert( 'API error! ' + data.error.info );
-				} else if ( data.fanboxes.result === 'Page exists' ) {
-					alert( mw.msg( 'fan-addfan-exists' ) );
-				} else if ( data.fanboxes.result.indexOf( 'OK' ) >= 0 ) {
-					document.form1.submit();
-				}
+		( new mw.Api() ).get( {
+			action: 'query',
+			titles: mw.config.get( 'wgFormattedNamespaces' )[600] + ':' + title,
+			format: 'json',
+			formatversion: 2
+		} ).done( function ( data ) {
+			// Missing page means that we can create it, obviously!
+			if ( data.query.pages[0] && data.query.pages[0].missing === true ) {
+				document.form1.submit();
+			} else {
+				// could also show data.query.pages[0].invalidreason to the user here instead
+				alert( mw.msg( 'fan-addfan-exists' ) );
 			}
-		);
+		} );
 	},
 
 	/**

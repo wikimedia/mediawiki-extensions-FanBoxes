@@ -106,6 +106,9 @@
 				"fanbox-choose-another",
 				"fanbox-upload-new-image",
 				"fan-addfan-exists"
+			],
+			"dependencies": [
+				"mediawiki.api"
 			]
 		},
 		"ext.fanBoxes.createform": {

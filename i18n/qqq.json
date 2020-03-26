@@ -79,7 +79,5 @@
 	"apihelp-fanboxes-param-addRemove": "{{doc-apihelp-param|fanboxes|addRemove}}",
 	"apihelp-fanboxes-param-style": "{{doc-apihelp-param|fanboxes|style}}",
 	"apihelp-fanboxes-param-fantagId": "{{doc-apihelp-param|fanboxes|fantagId}}",
-	"apihelp-fanboxes-param-page_name": "{{doc-apihelp-param|fanboxes|page_name}}",
-	"apihelp-fanboxes-param-title": "{{doc-apihelp-param|fanboxes|title}}",
-	"apihelp-fanboxes-example-1": "{{doc-apihelp-example|fanboxes}}"
+	"apihelp-fanboxes-param-title": "{{doc-apihelp-param|fanboxes|title}}"
 }

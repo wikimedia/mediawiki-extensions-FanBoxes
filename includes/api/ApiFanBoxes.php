@@ -31,11 +31,7 @@ class ApiFanBoxes extends ApiBase {
 
 		// Ensure that we have all the parameters required by each respective
 		// sub-function, too
-		if ( $what == 'checkTitleExistence' && ( !$pageName || $pageName === null ) ) {
-			// Hmm, apparently this is not properly dying if page_name param is empty:
-			// $this->requireAtLeastOneParameter( $params, 'page_name' );
-			$this->dieWithError( [ 'apierror-missingparam', 'page_name' ], 'missingparam-titlecheck' );
-		} elseif (
+		if (
 			$what == 'showAddRemoveMessage' &&
 			(
 				!$addRemove || $addRemove === null || !$title || $title === null ||
@@ -54,9 +50,6 @@ class ApiFanBoxes extends ApiBase {
 		}
 
 		switch ( $what ) {
-			case 'checkTitleExistence':
-				$output = $this->checkTitleExistence( $pageName );
-				break;
 			case 'messageAddRemoveUserPage':
 				$output = $this->messageAddRemoveUserPage( $addRemove, $individualFantagId, $style );
 				break;
@@ -181,34 +174,7 @@ class ApiFanBoxes extends ApiBase {
 	}
 
 	/**
-	 * Check if there's already a FanBox with the given name.
-	 *
-	 * @param $page_name String: FanBox name to check
-	 * @return String "OK" if the page can be created, else "Page exists"
-	 */
-	function checkTitleExistence( $page_name ) {
-		// Construct page title object to convert to Database Key
-		$pageTitle = Title::makeTitle( NS_MAIN, urldecode( $page_name ) );
-		$dbKey = $pageTitle->getDBkey();
-
-		// Database key would be in page title if the page already exists
-		$dbw = wfGetDB( DB_MASTER );
-		$s = $dbw->selectRow(
-			'page',
-			[ 'page_id' ],
-			[ 'page_title' => $dbKey, 'page_namespace' => NS_FANTAG ],
-			__METHOD__
-		);
-
-		if ( $s !== false ) {
-			return 'Page exists';
-		} else {
-			return 'OK';
-		}
-	}
-
-	/**
-	 * @return Array
+	 * @return array
 	 */
 	public function getAllowedParams() {
 		return [
@@ -222,9 +188,6 @@ class ApiFanBoxes extends ApiBase {
 			'fantagId' => [
 				ApiBase::PARAM_TYPE => 'integer',
 			],
-			'page_name' => [
-				ApiBase::PARAM_TYPE => 'string',
-			],
 			'style' => [
 				ApiBase::PARAM_TYPE => 'string',
 			],
@@ -236,8 +199,9 @@ class ApiFanBoxes extends ApiBase {
 
 	protected function getExamplesMessages() {
 		return [
-			'action=fanboxes&what=checkTitleExistence&page_name=Foo bar'
-				=> 'apihelp-fanboxes-example-1',
+			// @todo Add some real examples + relevant i18n strings
+			// 'action=fanboxes&what=messageAddRemoveUserPage&addRemove=2&id=66&style=border:1px red dotted;'
+			//	=> 'apihelp-fanboxes-example-2',
 		];
 	}
 }
