@@ -346,11 +346,12 @@ class FanBox {
 			$this->exists = true;
 		}
 
+		$stats = MediaWikiServices::getInstance()->getStatsdDataFactory();
 		if ( $this->dataLoaded ) {
 			wfDebug( "loaded Fan:{$this->name} from cache\n" );
-			wfIncrStats( 'fantag_cache_hit' );
+			$stats->increment( 'fantag_cache_hit' );
 		} else {
-			wfIncrStats( 'fantag_cache_miss' );
+			$stats->increment( 'fantag_cache_miss' );
 		}
 
 		return $this->dataLoaded;
