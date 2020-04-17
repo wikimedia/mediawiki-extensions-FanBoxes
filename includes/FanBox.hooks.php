@@ -73,11 +73,11 @@ class FanBoxHooks {
 	 * Convert [[Fan:Fan Name]] tags to <fan></fan> hook
 	 *
 	 * @param Parser $parser Unused
-	 * @param string $text Text to search for [[Fan:]] links
+	 * @param string &$text Text to search for [[Fan:]] links
 	 * @param $strip_state Unused
 	 * @return bool
 	 */
-	public static function transformFanBoxTags( &$parser, &$text, &$strip_state ) {
+	public static function transformFanBoxTags( $parser, &$text, $strip_state ) {
 		$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
 		$fantitle = $contLang->getNsText( NS_FANTAG );
 		$pattern = "@(\[\[$fantitle)([^\]]*?)].*?\]@si";
