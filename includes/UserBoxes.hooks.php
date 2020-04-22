@@ -13,7 +13,7 @@ class UserBoxesHook {
 	/**
 	 * Register the <userboxes> tag with the Parser.
 	 *
-	 * @param Parser $parser
+	 * @param Parser &$parser
 	 */
 	public static function onParserFirstCallInit( &$parser ) {
 		$parser->setHook( 'userboxes', [ 'UserBoxesHook', 'renderUserBoxesHook' ] );

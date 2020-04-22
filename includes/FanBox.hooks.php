@@ -12,8 +12,8 @@ class FanBoxHooks {
 	 * When a fanbox is moved to a new title, update the records in the fantag
 	 * table.
 	 *
-	 * @param Title $title Title object representing the old title
-	 * @param Title $newtitle Title object representing the new title
+	 * @param Title &$title Title object representing the old title
+	 * @param Title &$newtitle Title object representing the new title
 	 * @param int $oldid
 	 * @param int $newid
 	 * @return bool
@@ -35,8 +35,8 @@ class FanBoxHooks {
 	 * When a page in the NS_FANTAG namespace is deleted, delete all fantag
 	 * records associated with that page.
 	 *
-	 * @param Article $article Instance of Article or its descendant class
-	 * @param User $user The User performing the page deletion [unused]
+	 * @param Article &$article Instance of Article or its descendant class
+	 * @param User &$user The User performing the page deletion [unused]
 	 * @param string $reason User-supplied reason for the deletion [unused]
 	 * @return bool
 	 */
@@ -117,8 +117,8 @@ class FanBoxHooks {
 	 * Calls FanBoxPage instead of standard Article for pages in the NS_FANTAG
 	 * namespace.
 	 *
-	 * @param Title $title
-	 * @param Article|WikiPage|FanBoxPage $article
+	 * @param Title &$title
+	 * @param Article|WikiPage|FanBoxPage &$article
 	 * @param RequestContext $context
 	 * @return bool
 	 */
@@ -149,7 +149,7 @@ class FanBoxHooks {
 	/**
 	 * Register the new <fan> hook with the parser.
 	 *
-	 * @param Parser $parser
+	 * @param Parser &$parser
 	 */
 	public static function registerFanTag( &$parser ) {
 		$parser->setHook( 'fan', [ 'FanBoxHooks', 'embedFanBox' ] );
@@ -205,8 +205,8 @@ class FanBoxHooks {
 	/**
 	 * Add FanBox's CSS and JS into the page output.
 	 *
-	 * @param OutputPage $out
-	 * @param Skin $skin
+	 * @param OutputPage &$out
+	 * @param Skin &$skin
 	 */
 	public static function addFanBoxScripts( &$out, &$skin ) {
 		$out->addModules( 'ext.fanBoxes' );
@@ -297,7 +297,7 @@ class FanBoxHooks {
 	/**
 	 * Register the canonical names for our namespace and its talkspace.
 	 *
-	 * @param array $list Namespace numbers with corresponding canonical names
+	 * @param array &$list Namespace numbers with corresponding canonical names
 	 */
 	public static function onCanonicalNamespaces( &$list ) {
 		$list[NS_FANTAG] = 'UserBox';
