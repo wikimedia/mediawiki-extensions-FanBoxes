@@ -97,7 +97,7 @@ class FanBox {
 		$categories_wiki = '';
 		if ( $categories ) {
 			$categories_a = explode( ',', $categories );
-			$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 			foreach ( $categories_a as $category ) {
 				$categories_wiki .= '[[' .
 					$contLang->getNsText( NS_CATEGORY ) . ':' .
@@ -202,7 +202,7 @@ class FanBox {
 		} else {
 			$creator = User::newFromActorId( $creator )->getName();
 		}
-		$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 		$ctg = '{{DEFAULTSORT:{{PAGENAME}}}}';
 		$ctg .= '[[' . $contLang->getNsText( NS_CATEGORY ) . ':' .
 			wfMessage( 'fanbox-userbox-category', $creator )->inContentLanguage()->parse() . "]]\n";
@@ -230,8 +230,6 @@ class FanBox {
 		$fantag_right_bgcolor, $fantag_image_name, $fantag_left_textsize,
 		$fantag_right_textsize, $fanboxId, $categories, User $user
 	) {
-		global $wgMemc;
-
 		$dbw = wfGetDB( DB_MASTER );
 
 		$dbw->update(
@@ -250,13 +248,14 @@ class FanBox {
 			[ 'fantag_pg_id' => intval( $fanboxId ) ],
 			__METHOD__
 		);
-		$key = $wgMemc->makeKey( 'fantag', 'page', $this->name );
-		$wgMemc->delete( $key );
+		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+		$key = $cache->makeKey( 'fantag', 'page', $this->name );
+		$cache->delete( $key );
 
 		$categories_wiki = '';
 		if ( $categories ) {
 			$categories_a = explode( ',', $categories );
-			$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 			foreach ( $categories_a as $category ) {
 				$categories_wiki .= '[[' . $contLang->getNsText( NS_CATEGORY ) .
 					':' . trim( $category ) . "]]\n";
@@ -322,12 +321,11 @@ class FanBox {
 	 * @return bool true on success.
 	 */
 	private function loadFromCache() {
-		global $wgMemc;
-
 		$this->dataLoaded = false;
 
-		$key = $wgMemc->makeKey( 'fantag', 'page', $this->name );
-		$data = $wgMemc->get( $key );
+		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+		$key = $cache->makeKey( 'fantag', 'page', $this->name );
+		$data = $cache->get( $key );
 
 		if ( !empty( $data ) && is_array( $data ) ) {
 			$this->id = $data['id'];
@@ -361,9 +359,8 @@ class FanBox {
 	 * Save the fan data to memcached
 	 */
 	private function saveToCache() {
-		global $wgMemc;
-
-		$key = $wgMemc->makeKey( 'fantag', 'page', $this->name );
+		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+		$key = $cache->makeKey( 'fantag', 'page', $this->name );
 		if ( $this->exists() ) {
 			$cachedValues = [
 				'id' => $this->id,
@@ -379,11 +376,11 @@ class FanBox {
 				'actor' => $this->actor,
 				'pgid' => $this->pg_id
 			];
-			$wgMemc->set( $key, $cachedValues, 60 * 60 * 24 * 7 ); // A week
+			$cache->set( $key, $cachedValues, 60 * 60 * 24 * 7 ); // A week
 		} else {
 			// However we should clear them, so they aren't leftover
 			// if we've deleted the file.
-			$wgMemc->delete( $key );
+			$cache->delete( $key );
 		}
 	}
 
@@ -448,12 +445,13 @@ class FanBox {
 	public function outputFanBox() {
 		global $wgOut;
 
-		$tagParser = MediaWikiServices::getInstance()->getParserFactory()->create();
+		$services = MediaWikiServices::getInstance();
+		$tagParser = $services->getParserFactory()->create();
 
 		if ( $this->getFanBoxImage() ) {
 			$fantag_image_width = 45;
 			$fantag_image_height = 53;
-			$fantag_image = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $this->getFanBoxImage() );
+			$fantag_image = $services->getRepoGroup()->findFile( $this->getFanBoxImage() );
 			$fantag_image_url = '';
 			if ( is_object( $fantag_image ) ) {
 				$fantag_image_url = $fantag_image->createThumb(
@@ -483,7 +481,7 @@ class FanBox {
 		if ( $this->getFanBoxPageID() == $this->title->getArticleID() ) {
 			$fantag_perma = '';
 		} else {
-			$fantag_perma = MediaWiki\MediaWikiServices::getInstance()->getLinkRenderer()->makeLink(
+			$fantag_perma = $services->getLinkRenderer()->makeLink(
 				$fantag_title,
 				wfMessage( 'fanbox-perma' )->plain(),
 				[

@@ -28,7 +28,7 @@ class UserBoxesHook {
 	 * @return string HTML
 	 */
 	public static function renderUserBoxesHook( $input, $args, $parser ) {
-		global $wgOut, $wgMemc;
+		global $wgOut;
 
 		$user = $parser->getUser();
 		$pOut = $parser->getOutput();
@@ -51,13 +51,14 @@ class UserBoxesHook {
 		// 1) $f->user_id needs to be changed to $f->actor
 		// 2) and the similar change needs to be done to SocialProfile's UserProfile/includes/UserProfilePage.php
 		// to keep the cache keys in sync
-		// $key = $wgMemc->makeKey( 'user', 'profile', 'fanboxes', $f->user_id );
-		// $data = $wgMemc->get( $key );
+		// $cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+		// $key = $cache->makeKey( 'user', 'profile', 'fanboxes', $f->user_id );
+		// $data = $cache->get( $key );
 
 		// if ( !$data ) {
 		// wfDebug( "Got profile fanboxes for user {$user_name} from DB\n" );
 		// $fanboxes = $f->getUserFanboxes( $limit );
-		// $wgMemc->set( $key, $fanboxes );
+		// $cache->set( $key, $fanboxes );
 		// } else {
 		// wfDebug( "Got profile fanboxes for user {$user_name} from cache\n" );
 		// $fanboxes = $data;
