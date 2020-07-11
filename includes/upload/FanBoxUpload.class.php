@@ -6,6 +6,9 @@
 class FanBoxUpload extends UploadFromFile {
 	/**
 	 * Create a form of UploadBase depending on wpSourceType and initializes it
+	 * @param WebRequest &$request
+	 * @param string|null $type
+	 * @return self
 	 */
 	public static function createFromRequest( &$request, $type = null ) {
 		$handler = new self;

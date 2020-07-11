@@ -14,6 +14,7 @@ class FanBoxHooks {
 	 *
 	 * @param Title &$title Title object representing the old title
 	 * @param Title &$newtitle Title object representing the new title
+	 * @param User $user
 	 * @param int $oldid
 	 * @param int $newid
 	 * @return bool
@@ -74,7 +75,7 @@ class FanBoxHooks {
 	 *
 	 * @param Parser $parser Unused
 	 * @param string &$text Text to search for [[Fan:]] links
-	 * @param $strip_state Unused
+	 * @param StripState $strip_state Unused
 	 * @return bool
 	 */
 	public static function transformFanBoxTags( $parser, &$text, $strip_state ) {
@@ -216,7 +217,7 @@ class FanBoxHooks {
 	 * Creates the necessary database tables when the user runs
 	 * maintenance/update.php, the core MediaWiki updater script.
 	 *
-	 * @param $updater DatabaseUpdater
+	 * @param DatabaseUpdater $updater
 	 */
 	public static function onLoadExtensionSchemaUpdates( $updater ) {
 		$dir = __DIR__ . '/../sql';

@@ -21,7 +21,7 @@ class ViewFanBoxes extends SpecialPage {
 	/**
 	 * Group this special page under the correct header on Special:SpecialPages.
 	 *
-	 * @return String
+	 * @return string
 	 */
 	protected function getGroupName() {
 		return 'users';
@@ -30,7 +30,7 @@ class ViewFanBoxes extends SpecialPage {
 	/**
 	 * Show the special page
 	 *
-	 * @param $par Mixed: parameter passed to the page or null
+	 * @param string|null $par parameter passed to the page or null
 	 */
 	public function execute( $par ) {
 		$out = $this->getOutput();
@@ -43,7 +43,7 @@ class ViewFanBoxes extends SpecialPage {
 		if ( $currentUser->getID() == 0 && $user_name == '' ) {
 			$login = SpecialPage::getTitleFor( 'Userlogin' );
 			$out->redirect( htmlspecialchars( $login->getFullURL( 'returnto=Special:ViewUserBoxes' ) ) );
-			return false;
+			return;
 		}
 
 		$tagParser = MediaWikiServices::getInstance()->getParserFactory()->create();
@@ -68,7 +68,7 @@ class ViewFanBoxes extends SpecialPage {
 		if ( $user_id == 0 ) {
 			$out->setPageTitle( $this->msg( 'fanbox-woops' )->plain() );
 			$out->addHTML( $this->msg( 'fanbox-userdoesnotexist' )->plain() );
-			return false;
+			return;
 		}
 
 		// Config for the page

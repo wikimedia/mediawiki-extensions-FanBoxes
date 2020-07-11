@@ -25,7 +25,7 @@ class FanBoxes extends SpecialPage {
 	/**
 	 * Group this special page under the correct header on Special:SpecialPages.
 	 *
-	 * @return String
+	 * @return string
 	 */
 	protected function getGroupName() {
 		return 'users';
@@ -34,7 +34,7 @@ class FanBoxes extends SpecialPage {
 	/**
 	 * Show the special page
 	 *
-	 * @param $par Mixed: parameter passed to the page or null
+	 * @param string|null $par parameter passed to the page or null
 	 */
 	public function execute( $par ) {
 		$out = $this->getOutput();
@@ -46,7 +46,7 @@ class FanBoxes extends SpecialPage {
 			$out->setPageTitle( $this->msg( 'fanbox-woops-title' )->plain() );
 			$login = SpecialPage::getTitleFor( 'Userlogin' );
 			$out->redirect( $login->getFullURL( 'returnto=Special:UserBoxes' ) );
-			return false;
+			return;
 		}
 
 		// Can the user execute the action?

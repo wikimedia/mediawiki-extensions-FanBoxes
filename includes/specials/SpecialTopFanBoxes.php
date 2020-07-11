@@ -21,7 +21,7 @@ class TopFanBoxes extends SpecialPage {
 	/**
 	 * Group this special page under the correct header on Special:SpecialPages.
 	 *
-	 * @return String
+	 * @return string
 	 */
 	protected function getGroupName() {
 		return 'users';
@@ -30,7 +30,7 @@ class TopFanBoxes extends SpecialPage {
 	/**
 	 * Show the special page
 	 *
-	 * @param $par Mixed: parameter passed to the page or null
+	 * @param string|null $par parameter passed to the page or null
 	 */
 	public function execute( $par ) {
 		$out = $this->getOutput();

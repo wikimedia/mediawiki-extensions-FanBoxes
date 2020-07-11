@@ -77,6 +77,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 *
 	 * What was changed here: the setArticleBodyOnly() line below was added,
 	 * and some bits of code were entirely removed.
+	 * @param string|null $par
 	 */
 	public function execute( $par ) {
 		// Disable the skin etc.
@@ -134,6 +135,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 *
 	 * @param string $message HTML string to add to the form
 	 * @param string $sessionKey Session key in case this is a stashed upload
+	 * @param bool $hideIgnoreWarning
 	 * @return UploadForm
 	 */
 	protected function getUploadForm( $message = '', $sessionKey = '', $hideIgnoreWarning = false ) {
@@ -169,7 +171,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 * essentially means that UploadBase::VERIFICATION_ERROR and
 	 * UploadBase::EMPTY_FILE should not be passed here.
 	 *
-	 * @param $message String: HTML message to be passed to mainUploadForm
+	 * @param string $message HTML message to be passed to mainUploadForm
 	 */
 	protected function showRecoverableUploadError( $message ) {
 		$sessionKey = $this->mUpload->stashSession();
@@ -184,7 +186,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	/**
 	 * Show the upload form with error message, but do not stash the file.
 	 *
-	 * @param $message String: error message to show
+	 * @param string $message error message to show
 	 */
 	protected function showUploadError( $message ) {
 		$message = addslashes( $message );

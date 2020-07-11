@@ -82,6 +82,7 @@ class FanBox {
 	 * @param string $fantag_right_textsize Right side text size, either "smallfont" (12px), "mediumfont" (14px) or "bigfont" (20px)
 	 * @param string $categories Categories as a comma-separated string
 	 * @param User $user User creating the fantag
+	 * @return int|null
 	 */
 	public function addFan( $fantag_left_text, $fantag_left_textcolor,
 		$fantag_left_bgcolor, $fantag_right_text,
