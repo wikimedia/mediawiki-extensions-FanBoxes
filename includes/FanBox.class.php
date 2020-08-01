@@ -135,7 +135,7 @@ class FanBox {
 				'fantag_right_text' => $fantag_right_text,
 				'fantag_right_textcolor' => $fantag_right_textcolor,
 				'fantag_right_bgcolor' => $fantag_right_bgcolor,
-				'fantag_date' => date( 'Y-m-d H:i:s' ),
+				'fantag_date' => $dbw->timestamp( date( 'Y-m-d H:i:s' ) ),
 				'fantag_pg_id' => $article->getID(),
 				'fantag_actor' => $user->getActorId(),
 				'fantag_image_name' => $fantag_image_name,
@@ -161,7 +161,7 @@ class FanBox {
 			[
 				'userft_fantag_id' => intval( $userft_fantag_id ),
 				'userft_actor' => $user->getActorId(),
-				'userft_date' => date( 'Y-m-d H:i:s' ),
+				'userft_date' => $dbw->timestamp( date( 'Y-m-d H:i:s' ) ),
 			],
 			__METHOD__
 		);

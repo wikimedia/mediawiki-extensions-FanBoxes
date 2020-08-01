@@ -132,7 +132,7 @@ class ApiFanBoxes extends ApiBase {
 				[
 					'userft_fantag_id' => $id,
 					'userft_actor' => $this->getUser()->getActorId(),
-					'userft_date' => date( 'Y-m-d H:i:s' ),
+					'userft_date' => $dbw->timestamp( date( 'Y-m-d H:i:s' ) ),
 				],
 				__METHOD__
 			);
