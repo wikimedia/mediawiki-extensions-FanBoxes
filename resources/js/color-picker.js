@@ -1,4 +1,4 @@
-jQuery( function() {
+jQuery( function () {
 	var colorPickerTest = new YAHOO.widget.ColorPicker( 'colorpickerholder', {
 		showhsvcontrols: true,
 		showhexcontrols: true,
@@ -8,29 +8,29 @@ jQuery( function() {
 		}
 	} );
 
-	colorPickerTest.on( 'rgbChange', function() {
+	colorPickerTest.on( 'rgbChange', function () {
 		var sColor = '#' + this.get( 'hex' );
 
-		if ( document.colorpickerradio.colorpickerchoice[0].checked ) {
+		if ( document.colorpickerradio.colorpickerchoice[ 0 ].checked ) {
 			document.getElementById( 'fanBoxLeftSideOutput2' ).style.backgroundColor = sColor;
 			// The commented-out line below is the original NYC code but I noticed that it doesn't work
-			//document.getElementById( 'fanBoxLeftSideContainer' ).style.backgroundColor = sColor;
+			// document.getElementById( 'fanBoxLeftSideContainer' ).style.backgroundColor = sColor;
 			document.getElementById( 'bgColorLeftSideColor' ).value = sColor;
 		}
 
-		if ( document.colorpickerradio.colorpickerchoice[1].checked ) {
+		if ( document.colorpickerradio.colorpickerchoice[ 1 ].checked ) {
 			document.getElementById( 'fanBoxLeftSideOutput2' ).style.color = sColor;
 			document.getElementById( 'textColorLeftSideColor' ).value = sColor;
 		}
 
-		if ( document.colorpickerradio.colorpickerchoice[2].checked ) {
+		if ( document.colorpickerradio.colorpickerchoice[ 2 ].checked ) {
 			document.getElementById( 'fanBoxRightSideOutput2' ).style.backgroundColor = sColor;
 			// The commented-out line below is the original NYC code but I noticed that it doesn't work
-			//document.getElementById( 'fanBoxRightSideContainer' ).style.backgroundColor = sColor;
+			// document.getElementById( 'fanBoxRightSideContainer' ).style.backgroundColor = sColor;
 			document.getElementById( 'bgColorRightSideColor' ).value = sColor;
 		}
 
-		if ( document.colorpickerradio.colorpickerchoice[3].checked ) {
+		if ( document.colorpickerradio.colorpickerchoice[ 3 ].checked ) {
 			document.getElementById( 'fanBoxRightSideOutput2' ).style.color = sColor;
 			document.getElementById( 'textColorRightSideColor' ).value = sColor;
 		}
