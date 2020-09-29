@@ -216,12 +216,12 @@ class FanBoxes extends SpecialPage {
 
 		// Set it up so that the page title includes the title of the red link that the user clicks on
 		$destination = $request->getVal( 'destName' );
-		$page_title = $this->msg( 'fan-addfan-title' )->plain();
+		$page_title = $this->msg( 'fanbox-addfan-title' )->plain();
 		if ( $destination ) {
-			$page_title = $this->msg( 'fan-createfor', str_replace( '_', ' ', $destination ) )->parse();
+			$page_title = $this->msg( 'fanbox-createfor', str_replace( '_', ' ', $destination ) )->parse();
 		}
 		if ( $fanboxId ) {
-			$page_title = $this->msg( 'fan-updatefan', str_replace( '_', ' ', $update_fan->getName() ) )->parse();
+			$page_title = $this->msg( 'fanbox-updatefan', str_replace( '_', ' ', $update_fan->getName() ) )->parse();
 		}
 
 		$out->setPageTitle( $page_title );
@@ -372,7 +372,7 @@ class FanBoxes extends SpecialPage {
 	 */
 	function colorPickerAndCategoryCloud( $categories ) {
 		$output = '<div class="add-colors">
-					<h2 class="fanbox-form-label visualClear">' . $this->msg( 'fan-add-colors' )->plain() . '</h2>
+					<h2 class="fanbox-form-label visualClear">' . $this->msg( 'fanbox-add-colors' )->plain() . '</h2>
 					<div id="add-colors-left">
 						<form name="colorpickerradio" action="">
 						<input type="radio" name="colorpickerchoice" value="leftBG" checked="checked" />' .

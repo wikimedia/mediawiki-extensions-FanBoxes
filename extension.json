@@ -108,7 +108,7 @@
 				"fanbox-hash",
 				"fanbox-choose-another",
 				"fanbox-upload-new-image",
-				"fan-addfan-exists"
+				"fanbox-addfan-exists"
 			],
 			"dependencies": [
 				"mediawiki.api"

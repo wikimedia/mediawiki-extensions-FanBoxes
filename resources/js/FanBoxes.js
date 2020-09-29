@@ -244,7 +244,7 @@
 					document.form1.submit();
 				} else {
 					// could also show data.query.pages[0].invalidreason to the user here instead
-					alert( mw.msg( 'fan-addfan-exists' ) );
+					alert( mw.msg( 'fanbox-addfan-exists' ) );
 				}
 			} );
 		},
