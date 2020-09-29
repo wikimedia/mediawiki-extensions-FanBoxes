@@ -44,7 +44,7 @@ class TopFanBoxes extends SpecialPage {
 		$topfanboxCategory = $request->getVal( 'cat' );
 
 		if ( $topfanboxId == 'fantag_date' ) {
-			$out->setPageTitle( $this->msg( 'most-recent-fanboxes-link' )->plain() );
+			$out->setPageTitle( $this->msg( 'fanbox-most-recent-fanboxes-link' )->plain() );
 			$topfanboxes = $this->getTopFanboxes( 'fantag_date' );
 		} else {
 			$out->setPageTitle( $this->msg( 'topuserboxes' )->plain() );
@@ -57,9 +57,9 @@ class TopFanBoxes extends SpecialPage {
 		$output .= '<div class="fanbox-nav">
 			<h2>' . $this->msg( 'fanbox-nav-header' )->plain() . '</h2>
 			<p><a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL() ) . '">' .
-				$this->msg( 'top-fanboxes-link' )->plain() . '</a></p>
+				$this->msg( 'fanbox-top-fanboxes-link' )->plain() . '</a></p>
 			<p><a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( 'id=fantag_date' ) ) . '">' .
-				$this->msg( 'most-recent-fanboxes-link' )->plain() . '</a></p>
+				$this->msg( 'fanbox-most-recent-fanboxes-link' )->plain() . '</a></p>
 		</div>';
 
 		// Nothing? That means that no userboxes have been created yet...so
