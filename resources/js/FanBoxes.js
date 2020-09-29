@@ -1,7 +1,7 @@
 ( function ( mw, $ ) {
 
 	var FanBoxes = {
-	// Display right side of fanbox as user inputs info
+		// Display right side of fanbox as user inputs info
 		displayRightSide: function () {
 			var rightSideOutput = document.form1.inputRightSide.value;
 			document.getElementById( 'fanBoxRightSideOutput2' ).innerHTML = rightSideOutput;
@@ -51,11 +51,11 @@
 			}
 			if ( space_position === -1 && str_left_side.length === 6 ) {
 				document.form1.inputLeftSide.value =
-				document.form1.inputLeftSide.value.substring( 0, 5 ) + ' ' +
-				document.form1.inputLeftSide.value.substring( 5, 6 );
+					document.form1.inputLeftSide.value.substring( 0, 5 ) + ' ' +
+					document.form1.inputLeftSide.value.substring( 5, 6 );
 				document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML =
-				document.form1.inputLeftSide.value.substring( 0, 5 ) + ' ' +
-				document.form1.inputLeftSide.value.substring( 5, 7 );
+					document.form1.inputLeftSide.value.substring( 0, 5 ) + ' ' +
+					document.form1.inputLeftSide.value.substring( 5, 7 );
 			}
 			if ( str_left_side.length >= 5 ) {
 				document.getElementById( 'fanBoxLeftSideOutput2' ).style.fontSize = '14px';
@@ -83,11 +83,11 @@
 			}
 			if ( space_position === -1 && str_right_side.length === 18 ) {
 				document.form1.inputRightSide.value =
-				document.form1.inputRightSide.value.substring( 0, 17 ) + ' ' +
-				document.form1.inputRightSide.value.substring( 17, 18 );
+					document.form1.inputRightSide.value.substring( 0, 17 ) + ' ' +
+					document.form1.inputRightSide.value.substring( 17, 18 );
 				document.getElementById( 'fanBoxRightSideOutput2' ).innerHTML =
-				document.form1.inputRightSide.value.substring( 0, 17 ) + ' ' +
-				document.form1.inputRightSide.value.substring( 17, 19 );
+					document.form1.inputRightSide.value.substring( 0, 17 ) + ' ' +
+					document.form1.inputRightSide.value.substring( 17, 19 );
 			}
 
 			if ( str_right_side.length >= 52 ) {
@@ -213,7 +213,7 @@
 
 			if (
 				!document.getElementById( 'inputLeftSide' ).value &&
-			!document.getElementById( 'fantag_image_name' ).value
+				!document.getElementById( 'fantag_image_name' ).value
 			) {
 				alert( mw.msg( 'fanbox-mustenter-left' ) );
 				return '';
@@ -239,11 +239,11 @@
 				format: 'json',
 				formatversion: 2
 			} ).done( function ( data ) {
-			// Missing page means that we can create it, obviously!
+				// Missing page means that we can create it, obviously!
 				if ( data.query.pages[ 0 ] && data.query.pages[ 0 ].missing === true ) {
 					document.form1.submit();
 				} else {
-				// could also show data.query.pages[0].invalidreason to the user here instead
+					// could also show data.query.pages[0].invalidreason to the user here instead
 					alert( mw.msg( 'fan-addfan-exists' ) );
 				}
 			} );
@@ -262,7 +262,7 @@
 
 			if (
 				!document.getElementById( 'inputLeftSide' ).value &&
-			!document.getElementById( 'fantag_image_name' ).value
+				!document.getElementById( 'fantag_image_name' ).value
 			) {
 				alert( mw.msg( 'fanbox-mustenter-left' ) );
 				return '';
@@ -280,7 +280,7 @@
 
 		completeImageUpload: function () {
 			var html = '<div style="margin:0px 0px 10px 0px;"><img height="30" width="30" src="' +
-			mw.config.get( 'wgExtensionAssetsPath' ) + '/FanBoxes/resources/images/ajax-loader-white.gif" alt="" /></div>';
+				mw.config.get( 'wgExtensionAssetsPath' ) + '/FanBoxes/resources/images/ajax-loader-white.gif" alt="" /></div>';
 			document.getElementById( 'fanbox_image' ).innerHTML = html;
 			document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = html;
 		},
@@ -288,8 +288,8 @@
 		uploadComplete: function ( img_tag, img_name ) {
 			document.getElementById( 'fanbox_image' ).innerHTML = img_tag;
 			document.getElementById( 'fanbox_image2' ).innerHTML =
-			'<p><a href="javascript:FanBoxes.resetUpload();">' +
-			mw.msg( 'fanbox-upload-new-image' ) + '</a></p>';
+				'<p><a href="javascript:FanBoxes.resetUpload();">' +
+				mw.msg( 'fanbox-upload-new-image' ) + '</a></p>';
 			document.getElementById( 'fanbox_image' ).value = img_name;
 
 			document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = img_tag;
@@ -402,10 +402,10 @@
 			$( 'body' ).on( 'click', 'table.fanBoxTable', function () {
 				var $element;
 				if ( $( this ).parent().attr( 'id' ) ) {
-				// FanBoxClass.php case
+					// FanBoxClass.php case
 					$element = $( this ).parent();
 				} else {
-				// Special:TopUserBoxes, Special:ViewUserBoxes
+					// Special:TopUserBoxes, Special:ViewUserBoxes
 					$element = $( this ).parent().parent().parent();
 				}
 
@@ -425,7 +425,7 @@
 			if ( $( '.relativeposition' ).length > 0 ) {
 				$element = $( this ).parent().parent();
 			} else {
-			// UserProfilePage.php
+				// UserProfilePage.php
 				$element = $( this ).parent();
 			}
 			$fantagId = $element.attr( 'id' ).replace( /show-message-container/, '' );
