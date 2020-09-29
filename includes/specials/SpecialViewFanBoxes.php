@@ -81,14 +81,14 @@ class ViewFanBoxes extends SpecialPage {
 		$per_row = 3;
 
 		// Page title and top part
-		$out->setPageTitle( $this->msg( 'f-list-title', $user_name )->parse() );
+		$out->setPageTitle( $this->msg( 'fanbox-list-title', $user_name )->parse() );
 		$output .= '<div class="back-links">
 				<a href="' . $user->getFullURL() . '">' .
-					$this->msg( 'f-back-link', $user_name )->parse() .
+					$this->msg( 'fanbox-back-link', $user_name )->parse() .
 				'</a>
 			</div>
 			<div class="fanbox-count">' .
-				$this->msg( 'f-count', $user_name, $total )->parse() .
+				$this->msg( 'fanbox-count', $user_name, $total )->parse() .
 			'</div>
 
 			<div class="view-fanboxes-container clearfix">';
