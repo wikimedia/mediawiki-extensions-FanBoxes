@@ -39,7 +39,7 @@
 	"fanbox-righttext-color": "Label message used on Special:UserBoxes",
 	"fanbox-leftsideimage": "Header used on Special:UserBoxes, shown when the user clicks on the {{msg-mw|fanbox-display-image}} link (i.e. thus not shown by default)",
 	"fanbox-leftsideimageinstructions": "Help message used on Special:UserBoxes",
-	"fanboxes-maxchars-sixty": "Hint message used on Special:UserBoxes to indicate that userboxes' titles are limited to only 60 characters",
+	"fanbox-maxchars-sixty": "Hint message used on Special:UserBoxes to indicate that userboxes' titles are limited to only 60 characters",
 	"fanbox-upload-new-image": "Link text, shown on Special:UserBoxes after the user has uploaded an image for the userbox; clicking on this link shows the uploading form again and allows them to upload a different image instead.",
 	"fanbox-update-button": "Button text used on Special:UserBoxes when editing a pre-existing userbox (as opposed to creating a new userbox)",
 	"fanbox-userdoesnotexist": "An error message shown on Special:ViewUserBoxes when trying to view the userboxes of a user who doesn't exist",

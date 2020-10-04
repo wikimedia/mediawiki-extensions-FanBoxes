@@ -254,7 +254,7 @@ class FanBoxes extends SpecialPage {
 						<input type="text" name="wpTitle" id="wpTitle" value="' .
 							$request->getVal( 'wpTitle' ) .
 							'" style="width:350px" maxlength="60" /><br />
-						<font size="1">(' . $this->msg( 'fanboxes-maxchars-sixty' )->plain() . ')</font><br />
+						<font size="1">(' . $this->msg( 'fanbox-maxchars-sixty' )->plain() . ')</font><br />
 					</div>';
 			} else {
 				$output .= Html::hidden( 'wpTitle', $destination, [ 'id' => 'wpTitle' ] );
