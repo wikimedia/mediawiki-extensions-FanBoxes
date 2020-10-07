@@ -1,7 +1,6 @@
 {
 	"@metadata": {
-		"authors": [
-		]
+		"authors": []
 	},
 	"fanbox-desc": "{{desc|name=FanBoxes|url=https://www.mediawiki.org/wiki/Extension:FanBoxes}}",
 	"fanbox-add": "Button text used together with {{msg-mw|fanbox-add-fanbox}}; shown when you click on a userbox that you don't yet have on your social profile page; shown on other users' social profile pages, Special:TopUserboxes, Special:ViewUserBoxes and individual UserBox: pages.",

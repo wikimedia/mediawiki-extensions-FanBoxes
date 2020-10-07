@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hanna Tardos"
+		]
+	},
+	"fanbox-add": "Hozzáadás",
+	"fanbox-addtext": "Szöveg hozzáadása",
+	"fanbox-categories-label": "Kategóriák",
+	"fanbox-create-button": "Létrehozás",
+	"fanbox-created-by": "létrehozta:",
+	"fanbox-next": "Következő",
+	"fanbox-title": "Cím",
+	"fanbox-leftsideinstructions": "(Maximum karakter: 10; soronként 5)",
+	"fanbox-rightbg-color": "Jobb háttér",
+	"fanbox-leftsideimage": "Kép hozzáadása",
+	"fanbox-update-button": "Szerkesztés",
+	"fanbox-embed": "Beágyazás",
+	"fanbox-remove": "Eltávolítás",
+	"fanbox-woops-title": "Hopsz!"
+}
