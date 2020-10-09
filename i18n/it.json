@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Mpayansilva"
+		]
+	},
+	"fanbox-created-by": "creato da:",
+	"fanbox-mustenter-title": "È necessario inserire un titolo",
+	"fanbox-next": "Avanti",
+	"fanbox-title": "Titolo",
+	"fanbox-leftsidetext": "Lato sinistro",
+	"fanbox-rightsidetext": "Lato destro",
+	"fanbox-leftsideimage": "Aggiungi un'immagine",
+	"fanbox-add-colors": "Aggiungi colori",
+	"fanbox-remove": "Rimuovere",
+	"fanbox-users-with-fanbox-message": "Altre persone interessate alle stesse cose"
+}
