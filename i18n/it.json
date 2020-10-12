@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Beta16",
 			"Mpayansilva"
 		]
 	},
@@ -12,6 +13,6 @@
 	"fanbox-rightsidetext": "Lato destro",
 	"fanbox-leftsideimage": "Aggiungi un'immagine",
 	"fanbox-add-colors": "Aggiungi colori",
-	"fanbox-remove": "Rimuovere",
+	"fanbox-remove": "Rimuovi",
 	"fanbox-users-with-fanbox-message": "Altre persone interessate alle stesse cose"
 }
