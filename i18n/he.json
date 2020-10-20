@@ -1,8 +1,20 @@
 {
 	"@metadata": {
 		"authors": [
-			"Amire80"
+			"Amire80",
+			"ישראל קלר"
 		]
 	},
-	"user-fanbox-title": "תיבות מעריצים"
+	"fanbox-add": "הוספה",
+	"fanbox-addtext": "הוספת טקסט",
+	"fanbox-created-by": "נוצר על־ידי:",
+	"fanbox-mustenter-title": "עליך להזין כותרת",
+	"fanbox-prev": "הקודם",
+	"fanbox-next": "הבא",
+	"fanbox-title": "כותרת",
+	"fanbox-update-button": "עריכה",
+	"fanbox-embed": "הטבעה",
+	"fanbox-remove": "הסרה",
+	"user-fanbox-title": "תיבות משתמש",
+	"apihelp-fanboxes-param-what": "מה לעשות?"
 }
