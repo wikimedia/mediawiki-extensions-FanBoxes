@@ -4,13 +4,22 @@
 			"Saederup92"
 		]
 	},
+	"fanbox-add": "Tilføj",
 	"fanbox-addtext": "Tilføj tekst",
 	"fanbox-categories-label": "Kategorier",
 	"fanbox-create-button": "Opret",
 	"fanbox-created-by": "oprettet af:",
 	"fanbox-next": "Næste",
+	"fanbox-addfan-title": "Opret en brugerboks",
+	"fanbox-title": "Titel",
+	"fanbox-leftsidetext": "Venstre side",
+	"fanbox-rightsidetext": "Højre side",
+	"fanbox-charsleft": "(du har $1 tegn tilbage)",
 	"fanbox-leftsideimage": "Tilføj et billede",
+	"fanbox-back-link": "< Tilbage til $1's side",
 	"fanbox-add-colors": "Tilføj farver",
 	"fanbox-remove": "Fjern",
-	"fanbox-nav-header": "Brugerbokse"
+	"fanbox-nav-header": "Brugerbokse",
+	"fanbox-woops-title": "Ups!",
+	"userboxes": "Opret en brugerboks"
 }
