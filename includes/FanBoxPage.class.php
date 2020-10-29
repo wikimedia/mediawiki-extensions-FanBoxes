@@ -33,7 +33,7 @@ class FanBoxPage extends Article {
 
 		// Don't throw a bunch of E_NOTICEs when we're viewing the page of a
 		// nonexistent fanbox
-		if ( !$this->getID() ) {
+		if ( !$this->getPage()->getId() ) {
 			parent::view();
 			return '';
 		}
