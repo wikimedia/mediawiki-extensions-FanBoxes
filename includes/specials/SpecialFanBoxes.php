@@ -61,10 +61,13 @@ class FanBoxes extends SpecialPage {
 		}
 
 		// Extension's CSS & JS
-		$out->addModules( [
-			'ext.fanBoxes',
-			'ext.fanBoxes.colorpicker',
+		$out->addModuleStyles( [
+			'ext.fanBoxes.styles',
 			'ext.fanBoxes.createform'
+		] );
+		$out->addModules( [
+			'ext.fanBoxes.scripts',
+			'ext.fanBoxes.colorpicker'
 		] );
 
 		// colorpicker

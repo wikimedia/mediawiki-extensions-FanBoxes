@@ -49,7 +49,8 @@ class ViewFanBoxes extends SpecialPage {
 		$tagParser = MediaWikiServices::getInstance()->getParserFactory()->create();
 
 		// Add CSS & JS
-		$out->addModules( 'ext.fanBoxes' );
+		$out->addModuleStyles( 'ext.fanBoxes.styles' );
+		$out->addModules( 'ext.fanBoxes.scripts' );
 
 		$out->setPageTitle( $this->msg( 'fanbox-nav-header' )->plain() );
 

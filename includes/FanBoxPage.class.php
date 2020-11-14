@@ -36,10 +36,14 @@ class FanBoxPage extends Article {
 		}
 
 		// Add JS
-		$out->addModules( 'ext.fanBoxes' );
+		$out->addModules( 'ext.fanBoxes.scripts' );
 
-		// Add CSS specific to UserBox: pages
-		$out->addModuleStyles( 'ext.fanBoxes.fanboxpage' );
+		// Add CSS
+		$out->addModuleStyles( [
+			'ext.fanBoxes.styles',
+			// Add CSS specific to UserBox: pages
+			'ext.fanBoxes.fanboxpage'
+		] );
 
 		$this->fan = new FanBox( $this->getTitle() );
 		$fanboxTitle = Title::makeTitle( NS_FANTAG, $this->fan->getName() );

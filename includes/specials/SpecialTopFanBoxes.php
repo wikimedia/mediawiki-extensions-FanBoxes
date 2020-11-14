@@ -38,7 +38,8 @@ class TopFanBoxes extends SpecialPage {
 		$user = $this->getUser();
 
 		// Add CSS & JS
-		$out->addModules( 'ext.fanBoxes' );
+		$out->addModuleStyles( 'ext.fanBoxes.styles' );
+		$out->addModules( 'ext.fanBoxes.scripts' );
 
 		$topfanboxId = $request->getVal( 'id' );
 		$topfanboxCategory = $request->getVal( 'cat' );

@@ -5,6 +5,11 @@
 	width: 270px;
 }
 
+.client-nojs .fanBoxTable {
+	/* No-JS users can't just click on a user box to add it to their profile */
+	cursor: default;
+}
+
 #fanBoxLeftSideOutput {
 	width: 45px;
 	height: 57px;

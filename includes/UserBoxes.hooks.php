@@ -35,7 +35,8 @@ class UserBoxesHook {
 		$pOut->updateCacheExpiry( 0 );
 
 		// Add CSS & JS
-		$pOut->addModules( 'ext.fanBoxes' );
+		$pOut->addModuleStyles( 'ext.fanBoxes.styles' );
+		$pOut->addModules( 'ext.fanBoxes.scripts' );
 
 		$user_name = ( isset( $args['user'] ) ? $args['user'] : $user->getName() );
 

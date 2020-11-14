@@ -127,7 +127,7 @@ class FanBoxHooks {
 		if ( $title->getNamespace() == NS_FANTAG ) {
 			$out = $context->getOutput();
 			// Add CSS
-			$out->addModuleStyles( 'ext.fanBoxes' );
+			$out->addModuleStyles( 'ext.fanBoxes.styles' );
 
 			// Prevent normal edit attempts
 			if ( $context->getRequest()->getVal( 'action' ) == 'edit' ) {
@@ -171,6 +171,7 @@ class FanBoxHooks {
 		$user = $parser->getUser();
 		$parser->getOutput()->updateCacheExpiry( 0 );
 
+		// @todo FIXME: why not just use $parser->getOutput()->addModules/addModuleStyles()? --ashley, 14 November 2020
 		$wgHooks['BeforePageDisplay'][] = 'FanBoxHooks::addFanBoxScripts';
 
 		$fan_name = $argv['name'];
@@ -210,7 +211,8 @@ class FanBoxHooks {
 	 * @param Skin &$skin
 	 */
 	public static function addFanBoxScripts( &$out, &$skin ) {
-		$out->addModules( 'ext.fanBoxes' );
+		$out->addModuleStyles( 'ext.fanBoxes.styles' );
+		$out->addModules( 'ext.fanBoxes.scripts' );
 	}
 
 	/**

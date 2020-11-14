@@ -1,6 +1,6 @@
 {
 	"name": "FanBoxes",
-	"version": "3.5.0",
+	"version": "3.6.0",
 	"author": [
 		"Aaron Wright",
 		"David Pean",
@@ -97,8 +97,10 @@
 		"remoteExtPath": "FanBoxes"
 	},
 	"ResourceModules": {
-		"ext.fanBoxes": {
-			"styles": "resources/css/FanBoxes.css",
+		"ext.fanBoxes.styles": {
+			"styles": "resources/css/FanBoxes.css"
+		},
+		"ext.fanBoxes.scripts": {
 			"scripts": "resources/js/FanBoxes.js",
 			"messages": [
 				"fanbox-mustenter-left",
