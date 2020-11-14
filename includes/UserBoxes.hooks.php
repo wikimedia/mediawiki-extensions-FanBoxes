@@ -75,8 +75,10 @@ class UserBoxesHook {
 			$output .= '<div class="clearfix"><div class="user-fanbox-container">';
 
 			$x = 1;
-			$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
-			$tagParser = MediaWikiServices::getInstance()->getParserFactory()->create();
+			$services = MediaWikiServices::getInstance();
+			$repoGroup = $services->getRepoGroup();
+			$tagParser = $services->getParserFactory()->create();
+			$linkRenderer = $services->getLinkRenderer();
 
 			foreach ( $fanboxes as $fanbox ) {
 				$check_user_fanbox = $f->checkIfUserHasFanbox( $fanbox['fantag_id'] );
@@ -135,7 +137,7 @@ class UserBoxesHook {
 				);
 				$right_text = $right_text->getText();
 
-				$permaLink = MediaWiki\MediaWikiServices::getInstance()->getLinkRenderer()->makeLink(
+				$permaLink = $linkRenderer->makeLink(
 					$fantag_title,
 					wfMessage( 'fanbox-perma' )->plain(),
 					[
