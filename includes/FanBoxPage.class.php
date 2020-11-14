@@ -24,9 +24,6 @@ class FanBoxPage extends Article {
 		$out = $context->getOutput();
 		$user = $context->getUser();
 
-		// Add JS
-		$out->addModules( 'ext.fanBoxes' );
-
 		// Set the page title
 		$out->setHTMLTitle( $this->getTitle()->getText() );
 		$out->setPageTitle( $this->getTitle()->getText() );
@@ -37,6 +34,12 @@ class FanBoxPage extends Article {
 			parent::view();
 			return '';
 		}
+
+		// Add JS
+		$out->addModules( 'ext.fanBoxes' );
+
+		// Add CSS specific to UserBox: pages
+		$out->addModuleStyles( 'ext.fanBoxes.fanboxpage' );
 
 		$this->fan = new FanBox( $this->getTitle() );
 		$fanboxTitle = Title::makeTitle( NS_FANTAG, $this->fan->getName() );

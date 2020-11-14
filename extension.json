@@ -119,6 +119,9 @@
 		},
 		"ext.fanBoxes.colorpicker": {
 			"scripts": "resources/js/color-picker.js"
+		},
+		"ext.fanBoxes.fanboxpage": {
+			"styles": "resources/css/FanBoxPage.css"
 		}
 	},
 	"AvailableRights": [

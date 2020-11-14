@@ -297,36 +297,3 @@ a.perma {
 	padding: 0px 0px 25px 0px;
 	position: relative;
 }
-
-.user-embed-tag {
-	margin: 20px 0 10px 0;
-}
-
-.fanbox-page-container {
-	padding: 5px 0 0 0;
-}
-
-.user-embed-tag input {
-	width: 40%;
-}
-
-.users-with-fanbox h2 {
-	border-bottom: none;
-	font-size: 14px;
-	font-weight: bold;
-	color: #777;
-	margin: 0px 0 3px 0 !important;
-	padding: 0;
-}
-
-.users-with-fanbox-message {
-	font-size: 9px;
-	margin: 0px 0px 5px;
-}
-
-.users-with-fanbox img {
-	border: 1px solid #dcdcdc;
-	padding: 2px;
-	background-color: #fff;
-	margin: 0px 2px 0px;
-}
