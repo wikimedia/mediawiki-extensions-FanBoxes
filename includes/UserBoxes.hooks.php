@@ -169,13 +169,13 @@ class UserBoxesHook {
 					<table cellpadding="0" cellspacing="0">
 						<tr>
 							<td style="font-size:10px" align="center">' .
-								wfMessage( 'fanbox-add-fanbox' )->plain() .
+								wfMessage( 'fanbox-add-fanbox' )->escaped() .
 							'</td>
 						</tr>
 						<tr>
 							<td align="center">
-								<input type="button" class="fanbox-add-button-half" value="' . wfMessage( 'fanbox-add' )->plain() . '" size="10" />
-								<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->plain() . '" size="10" />
+								<input type="button" class="fanbox-add-button-half" value="' . wfMessage( 'fanbox-add' )->escaped() . '" size="10" />
+								<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="10" />
 							</td>
 						</tr>
 					</table>
@@ -186,13 +186,13 @@ class UserBoxesHook {
 					<table cellpadding="0" cellspacing="0">
 						<tr>
 							<td style="font-size:10px" align="center">' .
-								wfMessage( 'fanbox-remove-fanbox' )->plain() .
+								wfMessage( 'fanbox-remove-fanbox' )->escaped() .
 							'</td>
 						</tr>
 						<tr>
 							<td align="center">
-								<input type="button" class="fanbox-remove-button-half" value="' . wfMessage( 'fanbox-remove' )->plain() . '" size="10" />
-								<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->plain() . '" size="10" />
+								<input type="button" class="fanbox-remove-button-half" value="' . wfMessage( 'fanbox-remove' )->escaped() . '" size="10" />
+								<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="10" />
 							</td>
 						</tr>
 					</table>
@@ -209,7 +209,7 @@ class UserBoxesHook {
 							'</td>
 							<tr>
 								<td align="center">
-									<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->plain() . '" size="10" />
+									<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="10" />
 								</td>
 							</tr>
 						</table>
