@@ -68,14 +68,15 @@ class TopFanBoxes extends SpecialPage {
 		if ( empty( $topfanboxes ) ) {
 			$output .= $this->msg( 'fanbox-top-list-is-empty' )->parse();
 		}
-		$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
+		$services = MediaWikiServices::getInstance();
+		$repoGroup = $services->getRepoGroup();
 
 		if ( !$topfanboxCategory ) {
 			$x = 1;
 
 			$output .= '<div class="top-fanboxes">';
 
-			$tagParser = MediaWikiServices::getInstance()->getParserFactory()->create();
+			$tagParser = $services->getParserFactory()->create();
 
 			foreach ( $topfanboxes as $topfanbox ) {
 				$check_user_fanbox = $this->checkIfUserHasFanbox( $topfanbox['fantag_id'] );
