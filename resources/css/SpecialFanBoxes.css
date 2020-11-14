@@ -119,3 +119,9 @@ input[name="countdown"] {
 	cursor: pointer;
 	text-decoration: underline;
 }
+
+.fanbox-right-text-message {
+	font-size: 10px !important;
+	font-weight: normal;
+	margin: 0 0 0 10px;
+}
