@@ -164,11 +164,6 @@
 	position: relative;
 }
 
-.75percent {
-	width: 75%;
-	height: 75%;
-}
-
 a.perma {
 	position: absolute;
 	bottom: 0.3em;
