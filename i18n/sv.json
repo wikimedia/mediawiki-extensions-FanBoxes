@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Sabelöga"
+		]
+	},
+	"fanbox-desc": "Ett nytt sätt att skapa och använda användarrutor, baserat på specialsidor",
+	"fanbox-add": "Lägg till",
+	"fanbox-addtext": "Lägg till text",
+	"fanbox-categories-help": "Kategorier underlättar organisationen på webbplatsen. Separera flera kategorier med komman.",
+	"fanbox-categories-label": "Kategorier",
+	"fanbox-choose-another": "Välj en annan titel",
+	"fanbox-create-button": "Skapa",
+	"fanbox-created-by": "skapad av:",
+	"fanbox-hash": "# är ett ogiltigt tecken för den titeln.",
+	"fanbox-members": "{{PLURAL:$1|en medlem|$1 medlemmar}}",
+	"fanbox-mustenter-left": "Du måste antingen skriva in text eller en bild för den vänstra sidan"
+}
