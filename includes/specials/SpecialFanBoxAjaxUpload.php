@@ -18,9 +18,14 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 * Constructor: initialise object
 	 */
 	public function __construct() {
-		SpecialPage::__construct( 'FanBoxAjaxUpload', 'upload', false );
+		parent::__construct();
+		$this->mName = 'FanBoxAjaxUpload';
 
 		$this->loadRequest();
+	}
+
+	public function isListed() {
+		return false;
 	}
 
 	/**
