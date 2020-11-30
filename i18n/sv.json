@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Sabelöga"
+			"Sabelöga",
+			"WikiPhoenix"
 		]
 	},
 	"fanbox-desc": "Ett nytt sätt att skapa och använda användarrutor, baserat på specialsidor",
@@ -14,5 +15,6 @@
 	"fanbox-created-by": "skapad av:",
 	"fanbox-hash": "# är ett ogiltigt tecken för den titeln.",
 	"fanbox-members": "{{PLURAL:$1|en medlem|$1 medlemmar}}",
-	"fanbox-mustenter-left": "Du måste antingen skriva in text eller en bild för den vänstra sidan"
+	"fanbox-mustenter-left": "Du måste antingen skriva in text eller en bild för den vänstra sidan",
+	"user-fanbox-title": "Användarlådor"
 }
