@@ -1,8 +1,18 @@
 {
 	"@metadata": {
 		"authors": [
+			")8",
 			"Liuxinyu970226"
 		]
 	},
+	"fanbox-add": "添加",
+	"fanbox-categories-label": "分类",
+	"fanbox-create-button": "创建",
+	"fanbox-prev": "上一页",
+	"fanbox-next": "下一页",
+	"fanbox-title": "标题",
+	"fanbox-update-button": "编辑",
+	"fanbox-userdoesnotexist": "您尝试查看的用户不存在。",
+	"fanbox-woops-title": "麻烦了！",
 	"user-fanbox-title": "兴趣盒子"
 }
