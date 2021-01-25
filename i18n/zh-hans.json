@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			")8",
+			"Colathewikian",
 			"Liuxinyu970226"
 		]
 	},
@@ -14,5 +15,5 @@
 	"fanbox-update-button": "编辑",
 	"fanbox-userdoesnotexist": "您尝试查看的用户不存在。",
 	"fanbox-woops-title": "麻烦了！",
-	"user-fanbox-title": "兴趣盒子"
+	"user-fanbox-title": "用户框"
 }
