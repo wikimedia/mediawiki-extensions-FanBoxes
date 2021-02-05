@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Armando-Martin"
+			"Armando-Martin",
+			"Rodney Araujo"
 		]
 	},
-	"user-fanbox-title": "Cajas de aficionados (fanboxes)"
+	"user-fanbox-title": "Etiquetas de usuario"
 }
