@@ -87,9 +87,6 @@
 		],
 		"LoadExtensionSchemaUpdates": [
 			"FanBoxHooks::onLoadExtensionSchemaUpdates"
-		],
-		"CanonicalNamespaces": [
-			"FanBoxHooks::onCanonicalNamespaces"
 		]
 	},
 	"ResourceFileModulePaths": {

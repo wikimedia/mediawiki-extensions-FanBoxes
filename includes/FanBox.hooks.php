@@ -296,14 +296,4 @@ class FanBoxHooks {
 		// Drop unused user_fantag.userft_order column (T242868)
 		$updater->dropExtensionField( 'user_fantag', 'userft_order', $dir . '/patches/drop-userft_order.sql' );
 	}
-
-	/**
-	 * Register the canonical names for our namespace and its talkspace.
-	 *
-	 * @param array &$list Namespace numbers with corresponding canonical names
-	 */
-	public static function onCanonicalNamespaces( &$list ) {
-		$list[NS_FANTAG] = 'UserBox';
-		$list[NS_FANTAG_TALK] = 'UserBox_talk';
-	}
 }
