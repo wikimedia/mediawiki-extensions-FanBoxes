@@ -2,10 +2,13 @@
 	"@metadata": {
 		"authors": [
 			"Ameisenigel",
+			"Gebu",
 			"HajFunk",
 			"Kghbln"
 		]
 	},
 	"fanbox-categories-help": "Kategorien helfen die Seite ordentlich zu halten. Um mehrere Kategorien hinzuzufügen, trenne sie mit einem Komma.",
+	"fanbox-create-button": "Erstellen",
+	"fanbox-created-by": "Erstellt von:",
 	"user-fanbox-title": "Benutzerboxen"
 }
