@@ -12,24 +12,32 @@ class FanBoxHooks {
 	 * When a fanbox is moved to a new title, update the records in the fantag
 	 * table.
 	 *
-	 * @param Title &$title Title object representing the old title
-	 * @param Title &$newtitle Title object representing the new title
-	 * @param User $user
+	 * @param MediaWiki\Linker\LinkTarget $old Object representing the old title
+	 * @param MediaWiki\Linker\LinkTarget $new Object representing the new title
+	 * @param MediaWiki\User\UserIdentity $userIdentity
 	 * @param int $oldid
 	 * @param int $newid
-	 * @return bool
+	 * @param string $reason User-supplied reason for moving the page
+	 * @param MediaWiki\Revision\RevisionRecord $revision
 	 */
-	public static function updateFanBoxTitle( &$title, &$newtitle, $user, $oldid, $newid ) {
-		if ( $title->getNamespace() == NS_FANTAG ) {
+	public static function updateFanBoxTitle(
+		MediaWiki\Linker\LinkTarget $old,
+		MediaWiki\Linker\LinkTarget $new,
+		MediaWiki\User\UserIdentity $userIdentity,
+		int $oldid,
+		int $newid,
+		string $reason,
+		MediaWiki\Revision\RevisionRecord $revision
+	) {
+		if ( $old->getNamespace() == NS_FANTAG ) {
 			$dbw = wfGetDB( DB_MASTER );
 			$dbw->update(
 				'fantag',
-				[ 'fantag_title' => $newtitle->getText() ],
+				[ 'fantag_title' => $new->getText() ],
 				[ 'fantag_pg_id' => intval( $oldid ) ],
 				__METHOD__
 			);
 		}
-		return true;
 	}
 
 	/**

@@ -70,7 +70,7 @@
 			"UserBoxesHook::onParserFirstCallInit",
 			"FanBoxHooks::registerFanTag"
 		],
-		"TitleMoveComplete": [
+		"PageMoveComplete": [
 			"FanBoxHooks::updateFanBoxTitle"
 		],
 		"ArticleDelete": [
