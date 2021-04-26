@@ -4,7 +4,22 @@
 			"Kizule"
 		]
 	},
+	"fanbox-add": "Додај",
+	"fanbox-addtext": "Додај текст",
+	"fanbox-categories-label": "Категорије",
+	"fanbox-choose-another": "Одаберите други наслов",
+	"fanbox-create-button": "Направи",
+	"fanbox-created-by": "Направљено од стране:",
+	"fanbox-hash": "# је неважећи карактер за наслов.",
+	"fanbox-mustenter-title": "Морате унети наслов",
+	"fanbox-prev": "Претходно",
+	"fanbox-next": "Следеће",
 	"fanbox-title": "Наслов",
+	"fanbox-leftsideimage": "Додај слику",
+	"fanbox-upload-new-image": "Отпреми нову слику",
+	"fanbox-update-button": "Уреди",
+	"fanbox-userbox-category": "Корисничке кутијице",
 	"fanbox-add-colors": "Додај боје",
-	"fanbox-remove": "Уклони"
+	"fanbox-remove": "Уклони",
+	"fanbox-nav-header": "Корисничке кутијице"
 }
