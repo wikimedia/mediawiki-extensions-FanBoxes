@@ -16,7 +16,7 @@ class TagCloud {
 	}
 
 	public function initialize() {
-		$dbr = wfGetDB( DB_MASTER );
+		$dbr = wfGetDB( DB_PRIMARY );
 		$res = $dbr->select(
 			'category',
 			[ 'cat_title', 'cat_pages' ],
