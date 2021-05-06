@@ -171,7 +171,7 @@ class ViewFanBoxes extends SpecialPage {
 					</div>
 				</div>';
 
-				if ( $currentUser->isLoggedIn() ) {
+				if ( $currentUser->isRegistered() ) {
 					if ( $check_user_fanbox == 0 ) {
 						$output .= '
 					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $userfanbox['fantag_id'] . '">

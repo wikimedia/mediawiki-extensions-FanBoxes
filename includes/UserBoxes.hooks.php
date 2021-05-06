@@ -163,7 +163,7 @@ class UserBoxesHook {
 				</div>
 				</div>';
 
-				if ( $user->isLoggedIn() ) {
+				if ( $user->isRegistered() ) {
 					if ( $check_user_fanbox == 0 ) {
 						$output .= '
 					<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . $fanbox['fantag_id'] . '">

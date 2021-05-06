@@ -157,7 +157,7 @@ class TopFanBoxes extends SpecialPage {
 					</div>
 				</div>";
 
-				if ( $user->isLoggedIn() ) {
+				if ( $user->isRegistered() ) {
 					if ( $check_user_fanbox == 0 ) {
 						$output .= '
 					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $topfanbox['fantag_id'] . '">
@@ -313,7 +313,7 @@ class TopFanBoxes extends SpecialPage {
 				</div>
 				</div>';
 
-				if ( $user->isLoggedIn() ) {
+				if ( $user->isRegistered() ) {
 					if ( $check_user_fanbox == 0 ) {
 						$output .= '
 					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $categoryfanbox['fantag_id'] . '">

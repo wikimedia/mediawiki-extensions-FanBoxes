@@ -79,7 +79,7 @@ class ApiFanBoxes extends ApiBase {
 			$fanbox->changeCount( $individual_fantag_id, +1 );
 			$fanbox->addUserFan( $user, $individual_fantag_id );
 
-			if ( $user->isLoggedIn() ) {
+			if ( $user->isRegistered() ) {
 				$check = $fanbox->checkIfUserHasFanBox( $user );
 				if ( $check === 0 ) {
 					$out .= $fanbox->outputIfUserDoesntHaveFanBox();
@@ -99,7 +99,7 @@ class ApiFanBoxes extends ApiBase {
 			$fanbox->changeCount( $individual_fantag_id, -1 );
 			$fanbox->removeUserFanBox( $user, $individual_fantag_id );
 
-			if ( $user->isLoggedIn() ) {
+			if ( $user->isRegistered() ) {
 				$check = $fanbox->checkIfUserHasFanBox( $user );
 				if ( $check === 0 ) {
 					$out .= $fanbox->outputIfUserDoesntHaveFanBox();

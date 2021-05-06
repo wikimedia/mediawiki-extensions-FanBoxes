@@ -195,7 +195,7 @@ class FanBoxHooks {
 			$fantagId = $fan->getFanBoxId();
 
 			$output .= '<div id="show-message-container' . intval( $fantagId ) . '">';
-			if ( $user->isLoggedIn() ) {
+			if ( $user->isRegistered() ) {
 				$check = $fan->checkIfUserHasFanBox( $user );
 				if ( $check == 0 ) {
 					$output .= $fan->outputIfUserDoesntHaveFanBox();

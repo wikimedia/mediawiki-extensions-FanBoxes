@@ -56,7 +56,7 @@ class FanBoxPage extends Article {
 
 		$output .= '<div id="show-message-container' . $fantag_id . '">';
 
-		if ( $user->isLoggedIn() ) {
+		if ( $user->isRegistered() ) {
 			$check = $this->fan->checkIfUserHasFanBox( $user );
 			if ( $check == 0 ) {
 				$output .= $this->fan->outputIfUserDoesntHaveFanBox();
