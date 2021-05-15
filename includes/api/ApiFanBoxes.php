@@ -122,7 +122,7 @@ class ApiFanBoxes extends ApiBase {
 		$out = '';
 		$number = 0;
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 
 		if ( $addRemove == 1 ) {
 			$number = +1;
