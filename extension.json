@@ -70,24 +70,12 @@
 			"UserBoxesHook::onParserFirstCallInit",
 			"FanBoxHooks::registerFanTag"
 		],
-		"PageMoveComplete": [
-			"FanBoxHooks::updateFanBoxTitle"
-		],
-		"ArticleDelete": [
-			"FanBoxHooks::deleteFanBox"
-		],
-		"ArticleFromTitle": [
-			"FanBoxHooks::fantagFromTitle"
-		],
-		"ParserBeforeInternalParse": [
-			"FanBoxHooks::transformFanBoxTags"
-		],
-		"ParserBeforePreprocess": [
-			"FanBoxHooks::transformFanBoxTags"
-		],
-		"LoadExtensionSchemaUpdates": [
-			"FanBoxHooks::onLoadExtensionSchemaUpdates"
-		]
+		"PageMoveComplete": "FanBoxHooks::updateFanBoxTitle",
+		"ArticleDelete": "FanBoxHooks::deleteFanBox",
+		"ArticleFromTitle": "FanBoxHooks::fantagFromTitle",
+		"ParserBeforeInternalParse": "FanBoxHooks::transformFanBoxTags",
+		"ParserBeforePreprocess": "FanBoxHooks::transformFanBoxTags",
+		"LoadExtensionSchemaUpdates": "FanBoxHooks::onLoadExtensionSchemaUpdates"
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
@@ -110,14 +98,16 @@
 				"fanbox-addfan-exists"
 			],
 			"dependencies": [
-				"mediawiki.api"
+				"mediawiki.api",
+				"mediawiki.util"
 			]
 		},
 		"ext.fanBoxes.createform": {
 			"styles": "resources/css/SpecialFanBoxes.css"
 		},
 		"ext.fanBoxes.colorpicker": {
-			"scripts": "resources/js/color-picker.js"
+			"scripts": "resources/js/color-picker.js",
+			"dependencies": "mediawiki.util"
 		},
 		"ext.fanBoxes.fanboxpage": {
 			"styles": "resources/css/FanBoxPage.css"

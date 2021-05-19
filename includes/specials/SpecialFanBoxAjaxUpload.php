@@ -12,6 +12,7 @@
  * @author Jack Phoenix
  * @date 29 August 2013
  * @note Based on 1.16 core SpecialUpload.php (GPL-licensed) by Bryan et al.
+ * @property FanBoxUpload $mUpload
  */
 class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	/**
@@ -67,14 +68,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 
 		// If it was posted check for the token (no remote POST'ing with user credentials)
 		$token = $request->getVal( 'wpEditToken' );
-		if ( $this->mSourceType == 'file' && $token == null ) {
-			// Skip token check for file uploads as that can't be faked via JS...
-			// Some client-side tools don't expect to need to send wpEditToken
-			// with their submissions, as that's new in 1.16.
-			$this->mTokenOk = true;
-		} else {
-			$this->mTokenOk = $this->getUser()->matchEditToken( $token );
-		}
+		$this->mTokenOk = $this->getUser()->matchEditToken( $token );
 	}
 
 	/**
@@ -82,6 +76,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 *
 	 * What was changed here: the setArticleBodyOnly() line below was added,
 	 * and some bits of code were entirely removed.
+	 *
 	 * @param string|null $par
 	 */
 	public function execute( $par ) {
@@ -136,12 +131,12 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	}
 
 	/**
-	 * Get an UploadForm instance with title and text properly set.
+	 * Get a FanBoxAjaxUploadForm instance with title and text properly set.
 	 *
 	 * @param string $message HTML string to add to the form
 	 * @param string $sessionKey Session key in case this is a stashed upload
 	 * @param bool $hideIgnoreWarning
-	 * @return UploadForm
+	 * @return FanBoxAjaxUploadForm
 	 */
 	protected function getUploadForm( $message = '', $sessionKey = '', $hideIgnoreWarning = false ) {
 		# Initialize form
@@ -152,7 +147,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 			'hideignorewarning' => $hideIgnoreWarning,
 			'destwarningack' => (bool)$this->mDestWarningAck,
 			'destfile' => $this->mDesiredDestName,
-		] );
+		], $this->getContext() );
 		$form->setTitle( $this->getPageTitle() );
 
 		# Check the token, but only if necessary
@@ -179,7 +174,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 * @param string $message HTML message to be passed to mainUploadForm
 	 */
 	protected function showRecoverableUploadError( $message ) {
-		$sessionKey = $this->mUpload->stashSession();
+		$sessionKey = $this->mUpload->doStashFile()->getFileKey();
 		$message = '<h2>' . $this->msg( 'uploaderror' )->escaped() . "</h2>\n" .
 			'<div class="error">' . $message . "</div>\n";
 
@@ -214,7 +209,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 		$status = $this->mUpload->fetchFile();
 		if ( !$status->isOK() ) {
 			$this->showUploadError(
-				$this->getUploadForm( $this->getOutput()->parseAsInterface( $status->getWikiText() ) )
+				$this->getOutput()->parseAsInterface( $status->getWikiText() )
 			);
 			return;
 		}

@@ -9,32 +9,53 @@ use MediaWiki\MediaWikiServices;
 
 class FanBox {
 
-	public $name,
-		$title,
-		$exists,
-		$create_date,
-		$type,
-		$fantag_id,
-		$fantag_title,
-		$actor,
-		$left_text,
-		$left_textcolor,
-		$left_bgcolor,
-		$left_textsize,
-		$right_text,
-		$right_textcolor,
-		$right_bgcolor,
-		$right_textsize,
-		$fantag_left_text,
-		$fantag_left_textcolor,
-		$fantag_left_bgcolor,
-		$fantag_right_text,
-		$fantag_right_textcolor,
-		$fantag_right_bgcolor,
-		$fantag_image_name,
-		$fantag_left_textsize,
-		$fantag_right_textsize,
-		$userft_fantag_id;
+	/** @var string UserBox page name in DBkey format (i.e. underscores instead of spaces) */
+	public $name;
+
+	/** @var Title Title object referring to the UserBox page */
+	public $title;
+
+	/** @var bool Does the UserBox in question actually...exist? */
+	public $exists;
+
+	/** @var int UserBox ID (may _not_ be identical to pg_id!), i.e. fantag.fantag_id from the DB */
+	public $id;
+
+	/** @var int UserBox page ID */
+	public $pg_id;
+
+	/** @var int Actor ID of the person (User) who created the UserBox in question */
+	public $actor;
+
+	/** @var string Left-hand portion text (max. 11 characters) */
+	public $left_text;
+
+	/** @var string Hex color code for the left-hand text */
+	public $left_textcolor;
+
+	/** @var string Hex color code for the left-hand background */
+	public $left_bgcolor;
+
+	/** @var string Text size of the left-hand text; either "smallfont" (12px), "mediumfont" (14px) or "bigfont" (20px) */
+	public $left_textsize;
+
+	/** @var string Right-hand portion text (max. 70 characters) */
+	public $right_text;
+
+	/** @var string Hex color code for the right-hand text */
+	public $right_textcolor;
+
+	/** @var string Hex color code for the right-hand background */
+	public $right_bgcolor;
+
+	/** @var string Text size of the right-hand text; either "smallfont" (12px), "mediumfont" (14px) or "bigfont" (20px) */
+	public $right_textsize;
+
+	/** @var string FanBox image name (if any) */
+	public $fantag_image;
+
+	/** @var bool */
+	public $dataLoaded;
 
 	/**
 	 * Constructor
@@ -136,7 +157,7 @@ class FanBox {
 				'fantag_right_textcolor' => $fantag_right_textcolor,
 				'fantag_right_bgcolor' => $fantag_right_bgcolor,
 				'fantag_date' => $dbw->timestamp( date( 'Y-m-d H:i:s' ) ),
-				'fantag_pg_id' => $article->getID(),
+				'fantag_pg_id' => $article->getPage()->getId(),
 				'fantag_actor' => $user->getActorId(),
 				'fantag_image_name' => $fantag_image_name,
 				'fantag_left_textsize' => $fantag_left_textsize,
@@ -301,13 +322,14 @@ class FanBox {
 	function changeCount( $fanBoxId, $number ) {
 		$dbw = wfGetDB( DB_MASTER );
 
-		$count = $dbw->selectField(
+		$count = (int)$dbw->selectField(
 			'fantag',
 			'fantag_count',
 			[ 'fantag_id' => $fanBoxId ],
 			__METHOD__
 		);
 
+		$number = (int)$number;
 		$dbw->update(
 			'fantag',
 			[ "fantag_count = {$count}+{$number}" ],
@@ -449,6 +471,7 @@ class FanBox {
 		$services = MediaWikiServices::getInstance();
 		$tagParser = $services->getParserFactory()->create();
 
+		$fantag_image_tag = '';
 		if ( $this->getFanBoxImage() ) {
 			$fantag_image_width = 45;
 			$fantag_image_height = 53;
@@ -484,7 +507,7 @@ class FanBox {
 		} else {
 			$fantag_perma = $services->getLinkRenderer()->makeLink(
 				$fantag_title,
-				wfMessage( 'fanbox-perma' )->plain(),
+				wfMessage( 'fanbox-perma' )->text(),
 				[
 					'class' => 'perma',
 					'style' => 'font-size:8px; color:' .
@@ -502,6 +525,7 @@ class FanBox {
 			$leftfontsize = '20px';
 		}
 
+		$rightfontsize = '14px';
 		if ( $this->getFanBoxRightTextSize() == 'smallfont' ) {
 			$rightfontsize = '12px';
 		}
@@ -515,15 +539,15 @@ class FanBox {
 		);
 		$right_text = $right_text->getText();
 
-		$output = '<input type="hidden" name="individualFantagId" value="' . $this->getFanBoxId() . '" />
-			<div class="individual-fanbox" id="individualFanbox' . $individual_fantag_id . "\">
+		$output = '<input type="hidden" name="individualFantagId" value="' . (int)$this->getFanBoxId() . '" />
+			<div class="individual-fanbox" id="individualFanbox' . (int)$individual_fantag_id . "\">
 				<div class=\"permalink-container\">
 					$fantag_perma
 				</div>
 				<table class=\"fanBoxTable\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
 					<tr>
-						<td id=\"fanBoxLeftSideOutput\" style=\"color:" . $this->getFanBoxLeftTextColor() . "; font-size:$leftfontsize\" bgcolor=\"" . $this->getFanBoxLeftBgColor() . "\">" . $fantag_leftside . "</td>
-						<td id=\"fanBoxRightSideOutput\" style=\"color:" . $this->getFanBoxRightTextColor() . "; font-size:$rightfontsize\" bgcolor=\"" . $this->getFanBoxRightBgColor() . "\">" . $right_text . "</td>
+						<td id=\"fanBoxLeftSideOutput\" style=\"color:" . htmlspecialchars( $this->getFanBoxLeftTextColor(), ENT_QUOTES ) . "; font-size:$leftfontsize\" bgcolor=\"" . htmlspecialchars( $this->getFanBoxLeftBgColor(), ENT_QUOTES ) . "\">" . $fantag_leftside . "</td>
+						<td id=\"fanBoxRightSideOutput\" style=\"color:" . htmlspecialchars( $this->getFanBoxRightTextColor(), ENT_QUOTES ) . "; font-size:$rightfontsize\" bgcolor=\"" . htmlspecialchars( $this->getFanBoxRightBgColor(), ENT_QUOTES ) . "\">" . $right_text . "</td>
 					</tr>
 				</table>
 			</div>";
@@ -541,7 +565,7 @@ class FanBox {
 		$dbw = wfGetDB( DB_MASTER );
 		$check_fanbox_count = $dbw->selectField(
 			'user_fantag',
-			[ 'COUNT(*) AS count' ],
+			'COUNT(*) AS count',
 			[
 				'userft_actor' => $user->getActorId(),
 				'userft_fantag_id' => $this->getFanBoxId()
@@ -569,16 +593,16 @@ class FanBox {
 		$individual_fantag_id = $this->getFanBoxId();
 
 		$output = '
-			<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $individual_fantag_id . '">
+			<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . (int)$individual_fantag_id . '">
 			<table cellpadding="0" cellspacing="0" width="258px">
 				<tr>
 					<td align="center">' .
-						wfMessage( 'fanbox-remove-fanbox' )->plain() .
+						wfMessage( 'fanbox-remove-fanbox' )->escaped() .
 					'</td>
 				<tr>
 					<td align="center">
-					<input type="button" class="fanbox-remove-has-button" data-fanbox-title="' . $fanboxTitle . '" value="' . wfMessage( 'fanbox-remove' )->plain() . '" size="20" />
-					<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->plain() . '" size="20" />
+					<input type="button" class="fanbox-remove-has-button" data-fanbox-title="' . $fanboxTitle . '" value="' . wfMessage( 'fanbox-remove' )->escaped() . '" size="20" />
+					<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="20" />
 				</td>
 			</table>
 			</div>';
@@ -598,17 +622,17 @@ class FanBox {
 		$individual_fantag_id = $this->getFanBoxId();
 
 		$output = '
-			<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $individual_fantag_id . '">
+			<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . (int)$individual_fantag_id . '">
 			<table cellpadding="0" cellspacing="0" width="258px">
 				<tr>
 					<td align="center">' .
-						wfMessage( 'fanbox-add-fanbox' )->plain() .
+						wfMessage( 'fanbox-add-fanbox' )->escaped() .
 					'</td>
 				</tr>
 				<tr>
 					<td align="center">
-						<input type="button" class="fanbox-add-doesnt-have-button" data-fanbox-title="' . $fanboxTitle . '" value="' . wfMessage( 'fanbox-add' )->plain() . '" size="20" />
-						<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->plain() . '" size="20" />
+						<input type="button" class="fanbox-add-doesnt-have-button" data-fanbox-title="' . $fanboxTitle . '" value="' . wfMessage( 'fanbox-add' )->escaped() . '" size="20" />
+						<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="20" />
 					</td>
 				</tr>
 			</table>
@@ -630,7 +654,7 @@ class FanBox {
 				</tr>
 				<tr>
 					<td align="center">
-						<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->plain() . '" size="20" />
+						<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="20" />
 					</td>
 				</tr>
 			</table>
@@ -654,6 +678,7 @@ class FanBox {
 
 	/**
 	 * @return int The ID number of the fanbox
+	 * @return-taint none
 	 */
 	public function getFanBoxId() {
 		$this->load();

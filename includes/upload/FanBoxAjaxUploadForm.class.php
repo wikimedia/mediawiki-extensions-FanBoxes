@@ -9,15 +9,21 @@ class FanBoxAjaxUploadForm extends UploadForm {
 
 	protected $mSourceIds;
 
-	public function __construct( $options = [] ) {
+	/**
+	 * @param array $options
+	 * @param IContextSource|null $context
+	 */
+	public function __construct( array $options = [], IContextSource $context = null ) {
+		if ( $context instanceof IContextSource ) {
+			$this->setContext( $context );
+		}
 		$this->mWatch = !empty( $options['watch'] );
 		$this->mForReUpload = !empty( $options['forreupload'] );
-		$this->mSessionKey = isset( $options['sessionkey'] )
-				? $options['sessionkey'] : '';
+		$this->mSessionKey = $options['sessionkey'] ?? '';
 		$this->mHideIgnoreWarning = !empty( $options['hideignorewarning'] );
 		$this->mDestWarningAck = !empty( $options['destwarningack'] );
 
-		$this->mDestFile = isset( $options['destfile'] ) ? $options['destfile'] : '';
+		$this->mDestFile = $options['destfile'] ?? '';
 
 		$sourceDescriptor = $this->getSourceSection();
 		$descriptor = $sourceDescriptor
@@ -25,7 +31,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 			+ $this->getOptionsSection();
 
 		// Hooks::run( 'UploadFormInitDescriptor', array( &$descriptor ) );
-		HTMLForm::__construct( $descriptor, 'upload' );
+		HTMLForm::__construct( $descriptor, $context, 'upload' );
 
 		# Set some form properties
 		$this->setSubmitText( $this->msg( 'uploadbtn' )->text() );
@@ -213,9 +219,11 @@ class FanBoxAjaxUploadForm extends UploadForm {
 
 	/**
 	 * Add the upload JS and show the form.
+	 *
+	 * @return Status|bool
 	 */
 	public function show() {
-		HTMLForm::show();
+		return HTMLForm::show();
 	}
 
 	/**

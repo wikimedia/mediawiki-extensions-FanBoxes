@@ -72,9 +72,9 @@ class FanBoxPage extends Article {
 				$this->getEmbedThisTag() .
 			'</div>
 			<div class="users-with-fanbox">
-				<h2>' . wfMessage( 'fanbox-users-with-fanbox' )->plain() . '</h2>
+				<h2>' . wfMessage( 'fanbox-users-with-fanbox' )->escaped() . '</h2>
 				<div class="users-with-fanbox-message">' .
-					wfMessage( 'fanbox-users-with-fanbox-message' )->plain() .
+					wfMessage( 'fanbox-users-with-fanbox-message' )->escaped() .
 				'</div>' .
 				$this->fanBoxHolders() . "\n" .
 			'</div>
@@ -154,7 +154,8 @@ class FanBoxPage extends Article {
 		$code = $this->fan->getEmbedThisCode();
 		$code = preg_replace( '/[\n\r\t]/', '', $code ); // remove any non-space whitespace
 		$code = str_replace( '_', ' ', $code ); // replace underscores with spaces
-		return '<form name="embed_fan" action="">' . wfMessage( 'fanbox-embed' )->plain() .
+		$code = htmlspecialchars( $code, ENT_QUOTES );
+		return '<form name="embed_fan" action="">' . wfMessage( 'fanbox-embed' )->escaped() .
 			" <input name='embed_code' type='text' value='{$code}' onclick='javascript:document.embed_fan.embed_code.focus();document.embed_fan.embed_code.select();' readonly='readonly' /></form>";
 	}
 

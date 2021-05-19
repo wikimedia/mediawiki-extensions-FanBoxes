@@ -66,11 +66,6 @@ table.fanBoxTable {
 	padding-left: 10px;
 }
 
-input[name="countdown"] {
-	height: 15px;
-	width: 20px;
-}
-
 #fanbox-left-text {
 	float: left;
 	width: 180px;
@@ -118,6 +113,11 @@ input[name="countdown"] {
 #create-tagcloud span a {
 	cursor: pointer;
 	text-decoration: underline;
+}
+
+/* Hide JS version for no-JS users */
+.client-nojs #create-tagcloud {
+	display: none;
 }
 
 .fanbox-right-text-message {

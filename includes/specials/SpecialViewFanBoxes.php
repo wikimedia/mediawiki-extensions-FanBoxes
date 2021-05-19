@@ -68,7 +68,7 @@ class ViewFanBoxes extends SpecialPage {
 		// Error message for username that does not exist (from URL)
 		if ( $user_id == 0 ) {
 			$out->setPageTitle( $this->msg( 'fanbox-woops' )->plain() );
-			$out->addHTML( $this->msg( 'fanbox-userdoesnotexist' )->plain() );
+			$out->addHTML( $this->msg( 'fanbox-userdoesnotexist' )->escaped() );
 			return;
 		}
 
@@ -101,6 +101,7 @@ class ViewFanBoxes extends SpecialPage {
 			foreach ( $userFanboxes as $userfanbox ) {
 				$check_user_fanbox = $userfan->checkIfUserHasFanbox( $userfanbox['fantag_id'] );
 
+				$fantag_image_tag = '';
 				if ( $userfanbox['fantag_image_name'] ) {
 					$fantag_image_width = 45;
 					$fantag_image_height = 53;
@@ -157,14 +158,14 @@ class ViewFanBoxes extends SpecialPage {
 				// Output fanboxes
 				$output .= '<span class="top-fanbox">
 				<div class="fanbox-item">
-				<div class="individual-fanboxtest" id="individualFanbox' . $userfanbox['fantag_id'] . '">
-					<div class="show-message-container" id="show-message-container' . $userfanbox['fantag_id'] . '">
+				<div class="individual-fanboxtest" id="individualFanbox' . (int)$userfanbox['fantag_id'] . '">
+					<div class="show-message-container" id="show-message-container' . (int)$userfanbox['fantag_id'] . '">
 						<div class="permalink-container">
-							<a class="perma" style="font-size:8px; color:' . $userfanbox['fantag_right_textcolor'] . '" href="' . htmlspecialchars( $fantag_title->getFullURL() ) . "\" title=\"{$userfanbox['fantag_title']}\">" . $this->msg( 'fanbox-perma' )->plain() . "</a>
+							<a class="perma" style="font-size:8px; color:' . htmlspecialchars( $userfanbox['fantag_right_textcolor'], ENT_QUOTES ) . '" href="' . htmlspecialchars( $fantag_title->getFullURL() ) . '" title="' . htmlspecialchars( $userfanbox['fantag_title'], ENT_QUOTES ) . '">' . $this->msg( 'fanbox-perma' )->escaped() . "</a>
 							<table class=\"fanBoxTable\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
 								<tr>
-									<td id=\"fanBoxLeftSideOutput\" style=\"color:" . $userfanbox['fantag_left_textcolor'] . "; font-size:$leftfontsize\" bgcolor=\"" . $userfanbox['fantag_left_bgcolor'] . '">' . $fantag_leftside . "</td>
-									<td id=\"fanBoxRightSideOutput\" style=\"color:" . $userfanbox['fantag_right_textcolor'] . "; font-size:$rightfontsize\" bgcolor=\"" . $userfanbox['fantag_right_bgcolor'] . '">' . $right_text . '</td>
+									<td id=\"fanBoxLeftSideOutput\" style=\"color:" . htmlspecialchars( $userfanbox['fantag_left_textcolor'], ENT_QUOTES ) . "; font-size:$leftfontsize\" bgcolor=\"" . htmlspecialchars( $userfanbox['fantag_left_bgcolor'], ENT_QUOTES ) . '">' . $fantag_leftside . "</td>
+									<td id=\"fanBoxRightSideOutput\" style=\"color:" . htmlspecialchars( $userfanbox['fantag_right_textcolor'], ENT_QUOTES ) . "; font-size:$rightfontsize\" bgcolor=\"" . htmlspecialchars( $userfanbox['fantag_right_bgcolor'], ENT_QUOTES ) . '">' . $right_text . '</td>
 								</tr>
 							</table>
 						</div>
@@ -174,34 +175,34 @@ class ViewFanBoxes extends SpecialPage {
 				if ( $currentUser->isRegistered() ) {
 					if ( $check_user_fanbox == 0 ) {
 						$output .= '
-					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $userfanbox['fantag_id'] . '">
+					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . (int)$userfanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>
 							<td align="center">' .
-								$this->msg( 'fanbox-add-fanbox' )->plain() .
+								$this->msg( 'fanbox-add-fanbox' )->escaped() .
 							'</td>
 						</tr>
 						<tr>
 							<td align="center">
-								<input type="button" class="fanbox-add-button" value="' . $this->msg( 'fanbox-add' )->plain() . '" size="20" />
-								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->plain() . '" size="20" />
+								<input type="button" class="fanbox-add-button" value="' . $this->msg( 'fanbox-add' )->escaped() . '" size="20" />
+								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->escaped() . '" size="20" />
 							</td>
 						</tr>
 					</table>
 					</div>';
 					} else {
 						$output .= '
-					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $userfanbox['fantag_id'] . '">
+					<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . (int)$userfanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>
 							<td align="center">' .
-								$this->msg( 'fanbox-remove-fanbox' )->plain() .
+								$this->msg( 'fanbox-remove-fanbox' )->escaped() .
 							'</td>
 						</tr>
 						<tr>
 							<td align="center">
-								<input type="button" class="fanbox-remove-button" value="' . $this->msg( 'fanbox-remove' )->plain() . '" size="20" />
-								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->plain() . '" size="20" />
+								<input type="button" class="fanbox-remove-button" value="' . $this->msg( 'fanbox-remove' )->escaped() . '" size="20" />
+								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->escaped() . '" size="20" />
 							</td>
 						</tr>
 					</table>
@@ -209,8 +210,8 @@ class ViewFanBoxes extends SpecialPage {
 					}
 				}
 
-				if ( $currentUser->getID() == 0 ) {
-					$output .= '<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . $userfanbox['fantag_id'] . '">
+				if ( $currentUser->getId() == 0 ) {
+					$output .= '<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . (int)$userfanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>
 							<td align="center">' .
@@ -219,11 +220,11 @@ class ViewFanBoxes extends SpecialPage {
 						</tr>
 						<tr>
 							<td align="center">
-								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->plain() . "\" size=\"20\" />
+								<input type="button" class="fanbox-cancel-button" value="' . $this->msg( 'cancel' )->escaped() . '" size="20" />
 							</td>
 						</tr>
 					</table>
-				</div>";
+				</div>';
 				}
 
 				$output .= '</div></span>';
@@ -248,13 +249,13 @@ class ViewFanBoxes extends SpecialPage {
 			if ( $page > 1 ) {
 				$output .= $linkRenderer->makeLink(
 					$pageLink,
-					$this->msg( 'fanbox-prev' )->plain(),
+					$this->msg( 'fanbox-prev' )->text(),
 					[],
 					[
 						'user' => $user_name,
 						'page' => ( $page - 1 )
 					]
-				) . $this->msg( 'word-separator' )->plain();
+				) . $this->msg( 'word-separator' )->escaped();
 			}
 
 			if ( ( $total % $per_page ) != 0 ) {
@@ -275,21 +276,21 @@ class ViewFanBoxes extends SpecialPage {
 				} else {
 					$output .= $linkRenderer->makeLink(
 						$pageLink,
-						$i,
+						(string)$i,
 						[],
 						[
 							'user' => $user_name,
 							'page' => $i
 						]
-					) . $this->msg( 'word-separator' )->plain();
+					) . $this->msg( 'word-separator' )->escaped();
 				}
 			}
 
 			if ( ( $total - ( $per_page * $page ) ) > 0 ) {
-				$output .= $this->msg( 'word-separator' )->plain() .
+				$output .= $this->msg( 'word-separator' )->escaped() .
 					$linkRenderer->makeLink(
 						$pageLink,
-						$this->msg( 'fanbox-next' )->plain(),
+						$this->msg( 'fanbox-next' )->text(),
 						[],
 						[
 							'user' => $user_name,

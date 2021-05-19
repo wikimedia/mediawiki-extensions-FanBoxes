@@ -5,6 +5,7 @@
  * @file
  * @ingroup API
  * @see https://www.mediawiki.org/wiki/API:Extensions#ApiSampleApiExtension.php
+ * @phan-file-suppress PhanImpossibleTypeComparison Phan doesn't like the "is thing null?" checks here
  */
 class ApiFanBoxes extends ApiBase {
 

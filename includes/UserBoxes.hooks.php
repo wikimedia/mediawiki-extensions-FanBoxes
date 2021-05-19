@@ -38,7 +38,7 @@ class UserBoxesHook {
 		$pOut->addModuleStyles( 'ext.fanBoxes.styles' );
 		$pOut->addModules( 'ext.fanBoxes.scripts' );
 
-		$user_name = ( isset( $args['user'] ) ? $args['user'] : $user->getName() );
+		$user_name = $args['user'] ?? $user->getName();
 
 		$limit = 10;
 		if ( isset( $args['limit'] ) && is_numeric( $args['limit'] ) ) {
@@ -84,6 +84,7 @@ class UserBoxesHook {
 			foreach ( $fanboxes as $fanbox ) {
 				$check_user_fanbox = $f->checkIfUserHasFanbox( $fanbox['fantag_id'] );
 
+				$fantag_image_tag = '';
 				if ( $fanbox['fantag_image_name'] ) {
 					$fantag_image_width = 45;
 					$fantag_image_height = 53;
@@ -150,13 +151,13 @@ class UserBoxesHook {
 
 				// Output fanboxes
 				$output .= '<span class="top-fanbox"><div class="fanbox-item">
-				<div class="individual-fanbox" id="individualFanbox' . $fanbox['fantag_id'] . '">
-				<div class="show-message-container-profile" id="show-message-container' . $fanbox['fantag_id'] . '">
+				<div class="individual-fanbox" id="individualFanbox' . (int)$fanbox['fantag_id'] . '">
+				<div class="show-message-container-profile" id="show-message-container' . (int)$fanbox['fantag_id'] . '">
 					<div class="relativeposition">' . $permaLink .
 					'<table class="fanBoxTableProfile" border="0" cellpadding="0" cellspacing="0">
 						<tr>
-							<td id="fanBoxLeftSideOutputProfile" style="color:' . $fanbox['fantag_left_textcolor'] . "; font-size:$leftFontSize; background-color:" . $fanbox['fantag_left_bgcolor'] . ';">' . $fantag_leftside . '</td>
-							<td id="fanBoxRightSideOutputProfile" style="color:' . $fanbox['fantag_right_textcolor'] . "; font-size:$rightFontSize; background-color:" . $fanbox['fantag_right_bgcolor'] . ';">' . $right_text . '</td>
+							<td id="fanBoxLeftSideOutputProfile" style="color:' . htmlspecialchars( $fanbox['fantag_left_textcolor'], ENT_QUOTES ) . "; font-size:$leftFontSize; background-color:" . htmlspecialchars( $fanbox['fantag_left_bgcolor'], ENT_QUOTES ) . ';">' . $fantag_leftside . '</td>
+							<td id="fanBoxRightSideOutputProfile" style="color:' . htmlspecialchars( $fanbox['fantag_right_textcolor'], ENT_QUOTES ) . "; font-size:$rightFontSize; background-color:" . htmlspecialchars( $fanbox['fantag_right_bgcolor'], ENT_QUOTES ) . ';">' . $right_text . '</td>
 						</tr>
 					</table>
 					</div>
@@ -166,7 +167,7 @@ class UserBoxesHook {
 				if ( $user->isRegistered() ) {
 					if ( $check_user_fanbox == 0 ) {
 						$output .= '
-					<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . $fanbox['fantag_id'] . '">
+					<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . (int)$fanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0">
 						<tr>
 							<td style="font-size:10px" align="center">' .
@@ -183,7 +184,7 @@ class UserBoxesHook {
 					</div>';
 					} else {
 						$output .= '
-					<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . $fanbox['fantag_id'] . '">
+					<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . (int)$fanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0">
 						<tr>
 							<td style="font-size:10px" align="center">' .
@@ -202,7 +203,7 @@ class UserBoxesHook {
 				}
 
 				if ( $user->getId() == 0 ) {
-					$output .= '<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . $fanbox['fantag_id'] . '">
+					$output .= '<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . (int)$fanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0">
 						<tr>
 							<td style="font-size: 10px" align="center">' .

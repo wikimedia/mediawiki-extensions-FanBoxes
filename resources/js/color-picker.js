@@ -9,28 +9,37 @@ jQuery( function () {
 	} );
 
 	colorPickerTest.on( 'rgbChange', function () {
-		var sColor = '#' + this.get( 'hex' );
+		var sColor = '#' + this.get( 'hex' ),
+			documentForm;
 
-		if ( document.colorpickerradio.colorpickerchoice[ 0 ].checked ) {
+		if ( mw.util.getParamValue( 'id' ) ) {
+			// Editing an existing UserBox
+			documentForm = document.form1;
+		} else {
+			// Creating a brand new UserBox
+			documentForm = document.colorpickerradio;
+		}
+
+		if ( documentForm.colorpickerchoice[ 0 ].checked ) {
 			document.getElementById( 'fanBoxLeftSideOutput2' ).style.backgroundColor = sColor;
 			// The commented-out line below is the original NYC code but I noticed that it doesn't work
 			// document.getElementById( 'fanBoxLeftSideContainer' ).style.backgroundColor = sColor;
 			document.getElementById( 'bgColorLeftSideColor' ).value = sColor;
 		}
 
-		if ( document.colorpickerradio.colorpickerchoice[ 1 ].checked ) {
+		if ( documentForm.colorpickerchoice[ 1 ].checked ) {
 			document.getElementById( 'fanBoxLeftSideOutput2' ).style.color = sColor;
 			document.getElementById( 'textColorLeftSideColor' ).value = sColor;
 		}
 
-		if ( document.colorpickerradio.colorpickerchoice[ 2 ].checked ) {
+		if ( documentForm.colorpickerchoice[ 2 ].checked ) {
 			document.getElementById( 'fanBoxRightSideOutput2' ).style.backgroundColor = sColor;
 			// The commented-out line below is the original NYC code but I noticed that it doesn't work
 			// document.getElementById( 'fanBoxRightSideContainer' ).style.backgroundColor = sColor;
 			document.getElementById( 'bgColorRightSideColor' ).value = sColor;
 		}
 
-		if ( document.colorpickerradio.colorpickerchoice[ 3 ].checked ) {
+		if ( documentForm.colorpickerchoice[ 3 ].checked ) {
 			document.getElementById( 'fanBoxRightSideOutput2' ).style.color = sColor;
 			document.getElementById( 'textColorRightSideColor' ).value = sColor;
 		}

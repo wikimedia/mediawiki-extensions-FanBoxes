@@ -33,7 +33,7 @@
 			if ( limitField.value.length > limitNum ) {
 				limitField.value = limitField.value.substring( 0, limitNum );
 			} else {
-				limitCount.value = limitNum - limitField.value.length;
+				limitCount.innerHTML = limitNum - limitField.value.length;
 			}
 		},
 
@@ -308,10 +308,6 @@
 
 	$( function () {
 		if ( mw.config.get( 'wgCanonicalSpecialPageName' ) === 'UserBoxes' ) {
-			$( 'div.create-fanbox-buttons input[type="button"].fanbox-simple-button' ).on( 'click', function () {
-				FanBoxes.createFantagSimple();
-			} );
-
 			$( 'div#fanbox_image' ).on( 'click', function () {
 				FanBoxes.insertImageToLeft();
 			} );
@@ -353,29 +349,35 @@
 					FanBoxes.rightSideFanBoxFormat();
 				},
 				keydown: function () {
-					FanBoxes.limitText( this.form.inputRightSide, this.form.countdown, 70 );
+					FanBoxes.limitText( this.form.inputRightSide, document.getElementById( 'countdown' ), 70 );
 					FanBoxes.displayRightSide();
 					FanBoxes.rightSideFanBoxFormat();
 				},
 				keyup: function () {
-					FanBoxes.limitText( this.form.inputRightSide, this.form.countdown, 70 );
+					FanBoxes.limitText( this.form.inputRightSide, document.getElementById( 'countdown' ), 70 );
 					FanBoxes.displayRightSide();
 					FanBoxes.rightSideFanBoxFormat();
 				},
 				paste: function () {
-					FanBoxes.limitText( this.form.inputRightSide, this.form.countdown, 70 );
+					FanBoxes.limitText( this.form.inputRightSide, document.getElementById( 'countdown' ), 70 );
 					FanBoxes.displayRightSide();
 					FanBoxes.rightSideFanBoxFormat();
 				},
 				keypress: function () {
-					FanBoxes.limitText( this.form.inputRightSide, this.form.countdown, 70 );
+					FanBoxes.limitText( this.form.inputRightSide, document.getElementById( 'countdown' ), 70 );
 					FanBoxes.displayRightSide();
 					FanBoxes.rightSideFanBoxFormat();
 				}
 			} );
 
-			$( 'div.create-fanbox-buttons input[type="button"]' ).on( 'click', function () {
-				FanBoxes.createFantag();
+			$( 'div.create-fanbox-buttons input[type="submit"]' ).on( 'click', function () {
+				if ( mw.util.getParamValue( 'id' ) ) {
+					// Editing an existing UserBox
+					FanBoxes.createFantagSimple();
+				} else {
+					// Creating a brand new one
+					FanBoxes.createFantag();
+				}
 			} );
 
 			// Tag cloud

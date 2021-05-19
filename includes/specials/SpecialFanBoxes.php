@@ -106,16 +106,16 @@ class FanBoxes extends SpecialPage {
 				}
 			}
 
-			$output .= "
-			<form action=\"\" method=\"post\" name=\"form1\">
-			<input type=\"hidden\" name=\"fantag_image_name\" id=\"fantag_image_name\" value=\"{$update_fan->getFanBoxImage()}\">
-			<input type=\"hidden\" name=\"textSizeRightSide\" id=\"textSizeRightSide\" value=\"{$update_fan->getFanBoxRightTextSize()}\" >
-			<input type=\"hidden\" name=\"textSizeLeftSide\" id=\"textSizeLeftSide\" value=\"{$update_fan->getFanBoxLeftTextSize()}\">
-			<input type=\"hidden\" name=\"bgColorLeftSideColor\" id=\"bgColorLeftSideColor\" value=\"{$update_fan->getFanBoxLeftBgColor()}\">
-			<input type=\"hidden\" name=\"textColorLeftSideColor\" id=\"textColorLeftSideColor\" value=\"{$update_fan->getFanBoxLeftTextColor()}\">
-			<input type=\"hidden\" name=\"bgColorRightSideColor\" id=\"bgColorRightSideColor\" value=\"{$update_fan->getFanBoxRightBgColor()}\">
-			<input type=\"hidden\" name=\"textColorRightSideColor\" id=\"textColorRightSideColor\" value=\"{$update_fan->getFanBoxRightTextColor()}\">";
+			$output .= '<form action="" method="post" name="form1">' . "\n";
+			$output .= Html::hidden( 'fantag_image_name', $update_fan->getFanBoxImage(), [ 'id' => 'fantag_image_name' ] ) . "\n";
+			$output .= Html::hidden( 'textSizeRightSide', $update_fan->getFanBoxRightTextSize(), [ 'id' => 'textSizeRightSide' ] ) . "\n";
+			$output .= Html::hidden( 'textSizeLeftSide', $update_fan->getFanBoxLeftTextSize(), [ 'id' => 'textSizeLeftSide' ] ) . "\n";
+			$output .= Html::hidden( 'bgColorLeftSideColor', $update_fan->getFanBoxLeftBgColor(), [ 'id' => 'bgColorLeftSideColor' ] ) . "\n";
+			$output .= Html::hidden( 'textColorLeftSideColor', $update_fan->getFanBoxLeftTextColor(), [ 'id' => 'textColorLeftSideColor' ] ) . "\n";
+			$output .= Html::hidden( 'bgColorRightSideColor', $update_fan->getFanBoxRightBgColor(), [ 'id' => 'bgColorRightSideColor' ] ) . "\n";
+			$output .= Html::hidden( 'textColorRightSideColor', $update_fan->getFanBoxRightTextColor(), [ 'id' => 'textColorRightSideColor' ] ) . "\n";
 
+			$fantag_image_tag = '';
 			if ( $update_fan->getFanBoxImage() ) {
 				$fantag_image_width = 45;
 				$fantag_image_height = 53;
@@ -134,7 +134,7 @@ class FanBoxes extends SpecialPage {
 				$fantag_leftside = $fantag_image_tag;
 				$fantag_imageholder = $fantag_image_tag;
 			} else {
-				$fantag_leftside = $update_fan->getFanBoxLeftText();
+				$fantag_leftside = htmlspecialchars( $update_fan->getFanBoxLeftText(), ENT_QUOTES );
 				$fantag_imageholder = '';
 			}
 
@@ -155,49 +155,50 @@ class FanBoxes extends SpecialPage {
 
 			$output .= "\n" . '<table class="fanBoxTable">
 					<tr>
-						<td id="fanBoxLeftSideContainer" style="background-color:' . $update_fan->getFanBoxLeftBgColor() . ';">
+						<td id="fanBoxLeftSideContainer" style="background-color:' . htmlspecialchars( $update_fan->getFanBoxLeftBgColor(), ENT_QUOTES ) . ';">
 						<table>
 							<tr>
 							<td id="fanBoxLeftSideOutput2" style="color:' .
-								$update_fan->getFanBoxLeftTextColor() .
+								htmlspecialchars( $update_fan->getFanBoxLeftTextColor(), ENT_QUOTES ) .
 								'; font-size:' . $leftfontsize . '">' .
 								$fantag_leftside .
 							'</td>
 						</table>
 						</td>
-					<td id="fanBoxRightSideContainer" style="background-color:' . $update_fan->getFanBoxRightBgColor() . ';">
+					<td id="fanBoxRightSideContainer" style="background-color:' . htmlspecialchars( $update_fan->getFanBoxRightBgColor(), ENT_QUOTES ) . ';">
 						<table>
 							<tr>
 							<td id="fanBoxRightSideOutput2" style="color:' .
-								$update_fan->getFanBoxRightTextColor() .
+								htmlspecialchars( $update_fan->getFanBoxRightTextColor(), ENT_QUOTES ) .
 								'; font-size:' . $rightfontsize . '">' .
-									$update_fan->getFanBoxRightText() .
+									htmlspecialchars( $update_fan->getFanBoxRightText(), ENT_QUOTES ) .
 							'</td>
 						</table>
 					</td>
 				</table>';
 
-			$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-addtext' )->plain() . '</h2>
+			$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-addtext' )->escaped() . '</h2>
 				<div class="create-fanbox-text">
 					<div id="fanbox-left-text">
-						<h3>' . $this->msg( 'fanbox-leftsidetext' )->plain() . '<span id="addImage">' .
-							$this->msg( 'fanbox-display-image' )->plain() . '</span> <span id="closeImage">' .
-							$this->msg( 'fanbox-close-image' )->plain() . "</span></h3>
-						<input type=\"text\" name=\"inputLeftSide\" id=\"inputLeftSide\" value=\"{$update_fan->getFanBoxLeftText()}\" maxlength=\"11\"><br />
-						<p>" . $this->msg( 'fanbox-leftsideinstructions' )->plain() . '</p>
+						<h3>' . $this->msg( 'fanbox-leftsidetext' )->escaped() . '<span id="addImage">' .
+							$this->msg( 'fanbox-display-image' )->escaped() . '</span> <span id="closeImage">' .
+							$this->msg( 'fanbox-close-image' )->escaped() . '</span></h3>' .
+							Html::input( 'inputLeftSide', $update_fan->getFanBoxLeftText(), 'text', [ 'id' => 'inputLeftSide', 'maxlength' => 11 ] ) .
+							'<br />
+						<p>' . $this->msg( 'fanbox-leftsideinstructions' )->escaped() . '</p>
 					</div>
 					<div id="fanbox-right-text">
-						<h3>' . $this->msg( 'fanbox-rightsidetext' )->plain() . '<span class="fanbox-right-text-message">' . $this->msg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" value="70" /> ' )->text() . "</span></h3>
-						<input type=\"text\" name=\"inputRightSide\" id=\"inputRightSide\" value=\"{$update_fan->getFanBoxRightText()}\" maxlength=\"70\" /><br />
-						<p>" . $this->msg( 'fanbox-rightsideinstructions' )->plain() . '</p>
+						<h3>' . $this->msg( 'fanbox-rightsidetext' )->escaped() . '<span class="fanbox-right-text-message">' . $this->msg( 'fanbox-charsleft', '<span name="countdown" id="countdown">70</span>' )->parse() . '</span></h3>' .
+							Html::input( 'inputRightSide', $update_fan->getFanBoxRightText(), 'text', [ 'id' => 'inputRightSide', 'maxlength' => 70 ] ) .
+							'<br />
+						<p>' . $this->msg( 'fanbox-rightsideinstructions' )->escaped() . '</p>
 					</div>
-				</div>
-			</form>';
+				</div>';
 
 			$output .= '
 					<div id="create-fanbox-image" class="create-fanbox-image">
-						<h2 class="fanbox-form-label visualClear">' . $this->msg( 'fanbox-leftsideimage' )->plain() . '</h2>
-						<p>' . $this->msg( 'fanbox-leftsideimageinstructions' )->plain() . " </p>
+						<h2 class="fanbox-form-label visualClear">' . $this->msg( 'fanbox-leftsideimage' )->escaped() . '</h2>
+						<p>' . $this->msg( 'fanbox-leftsideimageinstructions' )->escaped() . " </p>
 						<div id=\"fanbox_image\">$fantag_imageholder</div>
 						<div id=\"fanbox_image2\"> </div>
 						<div id=\"real-form\">
@@ -211,8 +212,8 @@ class FanBoxes extends SpecialPage {
 			$output .= $this->colorPickerAndCategoryCloud( $categories );
 
 			$output .= '<div class="create-fanbox-buttons">
-				<input type="button" class="site-button fanbox-simple-button" value="' .
-					$this->msg( 'fanbox-update-button' )->plain() .
+				<input type="submit" class="site-button fanbox-simple-button" value="' .
+					$this->msg( 'fanbox-update-button' )->escaped() .
 					'" size="20" />
 			</div>';
 		}
@@ -224,6 +225,7 @@ class FanBoxes extends SpecialPage {
 			$page_title = $this->msg( 'fanbox-createfor', str_replace( '_', ' ', $destination ) )->parse();
 		}
 		if ( $fanboxId ) {
+			// @phan-suppress-next-line PhanPossiblyUndeclaredVariable $update_fan cannot be undefined here
 			$page_title = $this->msg( 'fanbox-updatefan', str_replace( '_', ' ', $update_fan->getName() ) )->parse();
 		}
 
@@ -252,12 +254,12 @@ class FanBoxes extends SpecialPage {
 			<input type="hidden" name="textColorRightSideColor" id="textColorRightSideColor" value="" />';
 
 			if ( !$destination ) {
-				$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-title' )->plain() . '</h2>
+				$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-title' )->escaped() . '</h2>
 					<div class="create-fanbox-title">
 						<input type="text" name="wpTitle" id="wpTitle" value="' .
-							$request->getVal( 'wpTitle' ) .
+							htmlspecialchars( $request->getVal( 'wpTitle' ), ENT_QUOTES ) .
 							'" style="width:350px" maxlength="60" /><br />
-						<font size="1">(' . $this->msg( 'fanbox-maxchars-sixty' )->plain() . ')</font><br />
+						<font size="1">(' . $this->msg( 'fanbox-maxchars-sixty' )->escaped() . ')</font><br />
 					</div>';
 			} else {
 				$output .= Html::hidden( 'wpTitle', $destination, [ 'id' => 'wpTitle' ] );
@@ -282,27 +284,27 @@ class FanBoxes extends SpecialPage {
 				</tr>
 			</table>' . "\n";
 
-			$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-addtext' )->plain() . '</h2>
+			$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-addtext' )->escaped() . '</h2>
 				<div class="create-fanbox-text">
 					<div id="fanbox-left-text">
-						<h3>' . $this->msg( 'fanbox-leftsidetext' )->plain() .
-							'<span id="addImage">' . $this->msg( 'fanbox-display-image' )->plain() .
-							'</span> <span id="closeImage">' . $this->msg( 'fanbox-close-image' )->plain() . '</span></h3>
+						<h3>' . $this->msg( 'fanbox-leftsidetext' )->escaped() .
+							'<span id="addImage">' . $this->msg( 'fanbox-display-image' )->escaped() .
+							'</span> <span id="closeImage">' . $this->msg( 'fanbox-close-image' )->escaped() . '</span></h3>
 						<input type="text" name="inputLeftSide" id="inputLeftSide" maxlength="11" /><br />
 						<font size="1">' . $this->msg( 'fanbox-leftsideinstructions' )->inContentLanguage()->parse() . '</font>
 					</div>
 					<div id="fanbox-right-text">
 					<h3>' . $this->msg( 'fanbox-rightsidetext' )->inContentLanguage()->parse() . '<span id="countdownbox"> <span class="fanbox-right-text-message">'
-						. $this->msg( 'fanbox-charsleft', '<input readonly="readonly" type="text" name="countdown" value="70" />' )->text() . '</span></span></h3>
+						. $this->msg( 'fanbox-charsleft', '<span name="countdown" id="countdown">70</span>' )->parse() . '</span></span></h3>
 						<input type="text" name="inputRightSide" id="inputRightSide" maxlength="70" /><br />
-						<font size="1">' . $this->msg( 'fanbox-rightsideinstructions' ) . '</font>
+						<font size="1">' . $this->msg( 'fanbox-rightsideinstructions' )->escaped() . '</font>
 					</div>
 					<div class="visualClear"></div>
 					</form>
 				</div>';
 
 			$output .= '<div id="create-fanbox-image" class="create-fanbox-image">
-						<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-leftsideimage' )->plain() .
+						<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-leftsideimage' )->escaped() .
 							' <font size="1">' .
 							$this->msg( 'fanbox-leftsideimageinstructions' )->inContentLanguage()->parse() .
 							' </font></h2>
@@ -319,7 +321,7 @@ class FanBoxes extends SpecialPage {
 			$output .= $this->colorPickerAndCategoryCloud( $categories );
 
 			$output .= '<div class="create-fanbox-buttons">
-				<input type="button" class="site-button" value="' . $this->msg( 'fanbox-create-button' )->plain() . '" size="20" />
+				<input type="submit" class="site-button" value="' . $this->msg( 'fanbox-create-button' )->escaped() . '" size="20" />
 			</div>';
 		}
 
@@ -328,6 +330,7 @@ class FanBoxes extends SpecialPage {
 		// Send values to database and create fantag page when form is submitted
 		if ( $request->wasPosted() ) {
 			if ( !$fanboxId ) {
+				// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 				$fan = FanBox::newFromName( $title );
 				$fantagId = $fan->addFan(
 					$request->getVal( 'inputLeftSide' ),
@@ -339,7 +342,7 @@ class FanBoxes extends SpecialPage {
 					$request->getVal( 'fantag_image_name' ),
 					$request->getVal( 'textSizeLeftSide' ),
 					$request->getVal( 'textSizeRightSide' ),
-					$request->getVal( 'pageCtg' ),
+					$this->getCategories( $request ),
 					$user
 				);
 				$fan->addUserFan( $user, $fantagId );
@@ -359,7 +362,7 @@ class FanBoxes extends SpecialPage {
 					$request->getVal( 'textSizeLeftSide' ),
 					$request->getVal( 'textSizeRightSide' ),
 					$fanboxId,
-					$request->getVal( 'pageCtg' ),
+					$this->getCategories( $request ),
 					$user
 				);
 				$out->redirect( $update_fan->title->getFullURL() );
@@ -375,20 +378,20 @@ class FanBoxes extends SpecialPage {
 	 */
 	function colorPickerAndCategoryCloud( $categories ) {
 		$output = '<div class="add-colors">
-					<h2 class="fanbox-form-label visualClear">' . $this->msg( 'fanbox-add-colors' )->plain() . '</h2>
+					<h2 class="fanbox-form-label visualClear">' . $this->msg( 'fanbox-add-colors' )->escaped() . '</h2>
 					<div id="add-colors-left">
 						<form name="colorpickerradio" action="">
 						<input type="radio" name="colorpickerchoice" value="leftBG" checked="checked" />' .
-							$this->msg( 'fanbox-leftbg-color' )->plain() .
+							$this->msg( 'fanbox-leftbg-color' )->escaped() .
 						'<br />
 						<input type="radio" name="colorpickerchoice" value="leftText" />' .
-							$this->msg( 'fanbox-lefttext-color' )->plain() .
+							$this->msg( 'fanbox-lefttext-color' )->escaped() .
 						'<br />
 						<input type="radio" name="colorpickerchoice" value="rightBG" />' .
-							$this->msg( 'fanbox-rightbg-color' )->plain() .
+							$this->msg( 'fanbox-rightbg-color' )->escaped() .
 						'<br />
 						<input type="radio" name="colorpickerchoice" value="rightText" />' .
-						$this->msg( 'fanbox-righttext-color' )->plain() . '
+						$this->msg( 'fanbox-righttext-color' )->escaped() . '
 						</form>
 					</div>
 
@@ -401,7 +404,7 @@ class FanBoxes extends SpecialPage {
 
 		// Category cloud stuff
 		$cloud = new TagCloud( 10 );
-		$categoriesLabel = $this->msg( 'fanbox-categories-label' )->plain();
+		$categoriesLabel = $this->msg( 'fanbox-categories-label' )->escaped();
 		$categoriesHelpText = $this->msg( 'fanbox-categories-help' )->parse();
 
 		$output .= '<div class="category-section">';
@@ -423,8 +426,44 @@ class FanBoxes extends SpecialPage {
 				$tagnumber++;
 			}
 		}
+		$tagcloud .= '</div>'; // close #create-tagcloud, the regular JS tag cloud
 
-		$tagcloud .= '</div>';
+		// No-JS version, "borrowed" from CreateAPage and slightly tweaked (nothing
+		// functional, just regular code cleanup), main container div ID changed, ...
+		$tagcloud .= '<noscript>';
+		if ( isset( $cloud->tags ) ) {
+			$tagcloud .= '<div id="create-tagcloud-nojs">';
+			$xnum = 0;
+			$array_category = [];
+
+			foreach ( $cloud->tags as $xname => $xtag ) {
+				$isChecked = ( array_key_exists( $xname, $array_category ) && ( $array_category[$xname] ) );
+				$array_category[$xname] = 0;
+				$tagcloud .= '<span id="tag_njs_' . $xnum . '" style="font-size:9pt">';
+				$tagcloud .= Html::check( "category_{$xnum}", $isChecked, [
+					'id' => "category_{$xnum}",
+					'value' => $xname
+				] );
+				$tagcloud .= '&nbsp;';
+				$tagcloud .= $xname;
+				$tagcloud .= '</span>';
+				$xnum++;
+			}
+
+			$display_category = [];
+			foreach ( $array_category as $xname => $visible ) {
+				if ( $visible == 1 ) {
+					$display_category[] = $xname;
+				}
+			}
+			$text_category = implode( ',', $display_category );
+
+			$tagcloud .= '</div>';
+		}
+
+		$tagcloud .= '</noscript>';
+		// End no-JS category stuff
+
 		$output .= '<div class="create-category-title">';
 		$output .= '<h2 class="fanbox-form-label">' . $categoriesLabel . '</h2>';
 		$output .= '</div>';
@@ -435,5 +474,36 @@ class FanBoxes extends SpecialPage {
 		$output .= '</div>';
 
 		return $output;
+	}
+
+	/**
+	 * Get categories from WebRequest
+	 * JavaScript uses the pageCtg textarea element, but no-JS uses checkboxes prefixed named "category_<number>"
+	 *
+	 * @param WebRequest $request
+	 * @return string Newline-separated wikitext ([[Category:<cat name>]] strings)
+	 */
+	private function getCategories( WebRequest $request ) {
+		$cats = $request->getVal( 'pageCtg' );
+		if ( !empty( $cats ) ) {
+			return $cats;
+		} else {
+			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+			$localizedCatNS = $contLang->getNsText( NS_CATEGORY );
+			$categories = [];
+
+			foreach ( $request->getValues() as $key => $val ) {
+				if ( preg_match( '/category_/', $key ) ) {
+					$categories[] = "[[{$localizedCatNS}:{$val}]]";
+				}
+			}
+
+			if ( !empty( $categories ) ) {
+				return implode( "\n", $categories );
+			}
+
+			// Still here?
+			return '';
+		}
 	}
 }

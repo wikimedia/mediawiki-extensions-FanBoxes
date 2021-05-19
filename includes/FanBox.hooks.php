@@ -34,7 +34,7 @@ class FanBoxHooks {
 			$dbw->update(
 				'fantag',
 				[ 'fantag_title' => $new->getText() ],
-				[ 'fantag_pg_id' => intval( $oldid ) ],
+				[ 'fantag_pg_id' => $oldid ],
 				__METHOD__
 			);
 		}
@@ -56,7 +56,7 @@ class FanBoxHooks {
 			$s = $dbw->selectRow(
 				'fantag',
 				[ 'fantag_pg_id', 'fantag_id' ],
-				[ 'fantag_pg_id' => intval( $article->getID() ) ],
+				[ 'fantag_pg_id' => $article->getPage()->getId() ],
 				__METHOD__
 			);
 			if ( $s !== false ) {
@@ -69,7 +69,7 @@ class FanBoxHooks {
 
 				$dbw->delete(
 					'fantag',
-					[ 'fantag_pg_id' => intval( $article->getID() ) ],
+					[ 'fantag_pg_id' => $article->getPage()->getId() ],
 					__METHOD__
 				);
 			}
