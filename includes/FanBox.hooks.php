@@ -30,7 +30,7 @@ class FanBoxHooks {
 		MediaWiki\Revision\RevisionRecord $revision
 	) {
 		if ( $old->getNamespace() == NS_FANTAG ) {
-			$dbw = wfGetDB( DB_PRIMARY );
+			$dbw = wfGetDB( DB_MASTER );
 			$dbw->update(
 				'fantag',
 				[ 'fantag_title' => $new->getText() ],
@@ -51,7 +51,7 @@ class FanBoxHooks {
 	 */
 	public static function deleteFanBox( &$article, &$user, $reason ) {
 		if ( $article->getTitle()->getNamespace() == NS_FANTAG ) {
-			$dbw = wfGetDB( DB_PRIMARY );
+			$dbw = wfGetDB( DB_MASTER );
 
 			$s = $dbw->selectRow(
 				'fantag',

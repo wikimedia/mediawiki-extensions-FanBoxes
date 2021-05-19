@@ -12,7 +12,7 @@
 	"descriptionmsg": "fanbox-desc",
 	"type": "other",
 	"requires": {
-		"MediaWiki": ">= 1.36.0"
+		"MediaWiki": ">= 1.35.0"
 	},
 	"config": {
 		"FanBoxPageDisplay": {

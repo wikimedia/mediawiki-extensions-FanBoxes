@@ -44,7 +44,7 @@ class MigrateOldFanBoxesUserColumnsToActor extends LoggedUpdateMaintenance {
 	 * @return bool True to log the update as done
 	 */
 	protected function doDBUpdates() {
-		$dbw = $this->getDB( DB_PRIMARY );
+		$dbw = $this->getDB( DB_MASTER );
 		$dbw->query(
 			"UPDATE {$dbw->tableName( 'fantag' )} SET fantag_actor=(SELECT actor_id FROM {$dbw->tableName( 'actor' )} WHERE actor_user=fantag_user_id AND actor_name=fantag_user_name)",
 			__METHOD__
