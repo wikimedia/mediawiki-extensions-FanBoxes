@@ -405,7 +405,7 @@ class TopFanBoxes extends SpecialPage {
 	}
 
 	function getTopFanboxes( $orderBy ) {
-		$dbr = wfGetDB( DB_PRIMARY );
+		$dbr = wfGetDB( DB_MASTER );
 
 		$res = $dbr->select(
 			'fantag',
@@ -466,7 +466,7 @@ class TopFanBoxes extends SpecialPage {
 	}
 
 	public function getFanBoxByCategory( $category ) {
-		$dbr = wfGetDB( DB_PRIMARY );
+		$dbr = wfGetDB( DB_MASTER );
 
 		$res = $dbr->select(
 			[ 'fantag', 'categorylinks' ],

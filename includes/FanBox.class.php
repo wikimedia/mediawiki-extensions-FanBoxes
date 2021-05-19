@@ -89,7 +89,7 @@ class FanBox {
 		$fantag_right_textcolor, $fantag_right_bgcolor, $fantag_image_name,
 		$fantag_left_textsize, $fantag_right_textsize, $categories, User $user
 	) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = wfGetDB( DB_MASTER );
 
 		$descTitle = $this->getTitle();
 		$desc = wfMessage( 'fanbox-summary-new' )->inContentLanguage()->parse();
@@ -155,7 +155,7 @@ class FanBox {
 	 * @param int $userft_fantag_id Fantag ID number
 	 */
 	public function addUserFan( User $user, $userft_fantag_id ) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = wfGetDB( DB_MASTER );
 		$dbw->insert(
 			'user_fantag',
 			[
@@ -231,7 +231,7 @@ class FanBox {
 		$fantag_right_bgcolor, $fantag_image_name, $fantag_left_textsize,
 		$fantag_right_textsize, $fanboxId, $categories, User $user
 	) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = wfGetDB( DB_MASTER );
 
 		$dbw->update(
 			'fantag',
@@ -281,7 +281,7 @@ class FanBox {
 	 * @param int $userft_fantag_id Fantag ID number
 	 */
 	function removeUserFanBox( User $user, $userft_fantag_id ) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = wfGetDB( DB_MASTER );
 		$dbw->delete(
 			'user_fantag',
 			[
@@ -299,7 +299,7 @@ class FanBox {
 	 * @param int $number
 	 */
 	function changeCount( $fanBoxId, $number ) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = wfGetDB( DB_MASTER );
 
 		$count = $dbw->selectField(
 			'fantag',
@@ -390,7 +390,7 @@ class FanBox {
 	 * indicating we've done that so we know not to hit the DB again.
 	 */
 	function loadFromDB() {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = wfGetDB( DB_MASTER );
 
 		$row = $dbw->selectRow(
 			'fantag',
@@ -538,7 +538,7 @@ class FanBox {
 	 * @return int
 	 */
 	public function checkIfUserHasFanBox( User $user ) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = wfGetDB( DB_MASTER );
 		$check_fanbox_count = $dbw->selectField(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
