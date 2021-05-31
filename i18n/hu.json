@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Hanna Tardos"
+			"Hanna Tardos",
+			"Tacsipacsi"
 		]
 	},
 	"fanbox-desc": "A felhasználói fiókok létrehozásának és használatának új formája, speciális oldalak alapján",
@@ -71,6 +72,6 @@
 	"viewuserboxes": "Felhasználói fiókok megtekintése",
 	"userboxes": "Felhasználói fiók létrehozása",
 	"fanbox-top-list-is-empty": "Még nincsenek top felhasználói fiókok. [[Special:UserBoxes|Hozz létre felhasználói fiókot!]]",
-	"right-create-userbox": "Felhasználói fiókok létrehozása [[Special:Felhasználói Fiókokkal]]",
-	"action-create-userbox": "felhasználói fiókok létrehozása [[Special:Felhasználói Fiókokkal]]"
+	"right-create-userbox": "felhasználói fiókok létrehozása a [[Special:UserBoxes]]zal",
+	"action-create-userbox": "felhasználói fiókok létrehozása a [[Special:UserBoxes]]zal"
 }
