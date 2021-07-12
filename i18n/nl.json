@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Mainframe98",
+			"McDutchie",
 			"Siebrand"
 		]
 	},
@@ -19,5 +20,5 @@
 	"fanbox-back-link": "< Terug naar de pagina van $1",
 	"fanbox-add-colors": "Kleuren toevoegen",
 	"fanbox-remove": "Verwijderen",
-	"user-fanbox-title": "Fanvensters"
+	"user-fanbox-title": "Gebruikersboxen"
 }
