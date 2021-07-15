@@ -3,6 +3,7 @@
 		"authors": [
 			"Mainframe98",
 			"McDutchie",
+			"Romaine",
 			"Siebrand"
 		]
 	},
@@ -20,5 +21,7 @@
 	"fanbox-back-link": "< Terug naar de pagina van $1",
 	"fanbox-add-colors": "Kleuren toevoegen",
 	"fanbox-remove": "Verwijderen",
-	"user-fanbox-title": "Gebruikersboxen"
+	"fanbox-woops-title": "Oeps!",
+	"user-fanbox-title": "Gebruikersboxen",
+	"viewuserboxes": "Gebruikersboxen bekijken"
 }
