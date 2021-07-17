@@ -100,8 +100,9 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 		}
 
 		# Check blocks
-		if ( $user->isBlocked() ) {
-			throw new UserBlockedError( $user->getBlock() );
+		$block = $user->getBlock();
+		if ( $block ) {
+			throw new UserBlockedError( $block );
 		}
 
 		# Check whether we actually want to allow changing stuff

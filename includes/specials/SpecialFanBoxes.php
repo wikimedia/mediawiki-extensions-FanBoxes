@@ -56,8 +56,9 @@ class FanBoxes extends SpecialPage {
 		$this->checkReadOnly();
 
 		// Don't allow blocked users (RT #12589)
-		if ( $user->isBlocked() ) {
-			throw new UserBlockedError( $user->getBlock() );
+		$block = $user->getBlock();
+		if ( $block ) {
+			throw new UserBlockedError( $block );
 		}
 
 		// Extension's CSS & JS
