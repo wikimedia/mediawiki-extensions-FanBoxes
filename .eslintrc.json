@@ -11,7 +11,6 @@
 	},
 	"rules": {
 		"no-undef": "warn",
-		"one-var": "warn",
 		"vars-on-top": "warn",
 		"camelcase": "warn",
 		"no-alert": "warn",
