@@ -70,6 +70,7 @@
 	"topuserboxes": "Найпопулярніші юзербокси",
 	"viewuserboxes": "Переглянути юзербокси",
 	"userboxes": "Створити юзербокс",
+	"userboxes-instructions": "<!-- Розміщуйте тут інструкції чи інше -->",
 	"fanbox-top-list-is-empty": "Поки що немає кращих юзербоксів. [[Special:UserBoxes|Створити юзербокс!]]",
 	"right-create-userbox": "Створити юзербокси за допомогою [[Special:UserBoxes]]",
 	"action-create-userbox": "створити юзербокси за допомогою [[Special:UserBoxes]]",
