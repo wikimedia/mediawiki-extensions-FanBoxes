@@ -4,11 +4,21 @@
 			"Ameisenigel",
 			"Gebu",
 			"HajFunk",
-			"Kghbln"
+			"Kghbln",
+			"Zabe"
 		]
 	},
+	"fanbox-addtext": "Text hinzufügen",
 	"fanbox-categories-help": "Kategorien helfen die Seite ordentlich zu halten. Um mehrere Kategorien hinzuzufügen, trenne sie mit einem Komma.",
+	"fanbox-categories-label": "Kategorien",
+	"fanbox-choose-another": "Bitte wähle einen anderen Titel",
 	"fanbox-create-button": "Erstellen",
 	"fanbox-created-by": "Erstellt von:",
+	"fanbox-title": "Titel",
+	"fanbox-leftsidetext": "Linke Seite",
+	"fanbox-rightsidetext": "Rechte Seite",
+	"fanbox-rightsideinstructions": "(Maximale Anzahl an Zeichen: 70)",
+	"fanbox-update-button": "Bearbeiten",
+	"fanbox-remove": "Entfernen",
 	"user-fanbox-title": "Benutzerboxen"
 }
