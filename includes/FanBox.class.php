@@ -483,7 +483,7 @@ class FanBox {
 					$fantag_image_height
 				);
 			}
-			$fantag_image_tag = '<img alt="" src="' . $fantag_image_url . '"/>';
+			$fantag_image_tag = '<img alt="" src="' . htmlspecialchars( $fantag_image_url ) . '"/>';
 		}
 
 		if ( $this->getFanBoxLeftText() == '' ) {
