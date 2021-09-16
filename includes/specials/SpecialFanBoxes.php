@@ -103,7 +103,7 @@ class FanBoxes extends SpecialPage {
 					// @todo FIXME: i18n
 					strpos( $row->cl_to, 'Userboxes_by_User_' ) === false
 				) {
-					$categories .= ( ( $categories ) ? ', ' : '' ) . $row->cl_to;
+					$categories .= ( ( $categories ) ? ', ' : '' ) . htmlspecialchars( $row->cl_to );
 				}
 			}
 
@@ -128,7 +128,7 @@ class FanBoxes extends SpecialPage {
 						$fantag_image_height
 					);
 				}
-				$fantag_image_tag = '<img alt="" src="' . $fantag_image_url . '" />';
+				$fantag_image_tag = '<img alt="" src="' . htmlspecialchars( $fantag_image_url ) . '" />';
 			}
 
 			if ( $update_fan->getFanBoxLeftText() == '' ) {
@@ -421,9 +421,10 @@ class FanBoxes extends SpecialPage {
 				if ( strpos( $tag, "'" ) ) {
 					$slashedTag = str_replace( "'", "\'", $tag );
 				}
-				$tagcloud .= " <span id=\"tag-{$tagnumber}\" style=\"font-size:{$cloud->tags[$tag]['size']}{$cloud->tags_size_type}\">
-				<a data-slashed-tag=\"{$slashedTag}\">{$tag}</a>
-			</span>\n";
+				$tagcloud .= ' <span id="tag-' . $tagnumber .
+					'" style="font-size:' . htmlspecialchars( $cloud->tags[$tag]['size'] . $cloud->tags_size_type ) . '">' .
+					'<a data-slashed-tag="' . htmlspecialchars( $slashedTag ) . '">' . htmlspecialchars( $tag ) . '</a>' .
+					'</span>';
 				$tagnumber++;
 			}
 		}
@@ -446,7 +447,7 @@ class FanBoxes extends SpecialPage {
 					'value' => $xname
 				] );
 				$tagcloud .= '&nbsp;';
-				$tagcloud .= $xname;
+				$tagcloud .= htmlspecialchars( $xname );
 				$tagcloud .= '</span>';
 				$xnum++;
 			}
