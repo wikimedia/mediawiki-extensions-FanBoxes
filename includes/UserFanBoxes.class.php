@@ -99,7 +99,7 @@ class UserFanBoxes {
 	 * @return int Amount of fanboxes the user has, or 0 if they have none
 	 */
 	public function getFanBoxCount() {
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$res = $dbw->select(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
@@ -123,7 +123,7 @@ class UserFanBoxes {
 	 * @return int
 	 */
 	public function checkIfUserHasFanbox( $userft_fantag_id ) {
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$res = $dbw->select(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
