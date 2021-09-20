@@ -5,9 +5,11 @@
 			"Gebu",
 			"HajFunk",
 			"Kghbln",
+			"Umlaut",
 			"Zabe"
 		]
 	},
+	"fanbox-add": "Hinzufügen",
 	"fanbox-addtext": "Text hinzufügen",
 	"fanbox-categories-help": "Kategorien helfen die Seite ordentlich zu halten. Um mehrere Kategorien hinzuzufügen, trenne sie mit einem Komma.",
 	"fanbox-categories-label": "Kategorien",
@@ -18,7 +20,25 @@
 	"fanbox-leftsidetext": "Linke Seite",
 	"fanbox-rightsidetext": "Rechte Seite",
 	"fanbox-rightsideinstructions": "(Maximale Anzahl an Zeichen: 70)",
+	"fanbox-lefttext-color": "Linker Text",
+	"fanbox-rightbg-color": "Rechter Hintergrund",
+	"fanbox-righttext-color": "Rechter Text",
+	"fanbox-leftsideimage": "Ein Bild hinzufügen",
+	"fanbox-maxchars-sixty": "Maximale Anzahl an Zeichen: 60",
+	"fanbox-upload-new-image": "Neues Bild hochladen",
 	"fanbox-update-button": "Bearbeiten",
+	"fanbox-userbox-category": "Benutzerboxen",
+	"fanbox-summary-new": "Neue Benutzerbox",
+	"fanbox-summary-update": "Benutzerbox aktualisieren",
+	"fanbox-addfan-exists": "Der Titel für dein benutzerbox ist bereits vorhanden. Bitte wähle einen anderen Titel für die Benutzerbox aus.",
+	"fanbox-count": "$1 hat $2 {{PLURAL:$2|Benutzerbox|benutzerboxen}}.",
+	"fanbox-embed": "Einbetten",
+	"fanbox-add-colors": "Farben hinzufügen",
 	"fanbox-remove": "Entfernen",
-	"user-fanbox-title": "Benutzerboxen"
+	"fanbox-remove-fanbox": "Diese Box aus deiner Benutzerseite löschen?",
+	"fanbox-nav-header": "Benutzerboxen",
+	"fanbox-woops-title": "Hoppla!",
+	"user-fanbox-title": "Benutzerboxen",
+	"userboxes": "Benutzerbox erstellen",
+	"apihelp-fanboxes-param-what": "Was ist zu tun?"
 }
