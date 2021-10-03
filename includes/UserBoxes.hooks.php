@@ -30,7 +30,13 @@ class UserBoxesHook {
 	public static function renderUserBoxesHook( $input, $args, $parser ) {
 		global $wgOut;
 
-		$user = $parser->getUser();
+		if ( method_exists( $parser, 'getUserIdentity' ) ) {
+			// MW 1.36+
+			$user = $parser->getUserIdentity();
+		} else {
+			// @phan-suppress-next-line PhanUndeclaredMethod
+			$user = $parser->getUser();
+		}
 		$pOut = $parser->getOutput();
 		$pOut->updateCacheExpiry( 0 );
 

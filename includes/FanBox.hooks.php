@@ -176,7 +176,13 @@ class FanBoxHooks {
 	public static function embedFanBox( $input, $argv, $parser ) {
 		global $wgHooks;
 
-		$user = $parser->getUser();
+		if ( method_exists( $parser, 'getUserIdentity' ) ) {
+			// MW 1.36+
+			$user = MediaWiki\MediaWikiServices::getInstance()->getUserFactory()->newFromUserIdentity( $parser->getUserIdentity() );
+		} else {
+			// @phan-suppress-next-line PhanUndeclaredMethod
+			$user = $parser->getUser();
+		}
 		$parser->getOutput()->updateCacheExpiry( 0 );
 
 		// @todo FIXME: why not just use $parser->getOutput()->addModules/addModuleStyles()? --ashley, 14 November 2020
