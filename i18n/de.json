@@ -5,6 +5,7 @@
 			"Gebu",
 			"HajFunk",
 			"Kghbln",
+			"McDutchie",
 			"Umlaut",
 			"Zabe"
 		]
@@ -36,7 +37,7 @@
 	"fanbox-summary-new": "Neue Benutzerbox",
 	"fanbox-summary-update": "Benutzerbox aktualisieren",
 	"fanbox-addfan-exists": "Der Titel für dein benutzerbox ist bereits vorhanden. Bitte wähle einen anderen Titel für die Benutzerbox aus.",
-	"fanbox-count": "$1 hat $2 {{PLURAL:$2|Benutzerbox|benutzerboxen}}.",
+	"fanbox-count": "$1 hat $2 {{PLURAL:$2|Benutzerbox|Benutzerboxen}}.",
 	"fanbox-embed": "Einbetten",
 	"fanbox-add-colors": "Farben hinzufügen",
 	"fanbox-remove": "Entfernen",
