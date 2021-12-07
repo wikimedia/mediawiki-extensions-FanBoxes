@@ -2,8 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Armando-Martin",
-			"Rodney Araujo"
+			"Rodney Araujo",
+			"Jakeukalane"
 		]
 	},
+	"fanbox-categories-help": "Las categorías permiten organizar la información en el sitio. Para añadir múltiples categorías sepáralas por comas.",
+	"fanbox-title": "Título",
 	"user-fanbox-title": "Etiquetas de usuario"
 }
