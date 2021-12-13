@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Guilhelma"
+		]
+	},
+	"fanbox-addtext": "Apondre de tèxt",
+	"fanbox-categories-label": "Categorias",
+	"fanbox-choose-another": "Causissètz un autre títol, se vos plai",
+	"fanbox-create-button": "Creat",
+	"fanbox-created-by": "creat per:",
+	"fanbox-mustenter-right": "Devètz dintrar de tèxt pel costat de dreita",
+	"fanbox-mustenter-title": "Devètz dintrar un títol",
+	"fanbox-prev": "Precedent",
+	"fanbox-next": "Seguent",
+	"fanbox-instructions": "Causir un títol per la boita d'utilizaire (o un imatge), una color pel costat de dreita e d'esquèrra e clicar sus crear! Es aisit!",
+	"fanbox-title": "Títol",
+	"fanbox-leftsidetext": "Costat d'esquèrra",
+	"fanbox-display-image": "(apondre un imatge)",
+	"fanbox-rightsidetext": "Costat de dreita",
+	"fanbox-rightsideinstructions": "(Nombre maximum de caractèrs: 70)",
+	"fanbox-charsleft": "($1 caractèrs que demòran)",
+	"fanbox-leftbg-color": "Fons a esquèrra",
+	"fanbox-leftsideimage": "Apondre un imatge",
+	"fanbox-upload-new-image": "Importar un imatge novèl",
+	"fanbox-update-button": "Modificar",
+	"fanbox-userdoesnotexist": "L'utilizaire qu'ensajatz de veire existís pas.",
+	"fanbox-summary-update": "metre a jorn la boita d'utilizaire",
+	"fanbox-remove": "Suprimir",
+	"fanbox-add-fanbox": "Apondre aquesta boita a vòstra pagina d'utilizaire",
+	"fanbox-successful-add": "Avètz apondut aquesta boita d'utilizaire a la vòstra pagina d'utilizaire.",
+	"fanbox-successful-remove": "Avètz suprimir aquesta boita d'utilizaire de la vòstra pagina d'utilizaire.",
+	"fanbox-users-with-fanbox-message": "Autres gens interessats pel meteis subjècte",
+	"user-fanbox-title": "Boita d'utilizaire",
+	"topuserboxes": "Boitas d'utilizaire las mai frequenta",
+	"userboxes": "Crear una boita d'utilizaire",
+	"apihelp-fanboxes-param-what": "De qué far ?"
+}

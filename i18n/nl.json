@@ -1,0 +1,27 @@
+{
+	"@metadata": {
+		"authors": [
+			"Mainframe98",
+			"McDutchie",
+			"Romaine",
+			"Siebrand"
+		]
+	},
+	"fanbox-add": "Toevoegen",
+	"fanbox-addtext": "Tekst toevoegen",
+	"fanbox-categories-label": "Categorieën",
+	"fanbox-create-button": "Aanmaken",
+	"fanbox-prev": "Vorige",
+	"fanbox-next": "Volgende",
+	"fanbox-title": "Titel",
+	"fanbox-leftsidetext": "Linkerkant",
+	"fanbox-rightsidetext": "Rechterkant",
+	"fanbox-leftsideimage": "Afbeelding toevoegen",
+	"fanbox-upload-new-image": "Nieuwe afbeelding uploaden",
+	"fanbox-update-button": "Bewerken",
+	"fanbox-remove": "Verwijderen",
+	"fanbox-woops-title": "Oeps!",
+	"user-fanbox-title": "Gebruikersboxen",
+	"viewuserboxes": "Gebruikersboxen bekijken",
+	"apihelp-fanboxes-param-what": "Wat te doen?"
+}

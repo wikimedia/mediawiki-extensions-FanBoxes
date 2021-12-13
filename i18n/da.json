@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"Saederup92"
+		]
+	},
+	"fanbox-add": "Tilføj",
+	"fanbox-addtext": "Tilføj tekst",
+	"fanbox-categories-label": "Kategorier",
+	"fanbox-create-button": "Opret",
+	"fanbox-created-by": "oprettet af:",
+	"fanbox-next": "Næste",
+	"fanbox-title": "Titel",
+	"fanbox-leftsidetext": "Venstre side",
+	"fanbox-rightsidetext": "Højre side",
+	"fanbox-charsleft": "(du har $1 tegn tilbage)",
+	"fanbox-leftsideimage": "Tilføj et billede",
+	"fanbox-remove": "Fjern",
+	"fanbox-nav-header": "Brugerbokse",
+	"fanbox-woops-title": "Ups!",
+	"userboxes": "Opret en brugerboks"
+}

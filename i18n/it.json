@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"Beta16",
+			"Luca.favorido",
+			"Mpayansilva"
+		]
+	},
+	"fanbox-add": "Aggiungi",
+	"fanbox-categories-label": "Categorie",
+	"fanbox-create-button": "Crea",
+	"fanbox-created-by": "creato da:",
+	"fanbox-mustenter-title": "È necessario inserire un titolo",
+	"fanbox-next": "Avanti",
+	"fanbox-title": "Titolo",
+	"fanbox-leftsidetext": "Lato sinistro",
+	"fanbox-rightsidetext": "Lato destro",
+	"fanbox-charsleft": "(hai $1 caratteri rimanenti)",
+	"fanbox-leftsideimage": "Aggiungi un'immagine",
+	"fanbox-update-button": "Modifica",
+	"fanbox-remove": "Rimuovi",
+	"fanbox-users-with-fanbox-message": "Altre persone interessate alle stesse cose",
+	"fanbox-woops-title": "Oops!"
+}

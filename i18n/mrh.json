@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"Teitei Para"
+		]
+	},
+	"fanbox-add": "Khô",
+	"fanbox-addtext": "Châ roh",
+	"fanbox-create-button": "Tao",
+	"fanbox-perma": "perma",
+	"fanbox-prev": "Hnôh",
+	"fanbox-next": "Hmia",
+	"fanbox-title": "Chôtlâhpi",
+	"fanbox-leftsidetext": "Chavei",
+	"fanbox-display-image": "(hmâthlâ sâkha khô teih)",
+	"fanbox-close-image": "(hmâthlâ by khaw)",
+	"fanbox-leftsideimage": "Hmâthlâ khô",
+	"fanbox-upload-new-image": "Hmâthlâ thiehpa sâkha khâh teih",
+	"fanbox-update-button": "Taopathi",
+	"fanbox-remove": "Thy",
+	"apihelp-fanboxes-param-what": "Khâpa tao awpa e?"
+}

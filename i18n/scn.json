@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ajeje Brazorf"
+		]
+	},
+	"fanbox-add": "Agghiunci",
+	"fanbox-addtext": "Agghiunci testu",
+	"fanbox-categories-label": "Catigurìi",
+	"fanbox-members": "{{PLURAL:$1|nu mèmmiru|$1 mèmmiri}}",
+	"fanbox-title": "Tìtulu",
+	"fanbox-display-image": "(agghiunci na mmàggini)",
+	"fanbox-leftsideimage": "Agghiunci na mmàggini",
+	"fanbox-update-button": "Cancia"
+}
