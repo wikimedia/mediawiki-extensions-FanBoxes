@@ -100,14 +100,13 @@ class UserFanBoxes {
 	 */
 	public function getFanBoxCount() {
 		$dbw = wfGetDB( DB_PRIMARY );
-		$res = $dbw->select(
+		$row = $dbw->selectRow(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
 			[ 'userft_actor' => $this->user->getActorId() ],
 			__METHOD__,
 			[ 'LIMIT' => 1 ]
 		);
-		$row = $dbw->fetchObject( $res );
 		$user_fanbox_count = 0;
 		if ( $row ) {
 			$user_fanbox_count = $row->count;
@@ -124,7 +123,7 @@ class UserFanBoxes {
 	 */
 	public function checkIfUserHasFanbox( $userft_fantag_id ) {
 		$dbw = wfGetDB( DB_PRIMARY );
-		$res = $dbw->select(
+		$row = $dbw->selectRow(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
 			[
@@ -133,7 +132,6 @@ class UserFanBoxes {
 			],
 			__METHOD__
 		);
-		$row = $dbw->fetchObject( $res );
 		$check_fanbox_count = 0;
 		if ( $row ) {
 			$check_fanbox_count = $row->count;

@@ -461,7 +461,7 @@ class TopFanBoxes extends SpecialPage {
 
 	function checkIfUserHasFanbox( $userft_fantag_id ) {
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select(
+		$row = $dbr->selectRow(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
 			[
@@ -470,7 +470,6 @@ class TopFanBoxes extends SpecialPage {
 			],
 			__METHOD__
 		);
-		$row = $dbr->fetchObject( $res );
 		$check_fanbox_count = 0;
 		if ( $row ) {
 			$check_fanbox_count = $row->count;
