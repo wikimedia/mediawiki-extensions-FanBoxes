@@ -1,4 +1,7 @@
 <?php
+
+use Wikimedia\AtEase\AtEase;
+
 /**
  * FanBoxes API module
  *
@@ -15,7 +18,7 @@ class ApiFanBoxes extends ApiBase {
 		// Get the request parameters
 		$params = $this->extractRequestParams();
 
-		Wikimedia\suppressWarnings();
+		AtEase::suppressWarnings();
 		$what = $params['what'];
 		$pageName = $params['page_name'];
 		$addRemove = $params['addRemove'];
@@ -23,7 +26,7 @@ class ApiFanBoxes extends ApiBase {
 		$individualFantagId = $params['fantagId'];
 		$id = $params['id'];
 		$style = $params['style'];
-		Wikimedia\restoreWarnings();
+		AtEase::restoreWarnings();
 
 		// Ensure that we know what to do...
 		if ( !$what || $what === null ) {
