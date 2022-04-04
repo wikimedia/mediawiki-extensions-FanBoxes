@@ -1,6 +1,6 @@
 {
 	"name": "FanBoxes",
-	"version": "3.6.0",
+	"version": "3.6.1",
 	"author": [
 		"Aaron Wright",
 		"David Pean",
@@ -95,7 +95,9 @@
 				"fanbox-hash",
 				"fanbox-choose-another",
 				"fanbox-upload-new-image",
-				"fanbox-addfan-exists"
+				"fanbox-addfan-exists",
+				"fanbox-successful-add",
+				"fanbox-successful-remove"
 			],
 			"dependencies": [
 				"mediawiki.api",

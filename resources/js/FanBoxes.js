@@ -158,6 +158,11 @@
 			document.getElementById( 'pageCtg' ).value += ( ( document.getElementById( 'pageCtg' ).value ) ? ', ' : '' ) + tagname;
 		},
 
+		/**
+		 * @param {Number} addRemove 1 to add a FanBox to the user profile, 2 to remove an existing one
+		 * @param {String} title FanBox name (without the namespace, obviously)
+		 * @param {Number} fantagId FanBox internal ID
+		 */
 		showMessage: function ( addRemove, title, fantagId ) {
 			$.post(
 				mw.util.wikiScript( 'api' ), {
@@ -175,9 +180,9 @@
 		},
 
 		/**
-		 * @param addRemove
-		 * @param id
-		 * @param style
+		 * @param {Number} addRemove 1 to add a FanBox to the user profile, 2 to remove an existing one
+		 * @param {Number} id FanBox internal ID
+		 * @param {String} style CSS class name (either "show-addremove-message" or "show-addremove-message-half")
 		 * @todo FIXME: the animations suck
 		 */
 		showAddRemoveMessageUserPage: function ( addRemove, id, style ) {
@@ -190,11 +195,13 @@
 					what: 'messageAddRemoveUserPage',
 					addRemove: addRemove,
 					fantagId: id,
-					style: style,
 					format: 'json'
 				},
 				function ( data ) {
-					$container.html( data.fanboxes.result ).fadeIn( 1000 );
+					$container.html(
+						// eslint-disable-next-line mediawiki/msg-doc
+						'<div class="' + style + '">' + mw.msg( data.fanboxes.result ) + '</div>'
+					).fadeIn( 1000 );
 				}
 			);
 		},
