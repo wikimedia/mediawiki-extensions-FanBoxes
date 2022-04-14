@@ -1,4 +1,5 @@
 {
+	"name": "FanBoxes",
 	"private": true,
 	"scripts": {
 		"test": "grunt test"
