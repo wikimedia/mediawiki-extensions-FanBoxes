@@ -459,6 +459,10 @@ class TopFanBoxes extends SpecialPage {
 		return $topFanboxes;
 	}
 
+	/**
+	 * @param int $userft_fantag_id
+	 * @return int
+	 */
 	function checkIfUserHasFanbox( $userft_fantag_id ) {
 		$dbr = wfGetDB( DB_REPLICA );
 		$row = $dbr->selectRow(
@@ -477,6 +481,10 @@ class TopFanBoxes extends SpecialPage {
 		return $check_fanbox_count;
 	}
 
+	/**
+	 * @param string $category
+	 * @return array[]
+	 */
 	public function getFanBoxByCategory( $category ) {
 		$dbr = wfGetDB( DB_PRIMARY );
 

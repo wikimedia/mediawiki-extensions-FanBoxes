@@ -87,7 +87,7 @@ class ApiFanBoxes extends ApiBase {
 		}
 
 		$out .= '<div class="show-individual-addremove-message">' .
-			wfMessage( $msgKey )->escaped() .
+			$this->msg( $msgKey )->escaped() .
 		'</div>';
 
 		return $out;
@@ -171,6 +171,7 @@ class ApiFanBoxes extends ApiBase {
 		];
 	}
 
+	/** @inheritDoc */
 	protected function getExamplesMessages() {
 		return [
 			// @todo Add some real examples + relevant i18n strings

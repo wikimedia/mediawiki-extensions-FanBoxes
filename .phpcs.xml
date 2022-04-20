@@ -1,15 +1,20 @@
 <?xml version="1.0"?>
 <ruleset>
 	<rule ref="./vendor/mediawiki/mediawiki-codesniffer/MediaWiki">
-		<exclude name="Generic.Files.LineLength.TooLong" />
-		<exclude name="MediaWiki.Commenting.FunctionComment.MissingDocumentationProtected" />
-		<exclude name="MediaWiki.Commenting.FunctionComment.MissingDocumentationPublic" />
-		<exclude name="MediaWiki.Commenting.PropertyDocumentation.MissingDocumentationProtected" />
-		<exclude name="MediaWiki.Commenting.PropertyDocumentation.MissingDocumentationPublic" />
 		<exclude name="MediaWiki.Files.ClassMatchesFilename.NotMatch" />
-		<exclude name="MediaWiki.Usage.ExtendClassUsage.FunctionVarUsage" />
 		<exclude name="MediaWiki.WhiteSpace.SpaceBeforeSingleLineComment.NewLineComment" />
 		<exclude name="Squiz.Scope.MethodScope.Missing" />
+	</rule>
+	<rule ref="Generic.Files.LineLength">
+		<!-- FIXME: This is because of raw HTML, should be replaced with Html::element() and such -->
+		<exclude-pattern>includes/specials/SpecialFanBoxes\.php</exclude-pattern>
+		<exclude-pattern>includes/specials/SpecialTopFanBoxes\.php</exclude-pattern>
+		<exclude-pattern>includes/specials/SpecialViewFanBoxes\.php</exclude-pattern>
+		<exclude-pattern>includes/FanBox\.class\.php</exclude-pattern>
+		<exclude-pattern>includes/UserBoxes\.hooks\.php</exclude-pattern>
+		<properties>
+			<property name="lineLimit" value="200" />
+		</properties>
 	</rule>
 	<file>.</file>
 	<arg name="bootstrap" value="./vendor/mediawiki/mediawiki-codesniffer/utils/bootstrap-ci.php"/>

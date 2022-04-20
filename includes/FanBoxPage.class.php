@@ -7,7 +7,9 @@
  */
 class FanBoxPage extends Article {
 
+	/** @var null */
 	public $title = null;
+	/** @var array */
 	public $authors = [];
 
 	/**
@@ -15,6 +17,9 @@ class FanBoxPage extends Article {
 	 */
 	public $fan;
 
+	/**
+	 * @param Title $title
+	 */
 	function __construct( Title $title ) {
 		parent::__construct( $title );
 	}

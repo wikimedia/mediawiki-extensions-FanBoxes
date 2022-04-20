@@ -16,6 +16,10 @@ class FanBoxUpload extends UploadFromFile {
 		return $handler;
 	}
 
+	/**
+	 * @param WebRequest &$request
+	 * @return void
+	 */
 	function initializeFromRequest( &$request ) {
 		$upload = $request->getUpload( 'wpUploadFile' );
 

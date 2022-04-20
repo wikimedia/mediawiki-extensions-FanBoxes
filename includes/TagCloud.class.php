@@ -7,13 +7,22 @@ use Wikimedia\AtEase\AtEase;
  * @license GPL-2.0-or-later
  */
 class TagCloud {
+	/** @var int */
 	public $tags_min_pts = 8;
+	/** @var int */
 	public $tags_max_pts = 32;
+	/** @var int */
 	public $tags_highest_count = 0;
+	/** @var string */
 	public $tags_size_type = 'pt';
+	/** @var array[] */
 	public $tags = [];
+	/** @var int */
 	public $limit;
 
+	/**
+	 * @param int $limit
+	 */
 	public function __construct( $limit = 10 ) {
 		$this->limit = $limit;
 		$this->initialize();

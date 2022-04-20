@@ -1,12 +1,18 @@
 <?php
 class FanBoxAjaxUploadForm extends UploadForm {
+	/** @var bool */
 	protected $mWatch;
+	/** @var bool */
 	protected $mForReUpload;
+	/** @var string */
 	protected $mSessionKey;
+	/** @var bool */
 	protected $mHideIgnoreWarning;
+	/** @var bool */
 	protected $mDestWarningAck;
+	/** @var string */
 	protected $mDestFile;
-
+	/** @var array */
 	protected $mSourceIds;
 
 	/**
@@ -48,6 +54,10 @@ class FanBoxAjaxUploadForm extends UploadForm {
 		}
 	}
 
+	/**
+	 * @param bool|string|array|Status $submitResult
+	 * @return void
+	 */
 	function displayForm( $submitResult ) {
 		parent::displayForm( $submitResult );
 		$this->getOutput()->allowClickjacking();
