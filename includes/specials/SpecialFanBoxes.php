@@ -42,7 +42,7 @@ class FanBoxes extends SpecialPage {
 		$user = $this->getUser();
 
 		// Set it up so that you must be logged in to create a userbox
-		if ( $user->getID() == 0 ) {
+		if ( $user->getId() == 0 ) {
 			$out->setPageTitle( $this->msg( 'fanbox-woops-title' )->plain() );
 			$login = SpecialPage::getTitleFor( 'Userlogin' );
 			$out->redirect( $login->getFullURL( 'returnto=Special:UserBoxes' ) );
@@ -422,7 +422,7 @@ class FanBoxes extends SpecialPage {
 					$slashedTag = str_replace( "'", "\'", $tag );
 				}
 				$tagcloud .= ' <span id="tag-' . $tagnumber .
-					'" style="font-size:' . htmlspecialchars( $cloud->tags[$tag]['size'] . $cloud->tags_size_type ) . '">' .
+					'" style="font-size:' . htmlspecialchars( $cloud->tags[$tag]['size'] . 'pt' ) . '">' .
 					'<a data-slashed-tag="' . htmlspecialchars( $slashedTag ) . '">' . htmlspecialchars( $tag ) . '</a>' .
 					'</span>';
 				$tagnumber++;
@@ -451,14 +451,6 @@ class FanBoxes extends SpecialPage {
 				$tagcloud .= '</span>';
 				$xnum++;
 			}
-
-			$display_category = [];
-			foreach ( $array_category as $xname => $visible ) {
-				if ( $visible == 1 ) {
-					$display_category[] = $xname;
-				}
-			}
-			$text_category = implode( ',', $display_category );
 
 			$tagcloud .= '</div>';
 		}

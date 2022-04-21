@@ -1,33 +1,26 @@
 <?php
 
-use Wikimedia\AtEase\AtEase;
-
 /**
  * FanBoxes API module
  *
  * @file
  * @ingroup API
  * @see https://www.mediawiki.org/wiki/API:Extensions#ApiSampleApiExtension.php
- * @phan-file-suppress PhanImpossibleTypeComparison Phan doesn't like the "is thing null?" checks here
  */
 class ApiFanBoxes extends ApiBase {
 
 	public function execute() {
-		$user = $this->getUser();
-
 		// Get the request parameters
 		$params = $this->extractRequestParams();
 
-		AtEase::suppressWarnings();
 		$what = $params['what'];
 		$addRemove = $params['addRemove'];
 		$title = $params['title'];
 		$individualFantagId = $params['fantagId'];
-		AtEase::restoreWarnings();
 
 		// Ensure that we have all the parameters required by each respective
 		// sub-function, too
-		if ( $what == 'showAddRemoveMessage' && ( !$title || $title === null ) ) {
+		if ( $what == 'showAddRemoveMessage' && !$title ) {
 			$this->requireAtLeastOneParameter( $params, 'addRemove', 'title', 'fantagId' );
 		}
 
@@ -47,8 +40,6 @@ class ApiFanBoxes extends ApiBase {
 		$this->getResult()->addValue( null, $this->getModuleName(),
 			[ 'result' => $output ]
 		);
-
-		return true;
 	}
 
 	/**
@@ -58,7 +49,8 @@ class ApiFanBoxes extends ApiBase {
 	 * @return string HTML to be output
 	 */
 	function showAddRemoveMessage( $addRemove, $title, $individual_fantag_id ) {
-		$out = $msgKey = '';
+		$out = '';
+		$msgKey = '';
 
 		$fanbox = FanBox::newFromName( $title );
 		$user = $this->getUser();

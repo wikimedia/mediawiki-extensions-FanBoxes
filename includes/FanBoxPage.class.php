@@ -7,11 +7,6 @@
  */
 class FanBoxPage extends Article {
 
-	/** @var null */
-	public $title = null;
-	/** @var array */
-	public $authors = [];
-
 	/**
 	 * @var FanBox FanBox for the current Title
 	 */
@@ -37,7 +32,7 @@ class FanBoxPage extends Article {
 		// nonexistent fanbox
 		if ( !$this->getPage()->getId() ) {
 			parent::view();
-			return '';
+			return;
 		}
 
 		// Add JS
@@ -51,7 +46,6 @@ class FanBoxPage extends Article {
 		] );
 
 		$this->fan = new FanBox( $this->getTitle() );
-		$fanboxTitle = Title::makeTitle( NS_FANTAG, $this->fan->getName() );
 
 		$output = '';
 
@@ -138,9 +132,6 @@ class FanBoxPage extends Article {
 
 		foreach ( $fanboxHolders as $fanboxHolder ) {
 			$actor = User::newFromActorId( $fanboxHolder['userft_actor'] );
-			if ( !$actor || !$actor instanceof User ) {
-				continue;
-			}
 			$avatar = new wAvatar( $actor->getId(), 'ml' );
 			$output .= "<a href=\"" . htmlspecialchars( $actor->getUserPage()->getFullURL() ) . "\">
 				{$avatar->getAvatarURL()}
@@ -161,7 +152,7 @@ class FanBoxPage extends Article {
 		$code = str_replace( '_', ' ', $code ); // replace underscores with spaces
 		$code = htmlspecialchars( $code, ENT_QUOTES );
 		return '<form name="embed_fan" action="">' . wfMessage( 'fanbox-embed' )->escaped() .
-			" <input name='embed_code' type='text' value='{$code}' onclick='javascript:document.embed_fan.embed_code.focus();document.embed_fan.embed_code.select();' readonly='readonly' /></form>";
+			" <input name='embed_code' type='text' value='{$code}' onclick='document.embed_fan.embed_code.focus();document.embed_fan.embed_code.select();' readonly='readonly' /></form>";
 	}
 
 }

@@ -44,12 +44,11 @@ class FanBoxHooks {
 	 * When a page in the NS_FANTAG namespace is deleted, delete all fantag
 	 * records associated with that page.
 	 *
-	 * @param Article &$article Instance of Article or its descendant class
-	 * @param User &$user The User performing the page deletion [unused]
+	 * @param Article $article Instance of Article or its descendant class
+	 * @param User $user The User performing the page deletion [unused]
 	 * @param string $reason User-supplied reason for the deletion [unused]
-	 * @return bool
 	 */
-	public static function deleteFanBox( &$article, &$user, $reason ) {
+	public static function deleteFanBox( $article, $user, $reason ) {
 		if ( $article->getTitle()->getNamespace() == NS_FANTAG ) {
 			$dbw = wfGetDB( DB_PRIMARY );
 
@@ -74,8 +73,6 @@ class FanBoxHooks {
 				);
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -84,15 +81,12 @@ class FanBoxHooks {
 	 * @param Parser $parser Unused
 	 * @param string &$text Text to search for [[Fan:]] links
 	 * @param StripState $strip_state Unused
-	 * @return bool
 	 */
 	public static function transformFanBoxTags( $parser, &$text, $strip_state ) {
 		$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
 		$fantitle = $contLang->getNsText( NS_FANTAG );
 		$pattern = "@(\[\[$fantitle)([^\]]*?)].*?\]@si";
 		$text = preg_replace_callback( $pattern, 'FanBoxHooks::renderFanBoxTag', $text );
-
-		return true;
 	}
 
 	/**
@@ -106,7 +100,7 @@ class FanBoxHooks {
 		$name = $matches[2];
 		$params = explode( '|', $name );
 		$fan_name = $params[0];
-		$fan_name = Title::newFromDBKey( $fan_name );
+		$fan_name = Title::newFromDBkey( $fan_name );
 
 		if ( !is_object( $fan_name ) ) {
 			return '';
@@ -126,12 +120,11 @@ class FanBoxHooks {
 	 * Calls FanBoxPage instead of standard Article for pages in the NS_FANTAG
 	 * namespace.
 	 *
-	 * @param Title &$title
+	 * @param Title $title
 	 * @param Article|WikiPage|FanBoxPage &$article
 	 * @param RequestContext $context
-	 * @return bool
 	 */
-	public static function fantagFromTitle( Title &$title, &$article, $context ) {
+	public static function fantagFromTitle( Title $title, &$article, $context ) {
 		if ( $title->getNamespace() == NS_FANTAG ) {
 			$out = $context->getOutput();
 			// Add CSS
@@ -151,16 +144,14 @@ class FanBoxHooks {
 
 			$article = new FanBoxPage( $title );
 		}
-
-		return true;
 	}
 
 	/**
 	 * Register the new <fan> hook with the parser.
 	 *
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 */
-	public static function registerFanTag( &$parser ) {
+	public static function registerFanTag( $parser ) {
 		$parser->setHook( 'fan', [ 'FanBoxHooks', 'embedFanBox' ] );
 	}
 
@@ -221,10 +212,10 @@ class FanBoxHooks {
 	/**
 	 * Add FanBox's CSS and JS into the page output.
 	 *
-	 * @param OutputPage &$out
-	 * @param Skin &$skin
+	 * @param OutputPage $out
+	 * @param Skin $skin
 	 */
-	public static function addFanBoxScripts( &$out, &$skin ) {
+	public static function addFanBoxScripts( $out, $skin ) {
 		$out->addModuleStyles( 'ext.fanBoxes.styles' );
 		$out->addModules( 'ext.fanBoxes.scripts' );
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Quick helper class for SpecialFanBoxAjaxUpload::loadRequest; this prefixes
  * the filename with the timestamp. Yes, another class is needed for it. *sigh*

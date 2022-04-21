@@ -1,19 +1,6 @@
 <?php
+
 class FanBoxAjaxUploadForm extends UploadForm {
-	/** @var bool */
-	protected $mWatch;
-	/** @var bool */
-	protected $mForReUpload;
-	/** @var string */
-	protected $mSessionKey;
-	/** @var bool */
-	protected $mHideIgnoreWarning;
-	/** @var bool */
-	protected $mDestWarningAck;
-	/** @var string */
-	protected $mDestFile;
-	/** @var array */
-	protected $mSourceIds;
 
 	/**
 	 * @param array $options
@@ -47,7 +34,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 
 		# Build a list of IDs for JavaScript insertion
 		$this->mSourceIds = [];
-		foreach ( $sourceDescriptor as $key => $field ) {
+		foreach ( $sourceDescriptor as $field ) {
 			if ( !empty( $field['id'] ) ) {
 				$this->mSourceIds[] = $field['id'];
 			}

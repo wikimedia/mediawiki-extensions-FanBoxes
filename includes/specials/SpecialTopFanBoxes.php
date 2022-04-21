@@ -127,13 +127,6 @@ class TopFanBoxes extends SpecialPage {
 				// Get permalink
 				$fantag_title = Title::makeTitle( NS_FANTAG, $topfanbox['fantag_title'] );
 
-				// Get creator
-				$creator = User::newFromActorId( $topfanbox['fantag_actor'] );
-				$userftusername = $creator->getName();
-				$userftuserid = $creator->getId();
-				$user_title = Title::makeTitle( NS_USER, $userftusername );
-				$avatar = new wAvatar( $userftuserid, 'm' );
-
 				$right_text = $topfanbox['fantag_right_text'];
 				$right_text = $tagParser->parse(
 					$right_text, $this->getPageTitle(), $out->parserOptions(), false
@@ -198,7 +191,7 @@ class TopFanBoxes extends SpecialPage {
 					}
 				}
 
-				if ( $user->getID() == 0 ) {
+				if ( $user->getId() == 0 ) {
 					$output .= '<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . (int)$topfanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>
@@ -294,7 +287,6 @@ class TopFanBoxes extends SpecialPage {
 
 				// Get creator
 				$creator = User::newFromActorId( $categoryfanbox['fantag_actor'] );
-				$userftusername = $creator->getName();
 				$userftuserid = $creator->getId();
 				$user_title = $creator->getUserPage();
 				$avatar = new wAvatar( $userftuserid, 'm' );
@@ -357,7 +349,7 @@ class TopFanBoxes extends SpecialPage {
 					}
 				}
 
-				if ( $user->getID() == 0 ) {
+				if ( $user->getId() == 0 ) {
 					$output .= '<div class="fanbox-pop-up-box" id="fanboxPopUpBox' . (int)$categoryfanbox['fantag_id'] . '">
 					<table cellpadding="0" cellspacing="0" width="258px">
 						<tr>

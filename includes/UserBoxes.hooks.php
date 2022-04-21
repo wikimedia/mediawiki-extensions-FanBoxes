@@ -13,9 +13,9 @@ class UserBoxesHook {
 	/**
 	 * Register the <userboxes> tag with the Parser.
 	 *
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 */
-	public static function onParserFirstCallInit( &$parser ) {
+	public static function onParserFirstCallInit( $parser ) {
 		$parser->setHook( 'userboxes', [ 'UserBoxesHook', 'renderUserBoxesHook' ] );
 	}
 
@@ -53,29 +53,8 @@ class UserBoxesHook {
 
 		$f = new UserFanBoxes( $user_name );
 
-		// Try cache
-		// @todo If this is ever uncommented:
-		// 1) $f->user_id needs to be changed to $f->actor
-		// 2) and the similar change needs to be done to SocialProfile's UserProfile/includes/UserProfilePage.php
-		// to keep the cache keys in sync
-		// $cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
-		// $key = $cache->makeKey( 'user', 'profile', 'fanboxes', $f->user_id );
-		// $data = $cache->get( $key );
-
-		// if ( !$data ) {
-		// wfDebug( "Got profile fanboxes for user {$user_name} from DB\n" );
-		// $fanboxes = $f->getUserFanboxes( $limit );
-		// $cache->set( $key, $fanboxes );
-		// } else {
-		// wfDebug( "Got profile fanboxes for user {$user_name} from cache\n" );
-		// $fanboxes = $data;
-		// }
-
 		$fanboxes = $f->getUserFanboxes( $limit );
 
-		$fanbox_count = $f->getFanBoxCount();
-		$fanbox_link = SpecialPage::getTitleFor( 'ViewUserBoxes' );
-		$per_row = 1;
 		$output = '';
 
 		if ( $fanboxes ) {
@@ -225,7 +204,6 @@ class UserBoxesHook {
 				}
 
 				$output .= '</div></span><div class="visualClear"></div>';
-				// if ( $x == count( $fanboxes ) || $x != 1 && $x % $per_row == 0 ) $output .= '<div class="visualClear"></div>';
 				$x++;
 			}
 

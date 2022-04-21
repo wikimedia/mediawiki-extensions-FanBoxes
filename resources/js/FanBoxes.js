@@ -215,7 +215,7 @@
 		createFantag: function () {
 			if ( !document.getElementById( 'inputRightSide' ).value ) {
 				alert( mw.msg( 'fanbox-mustenter-right-or' ) );
-				return '';
+				return;
 			}
 
 			if (
@@ -223,18 +223,18 @@
 				!document.getElementById( 'fantag_image_name' ).value
 			) {
 				alert( mw.msg( 'fanbox-mustenter-left' ) );
-				return '';
+				return;
 			}
 
 			var title = document.getElementById( 'wpTitle' ).value;
 			if ( !title ) {
 				alert( mw.msg( 'fanbox-mustenter-title' ) );
-				return '';
+				return;
 			}
 
 			if ( title.indexOf( '#' ) > -1 ) {
 				alert( mw.msg( 'fanbox-hash' ) );
-				return '';
+				return;
 			}
 
 			// Encode ampersands
@@ -264,7 +264,7 @@
 		createFantagSimple: function () {
 			if ( !document.getElementById( 'inputRightSide' ).value ) {
 				alert( mw.msg( 'fanbox-mustenter-right' ) );
-				return '';
+				return;
 			}
 
 			if (
@@ -272,7 +272,7 @@
 				!document.getElementById( 'fantag_image_name' ).value
 			) {
 				alert( mw.msg( 'fanbox-mustenter-left' ) );
-				return '';
+				return;
 			}
 
 			document.form1.submit();
@@ -286,7 +286,7 @@
 		},
 
 		completeImageUpload: function () {
-			var html = '<div style="margin:0px 0px 10px 0px;"><img height="30" width="30" src="' +
+			var html = '<div style="margin:0 0 10px 0;"><img height="30" width="30" src="' +
 				mw.config.get( 'wgExtensionAssetsPath' ) + '/FanBoxes/resources/images/ajax-loader-white.gif" alt="" /></div>';
 			document.getElementById( 'fanbox_image' ).innerHTML = html;
 			document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = html;

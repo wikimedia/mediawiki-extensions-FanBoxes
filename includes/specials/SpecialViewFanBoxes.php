@@ -40,7 +40,7 @@ class ViewFanBoxes extends SpecialPage {
 		$user_name = $request->getVal( 'user', $par );
 
 		// Redirect Non-logged in users to Login Page
-		if ( $currentUser->getID() == 0 && $user_name == '' ) {
+		if ( $currentUser->getId() == 0 && $user_name == '' ) {
 			$login = SpecialPage::getTitleFor( 'Userlogin' );
 			$out->redirect( htmlspecialchars( $login->getFullURL( 'returnto=Special:ViewUserBoxes' ) ) );
 			return;

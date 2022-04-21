@@ -70,7 +70,7 @@
 	height: 52px;
 	font-size: 20px;
 	text-align: center;
-	padding: 0px 5px 0px 5px;
+	padding: 0 5px 0 5px;
 	border-bottom: 1px #000000 solid;
 	border-top: 1px #000000 solid;
 	border-left: 1px #000000 solid;
@@ -81,7 +81,7 @@
 	width: 150px;
 	height: 52px;
 	font-size: 14px;
-	padding: 0px 5px 0px 5px;
+	padding: 0 5px 0 5px;
 	border-bottom: 1px #000000 solid;
 	border-top: 1px #000000 solid;
 	border-right: 1px #000000 solid;
@@ -94,24 +94,23 @@
 }
 
 .lr-right {
-	float: right;
 	border-left: 1px solid #DCDCDC;
 	float: right;
-	padding: 0px 0px 0px 20px;
-	margin: 0px 0px 20px 0px;
+	padding: 0 0 0 20px;
+	margin: 0 0 20px 0;
 	width: 40%;
 }
 
 /* End LinkFilter-related rules */
 
 .fantag-image {
-	margin: 0px 0px 24px 0px;
+	margin: 0 0 24px 0;
 }
 
 .fanbox-item {
 	width: 270px;
 	height: 100%;
-	margin: 0px 0px 5px 0px;
+	margin: 0 0 5px 0;
 }
 
 .individual-fanbox {
@@ -209,7 +208,7 @@ a.perma {
 }
 
 .back-links {
-	margin: 0px 0px 10px 0px;
+	margin: 0 0 10px 0;
 }
 
 .back-links a {
@@ -218,7 +217,7 @@ a.perma {
 }
 
 .fanbox-count {
-	margin: 0px 0px 0px 0px;
+	margin: 0 0 0 0;
 }
 
 .page-nav a {
@@ -230,8 +229,8 @@ a.perma {
 	font-size: 18px;
 	color: #dcdcdc;
 	width: 45px;
-	padding: 5px 0px 0px 0px;
-	margin: 0px 0px 0px 5px;
+	padding: 5px 0 0 0;
+	margin: 0 0 0 5px;
 	float: left;
 }
 
@@ -264,7 +263,7 @@ a.perma {
 
 .fanbox-nav {
 	float: right;
-	margin: 10px 0px 0px 0px;
+	margin: 10px 0 0 0;
 	width: 200px;
 	padding: 5px;
 }
@@ -272,9 +271,9 @@ a.perma {
 .fanbox-nav h2 {
 	font-size: 16px;
 	color: #333333;
-	padding: 0px 0px 3px 0px;
+	padding: 0 0 3px 0;
 	border-bottom: 1px solid #dcdcdc;
-	margin: 0px 0px 10px 0px !important;
+	margin: 0 0 10px 0 !important;
 }
 
 .fanbox-nav a {
@@ -284,7 +283,7 @@ a.perma {
 
 .top-fanboxes {
 	float: left;
-	margin: 10px 0px 0px 0px;
+	margin: 10px 0 0 0;
 	position: relative;
 	overflow: hidden;
 }
@@ -299,6 +298,6 @@ a.perma {
 }
 
 .view-fanboxes-container {
-	padding: 0px 0px 25px 0px;
+	padding: 0 0 25px 0;
 	position: relative;
 }

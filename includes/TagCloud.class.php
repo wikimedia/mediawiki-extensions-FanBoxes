@@ -13,8 +13,6 @@ class TagCloud {
 	public $tags_max_pts = 32;
 	/** @var int */
 	public $tags_highest_count = 0;
-	/** @var string */
-	public $tags_size_type = 'pt';
 	/** @var array[] */
 	public $tags = [];
 	/** @var int */

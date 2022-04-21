@@ -16,7 +16,7 @@ class FanBox {
 	public $title;
 
 	/** @var bool Does the UserBox in question actually...exist? */
-	public $exists;
+	public $exists = false;
 
 	/** @var int UserBox ID (may _not_ be identical to pg_id!), i.e. fantag.fantag_id from the DB */
 	public $id;
@@ -55,7 +55,7 @@ class FanBox {
 	public $fantag_image;
 
 	/** @var bool */
-	public $dataLoaded;
+	public $dataLoaded = false;
 
 	/**
 	 * Constructor
@@ -67,9 +67,8 @@ class FanBox {
 		if ( !is_object( $title ) ) {
 			throw new MWException( 'FanBox constructor given bogus title.' );
 		}
-		$this->title =& $title;
+		$this->title = $title;
 		$this->name = $title->getDBkey();
-		$this->dataLoaded = false;
 	}
 
 	/**
@@ -81,12 +80,7 @@ class FanBox {
 	 */
 	public static function newFromName( $name ) {
 		$title = Title::makeTitleSafe( NS_FANTAG, $name );
-
-		if ( is_object( $title ) ) {
-			return new FanBox( $title );
-		} else {
-			return null;
-		}
+		return $title ? new FanBox( $title ) : null;
 	}
 
 	/**

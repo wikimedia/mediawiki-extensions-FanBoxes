@@ -15,9 +15,7 @@
  * @property FanBoxUpload $mUpload
  */
 class SpecialFanBoxAjaxUpload extends SpecialUpload {
-	/**
-	 * Constructor: initialise object
-	 */
+
 	public function __construct() {
 		parent::__construct();
 		$this->mName = 'FanBoxAjaxUpload';
@@ -137,7 +135,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 * @param string $message HTML string to add to the form
 	 * @param string $sessionKey Session key in case this is a stashed upload
 	 * @param bool $hideIgnoreWarning
-	 * @return FanBoxAjaxUploadForm
+	 * @return UploadForm
 	 */
 	protected function getUploadForm( $message = '', $sessionKey = '', $hideIgnoreWarning = false ) {
 		# Initialize form
@@ -190,11 +188,9 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 * @param string $message error message to show
 	 */
 	protected function showUploadError( $message ) {
-		$message = addslashes( $message );
-		$output = "<script language=\"javascript\">
-			/*<![CDATA[*/
-				window.parent.uploadError( '{$message}' );
-			/*]]>*/</script>";
+		$output = "<script>
+			window.parent.uploadError( '" . addslashes( $message ) . "' );
+			</script>";
 		$this->showUploadForm( $this->getUploadForm( $output ) );
 	}
 
@@ -283,17 +279,14 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 
 		$thumb = $img->transform( [ 'width' => $thumbWidth ] );
 		$img_tag = $thumb->toHtml();
-		$slashedImgTag = addslashes( $img_tag );
-
 		// $this->mDesiredDestName doesn't include the timestamp so we can't
 		// use it as the second param to the JS function...
 		// @see extensions/QuizGame/QuestionGameUpload.php,
 		// SpecialQuestionGameUpload::processUpload() for a detailed
 		// description of wtf's going on in here
 		$imgName = $img->getTitle()->getDBkey();
-		echo "<script language=\"javascript\">
-			/*<![CDATA[*/
-			window.parent.FanBoxes.uploadComplete(\"{$slashedImgTag}\", \"{$imgName}\", '');
-			/*]]>*/</script>";
+		echo "<script>
+			window.parent.FanBoxes.uploadComplete( \"" . addslashes( $img_tag ) . "\", \"$imgName\", '' );
+			</script>";
 	}
 }
