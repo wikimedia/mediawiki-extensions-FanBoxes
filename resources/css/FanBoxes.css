@@ -16,20 +16,20 @@
 	font-size: 20px;
 	text-align: center;
 	padding: 3px 5px 3px 5px;
-	border-bottom: 1px #000000 solid;
-	border-top: 1px #000000 solid;
-	border-left: 1px #000000 solid;
-	border-right: 1px #000000 solid;
+	border-bottom: 1px #000 solid;
+	border-top: 1px #000 solid;
+	border-left: 1px #000 solid;
+	border-right: 1px #000 solid;
 }
 
 #fanBoxLeftSideContainer {
 	width: 55px;
 	height: 63px;
 	text-align: center;
-	border-bottom: 1px #000000 solid;
-	border-top: 1px #000000 solid;
-	border-left: 1px #000000 solid;
-	border-right: 1px #000000 solid;
+	border-bottom: 1px #000 solid;
+	border-top: 1px #000 solid;
+	border-left: 1px #000 solid;
+	border-right: 1px #000 solid;
 }
 
 #fanBoxLeftSideOutput2 {
@@ -45,17 +45,17 @@
 	height: 57px;
 	font-size: 14px;
 	padding: 3px 5px 3px 5px;
-	border-bottom: 1px #000000 solid;
-	border-top: 1px #000000 solid;
-	border-right: 1px #000000 solid;
+	border-bottom: 1px #000 solid;
+	border-top: 1px #000 solid;
+	border-right: 1px #000 solid;
 }
 
 #fanBoxRightSideContainer {
 	width: 212px;
 	height: 63px;
-	border-bottom: 1px #000000 solid;
-	border-top: 1px #000000 solid;
-	border-right: 1px #000000 solid;
+	border-bottom: 1px #000 solid;
+	border-top: 1px #000 solid;
+	border-right: 1px #000 solid;
 }
 
 #fanBoxRightSideOutput2 {
@@ -71,10 +71,10 @@
 	font-size: 20px;
 	text-align: center;
 	padding: 0 5px 0 5px;
-	border-bottom: 1px #000000 solid;
-	border-top: 1px #000000 solid;
-	border-left: 1px #000000 solid;
-	border-right: 1px #000000 solid;
+	border-bottom: 1px #000 solid;
+	border-top: 1px #000 solid;
+	border-left: 1px #000 solid;
+	border-right: 1px #000 solid;
 }
 
 #fanBoxRightSideOutputProfile {
@@ -82,9 +82,9 @@
 	height: 52px;
 	font-size: 14px;
 	padding: 0 5px 0 5px;
-	border-bottom: 1px #000000 solid;
-	border-top: 1px #000000 solid;
-	border-right: 1px #000000 solid;
+	border-bottom: 1px #000 solid;
+	border-top: 1px #000 solid;
+	border-right: 1px #000 solid;
 }
 
 /* LinkFilter stuff */
@@ -94,7 +94,7 @@
 }
 
 .lr-right {
-	border-left: 1px solid #DCDCDC;
+	border-left: 1px solid #dcdcdc;
 	float: right;
 	padding: 0 0 0 20px;
 	margin: 0 0 20px 0;
@@ -177,32 +177,32 @@ a.perma {
 }
 
 .show-addremove-message {
-	color: red;
+	color: #f00f;
 	font-weight: bold;
 	text-align: center;
 	height: 63px;
 	width: 268px;
-	border-bottom: 1px #000000 solid;
-	border-top: 1px #000000 solid;
-	border-left: 1px #000000 solid;
-	border-right: 1px #000000 solid;
+	border-bottom: 1px #000 solid;
+	border-top: 1px #000 solid;
+	border-left: 1px #000 solid;
+	border-right: 1px #000 solid;
 }
 
 .show-addremove-message-half {
-	color: red;
+	color: #f00f;
 	font-weight: bold;
 	text-align: center;
 	height: 43px;
 	width: 190px;
 	padding: 5px;
-	border-bottom: 1px #000000 solid;
-	border-top: 1px #000000 solid;
-	border-left: 1px #000000 solid;
-	border-right: 1px #000000 solid;
+	border-bottom: 1px #000 solid;
+	border-top: 1px #000 solid;
+	border-left: 1px #000 solid;
+	border-right: 1px #000 solid;
 }
 
 .show-individual-addremove-message {
-	color: red;
+	color: #f00f;
 	font-weight: bold;
 	padding-top: 10px;
 }
@@ -270,7 +270,7 @@ a.perma {
 
 .fanbox-nav h2 {
 	font-size: 16px;
-	color: #333333;
+	color: #333;
 	padding: 0 0 3px 0;
 	border-bottom: 1px solid #dcdcdc;
 	margin: 0 0 10px 0 !important;

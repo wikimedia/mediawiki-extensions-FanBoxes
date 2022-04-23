@@ -159,9 +159,9 @@
 		},
 
 		/**
-		 * @param {Number} addRemove 1 to add a FanBox to the user profile, 2 to remove an existing one
-		 * @param {String} title FanBox name (without the namespace, obviously)
-		 * @param {Number} fantagId FanBox internal ID
+		 * @param {number} addRemove 1 to add a FanBox to the user profile, 2 to remove an existing one
+		 * @param {string} title FanBox name (without the namespace, obviously)
+		 * @param {number} fantagId FanBox internal ID
 		 */
 		showMessage: function ( addRemove, title, fantagId ) {
 			$.post(
@@ -180,9 +180,9 @@
 		},
 
 		/**
-		 * @param {Number} addRemove 1 to add a FanBox to the user profile, 2 to remove an existing one
-		 * @param {Number} id FanBox internal ID
-		 * @param {String} style CSS class name (either "show-addremove-message" or "show-addremove-message-half")
+		 * @param {number} addRemove 1 to add a FanBox to the user profile, 2 to remove an existing one
+		 * @param {number} id FanBox internal ID
+		 * @param {string} style CSS class name (either "show-addremove-message" or "show-addremove-message-half")
 		 * @todo FIXME: the animations suck
 		 */
 		showAddRemoveMessageUserPage: function ( addRemove, id, style ) {

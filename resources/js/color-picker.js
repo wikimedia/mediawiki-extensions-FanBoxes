@@ -1,4 +1,5 @@
 jQuery( function () {
+	// eslint-disable-next-line no-undef
 	var colorPickerTest = new YAHOO.widget.ColorPicker( 'colorpickerholder', {
 		showhsvcontrols: true,
 		showhexcontrols: true,
