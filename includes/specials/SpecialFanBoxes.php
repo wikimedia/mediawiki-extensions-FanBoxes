@@ -292,10 +292,10 @@ class FanBoxes extends SpecialPage {
 							'<span id="addImage">' . $this->msg( 'fanbox-display-image' )->escaped() .
 							'</span> <span id="closeImage">' . $this->msg( 'fanbox-close-image' )->escaped() . '</span></h3>
 						<input type="text" name="inputLeftSide" id="inputLeftSide" maxlength="11" /><br />
-						<font size="1">' . $this->msg( 'fanbox-leftsideinstructions' )->inContentLanguage()->parse() . '</font>
+						<font size="1">' . $this->msg( 'fanbox-leftsideinstructions' )->escaped() . '</font>
 					</div>
 					<div id="fanbox-right-text">
-					<h3>' . $this->msg( 'fanbox-rightsidetext' )->inContentLanguage()->parse() . '<span id="countdownbox"> <span class="fanbox-right-text-message">'
+					<h3>' . $this->msg( 'fanbox-rightsidetext' )->escaped() . '<span id="countdownbox"> <span class="fanbox-right-text-message">'
 						. $this->msg( 'fanbox-charsleft', '<span name="countdown" id="countdown">70</span>' )->parse() . '</span></span></h3>
 						<input type="text" name="inputRightSide" id="inputRightSide" maxlength="70" /><br />
 						<font size="1">' . $this->msg( 'fanbox-rightsideinstructions' )->escaped() . '</font>
@@ -307,7 +307,7 @@ class FanBoxes extends SpecialPage {
 			$output .= '<div id="create-fanbox-image" class="create-fanbox-image">
 						<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-leftsideimage' )->escaped() .
 							' <font size="1">' .
-							$this->msg( 'fanbox-leftsideimageinstructions' )->inContentLanguage()->parse() .
+							$this->msg( 'fanbox-leftsideimageinstructions' )->escaped() .
 							' </font></h2>
 						<div id="fanbox_image"></div>
 						<div id="fanbox_image2"></div>
