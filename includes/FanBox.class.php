@@ -134,7 +134,7 @@ class FanBox {
 				"\n__NOEDITSECTION__",
 				$page->getTitle()
 			);
-			$page->doEditContent( $pageContent, $desc );
+			$page->doEditContent( $pageContent, $desc, /*$flags =*/ 0, /*$originalRevId =*/ false, $user );
 		}
 
 		# Test to see if the row exists using INSERT IGNORE
