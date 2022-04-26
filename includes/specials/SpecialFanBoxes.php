@@ -115,6 +115,7 @@ class FanBoxes extends SpecialPage {
 			$output .= Html::hidden( 'textColorLeftSideColor', $update_fan->getFanBoxLeftTextColor(), [ 'id' => 'textColorLeftSideColor' ] ) . "\n";
 			$output .= Html::hidden( 'bgColorRightSideColor', $update_fan->getFanBoxRightBgColor(), [ 'id' => 'bgColorRightSideColor' ] ) . "\n";
 			$output .= Html::hidden( 'textColorRightSideColor', $update_fan->getFanBoxRightTextColor(), [ 'id' => 'textColorRightSideColor' ] ) . "\n";
+			$output .= Html::hidden( 'wpEditToken', $user->getEditToken() );
 
 			$fantag_image_tag = '';
 			if ( $update_fan->getFanBoxImage() ) {
@@ -254,6 +255,8 @@ class FanBoxes extends SpecialPage {
 			<input type="hidden" name="bgColorRightSideColor" id="bgColorRightSideColor" value="" />
 			<input type="hidden" name="textColorRightSideColor" id="textColorRightSideColor" value="" />';
 
+			$output .= Html::hidden( 'wpEditToken', $user->getEditToken() );
+
 			if ( !$destination ) {
 				$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-title' )->escaped() . '</h2>
 					<div class="create-fanbox-title">
@@ -330,6 +333,13 @@ class FanBoxes extends SpecialPage {
 
 		// Send values to database and create fantag page when form is submitted
 		if ( $request->wasPosted() ) {
+			// Protect against CSRF
+			if ( !$user->matchEditToken( $request->getVal( 'wpEditToken' ) ) ) {
+				$out->addWikiMsg( 'sessionfailure' );
+				$out->addReturnTo( $this->getPageTitle() );
+				return;
+			}
+
 			if ( !$fanboxId ) {
 				// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 				$fan = FanBox::newFromName( $title );
