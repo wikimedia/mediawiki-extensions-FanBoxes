@@ -115,6 +115,7 @@ class FanBoxes extends SpecialPage {
 			$output .= Html::hidden( 'textColorLeftSideColor', $update_fan->getFanBoxLeftTextColor(), [ 'id' => 'textColorLeftSideColor' ] ) . "\n";
 			$output .= Html::hidden( 'bgColorRightSideColor', $update_fan->getFanBoxRightBgColor(), [ 'id' => 'bgColorRightSideColor' ] ) . "\n";
 			$output .= Html::hidden( 'textColorRightSideColor', $update_fan->getFanBoxRightTextColor(), [ 'id' => 'textColorRightSideColor' ] ) . "\n";
+			$output .= Html::hidden( 'title', $this->getPageTitle() );
 			$output .= Html::hidden( 'wpEditToken', $user->getEditToken() );
 
 			$fantag_image_tag = '';
@@ -218,6 +219,7 @@ class FanBoxes extends SpecialPage {
 					$this->msg( 'fanbox-update-button' )->escaped() .
 					'" size="20" />
 			</div>';
+			$output .= '</form>';
 		}
 
 		// Set it up so that the page title includes the title of the red link that the user clicks on
@@ -255,6 +257,7 @@ class FanBoxes extends SpecialPage {
 			<input type="hidden" name="bgColorRightSideColor" id="bgColorRightSideColor" value="" />
 			<input type="hidden" name="textColorRightSideColor" id="textColorRightSideColor" value="" />';
 
+			$output .= Html::hidden( 'title', $this->getPageTitle() );
 			$output .= Html::hidden( 'wpEditToken', $user->getEditToken() );
 
 			if ( !$destination ) {
@@ -304,7 +307,6 @@ class FanBoxes extends SpecialPage {
 						<font size="1">' . $this->msg( 'fanbox-rightsideinstructions' )->escaped() . '</font>
 					</div>
 					<div class="visualClear"></div>
-					</form>
 				</div>';
 
 			$output .= '<div id="create-fanbox-image" class="create-fanbox-image">
@@ -327,6 +329,7 @@ class FanBoxes extends SpecialPage {
 			$output .= '<div class="create-fanbox-buttons">
 				<input type="submit" class="site-button" value="' . $this->msg( 'fanbox-create-button' )->escaped() . '" size="20" />
 			</div>';
+			$output .= '</form>';
 		}
 
 		$out->addHTML( $output );
@@ -391,7 +394,6 @@ class FanBoxes extends SpecialPage {
 		$output = '<div class="add-colors">
 					<h2 class="fanbox-form-label visualClear">' . $this->msg( 'fanbox-add-colors' )->escaped() . '</h2>
 					<div id="add-colors-left">
-						<form name="colorpickerradio" action="">
 						<input type="radio" name="colorpickerchoice" value="leftBG" checked="checked" />' .
 							$this->msg( 'fanbox-leftbg-color' )->escaped() .
 						'<br />
@@ -403,7 +405,6 @@ class FanBoxes extends SpecialPage {
 						'<br />
 						<input type="radio" name="colorpickerchoice" value="rightText" />' .
 						$this->msg( 'fanbox-righttext-color' )->escaped() . '
-						</form>
 					</div>
 
 					<div id="add-colors-right">
@@ -467,6 +468,9 @@ class FanBoxes extends SpecialPage {
 
 		$tagcloud .= '</noscript>';
 		// End no-JS category stuff
+
+		// @todo FIXME: such a hack...
+		$categories = str_replace( '_', ' ', $categories );
 
 		$output .= '<div class="create-category-title">';
 		$output .= '<h2 class="fanbox-form-label">' . $categoriesLabel . '</h2>';

@@ -12,13 +12,7 @@ jQuery( function () {
 		var sColor = '#' + this.get( 'hex' ),
 			documentForm;
 
-		if ( mw.util.getParamValue( 'id' ) ) {
-			// Editing an existing UserBox
-			documentForm = document.form1;
-		} else {
-			// Creating a brand new UserBox
-			documentForm = document.colorpickerradio;
-		}
+		documentForm = document.form1;
 
 		if ( documentForm.colorpickerchoice[ 0 ].checked ) {
 			document.getElementById( 'fanBoxLeftSideOutput2' ).style.backgroundColor = sColor;

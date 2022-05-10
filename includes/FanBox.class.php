@@ -127,6 +127,18 @@ class FanBox {
 			$descTitle->invalidateCache();
 			$descTitle->purgeSquid();
 		} else {
+			// Set these variables for buildWikiText(), which uses the accessor methods
+			// @todo This feels kinda nasty...
+			$this->left_text = $fantag_left_text;
+			$this->left_textcolor = $fantag_left_textcolor;
+			$this->left_bgcolor = $fantag_left_bgcolor;
+			$this->left_textsize = $fantag_left_textsize;
+			$this->right_text = $fantag_right_text;
+			$this->right_textcolor = $fantag_right_textcolor;
+			$this->right_bgcolor = $fantag_right_bgcolor;
+			$this->right_textsize = $fantag_right_textsize;
+			$this->fantag_image = $fantag_image_name;
+
 			// New fantag; create the description page.
 			$pageContent = ContentHandler::makeContent(
 				$this->buildWikiText() . "\n\n" .
