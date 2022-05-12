@@ -68,7 +68,8 @@ class FanBoxes extends SpecialPage {
 		] );
 		$out->addModules( [
 			'ext.fanBoxes.scripts',
-			'ext.fanBoxes.colorpicker'
+			'ext.fanBoxes.colorpicker',
+			'ext.fanBoxes.file-selector'
 		] );
 
 		// colorpicker
