@@ -4,7 +4,8 @@
 	margin-bottom: 10px;
 }
 
-.mw-body h3, .mw-body-primary h3 {
+.mw-body h3,
+.mw-body-primary h3 {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	font-size: 14px;
@@ -41,14 +42,14 @@ table.fanBoxTable {
 
 #addImage {
 	font-size: 9px;
-	color: #285C98;
+	color: #285c98;
 	cursor: pointer;
 	display: inline;
 }
 
 #closeImage {
 	font-size: 9px;
-	color: #285C98;
+	color: #285c98;
 	cursor: pointer;
 	display: none;
 }
@@ -94,7 +95,7 @@ table.fanBoxTable {
 #colorpickerholder {
 	position: relative;
 	padding: 6px;
-	background-color: #eeeeee;
+	background-color: #eee;
 	width: 370px;
 	height: 190px;
 	float: left;

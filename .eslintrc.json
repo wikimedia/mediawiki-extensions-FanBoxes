@@ -10,12 +10,13 @@
 		"jQuery": false
 	},
 	"rules": {
-		"no-undef": "warn",
 		"camelcase": "warn",
+		"jsdoc/require-param-type": "warn",
+		"max-len": "warn",
 		"no-alert": "warn",
-		"no-jquery/no-global-selector": "warn",
 		"no-jquery/no-fade": "warn",
+		"no-jquery/no-global-selector": "warn",
 		"no-jquery/no-sizzle": "warn",
-		"compat/compat": "warn"
+		"unicorn/prefer-string-slice": "warn"
 	}
 }
