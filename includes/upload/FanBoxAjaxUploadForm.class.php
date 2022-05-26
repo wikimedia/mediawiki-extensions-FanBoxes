@@ -24,6 +24,10 @@ class FanBoxAjaxUploadForm extends UploadForm {
 			+ $this->getOptionsSection();
 
 		// Hooks::run( 'UploadFormInitDescriptor', array( &$descriptor ) );
+		// Suppress phan warnings about $context technically being allowed to be nullable
+		// The one and only caller *does* supply $context so everything's fine in practise,
+		// but I think core just changed so that HTMLForm constructor requires a $context.
+		// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 		HTMLForm::__construct( $descriptor, $context, 'upload' );
 
 		# Set some form properties
