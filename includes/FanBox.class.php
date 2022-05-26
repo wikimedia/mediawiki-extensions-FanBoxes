@@ -146,7 +146,12 @@ class FanBox {
 				"\n__NOEDITSECTION__",
 				$page->getTitle()
 			);
-			$page->doEditContent( $pageContent, $desc, /*$flags =*/ 0, /*$originalRevId =*/ false, $user );
+			if ( method_exists( $page, 'doUserEditContent' ) ) {
+				// MW 1.36+
+				$page->doUserEditContent( $pageContent, $user, $desc );
+			} else {
+				$page->doEditContent( $pageContent, $desc, /*$flags =*/ 0, /*$originalRevId =*/ false, $user );
+			}
 		}
 
 		# Test to see if the row exists using INSERT IGNORE
@@ -298,7 +303,13 @@ class FanBox {
 			$page->getTitle()
 		);
 
-		$page->doEditContent( $pageContent, wfMessage( 'fanbox-summary-update' )->inContentLanguage()->parse() );
+		$summary = wfMessage( 'fanbox-summary-update' )->inContentLanguage()->parse();
+		if ( method_exists( $page, 'doUserEditContent' ) ) {
+			// MW 1.36+
+			$page->doUserEditContent( $pageContent, $user, $summary );
+		} else {
+			$page->doEditContent( $pageContent, $summary );
+		}
 	}
 
 	/**
