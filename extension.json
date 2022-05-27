@@ -111,6 +111,24 @@
 			"scripts": "resources/js/color-picker.js",
 			"dependencies": "mediawiki.util"
 		},
+		"ext.fanBoxes.file-selector": {
+			"scripts": "resources/js/file-selector.js",
+			"dependencies": [
+				"oojs-ui",
+				"oojs-ui.styles.icons-media",
+				"mediawiki.widgets",
+				"mediawiki.widgets.UserInputWidget",
+				"mediawiki.widgets.MediaSearch",
+				"mediawiki.api",
+				"mediawiki.user"
+			],
+			"messages": [
+				"cancel",
+				"fanboxes-image-picker",
+				"fanboxes-image-picker-launch-button",
+				"fanboxes-image-picker-select"
+			]
+		},
 		"ext.fanBoxes.fanboxpage": {
 			"styles": "resources/css/FanBoxPage.css"
 		}
