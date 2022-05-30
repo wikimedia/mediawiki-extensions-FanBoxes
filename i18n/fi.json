@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Jack Phoenix"
+			"Jack Phoenix",
+			"MITO"
 		]
 	},
 	"fanbox-add": "Lisää",
@@ -29,6 +30,7 @@
 	"fanbox-leftsidetext": "Vasen puoli",
 	"fanbox-display-image": " (lisää kuva)",
 	"fanbox-close-image": " (sulje kuvalaatikko)",
+	"fanboxes-image-picker-select": "Valitse",
 	"fanbox-leftsideinstructions": "(Suurin merkkimäärä: 10; 5 riviä kohden)",
 	"fanbox-rightsidetext": "Oikea puoli",
 	"fanbox-rightsideinstructions": "(Suurin merkkimäärä: 70)",

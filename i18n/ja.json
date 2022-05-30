@@ -1,8 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Buntschann"
+			"Buntschann",
+			"MathXplore"
 		]
 	},
+	"fanboxes-image-picker-launch-button": "既存の画像を使う",
+	"fanboxes-image-picker-select": "選択",
 	"user-fanbox-title": "ユーザーボックス"
 }
