@@ -1,9 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
+			"Asma",
 			"محمد أحمد عبد الفتاح"
 		]
 	},
 	"fanbox-title": "العنوان",
+	"fanboxes-image-picker-launch-button": "استخدم صورة موجودة",
+	"fanboxes-image-picker-select": "اختر",
 	"user-fanbox-title": "صناديق المستخدم"
 }
