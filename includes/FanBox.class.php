@@ -120,7 +120,12 @@ class FanBox {
 					trim( $category ) . "]]\n";
 			}
 		}
-		$page = WikiPage::factory( $this->title );
+		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+			// MW 1.36+
+			$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $this->title );
+		} else {
+			$page = WikiPage::factory( $this->title );
+		}
 
 		if ( $descTitle->exists() ) {
 			# Invalidate the cache for the description page
@@ -150,6 +155,7 @@ class FanBox {
 				// MW 1.36+
 				$page->doUserEditContent( $pageContent, $user, $desc );
 			} else {
+				// @phan-suppress-next-line PhanUndeclaredMethod
 				$page->doEditContent( $pageContent, $desc, /*$flags =*/ 0, /*$originalRevId =*/ false, $user );
 			}
 		}
@@ -294,7 +300,12 @@ class FanBox {
 					':' . trim( $category ) . "]]\n";
 			}
 		}
-		$page = WikiPage::factory( $this->title );
+		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+			// MW 1.36+
+			$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $this->title );
+		} else {
+			$page = WikiPage::factory( $this->title );
+		}
 
 		$pageContent = ContentHandler::makeContent(
 			$this->buildWikiText() . "\n" .
@@ -308,6 +319,7 @@ class FanBox {
 			// MW 1.36+
 			$page->doUserEditContent( $pageContent, $user, $summary );
 		} else {
+			// @phan-suppress-next-line PhanUndeclaredMethod
 			$page->doEditContent( $pageContent, $summary );
 		}
 	}
