@@ -4,7 +4,8 @@
 			"Armando-Martin",
 			"Jakeukalane",
 			"Rodney Araujo",
-			"DiegoAmbrocio"
+			"DiegoAmbrocio",
+			"Ciencia Al Poder"
 		]
 	},
 	"fanbox-add": "Añadir",
@@ -14,8 +15,10 @@
 	"fanbox-create-button": "Crear",
 	"fanbox-created-by": "creado por:",
 	"fanbox-hash": "# es un carácter no válido para el título.",
-	"fanbox-mustenter-right": "Debe introducir el texto para el lado derecho",
-	"fanbox-mustenter-right-or": "Debe introducir el texto para el lado derecho",
+	"fanbox-members": "{{PLURAL:$1|un miembro|$1 miembros}}",
+	"fanbox-mustenter-left": "Debes rellenar texto o una imagen para el lado izquierdo",
+	"fanbox-mustenter-right": "Debes introducir el texto para el lado derecho",
+	"fanbox-mustenter-right-or": "Debes introducir el texto para el lado derecho",
 	"fanbox-mustenter-title": "Debe introducir un título",
 	"fanbox-perma": "permanente",
 	"fanbox-prev": "Anterior",
