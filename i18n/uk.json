@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"DDPAT",
-			"Ice bulldog"
+			"Ice bulldog",
+			"Ата"
 		]
 	},
 	"fanbox-desc": "Новий спосіб створення та використання юзербоксів на основі спеціальних сторінок",
@@ -31,6 +32,9 @@
 	"fanbox-leftsidetext": "Ліва сторона",
 	"fanbox-display-image": "(додати зображення)",
 	"fanbox-close-image": "(закрити вікно із зображенням)",
+	"fanboxes-image-picker-launch-button": "Використати наявне зображення",
+	"fanboxes-image-picker": "Вибирач зображень",
+	"fanboxes-image-picker-select": "Вибрати",
 	"fanbox-leftsideinstructions": "(Максимальна кількість символів: 10; 5 на рядок)",
 	"fanbox-rightsidetext": "Права сторона",
 	"fanbox-rightsideinstructions": "(Максимальна кількість символів: 70)",
