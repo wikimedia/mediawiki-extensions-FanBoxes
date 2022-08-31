@@ -7,7 +7,8 @@
 			"Kghbln",
 			"McDutchie",
 			"Umlaut",
-			"Zabe"
+			"Zabe",
+			"Brettchenweber"
 		]
 	},
 	"fanbox-add": "Hinzufügen",
@@ -17,6 +18,9 @@
 	"fanbox-choose-another": "Bitte wähle einen anderen Titel",
 	"fanbox-create-button": "Erstellen",
 	"fanbox-created-by": "Erstellt von:",
+	"fanbox-members": "{{PLURAL:$1|ein Mitglied|$1 Mitglieder}}",
+	"fanbox-mustenter-left": "Du musst für die linke Seite entweder einen Text oder ein Bild einfügen",
+	"fanbox-mustenter-title": "Du musst einen Titel eingeben",
 	"fanbox-title": "Titel",
 	"fanbox-leftsidetext": "Linke Seite",
 	"fanbox-display-image": " (Bild hinzufügen)",
@@ -30,6 +34,7 @@
 	"fanbox-rightbg-color": "Rechter Hintergrund",
 	"fanbox-righttext-color": "Rechter Text",
 	"fanbox-leftsideimage": "Ein Bild hinzufügen",
+	"fanbox-leftsideimageinstructions": "(statt eines Textes kannst du auf der linken Seite auch ein Bild hinzufügen)",
 	"fanbox-maxchars-sixty": "Maximale Anzahl an Zeichen: 60",
 	"fanbox-upload-new-image": "Neues Bild hochladen",
 	"fanbox-update-button": "Bearbeiten",
@@ -37,6 +42,7 @@
 	"fanbox-summary-new": "Neue Benutzerbox",
 	"fanbox-summary-update": "Benutzerbox aktualisieren",
 	"fanbox-addfan-exists": "Der Titel für dein benutzerbox ist bereits vorhanden. Bitte wähle einen anderen Titel für die Benutzerbox aus.",
+	"fanbox-back-link": "< Zurück zur Benutzerseite von $1",
 	"fanbox-count": "$1 hat $2 {{PLURAL:$2|Benutzerbox|Benutzerboxen}}.",
 	"fanbox-embed": "Einbetten",
 	"fanbox-add-colors": "Farben hinzufügen",
