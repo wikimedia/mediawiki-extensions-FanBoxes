@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kly"
+			"Kly",
+			"捍粵者"
 		]
 	},
 	"fanbox-desc": "基於特殊頁面來建立與利用使用者方塊的新方式",
@@ -33,7 +34,7 @@
 	"fanboxes-image-picker-launch-button": "使用現有圖片",
 	"fanboxes-image-picker": "圖片挑選器",
 	"fanboxes-image-picker-select": "選擇",
-	"fanbox-leftsideinstructions": "（最大字元數：10；每行 5 個）",
+	"fanbox-leftsideinstructions": "（最多10字元，每行5字元）",
 	"fanbox-rightsidetext": "左側",
 	"fanbox-rightsideinstructions": "（最大字元數：70）",
 	"fanbox-charsleft": "（您還剩下 $1 個字元）",
