@@ -79,7 +79,7 @@ class FanBoxes extends SpecialPage {
 		$out->addScript( "<script type=\"text/javascript\" src=\"http://yui.yahooapis.com/2.5.2/build/colorpicker/colorpicker-min.js\"></script>\n" );
 
 		$output = '';
-		$title = str_replace( '#', '', $request->getVal( 'wpTitle' ) );
+		$title = str_replace( '#', '', $request->getVal( 'wpTitle', '' ) );
 		$fanboxId = $request->getInt( 'id' );
 		$categories = '';
 
@@ -265,7 +265,7 @@ class FanBoxes extends SpecialPage {
 				$output .= '<h2 class="fanbox-form-label">' . $this->msg( 'fanbox-title' )->escaped() . '</h2>
 					<div class="create-fanbox-title">
 						<input type="text" name="wpTitle" id="wpTitle" value="' .
-							htmlspecialchars( $request->getVal( 'wpTitle' ), ENT_QUOTES ) .
+							htmlspecialchars( $request->getVal( 'wpTitle', '' ), ENT_QUOTES ) .
 							'" style="width:350px" maxlength="60" /><br />
 						<font size="1">(' . $this->msg( 'fanbox-maxchars-sixty' )->escaped() . ')</font><br />
 					</div>';
