@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Afalau"
+		]
+	},
+	"fanbox-add": "Ychwanegu",
+	"fanbox-addtext": "Ychwanegu testun",
+	"fanbox-categories-label": "Categorïau",
+	"fanbox-choose-another": "Dewiswch deitl arall",
+	"fanbox-create-button": "Creu",
+	"fanbox-created-by": "crëwyd gan:",
+	"fanbox-prev": "Cynt",
+	"fanbox-next": "Nesaf",
+	"fanbox-nav-header": "Blychau Defnyddiwr",
+	"fanbox-woops-title": "Wps!",
+	"user-fanbox-title": "Blychau Defnyddiwr",
+	"topuserboxes": "Blychau Defnyddwyr poblogaidd",
+	"viewuserboxes": "Gweld Blychau Defnyddwyr",
+	"userboxes": "Creu Blwch Defnyddiwr"
+}
