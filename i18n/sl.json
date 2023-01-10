@@ -4,9 +4,12 @@
 			"Eleassar"
 		]
 	},
+	"fanbox-addtext": "Dodaj besedilo",
 	"fanbox-title": "Naslov",
 	"fanbox-close-image": "(zapri slikovno polje)",
 	"fanboxes-image-picker-select": "Izberi",
+	"fanbox-lefttext-color": "Levo besedilo",
+	"fanbox-righttext-color": "Desno besedilo",
 	"fanbox-update-button": "Uredi",
 	"viewuserboxes": "Ogled uporabniških polj"
 }
