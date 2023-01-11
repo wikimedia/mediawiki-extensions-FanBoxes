@@ -4,12 +4,19 @@
 			"Eleassar"
 		]
 	},
+	"fanbox-add": "Dodaj",
 	"fanbox-addtext": "Dodaj besedilo",
 	"fanbox-title": "Naslov",
+	"fanbox-leftsidetext": "Leva stran",
 	"fanbox-close-image": "(zapri slikovno polje)",
 	"fanboxes-image-picker-select": "Izberi",
+	"fanbox-charsleft": "(na voljo imate še $1 znakov)",
+	"fanbox-leftbg-color": "Levo ozadje",
 	"fanbox-lefttext-color": "Levo besedilo",
+	"fanbox-rightbg-color": "Desno ozadje",
 	"fanbox-righttext-color": "Desno besedilo",
 	"fanbox-update-button": "Uredi",
+	"fanbox-userdoesnotexist": "Uporabnik, ki si ga poskušate ogledati, ne obstaja.",
+	"fanbox-add-colors": "Dodaj barve",
 	"viewuserboxes": "Ogled uporabniških polj"
 }
