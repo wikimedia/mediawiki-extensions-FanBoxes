@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Abcdefg",
 			"Ameisenigel",
 			"Brettchenweber",
 			"Gebu",
@@ -22,6 +23,7 @@
 	"fanbox-mustenter-left": "Du musst für die linke Seite entweder einen Text oder ein Bild einfügen",
 	"fanbox-mustenter-right": "Du musst einen Text für die rechte Seite eingeben",
 	"fanbox-mustenter-title": "Du musst einen Titel eingeben",
+	"fanbox-perma": "permanent",
 	"fanbox-title": "Titel",
 	"fanbox-leftsidetext": "Linke Seite",
 	"fanbox-display-image": " (Bild hinzufügen)",
