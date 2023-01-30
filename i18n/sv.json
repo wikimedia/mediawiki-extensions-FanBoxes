@@ -15,5 +15,8 @@
 	"fanbox-hash": "# är ett ogiltigt tecken för den titeln.",
 	"fanbox-members": "{{PLURAL:$1|en medlem|$1 medlemmar}}",
 	"fanbox-mustenter-left": "Du måste antingen skriva in text eller en bild för den vänstra sidan",
+	"fanbox-prev": "Föreg.",
+	"fanbox-next": "Nästa",
+	"fanbox-title": "Titel",
 	"user-fanbox-title": "Användarrutor"
 }
