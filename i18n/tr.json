@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"MuratTheTurkish"
+			"MuratTheTurkish",
+			"Rapsar"
 		]
 	},
 	"fanbox-desc": "Özel sayfalara dayalı olarak kullanıcı kutuları oluşturmanın ve kullanmanın yeni bir yolu",
@@ -42,7 +43,7 @@
 	"fanbox-leftsideimageinstructions": "(metin yerine sol tarafa bir resim ekleyebilirsiniz)",
 	"fanbox-maxchars-sixty": "Maksimum karakter: 60",
 	"fanbox-upload-new-image": "Yeni resim yükle",
-	"fanbox-update-button": "Düzenle",
+	"fanbox-update-button": "Değiştir",
 	"fanbox-userdoesnotexist": "Görüntülemeye çalıştığınız kullanıcı mevcut değil.",
 	"fanbox-woops": "Ups, yanlış yola girdiniz!",
 	"fanbox-userbox-category": "Kullanıcı kutuları",
