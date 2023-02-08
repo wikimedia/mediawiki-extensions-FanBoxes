@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Amire80",
-			"ישראל קלר"
+			"ישראל קלר",
+			"שוקו מוקה"
 		]
 	},
 	"fanbox-add": "הוספה",
@@ -15,6 +16,7 @@
 	"fanbox-update-button": "עריכה",
 	"fanbox-embed": "הטבעה",
 	"fanbox-remove": "הסרה",
+	"fanbox-woops-title": "אופס!",
 	"user-fanbox-title": "תיבות משתמש",
 	"apihelp-fanboxes-param-what": "מה לעשות?"
 }
