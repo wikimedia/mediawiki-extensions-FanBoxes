@@ -1,12 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
-			"1917 Ekim Devrimi"
+			"1917 Ekim Devrimi",
+			"Mirzali"
 		]
 	},
 	"fanbox-add": "Dekerê",
 	"fanbox-addtext": "Metin dekerê",
-	"fanbox-categories-label": "Kategoriy",
+	"fanbox-categories-label": "Kategoriyi",
 	"fanbox-create-button": "Vırazê",
 	"fanbox-created-by": "Vıraştoğ:",
 	"fanbox-perma": "daimi",
