@@ -37,5 +37,6 @@
 	"fanbox-woops-title": "Ups!",
 	"user-fanbox-title": "Uporabniška polja",
 	"viewuserboxes": "Ogled uporabniških polj",
-	"userboxes": "Ustvari uporabniško polje"
+	"userboxes": "Ustvari uporabniško polje",
+	"apihelp-fanboxes-param-title": "Ime strani (v imenskem prostoru uporabniških polj), na kateri želite dodati ali odstraniti sporočila"
 }
