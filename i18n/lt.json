@@ -1,0 +1,43 @@
+{
+	"@metadata": {
+		"authors": [
+			"Nokeoo"
+		]
+	},
+	"fanbox-add": "Pridėti",
+	"fanbox-addtext": "Pridėti tekstą",
+	"fanbox-categories-label": "Kategorijos",
+	"fanbox-choose-another": "Pasirinkite kitą pavadinimą",
+	"fanbox-create-button": "Sukurti",
+	"fanbox-created-by": "sukūrė:",
+	"fanbox-hash": "# yra netinkamas pavadinimo simbolis.",
+	"fanbox-members": "{{PLURAL:$1|vienas narys|$1 nariai}}",
+	"fanbox-mustenter-left": "Kairėj pusėj turite įvesti tekstą arba paveikslėlį",
+	"fanbox-mustenter-right": "Dešinėj pusėj turite įvesti tekstą arba paveikslėlį",
+	"fanbox-mustenter-right-or": "Dešinėj pusėj turite įvesti tekstą",
+	"fanbox-mustenter-title": "Turite įvesti pavadinimą",
+	"fanbox-perma": "nuolatinis",
+	"fanbox-prev": "Ankstesnis",
+	"fanbox-next": "Kitas",
+	"fanbox-title": "Pavadinimas",
+	"fanbox-leftsidetext": "Kairė pusė",
+	"fanbox-display-image": " (pridėti paveikslėlį)",
+	"fanbox-leftsideinstructions": "(Didžiausias simbolių skaičius: 10; 5 eilutėje)",
+	"fanbox-rightsidetext": "Dešinė pusė",
+	"fanbox-rightsideinstructions": "(Didžiausias simbolių skaičius: 70)",
+	"fanbox-charsleft": "(jums liko $1 simbolių)",
+	"fanbox-leftbg-color": "Kairysis fonas",
+	"fanbox-lefttext-color": "Kairysis tekstas",
+	"fanbox-rightbg-color": "Dešinysis fonas",
+	"fanbox-righttext-color": "Dešinysis tekstas",
+	"fanbox-leftsideimage": "Pridėti paveikslėlį",
+	"fanbox-leftsideimageinstructions": "(vietoj teksto galite pridėti paveikslėlį kairėje pusėje)",
+	"fanbox-upload-new-image": "Įkelti naują paveikslėlį",
+	"fanbox-update-button": "Redaguoti",
+	"fanbox-userdoesnotexist": "Naudotojas, kurį bandote peržiūrėti, neegzistuoja.",
+	"fanbox-woops": "Oi, pasukote neteisingai!",
+	"fanbox-remove": "Pašalinti",
+	"fanbox-users-with-fanbox-message": "Kiti žmonės, kurie domisi tais pačiais dalykais",
+	"fanbox-woops-title": "Oi!",
+	"apihelp-fanboxes-param-what": "Ką daryti?"
+}
