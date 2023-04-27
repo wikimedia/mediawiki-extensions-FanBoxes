@@ -9,7 +9,8 @@
 			"Kghbln",
 			"McDutchie",
 			"Umlaut",
-			"Zabe"
+			"Zabe",
+			"Lukasaiko"
 		]
 	},
 	"fanbox-add": "Hinzufügen",
@@ -24,6 +25,12 @@
 	"fanbox-mustenter-right": "Du musst einen Text für die rechte Seite eingeben",
 	"fanbox-mustenter-title": "Du musst einen Titel eingeben",
 	"fanbox-perma": "permanent",
+	"fanbox-prev": "Vorherige",
+	"fanbox-next": "Nächste",
+	"fanbox-addfan-title": "Erstelle eine Benutzerbox",
+	"fanbox-createfor": "Erstelle eine Benutzerbox für $1",
+	"fanbox-createfannotloggedin": "Du musst dich anmelden, um eine Benutzerbox zu erstellen.",
+	"fanbox-updatefan": "Benutzerbox für \" $1 \" bearbeiten",
 	"fanbox-title": "Titel",
 	"fanbox-leftsidetext": "Linke Seite",
 	"fanbox-display-image": " (Bild hinzufügen)",
@@ -57,5 +64,7 @@
 	"fanbox-woops-title": "Hoppla!",
 	"user-fanbox-title": "Benutzerboxen",
 	"userboxes": "Benutzerbox erstellen",
-	"apihelp-fanboxes-param-what": "Was ist zu tun?"
+	"apihelp-fanboxes-param-what": "Was ist zu tun?",
+	"apihelp-fanboxes-param-addRemove": "1 um eine Benutzerbox zu einem Profil hizuzufügen,\n2 um sie zu löschen",
+	"apihelp-fanboxes-param-style": "Klasse für das Erfolgs-div-Element"
 }
