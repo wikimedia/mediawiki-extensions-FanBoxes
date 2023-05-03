@@ -31,7 +31,7 @@
 		// Countdown as user types characters
 		limitText: function ( limitField, limitCount, limitNum ) {
 			if ( limitField.value.length > limitNum ) {
-				limitField.value = limitField.value.substring( 0, limitNum );
+				limitField.value = limitField.value.slice( 0, Math.max( 0, limitNum ) );
 			} else {
 				limitCount.innerHTML = limitNum - limitField.value.length;
 			}
@@ -51,11 +51,11 @@
 			}
 			if ( space_position === -1 && str_left_side.length === 6 ) {
 				document.form1.inputLeftSide.value =
-					document.form1.inputLeftSide.value.substring( 0, 5 ) + ' ' +
-					document.form1.inputLeftSide.value.substring( 5, 6 );
+					document.form1.inputLeftSide.value.slice( 0, 5 ) + ' ' +
+					document.form1.inputLeftSide.value.slice( 5, 6 );
 				document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML =
-					document.form1.inputLeftSide.value.substring( 0, 5 ) + ' ' +
-					document.form1.inputLeftSide.value.substring( 5, 7 );
+					document.form1.inputLeftSide.value.slice( 0, 5 ) + ' ' +
+					document.form1.inputLeftSide.value.slice( 5, 7 );
 			}
 			if ( str_left_side.length >= 5 ) {
 				document.getElementById( 'fanBoxLeftSideOutput2' ).style.fontSize = '14px';
@@ -83,11 +83,11 @@
 			}
 			if ( space_position === -1 && str_right_side.length === 18 ) {
 				document.form1.inputRightSide.value =
-					document.form1.inputRightSide.value.substring( 0, 17 ) + ' ' +
-					document.form1.inputRightSide.value.substring( 17, 18 );
+					document.form1.inputRightSide.value.slice( 0, 17 ) + ' ' +
+					document.form1.inputRightSide.value.slice( 17, 18 );
 				document.getElementById( 'fanBoxRightSideOutput2' ).innerHTML =
-					document.form1.inputRightSide.value.substring( 0, 17 ) + ' ' +
-					document.form1.inputRightSide.value.substring( 17, 19 );
+					document.form1.inputRightSide.value.slice( 0, 17 ) + ' ' +
+					document.form1.inputRightSide.value.slice( 17, 19 );
 			}
 
 			if ( str_right_side.length >= 52 ) {
