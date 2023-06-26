@@ -5,7 +5,8 @@
 			"Jakeukalane",
 			"Rodney Araujo",
 			"DiegoAmbrocio",
-			"Ciencia Al Poder"
+			"Ciencia Al Poder",
+			"No se"
 		]
 	},
 	"fanbox-add": "Añadir",
@@ -43,5 +44,6 @@
 	"fanbox-remove": "Eliminar",
 	"fanbox-woops-title": "¡Vaya!",
 	"user-fanbox-title": "Etiquetas de usuario",
+	"viewuserboxes": "Ver las cajitas de usuario",
 	"apihelp-fanboxes-param-what": "¿Qué hacer?"
 }
