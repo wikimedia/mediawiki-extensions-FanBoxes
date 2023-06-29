@@ -23,8 +23,13 @@
 	"fanbox-updatefan": "עריכת תיבת משתמש עבור \"$1\"",
 	"fanbox-title": "כותרת",
 	"fanbox-update-button": "עריכה",
+	"fanbox-userbox-category": "תיבות משתמש",
+	"fanbox-summary-new": "תיבת משתמש חדשה",
+	"fanbox-summary-update": "עדכון תיבת משתמש",
 	"fanbox-embed": "הטבעה",
+	"fanbox-add-colors": "הוספת צבעים",
 	"fanbox-remove": "הסרה",
+	"fanbox-nav-header": "תיבות משתמש",
 	"fanbox-woops-title": "אופס!",
 	"user-fanbox-title": "תיבות משתמש",
 	"apihelp-fanboxes-param-what": "מה לעשות?"
