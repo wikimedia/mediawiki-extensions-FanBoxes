@@ -124,6 +124,7 @@ class FanBox {
 			// MW 1.36+
 			$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $this->title );
 		} else {
+			// @phan-suppress-next-line PhanUndeclaredStaticMethod
 			$page = WikiPage::factory( $this->title );
 		}
 
@@ -304,6 +305,7 @@ class FanBox {
 			// MW 1.36+
 			$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $this->title );
 		} else {
+			// @phan-suppress-next-line PhanUndeclaredStaticMethod
 			$page = WikiPage::factory( $this->title );
 		}
 

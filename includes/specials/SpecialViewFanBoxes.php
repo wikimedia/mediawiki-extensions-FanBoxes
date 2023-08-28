@@ -68,6 +68,7 @@ class ViewFanBoxes extends SpecialPage {
 				->getUserIdentityByName( $user_name );
 			$user_id = $userIdentity ? $userIdentity->getId() : null;
 		} else {
+			// @phan-suppress-next-line PhanUndeclaredStaticMethod
 			$user_id = User::idFromName( $user_name );
 		}
 		$user = Title::makeTitle( NS_USER, $user_name );
