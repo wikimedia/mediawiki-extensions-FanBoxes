@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Amire80",
 			"Gomoko",
 			"Jack Phoenix",
 			"Verdy p",
@@ -83,7 +84,7 @@
 	"apihelp-fanboxes-summary": "API du serveur arrière pour l’extension FanBoxes",
 	"apihelp-fanboxes-param-what": "Quoi faire ?",
 	"apihelp-fanboxes-param-addRemove": "1 pour ajouter une boîte utilisateur à un profil d’utilisateur, 2 pour la retirer",
-	"apihelp-fanboxes-param-style": "Classe  pour l’élément <code>div</code> de succès",
+	"apihelp-fanboxes-param-style": "Classe pour l’élément <code>div</code> de succès",
 	"apihelp-fanboxes-param-fantagId": "Identifiant de BoîteUtilisateur (numéro)",
 	"apihelp-fanboxes-param-title": "Nom de la page (dans l’espace de noms « BoîteUtilisateur ») où vous voulez ajouter ou supprimer des messages"
 }
