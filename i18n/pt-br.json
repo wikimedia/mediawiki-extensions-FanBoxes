@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Eduardo Addad de Oliveira",
-			"Eduardoaddad"
+			"Eduardoaddad",
+			"Fúlvio"
 		]
 	},
 	"fanbox-desc": "Uma nova maneira de criar e usar caixas de usuário, com base em páginas especiais",
@@ -31,6 +32,9 @@
 	"fanbox-leftsidetext": "Lado esquerdo",
 	"fanbox-display-image": "(adicionar uma imagem)",
 	"fanbox-close-image": "(fechar caixa de imagem)",
+	"fanboxes-image-picker-launch-button": "Usar uma imagem existente",
+	"fanboxes-image-picker": "Seletor de imagens",
+	"fanboxes-image-picker-select": "Selecionar",
 	"fanbox-leftsideinstructions": "(Máximo de caracteres: 10; 5 por linha)",
 	"fanbox-rightsidetext": "Lado direito",
 	"fanbox-rightsideinstructions": "(Máximo de caracteres: 70)",
