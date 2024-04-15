@@ -1,10 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby"
+			"Robby",
+			"Volvox"
 		]
 	},
 	"fanboxes-image-picker-launch-button": "E Bild benotzen dat e scho gëtt",
 	"fanboxes-image-picker-select": "Eraussichen",
+	"fanbox-update-button": "Änneren",
 	"user-fanbox-title": "Benotzerkëschten"
 }
