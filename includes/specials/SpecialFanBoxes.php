@@ -93,7 +93,7 @@ class FanBoxes extends SpecialPage {
 			$res = $dbr->select(
 				'categorylinks',
 				'cl_to',
-				[ 'cl_from' => intval( $fanboxId ) ],
+				[ 'cl_from' => $fanboxId ],
 				__METHOD__
 			);
 
