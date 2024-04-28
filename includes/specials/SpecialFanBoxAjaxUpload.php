@@ -78,12 +78,21 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 * @param string|null $par
 	 */
 	public function execute( $par ) {
+		$out = $this->getOutput();
+
 		// Disable the skin etc.
-		$this->getOutput()->setArticleBodyOnly( true );
+		$out->setArticleBodyOnly( true );
 
 		// Allow framing so that after uploading an image, we can actually show
 		// it to the user :)
-		$this->getOutput()->allowClickjacking();
+		if ( method_exists( $out, 'allowClickjacking' ) ) {
+			// Up to MW 1.41
+			// @phan-suppress-next-line PhanUndeclaredMethod
+			$out->allowClickjacking();
+		} else {
+			// MW 1.41+
+			$out->setPreventClickjacking( false );
+		}
 
 		# Check uploading enabled
 		if ( !UploadBase::isEnabled() ) {
