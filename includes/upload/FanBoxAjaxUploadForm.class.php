@@ -88,7 +88,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 			'enctype' => $encType,
 			'onsubmit' => 'submitForm()' // changed
 		];
-		if ( !empty( $this->mId ) ) {
+		if ( $this->mId ) {
 			$attribs['id'] = $this->mId;
 		}
 

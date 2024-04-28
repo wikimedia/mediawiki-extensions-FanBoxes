@@ -66,7 +66,7 @@ class TopFanBoxes extends SpecialPage {
 		// Nothing? That means that no userboxes have been created yet...so
 		// show a message to the user about that, prompting them to create some
 		// userboxes
-		if ( empty( $topfanboxes ) ) {
+		if ( !$topfanboxes ) {
 			$output .= $this->msg( 'fanbox-top-list-is-empty' )->parse();
 		}
 		$services = MediaWikiServices::getInstance();

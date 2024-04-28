@@ -552,7 +552,7 @@ class FanBox {
 		$key = $cache->makeKey( 'fantag', 'page', $this->name );
 		$data = $cache->get( $key );
 
-		if ( !empty( $data ) && is_array( $data ) ) {
+		if ( $data && is_array( $data ) ) {
 			$this->id = $data['id'];
 			$this->left_text = $data['lefttext'];
 			$this->left_textcolor = $data['lefttextcolor'];
