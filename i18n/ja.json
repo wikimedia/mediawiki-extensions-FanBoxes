@@ -3,11 +3,14 @@
 		"authors": [
 			"Buntschann",
 			"Chqaz",
-			"MathXplore"
+			"MathXplore",
+			"Shirayuki"
 		]
 	},
 	"fanbox-created-by": "作成者:",
 	"fanboxes-image-picker-launch-button": "既存の画像を使う",
 	"fanboxes-image-picker-select": "選択",
-	"user-fanbox-title": "ユーザーボックス"
+	"user-fanbox-title": "ユーザーボックス",
+	"right-create-userbox": "[[Special:UserBoxes]] で利用者ボックスを作成",
+	"action-create-userbox": "[[Special:UserBoxes]] での利用者ボックスの作成"
 }
