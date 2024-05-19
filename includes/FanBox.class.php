@@ -109,11 +109,12 @@ class FanBox {
 		$descTitle = $this->getTitle();
 		$desc = wfMessage( 'fanbox-summary-new' )->inContentLanguage()->parse();
 		$article = new Article( $descTitle );
+		$services = MediaWikiServices::getInstance();
 
 		$categories_wiki = '';
 		if ( $categories ) {
 			$categories_a = explode( ',', $categories );
-			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+			$contLang = $services->getContentLanguage();
 			foreach ( $categories_a as $category ) {
 				$categories_wiki .= '[[' .
 					$contLang->getNsText( NS_CATEGORY ) . ':' .
@@ -122,7 +123,7 @@ class FanBox {
 		}
 		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
 			// MW 1.36+
-			$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $this->title );
+			$page = $services->getWikiPageFactory()->newFromTitle( $this->title );
 		} else {
 			// @phan-suppress-next-line PhanUndeclaredStaticMethod
 			$page = WikiPage::factory( $this->title );
@@ -131,7 +132,9 @@ class FanBox {
 		if ( $descTitle->exists() ) {
 			# Invalidate the cache for the description page
 			$descTitle->invalidateCache();
-			$descTitle->purgeSquid();
+
+			$htmlCache = $services->getHtmlCacheUpdater();
+			$htmlCache->purgeTitleUrls( $descTitle, $htmlCache::PURGE_INTENT_TXROUND_REFLECTED );
 		} else {
 			// Set these variables for buildWikiText(), which uses the accessor methods
 			// @todo This feels kinda nasty...
