@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Jack Phoenix",
 			"Saederup92"
 		]
 	},
@@ -22,5 +23,6 @@
 	"fanbox-remove": "Fjern",
 	"fanbox-nav-header": "Brugerbokse",
 	"fanbox-woops-title": "Ups!",
+	"user-fanbox-title": "Brugerbokse",
 	"userboxes": "Opret en brugerboks"
 }
