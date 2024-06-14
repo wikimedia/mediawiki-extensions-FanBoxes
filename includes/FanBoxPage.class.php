@@ -45,6 +45,18 @@ class FanBoxPage extends Article {
 			'ext.fanBoxes.fanboxpage'
 		] );
 
+		// For diff views, show the diff *above* (not _below_) the page content
+		// @see https://phabricator.wikimedia.org/T367305
+		$isDiff = $context->getRequest()->getInt( 'diff' );
+		if ( $isDiff ) {
+			parent::view();
+			// Respect the user preference option for those users who have enabled it
+			$diffOnly = MediaWiki\MediaWikiServices::getInstance()->getUserOptionsLookup()->getBoolOption( $user, 'diffonly' );
+			if ( $diffOnly ) {
+				return;
+			}
+		}
+
 		$this->fan = new FanBox( $this->getTitle() );
 
 		$output = '';
@@ -87,7 +99,9 @@ class FanBoxPage extends Article {
 			$out->addWikiTextAsInterface( '<comments/>' );
 		}
 
-		parent::view();
+		if ( !$isDiff ) {
+			parent::view();
+		}
 	}
 
 	/**
