@@ -227,6 +227,7 @@ class FanBox {
 		$output .= "right_bgcolor:{$this->getFanBoxRightBgColor()}\n";
 		$output .= "left_textsize:{$this->getFanBoxLeftTextSize()}\n";
 		$output .= "right_textsize:{$this->getFanBoxRightTextSize()}\n";
+		$output .= "image_name:{$this->getFanBoxImage()}\n";
 
 		$output = "<!--{$output}-->";
 		return $output;
