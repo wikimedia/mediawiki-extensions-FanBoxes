@@ -215,6 +215,13 @@ class FanBoxes extends SpecialPage {
 
 			$output .= $this->colorPickerAndCategoryCloud( $categories );
 
+			// The edit summary field
+			$output .= $this->msg( 'summary' )->escaped() . '<br />' . Html::input( 'wpSummary', '', 'text', [
+				'title' => Linker::titleAttrib( 'summary' ),
+				'accessKey' => Linker::accesskey( 'summary' ),
+				'size' => 60
+			] );
+
 			$output .= '<div class="create-fanbox-buttons">
 				<input type="submit" class="site-button fanbox-simple-button" value="' .
 					$this->msg( 'fanbox-update-button' )->escaped() .
@@ -327,6 +334,13 @@ class FanBoxes extends SpecialPage {
 
 			$output .= $this->colorPickerAndCategoryCloud( $categories );
 
+			// The edit summary field
+			$output .= $this->msg( 'summary' )->escaped() . '<br />' . Html::input( 'wpSummary', '', 'text', [
+				'title' => Linker::titleAttrib( 'summary' ),
+				'accessKey' => Linker::accesskey( 'summary' ),
+				'size' => 60
+			] );
+
 			$output .= '<div class="create-fanbox-buttons">
 				<input type="submit" class="site-button" value="' . $this->msg( 'fanbox-create-button' )->escaped() . '" size="20" />
 			</div>';
@@ -358,7 +372,8 @@ class FanBoxes extends SpecialPage {
 					$request->getVal( 'textSizeLeftSide' ),
 					$request->getVal( 'textSizeRightSide' ),
 					$this->getCategories( $request ),
-					$user
+					$user,
+					$request->getText( 'wpSummary' )
 				);
 				$fan->addUserFan( $user, $fantagId );
 				$out->redirect( $fan->title->getFullURL() );
@@ -378,7 +393,8 @@ class FanBoxes extends SpecialPage {
 					$request->getVal( 'textSizeRightSide' ),
 					$fanboxId,
 					$this->getCategories( $request ),
-					$user
+					$user,
+					$request->getText( 'wpSummary' )
 				);
 				$out->redirect( $update_fan->title->getFullURL() );
 			}

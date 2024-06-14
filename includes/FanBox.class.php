@@ -97,17 +97,22 @@ class FanBox {
 	 * @param string $fantag_right_textsize Right side text size, either "smallfont" (12px), "mediumfont" (14px) or "bigfont" (20px)
 	 * @param string $categories Categories as a comma-separated string
 	 * @param User $user User creating the fantag
+	 * @param string $summary Edit summary provided by the user, if any
 	 * @return int|null
 	 */
 	public function addFan( $fantag_left_text, $fantag_left_textcolor,
 		$fantag_left_bgcolor, $fantag_right_text,
 		$fantag_right_textcolor, $fantag_right_bgcolor, $fantag_image_name,
-		$fantag_left_textsize, $fantag_right_textsize, $categories, User $user
+		$fantag_left_textsize, $fantag_right_textsize, $categories, User $user,
+		$summary = ''
 	) {
 		$dbw = wfGetDB( DB_PRIMARY );
 
 		$descTitle = $this->getTitle();
 		$desc = wfMessage( 'fanbox-summary-new' )->inContentLanguage()->parse();
+		if ( $summary ) {
+			$desc = $summary;
+		}
 		$article = new Article( $descTitle );
 		$services = MediaWikiServices::getInstance();
 
@@ -268,11 +273,12 @@ class FanBox {
 	 * @param int $fanboxId Internal identifier of the fanbox we're updating
 	 * @param string $categories Categories as a comma-separated string
 	 * @param User $user User performing the update
+	 * @param string $summary Edit summary provided by the user, if any
 	 */
 	public function updateFan( $fantag_left_text, $fantag_left_textcolor,
 		$fantag_left_bgcolor, $fantag_right_text, $fantag_right_textcolor,
 		$fantag_right_bgcolor, $fantag_image_name, $fantag_left_textsize,
-		$fantag_right_textsize, $fanboxId, $categories, User $user
+		$fantag_right_textsize, $fanboxId, $categories, User $user, $summary = ''
 	) {
 		$dbw = wfGetDB( DB_PRIMARY );
 
@@ -320,7 +326,9 @@ class FanBox {
 			$page->getTitle()
 		);
 
-		$summary = wfMessage( 'fanbox-summary-update' )->inContentLanguage()->parse();
+		if ( !$summary ) {
+			$summary = wfMessage( 'fanbox-summary-update' )->inContentLanguage()->parse();
+		}
 		if ( method_exists( $page, 'doUserEditContent' ) ) {
 			// MW 1.36+
 			$page->doUserEditContent( $pageContent, $user, $summary );
