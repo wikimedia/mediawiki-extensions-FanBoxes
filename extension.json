@@ -73,6 +73,8 @@
 		"PageMoveComplete": "FanBoxHooks::updateFanBoxTitle",
 		"ArticleDelete": "FanBoxHooks::deleteFanBox",
 		"ArticleFromTitle": "FanBoxHooks::fantagFromTitle",
+		"DiffTools": "FanBoxHooks::onDiffTools",
+		"HistoryTools": "FanBoxHooks::onHistoryTools",
 		"ParserBeforeInternalParse": "FanBoxHooks::transformFanBoxTags",
 		"ParserBeforePreprocess": "FanBoxHooks::transformFanBoxTags",
 		"LoadExtensionSchemaUpdates": "FanBoxHooks::onLoadExtensionSchemaUpdates"

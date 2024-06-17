@@ -41,6 +41,42 @@ class FanBoxHooks {
 	}
 
 	/**
+	 * On individual diff views, hide the (undo) link for the time being.
+	 *
+	 * @see https://phabricator.wikimedia.org/T367304
+	 *
+	 * @param MediaWiki\Revision\RevisionRecord $newRevisionRecord
+	 * @param array &$revisionTools The array of revision tools, passed by reference since we want to modify it
+	 * @param MediaWiki\Revision\RevisionRecord $oldRevisionRecord
+	 * @param MediaWiki\User\UserIdentity $user
+	 */
+	public static function onDiffTools( $newRevisionRecord, &$revisionTools, $oldRevisionRecord, $user ) {
+		// @phan-suppress-next-line PhanUndeclaredMethod I have no idea. Just shut up. This works fine on my 1.39 box.
+		if ( $newRevisionRecord->getPage()->inNamespace( NS_FANTAG ) && isset( $revisionTools['mw-diff-undo'] ) ) {
+			unset( $revisionTools['mw-diff-undo'] );
+		}
+	}
+
+	/**
+	 * On action=history, hide the (undo) link for the time being.
+	 *
+	 * For MW 1.39, needs this: https://gerrit.wikimedia.org/r/c/mediawiki/core/+/1044901
+	 *
+	 * @see https://phabricator.wikimedia.org/T367304
+	 *
+	 * @param MediaWiki\Revision\RevisionRecord $revRecord
+	 * @param array &$tools The array of revision tools, passed by reference since we want to modify it
+	 * @param MediaWiki\Revision\RevisionRecord|null $previousRevRecord Can be null
+	 * @param MediaWiki\User\UserIdentity $user
+	 */
+	public static function onHistoryTools( $revRecord, &$tools, $previousRevRecord, $user ) {
+		// @phan-suppress-next-line PhanUndeclaredMethod I have no idea. Just shut up. This works fine on my 1.39 box.
+		if ( $revRecord->getPage()->inNamespace( NS_FANTAG ) && isset( $tools['mw-undo'] ) ) {
+			unset( $tools['mw-undo'] );
+		}
+	}
+
+	/**
 	 * When a page in the NS_FANTAG namespace is deleted, delete all fantag
 	 * records associated with that page.
 	 *
