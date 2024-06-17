@@ -51,11 +51,17 @@ class FanBoxHooks {
 	public static function deleteFanBox( $article, $user, $reason ) {
 		if ( $article->getTitle()->getNamespace() == NS_FANTAG ) {
 			$dbw = wfGetDB( DB_PRIMARY );
+			if ( method_exists( $article, 'getId' ) ) {
+				// @phan-suppress-next-line PhanUndeclaredMethod
+				$pageId = $article->getId();
+			} else {
+				$pageId = $article->getPage()->getId();
+			}
 
 			$s = $dbw->selectRow(
 				'fantag',
 				[ 'fantag_pg_id', 'fantag_id' ],
-				[ 'fantag_pg_id' => $article->getPage()->getId() ],
+				[ 'fantag_pg_id' => $pageId ],
 				__METHOD__
 			);
 			if ( $s !== false ) {
@@ -68,7 +74,7 @@ class FanBoxHooks {
 
 				$dbw->delete(
 					'fantag',
-					[ 'fantag_pg_id' => $article->getPage()->getId() ],
+					[ 'fantag_pg_id' => $pageId ],
 					__METHOD__
 				);
 			}
