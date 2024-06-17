@@ -47,7 +47,8 @@ class FanBoxPage extends Article {
 
 		// For diff views, show the diff *above* (not _below_) the page content
 		// @see https://phabricator.wikimedia.org/T367305
-		$isDiff = $context->getRequest()->getInt( 'diff' );
+		// @note Using getVal() instead of getInt() because it can also have the non-int values "cur", "next" or "prev"
+		$isDiff = $context->getRequest()->getVal( 'diff' );
 		if ( $isDiff ) {
 			parent::view();
 			// Respect the user preference option for those users who have enabled it
