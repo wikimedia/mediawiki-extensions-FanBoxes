@@ -161,11 +161,11 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 		# Check the token, but only if necessary
 		if ( !$this->mTokenOk && !$this->mCancelUpload
 				&& ( $this->mUpload && $this->mUploadClicked ) ) {
-			$form->addPreText( $this->msg( 'session_fail_preview' )->parse() );
+			$form->addPreHtml( $this->msg( 'session_fail_preview' )->parse() );
 		}
 
 		# Add upload error message
-		$form->addPreText( $message );
+		$form->addPreHtml( $message );
 
 		return $form;
 	}
