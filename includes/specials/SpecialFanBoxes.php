@@ -354,7 +354,33 @@ class FanBoxes extends SpecialPage {
 			// Protect against CSRF
 			if ( !$user->matchEditToken( $request->getVal( 'wpEditToken' ) ) ) {
 				$out->addWikiMsg( 'sessionfailure' );
-				$out->addReturnTo( $this->getPageTitle() );
+				return;
+			}
+
+			// Basic anti-spam filtering for a bunch of fields; copied from LinkFilter on 1 July 2024
+			$checkForSpam = [
+				'inputLeftSide',
+				'inputRightSide',
+				// Paranoia, I guess:
+				'fantag_image_name',
+				// This we obviously want!
+				'wpSummary'
+			];
+			$hasSpam = false;
+			$spammyFields = [];
+
+			foreach ( $checkForSpam as $fieldName ) {
+				$fieldValue = $request->getVal( $fieldName );
+				$summaryOrTextboxFilter = ( $fieldName === 'wpSummary' ? 'summary' : 'textbox' );
+				$hasSpam = FanBox::validateSpamRegex( $fieldValue, $summaryOrTextboxFilter );
+				if ( $hasSpam ) {
+					$spammyFields[] = $fieldValue;
+				}
+			}
+
+			// This gets displayed *after* the "Edit" or "Create" button, which is not great, but better than nothing...
+			if ( $spammyFields !== [] ) {
+				$out->addHTML( Html::errorBox( $this->msg( 'spamprotectiontext' )->parse() ) );
 				return;
 			}
 

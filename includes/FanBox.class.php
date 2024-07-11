@@ -706,6 +706,63 @@ class FanBox {
 	}
 
 	/**
+	 * Run the supplied $value through SpamRegex, both the $wg* global configuration variable
+	 * and if installed, the anti-spam extension of the same name as well.
+	 *
+	 * @note Copied from ArticleFeedbackv5's ArticleFeedbackv5Utils class in July 2024 and amended w/
+	 * the 2nd parameter.
+	 *
+	 * @param string $value
+	 * @param string $summaryOrTextboxFilter Which SpamRegex (extension) filters to use? 'summary' for triggering
+	 *   edit summary filtering, 'textbox' for textbox. Does nothing if the SpamRegex extension isn't installed, obviously.
+	 * @return bool Will return boolean false if valid or true if flagged
+	 */
+	public static function validateSpamRegex( $value, $summaryOrTextboxFilter = 'textbox' ) {
+		global $wgSpamRegex;
+
+		// Apparently this has to use the name SpamRegex specifies in its extension.json
+		// rather than the shorter directory name...
+		$spamRegexExtIsInstalled = ExtensionRegistry::getInstance()->isLoaded( 'Regular Expression Spam Block' );
+
+		// If and only if the config var is neither an array nor a string nor
+		// do we have the extension installed, bail out then and *only* then.
+		// It's entirely possible to have the extension installed without
+		// the config var being explicitly changed from the default value.
+		if (
+			!(
+				( is_array( $wgSpamRegex ) && count( $wgSpamRegex ) > 0 ) ||
+				( is_string( $wgSpamRegex ) && strlen( $wgSpamRegex ) > 0 )
+			) &&
+			!$spamRegexExtIsInstalled
+		) {
+			return false;
+		}
+
+		// In older versions, $wgSpamRegex may be a single string rather than
+		// an array of regexes, so make it compatible.
+		$regexes = (array)$wgSpamRegex;
+
+		// Support [[mw:Extension:SpamRegex]] if it's installed (T347215)
+		if ( $spamRegexExtIsInstalled ) {
+			// The following two lines have been changed, compared to the AFTv5/LinkFilter version of this method:
+			$filterType = ( $summaryOrTextboxFilter === 'summary' ? SpamRegex::TYPE_SUMMARY : SpamRegex::TYPE_TEXTBOX );
+			$phrases = SpamRegex::fetchRegexData( $filterType );
+			if ( $phrases && is_array( $phrases ) ) {
+				$regexes = array_merge( $regexes, $phrases );
+			}
+		}
+
+		foreach ( $regexes as $regex ) {
+			if ( preg_match( $regex, $value ) ) {
+				// $value contains spam
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * @return string The name of this fanbox
 	 */
 	public function getName() {
