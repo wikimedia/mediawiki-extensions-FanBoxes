@@ -66,15 +66,16 @@
 		"FanBoxHooks": "includes/FanBox.hooks.php"
 	},
 	"Hooks": {
+		"ApiCheckCanExecute": "FanBoxHooks::onApiCheckCanExecute",
 		"ParserFirstCallInit": [
 			"UserBoxesHook::onParserFirstCallInit",
 			"FanBoxHooks::registerFanTag"
 		],
 		"PageMoveComplete": "FanBoxHooks::updateFanBoxTitle",
+		"PageSaveComplete": "FanBoxHooks::onPageSaveComplete",
 		"ArticleDelete": "FanBoxHooks::deleteFanBox",
+		"ArticleUndelete": "FanBoxHooks::onArticleUndelete",
 		"ArticleFromTitle": "FanBoxHooks::fantagFromTitle",
-		"DiffTools": "FanBoxHooks::onDiffTools",
-		"HistoryTools": "FanBoxHooks::onHistoryTools",
 		"ParserBeforeInternalParse": "FanBoxHooks::transformFanBoxTags",
 		"ParserBeforePreprocess": "FanBoxHooks::transformFanBoxTags",
 		"LoadExtensionSchemaUpdates": "FanBoxHooks::onLoadExtensionSchemaUpdates"

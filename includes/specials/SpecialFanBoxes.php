@@ -10,6 +10,8 @@
 use MediaWiki\MediaWikiServices;
 
 class FanBoxes extends SpecialPage {
+	/** @var int The numeric ID (fantag.fantag_id) of the UserBox that we're editing; 0 when creating a brand new UserBox */
+	private $fanboxId = 0;
 
 	/**
 	 * Constructor
@@ -80,31 +82,54 @@ class FanBoxes extends SpecialPage {
 
 		$output = '';
 		$title = str_replace( '#', '', $request->getVal( 'wpTitle', '' ) );
-		$fanboxId = $request->getInt( 'id' );
+		$fanboxId = $this->fanboxId = $request->getInt( 'id' );
+		$oldId = $request->getInt( 'oldid' );
+		$isUndo = false;
+		if ( !$oldId ) {
+			$oldId = $request->getInt( 'undoafter' );
+			if ( $oldId ) {
+				$isUndo = true;
+			}
+		}
 		$categories = '';
 
 		// Set up the edit fanbox part
 		if ( $fanboxId ) {
 			$title = Title::newFromID( $fanboxId );
-			$update_fan = new FanBox( $title );
-
-			// Get categories
-			$dbr = wfGetDB( DB_REPLICA );
-			$res = $dbr->select(
-				'categorylinks',
-				'cl_to',
-				[ 'cl_from' => $fanboxId ],
-				__METHOD__
-			);
-
 			$fanboxCategory = $this->msg( 'fanbox-userbox-category' )->inContentLanguage()->parse();
-			foreach ( $res as $row ) {
-				if (
-					$row->cl_to != $fanboxCategory &&
-					// @todo FIXME: i18n
-					strpos( $row->cl_to, 'Userboxes_by_User_' ) === false
-				) {
-					$categories .= ( ( $categories ) ? ', ' : '' ) . htmlspecialchars( $row->cl_to );
+
+			if ( $oldId ) {
+				// @todo FIXME: newFromOldId *can* return null!
+				$update_fan = FanBox::newFromOldId( $oldId );
+				$categoriesArray = $update_fan->categories;
+				if ( $categoriesArray ) {
+					foreach ( $categoriesArray as $category ) {
+						// Note: missing the non-i18n-compatible "Userboxes_by_User_" logic from the below code
+						if ( $category !== $fanboxCategory ) {
+							$categories .= ( ( $categories ) ? ', ' : '' ) . htmlspecialchars( $category );
+						}
+					}
+				}
+			} else {
+				$update_fan = new FanBox( $title );
+
+				// Get categories
+				$dbr = wfGetDB( DB_REPLICA );
+				$res = $dbr->select(
+					'categorylinks',
+					'cl_to',
+					[ 'cl_from' => $fanboxId ],
+					__METHOD__
+				);
+
+				foreach ( $res as $row ) {
+					if (
+						$row->cl_to != $fanboxCategory &&
+						// @todo FIXME: i18n
+						strpos( $row->cl_to, 'Userboxes_by_User_' ) === false
+					) {
+						$categories .= ( ( $categories ) ? ', ' : '' ) . htmlspecialchars( $row->cl_to );
+					}
 				}
 			}
 
@@ -216,7 +241,11 @@ class FanBoxes extends SpecialPage {
 			$output .= $this->colorPickerAndCategoryCloud( $categories );
 
 			// The edit summary field
-			$output .= $this->msg( 'summary' )->escaped() . '<br />' . Html::input( 'wpSummary', '', 'text', [
+			$summaryValue = '';
+			if ( $isUndo ) {
+				$summaryValue = $this->getUndoSummary();
+			}
+			$output .= $this->msg( 'summary' )->escaped() . '<br />' . Html::input( 'wpSummary', $summaryValue, 'text', [
 				'title' => Linker::titleAttrib( 'summary' ),
 				'accessKey' => Linker::accesskey( 'summary' ),
 				'size' => 60
@@ -430,7 +459,8 @@ class FanBoxes extends SpecialPage {
 	/**
 	 * Return the HTML for the color picker and the category cloud.
 	 *
-	 * @param string $categories
+	 * @param string $categories DBKey form (underscores, not spaces) of categories' names, separated by a
+	 *   comma and a space, such as "Ashley_testing_again, Another_test_cat"
 	 * @return string
 	 */
 	function colorPickerAndCategoryCloud( $categories ) {
@@ -556,5 +586,61 @@ class FanBoxes extends SpecialPage {
 			// Still here?
 			return '';
 		}
+	}
+
+	/**
+	 * Get the appropriate edit summary message when undoing a revision.
+	 * Mostly cobbled together from core EditPage.php, as always.
+	 *
+	 * @return string Edit summary
+	 */
+	private function getUndoSummary() {
+		$title = Title::newFromID( $this->fanboxId );
+		$revStore = MediaWIkiServices::getInstance()->getRevisionStore();
+		$request = $this->getRequest();
+		$undo = $request->getInt( 'undo' );
+		$undoafter = $request->getInt( 'undoafter' );
+
+		$undorev = $revStore->getRevisionByTitle( $title, $undo );
+		$oldrev = $revStore->getRevisionByTitle( $title, $undoafter );
+		$userText = $undorev->getUser() ? $undorev->getUser()->getName() : '';
+
+		if ( $userText === '' ) {
+			$undoSummary = $this->msg(
+				'undo-summary-username-hidden',
+				$undo
+			)->inContentLanguage()->text();
+			// Handle external users (imported revisions)
+			/* commented out until this has been tested, not sure how import/export behaves in the context of FanBoxes...
+		} elseif ( MediaWiki\User\ExternalUserNames::isExternal( $userText ) ) {
+			$userLinkTitle = MediaWiki\User\ExternalUserNames::getUserLinkTitle( $userText );
+			if ( $userLinkTitle ) {
+				$userLink = $userLinkTitle->getPrefixedText();
+				$undoSummary = $this->msg(
+					'undo-summary-import',
+					$undo,
+					$userLink,
+					$userText
+				)->inContentLanguage()->text();
+			} else {
+				$undoSummary = $this->msg(
+					'undo-summary-import2',
+					$undo,
+					$userText
+				)->inContentLanguage()->text();
+			}
+			*/
+		} else {
+			$undoIsAnon = !$undorev->getUser() || !$undorev->getUser()->isRegistered();
+			$disableAnonTalk = MediaWikiServices::getInstance()->getMainConfig()->get( MediaWiki\MainConfigNames::DisableAnonTalk );
+			$undoMessage = ( $undoIsAnon && $disableAnonTalk ) ? 'undo-summary-anon' : 'undo-summary';
+			$undoSummary = $this->msg(
+				$undoMessage,
+				$undo,
+				$userText
+			)->inContentLanguage()->text();
+		}
+
+		return $undoSummary;
 	}
 }

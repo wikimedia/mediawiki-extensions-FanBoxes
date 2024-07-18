@@ -22,6 +22,7 @@ class FanBoxPage extends Article {
 	function view() {
 		$context = $this->getContext();
 		$out = $context->getOutput();
+		$request = $context->getRequest();
 		$user = $context->getUser();
 
 		// Set the page title
@@ -45,20 +46,57 @@ class FanBoxPage extends Article {
 			'ext.fanBoxes.fanboxpage'
 		] );
 
+		$services = MediaWiki\MediaWikiServices::getInstance();
+
 		// For diff views, show the diff *above* (not _below_) the page content
 		// @see https://phabricator.wikimedia.org/T367305
-		// @note Using getVal() instead of getInt() because it can also have the non-int values "cur", "next" or "prev"
-		$isDiff = $context->getRequest()->getVal( 'diff' );
-		if ( $isDiff ) {
+		// @note Using getText() instead of getInt() because it can also have the non-int values "cur", "next" or "prev"
+		$diff = $request->getText( 'diff' );
+		if ( $diff ) {
 			parent::view();
 			// Respect the user preference option for those users who have enabled it
-			$diffOnly = MediaWiki\MediaWikiServices::getInstance()->getUserOptionsLookup()->getBoolOption( $user, 'diffonly' );
+			$diffOnly = $services->getUserOptionsLookup()->getBoolOption( $user, 'diffonly' );
 			if ( $diffOnly ) {
 				return;
 			}
 		}
 
-		$this->fan = new FanBox( $this->getTitle() );
+		// Support viewing older, non-current versions of the UserBox in question
+		// @see https://phabricator.wikimedia.org/T367802
+		$oldId = $request->getInt( 'oldid' );
+		$direction = $request->getText( 'direction' );
+		if ( $oldId ) {
+			if ( $direction || $diff && !is_numeric( $diff ) ) {
+				$lookupService = $services->getRevisionLookup();
+				$currentRevision = $lookupService->getRevisionById( $oldId );
+				$oldId = $currentRevision->getId();
+
+				if ( $direction === 'prev' || $diff === 'prev' ) {
+					$oldId = $lookupService->getPreviousRevision( $currentRevision )->getId();
+				} elseif ( $direction === 'next' || $diff === 'next' ) {
+					$oldId = $lookupService->getNextRevision( $currentRevision )->getId();
+				}
+			}
+
+			// For URLs like http://localhost/139/index.php?title=UserBox:Foo&diff=2601&oldid=2597 , prefer the revision ID
+			// specified as the "diff" param over the "oldid" one
+			if ( is_numeric( $diff ) ) {
+				$oldId = $diff;
+			}
+
+			// @todo FIXME: newFromOldId *can* return null on failure!
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable Suppress this for the time being...
+			$this->fan = FanBox::newFromOldId( $oldId );
+		} else {
+			$this->fan = new FanBox( $this->getTitle() );
+		}
+
+		// Check if the diff param is "cur" since that means "we're comparing an older revision
+		// to the current one" and in that case, we want to display the _current_ UserBox contents,
+		// i.e. the right-hand side of a diff, not the old (left-hand side) contents
+		if ( $diff === 'cur' ) {
+			$this->fan = new FanBox( $this->getTitle() );
+		}
 
 		$output = '';
 
@@ -100,7 +138,7 @@ class FanBoxPage extends Article {
 			$out->addWikiTextAsInterface( '<comments/>' );
 		}
 
-		if ( !$isDiff ) {
+		if ( !$diff ) {
 			parent::view();
 		}
 	}

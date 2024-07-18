@@ -18,7 +18,10 @@ class FanBox {
 	/** @var bool Does the UserBox in question actually...exist? */
 	public $exists = false;
 
-	/** @var int UserBox ID (may _not_ be identical to pg_id!), i.e. fantag.fantag_id from the DB */
+	/** @var int|bool Revision ID (revision.rev_id) of a non-current revision, or bool false if viewing the current revision */
+	public $revisionId = false;
+
+	/** @var int UserBox ID (_not_ identical to pg_id!), i.e. fantag.fantag_id from the DB */
 	public $id;
 
 	/** @var int UserBox page ID */
@@ -54,6 +57,11 @@ class FanBox {
 	/** @var string FanBox image name (if any) */
 	public $fantag_image;
 
+	/** @var array Categories the UserBox is in; assume normal getText format instead of DBKey format
+	 * @note Currently NOT always set; primarly used by the rollback/undo/"editing old version" logic!
+	 */
+	 public $categories;
+
 	/** @var bool */
 	public $dataLoaded = false;
 
@@ -81,6 +89,146 @@ class FanBox {
 	public static function newFromName( $name ) {
 		$title = Title::makeTitleSafe( NS_FANTAG, $name );
 		return $title ? new FanBox( $title ) : null;
+	}
+
+	/**
+	 * Given a non-current revision identifier, creates a FanBox object from said revision's data.
+	 *
+	 * @param int $oldId
+	 * @return FanBox|null New instance of FanBox for the constructed title or null on failure
+	 */
+	public static function newFromOldId( $oldId ) {
+		$oldRevision = MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionById( $oldId, 0 );
+		$title = null;
+		$oldText = '';
+
+		if ( !$oldRevision ) {
+			return null;
+		}
+
+		$oldContent = $oldRevision->getContent( MediaWiki\Revision\SlotRecord::MAIN );
+		if ( !$oldContent ) {
+			return null;
+		}
+
+		'@phan-var Content $oldContent';
+		if ( method_exists( $oldContent, 'getText' ) ) {
+			// MW 1.39+ (at least)
+			// @phan-suppress-next-line PhanUndeclaredMethod It's...not supposed to be undeclared
+			$oldText = $oldContent->getText();
+		} else {
+			$oldText = ContentHandler::getContentText( $oldContent );
+		}
+
+		$title = $oldRevision->getPage();
+
+		// @phan-suppress-next-line PhanRedundantCondition I disagree.
+		if ( $title && $oldText ) {
+			// This probably needs a documentation update or something, because it's not wrong *per se*
+			// as the code _does_ work and behaves exactly as it should.
+			// @phan-suppress-next-line PhanTypeMismatchArgumentSuperType
+			return ( new FanBox( $title ) )->setVariablesFromText( $oldText )->setRevisionId( $oldId );
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * @param int $revId Revision ID
+	 * @return FanBox The current FanBox object to allow daisy-chaining
+	 */
+	public function setRevisionId( $revId ) {
+		$this->revisionId = (int)$revId;
+		return $this;
+	}
+
+	/**
+	 * Given a revision text of a typical UserBox: page, extracts categories from
+	 * it and loads them into the class member variable $this->categories.
+	 *
+	 * @param string $text Revision text
+	 */
+	public function getAndSetCategoriesFromText( $text ) {
+		$text = preg_replace( '/<!--.*-->/is', '', $text );
+		$text = str_replace( [
+			'{{DEFAULTSORT:{{PAGENAME}}}}',
+			'__NOEDITSECTION__'
+		], '', $text );
+		// There is one double-newline which we need to convert to a single newline to get a neat array
+		$text = str_replace( "\n\n", "\n", $text );
+		$text = trim( $text );
+
+		$categories = explode( "\n", $text );
+
+		// @phan-suppress-next-line PhanRedundantCondition Shut up, it's not guaranteed to have meaningful content
+		if ( $categories ) {
+			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+
+			foreach ( $categories as $category ) {
+				$category = trim( $category );
+
+				// Remove wikitext, category NS name and potential newline from $category
+				$category = str_replace( [ '[[' . $contLang->getNsText( NS_CATEGORY ) . ':', ']]', "\n" ], '', $category );
+
+				$this->categories[] = $category;
+			}
+		}
+	}
+
+	/**
+	 * Given the textual content of a UserBox: page, sets the FanBox class variables
+	 * using said text.
+	 *
+	 * @param string $text Textual representation of a Content object
+	 * @return FanBox The current FanBox object to allow daisy-chaining
+	 */
+	public function setVariablesFromText( $text ) {
+		if ( !$text ) {
+			throw new MWException( __METHOD__ . ' must not be called with an empty $text string!' );
+		}
+
+		// Since we know that a UserBox: page will always have a certain format (see FanBox#buildWikiText), we
+		// can make certain predictions which'll be true.
+		// A standard UserBox: page with one category will have up to <s>12</s> 13 (0-keyed, obviously) indexes
+		// as of 13 June 2024. Indexes 9, 11 and 12 being always empty at this point.
+		// But we only care about 0-8 since they contain the data we need for the fantag table...
+
+		// Do this first in order to populate $this->categories for further use by Special:UserBoxes.
+		// (Needed to edit old versions of UserBox: pages, either as-is or in order to rollback/undo them properly
+		// *without* nuking the existing category data!)
+		$this->getAndSetCategoriesFromText( $text );
+
+		// But first, let's strip out the comment characters.
+		$text = str_replace( [ '<!--', '-->' ], '', $text );
+
+		// ...then let's turn it into an array...
+		$textAsArray = explode( "\n", $text );
+
+		// ...and now we have something we can actually use:
+		$this->left_text = str_replace( 'left_text:', '', $textAsArray[0] ?? '' );
+		$this->left_textcolor = str_replace( 'left_textcolor:', '', $textAsArray[1] ?? '' );
+		$this->left_bgcolor = str_replace( 'left_bgcolor:', '', $textAsArray[2] ?? '' );
+		$this->right_text = str_replace( 'right_text:', '', $textAsArray[3] ?? '' );
+		$this->right_textcolor = str_replace( 'right_textcolor:', '', $textAsArray[4] ?? '' );
+		$this->right_bgcolor = str_replace( 'right_bgcolor:', '', $textAsArray[5] ?? '' );
+		$this->left_textsize = str_replace( 'left_textsize:', '', $textAsArray[6] ?? '' );
+		$this->right_textsize = str_replace( 'right_textsize:', '', $textAsArray[7] ?? '' );
+		$this->fantag_image = str_replace( 'image_name:', '', $textAsArray[8] ?? '' ); // NEW as of 13 June 2024
+
+		$this->exists = true;
+		// XXX Is $this->title actually set yet?!
+		// Answer: maybe NOT for FanBoxPage (FIXME!!!) but it should be set for *this* class' use cases. Hopefully.
+		if ( $this->title ) {
+			$this->pg_id = $this->title->getArticleID();
+		}
+
+		// @todo FIXME?
+		// 1) fantag ID
+		// 2) actor ID
+		// ^Neither can be derived from the wikitext as-is and both would require a separate DB query or other similar lookup!
+
+		// Allow daisy-chaining
+		return $this;
 	}
 
 	/**
@@ -271,14 +419,16 @@ class FanBox {
 	 * @param string $fantag_left_textsize Left side text size, either "smallfont" (12px), "mediumfont" (14px) or "bigfont" (20px)
 	 * @param string $fantag_right_textsize Right side text size, either "smallfont" (12px), "mediumfont" (14px) or "bigfont" (20px)
 	 * @param int $fanboxId Internal identifier of the fanbox we're updating
-	 * @param string $categories Categories as a comma-separated string
-	 * @param User $user User performing the update
+	 * @param string|array $categories Categories either as a comma-separated string or as an array
+	 * @param User|MediaWiki\User\UserIdentity $user User performing the update
 	 * @param string $summary Edit summary provided by the user, if any
+	 * @param bool $skipWikiPageUpdates Skip touching the UserBox: page and just do the "fantag" DB table updates + cache purge?
 	 */
 	public function updateFan( $fantag_left_text, $fantag_left_textcolor,
 		$fantag_left_bgcolor, $fantag_right_text, $fantag_right_textcolor,
 		$fantag_right_bgcolor, $fantag_image_name, $fantag_left_textsize,
-		$fantag_right_textsize, $fanboxId, $categories, User $user, $summary = ''
+		$fantag_right_textsize, $fanboxId, $categories, $user, $summary = '',
+		$skipWikiPageUpdates = false
 	) {
 		$dbw = wfGetDB( DB_PRIMARY );
 
@@ -298,13 +448,22 @@ class FanBox {
 			[ 'fantag_pg_id' => intval( $fanboxId ) ],
 			__METHOD__
 		);
+
 		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
 		$key = $cache->makeKey( 'fantag', 'page', $this->name );
 		$cache->delete( $key );
 
+		if ( $skipWikiPageUpdates ) {
+			return;
+		}
+
 		$categories_wiki = '';
 		if ( $categories ) {
-			$categories_a = explode( ',', $categories );
+			if ( !is_array( $categories ) ) {
+				$categories_a = explode( ',', $categories );
+			} else {
+				$categories_a = $categories;
+			}
 			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 			foreach ( $categories_a as $category ) {
 				$categories_wiki .= '[[' . $contLang->getNsText( NS_CATEGORY ) .
@@ -457,33 +616,92 @@ class FanBox {
 	function loadFromDB() {
 		$dbw = wfGetDB( DB_PRIMARY );
 
-		$row = $dbw->selectRow(
-			'fantag',
-			[
-				'fantag_id', 'fantag_left_text',
-				'fantag_left_textcolor', 'fantag_left_bgcolor',
-				'fantag_actor',
-				'fantag_right_text', 'fantag_right_textcolor',
-				'fantag_right_bgcolor', 'fantag_image_name',
-				'fantag_left_textsize', 'fantag_right_textsize', 'fantag_pg_id'
-			],
-			[ 'fantag_title' => $this->name ],
-			__METHOD__
-		);
-		if ( $row ) {
-			$this->id = $row->fantag_id;
-			$this->left_text = $row->fantag_left_text;
-			$this->exists = true;
-			$this->left_textcolor = $row->fantag_left_textcolor;
-			$this->left_bgcolor = $row->fantag_left_bgcolor;
-			$this->right_text = $row->fantag_right_text;
-			$this->right_textcolor = $row->fantag_right_textcolor;
-			$this->right_bgcolor = $row->fantag_right_bgcolor;
-			$this->fantag_image = $row->fantag_image_name;
-			$this->left_textsize = $row->fantag_left_textsize;
-			$this->right_textsize = $row->fantag_right_textsize;
-			$this->pg_id = $row->fantag_pg_id;
-			$this->actor = $row->fantag_actor;
+		// $this->revisionId is a revision.rev_id and it does NOT correspond to "oldid" in URL!
+		if ( $this->revisionId ) {
+			// Old version -> load from the text table
+			$rev = MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionById( $this->revisionId );
+
+			if ( $rev ) {
+				$content = $rev->getContent(
+					MediaWiki\Revision\SlotRecord::MAIN,
+					MediaWiki\Revision\RevisionRecord::FOR_PUBLIC /* or _RAW? not sure */
+				);
+				if ( $content === null ) {
+					// PANIC!
+					throw new MWException(
+						'Got null revision content in ' . __METHOD__ . ' but that should never happen!'
+					);
+				}
+
+				$this->setVariablesFromText( $content->serialize() );
+
+				// @todo FIXME: Can we optimize this further?
+				// Anyway, these properties of a FanBox object can't be read from the wikitext, so let's just
+				// pull 'em from the DB:
+				$r = $dbw->selectRow(
+					'revision',
+					[ 'rev_page', 'rev_actor' ],
+					[ 'rev_id' => $this->revisionId ],
+					__METHOD__
+				);
+
+				$pageId = (int)$r->rev_page;
+
+				$this->id = (int)$dbw->selectField(
+					'fantag',
+					'fantag_id',
+					[ 'fantag_pg_id' => $pageId ],
+					__METHOD__
+				);
+				$this->pg_id = $pageId;
+				$this->actor = (int)$r->rev_actor;
+				$this->exists = true;
+
+				/*
+				USING ACCESSORS HERE RESULTS IN AN INFINITE LOOP!
+				$this->id = $this->getFanBoxId();
+				$this->left_text = $this->getFanBoxLeftText();
+				$this->exists = true;
+				$this->left_textcolor = $this->getFanBoxLeftTextColor();
+				$this->left_bgcolor = $this->getFanBoxLeftBGColor();
+				$this->right_text = $this->getFanBoxRightText();
+				$this->right_textcolor = $this->getFanBoxRightTextColor();
+				$this->right_bgcolor = $this->getFanBoxRightBGColor();
+				$this->fantag_image = $this->getFanBoxImage();
+				$this->left_textsize = $this->getFanBoxLeftTextSize();
+				$this->right_textsize = $this->getFanBoxRightTextSize();
+				*/
+			}
+		} else {
+			$row = $dbw->selectRow(
+				'fantag',
+				[
+					'fantag_id', 'fantag_left_text',
+					'fantag_left_textcolor', 'fantag_left_bgcolor',
+					'fantag_actor',
+					'fantag_right_text', 'fantag_right_textcolor',
+					'fantag_right_bgcolor', 'fantag_image_name',
+					'fantag_left_textsize', 'fantag_right_textsize', 'fantag_pg_id'
+				],
+				[ 'fantag_title' => $this->name ],
+				__METHOD__
+			);
+
+			if ( $row ) {
+				$this->id = $row->fantag_id;
+				$this->left_text = $row->fantag_left_text;
+				$this->exists = true;
+				$this->left_textcolor = $row->fantag_left_textcolor;
+				$this->left_bgcolor = $row->fantag_left_bgcolor;
+				$this->right_text = $row->fantag_right_text;
+				$this->right_textcolor = $row->fantag_right_textcolor;
+				$this->right_bgcolor = $row->fantag_right_bgcolor;
+				$this->fantag_image = $row->fantag_image_name;
+				$this->left_textsize = $row->fantag_left_textsize;
+				$this->right_textsize = $row->fantag_right_textsize;
+				$this->pg_id = $row->fantag_pg_id;
+				$this->actor = $row->fantag_actor;
+			}
 		}
 
 		# Unconditionally set loaded=true, we don't want the accessors constantly rechecking

@@ -75,6 +75,7 @@
 	"fanbox-top-list-is-empty": "A message shown on Special:TopUserboxes when there are no top user boxes (ie. no userboxes ''at all'')",
 	"right-create-userbox": "{{doc-right|create-userbox}}",
 	"action-create-userbox": "{{doc-action|create-userbox}}",
+	"fanbox-error-no-api-edit": "Error message returned by the [[mw:API:Edit|edit API]] (<code>api.php?action=edit</code>) when attempting to edit a page in the <code>UserBox:</code> namespace via it",
 	"apihelp-fanboxes-summary": "{{doc-apihelp-summary|fanboxes}}",
 	"apihelp-fanboxes-param-what": "{{doc-apihelp-param|fanboxes|what}}",
 	"apihelp-fanboxes-param-addRemove": "{{doc-apihelp-param|fanboxes|addRemove}}",
