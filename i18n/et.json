@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jack Phoenix"
+		]
+	},
+	"fanbox-perma": "püsi",
+	"fanbox-userbox-category": "Kasutajamallid",
+	"fanbox-summary-new": "uus kasutajamall",
+	"fanbox-summary-update": "kasutajamalli uuendatud",
+	"fanbox-list-title": "Kasutaja $1 kasutajamalliloend",
+	"fanbox-count": "Kasutajal $1 on $2 {{PLURAL:$2|kasutajamall|kasutajamalli}}.",
+	"fanbox-remove": "Eemalda",
+	"fanbox-remove-fanbox": "Eemalda see mall sinu kasutajalehelt?",
+	"fanbox-nav-header": "Kasutajamallid",
+	"fanbox-most-recent-fanboxes-link": "Viimased kasutajamallid",
+	"user-fanbox-title": "Kasutajamallid",
+	"viewuserboxes": "Vaata kasutajamallid",
+	"userboxes": "Loo kasutajamall"
+}
