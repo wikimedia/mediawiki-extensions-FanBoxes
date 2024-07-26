@@ -4,7 +4,12 @@
 			"Jack Phoenix"
 		]
 	},
+	"fanbox-add": "Lisa",
+	"fanbox-categories-label": "Kategooriad",
+	"fanbox-create-button": "Loo",
 	"fanbox-perma": "püsi",
+	"fanbox-addfan-title": "Loo kasutajamall",
+	"fanbox-createfannotloggedin": "Pead sisse logima kasutajamalli loomiseks.",
 	"fanbox-userbox-category": "Kasutajamallid",
 	"fanbox-summary-new": "uus kasutajamall",
 	"fanbox-summary-update": "kasutajamalli uuendatud",
@@ -14,6 +19,7 @@
 	"fanbox-remove-fanbox": "Eemalda see mall sinu kasutajalehelt?",
 	"fanbox-nav-header": "Kasutajamallid",
 	"fanbox-most-recent-fanboxes-link": "Viimased kasutajamallid",
+	"fanbox-woops-title": "Ups!",
 	"user-fanbox-title": "Kasutajamallid",
 	"viewuserboxes": "Vaata kasutajamallid",
 	"userboxes": "Loo kasutajamall"
