@@ -7,6 +7,59 @@
  * @ingroup Extensions
  */
 class FanBoxHooks {
+	/**
+	 * If a rollback took place, read the old revision data and update the fantag table accordingly to genuinely
+	 * "commit" the rollback results.
+	 *
+	 * @see https://phabricator.wikimedia.org/T367313
+	 *
+	 * @param WikiPage $wikiPage The impacted page in the NS_FANTAG namespace
+	 * @param MediaWiki\User\UserIdentity $user The user who did the rollback
+	 * @param string $summary Edit summary
+	 * @param int $flags
+	 * @param MediaWiki\Revision\RevisionRecord $revisionRecord
+	 * @param MediaWiki\Storage\EditResult $editResult
+	 */
+	public static function onPageSaveComplete(
+		WikiPage $wikiPage,
+		MediaWiki\User\UserIdentity $user,
+		string $summary,
+		int $flags,
+		MediaWiki\Revision\RevisionRecord $revisionRecord,
+		MediaWiki\Storage\EditResult $editResult
+	) {
+		$title = $wikiPage->getTitle();
+		$revertMethod = $editResult->getRevertMethod();
+
+		if ( $title->getNamespace() == NS_FANTAG && $revertMethod !== null ) {
+			$originalRevId = $editResult->getOriginalRevisionId();
+			if ( $originalRevId === 0 ) {
+				// Should NOT happen!
+				return;
+			}
+
+			$fb = FanBox::newFromOldId( $originalRevId );
+			if ( $fb ) {
+				// newFromOldId() calls setVariablesFromText() which ensures the correct class member variables (hopefully!)
+				$fb->updateFan(
+					$fb->getFanBoxLeftText(),
+					$fb->getFanBoxLeftTextColor(),
+					$fb->getFanBoxLeftBgColor(),
+					$fb->getFanBoxRightText(),
+					$fb->getFanBoxRightTextColor(),
+					$fb->getFanBoxRightBgColor(),
+					$fb->getFanBoxImage(),
+					$fb->getFanBoxLeftTextSize(),
+					$fb->getFanBoxRightTextSize(),
+					$wikiPage->getId(),
+					$fb->categories,
+					$user,
+					'',
+					true // do NOT edit the wiki page again, it has already been edited!
+				);
+			}
+		}
+	}
 
 	/**
 	 * When a fanbox is moved to a new title, update the records in the fantag
@@ -37,42 +90,6 @@ class FanBoxHooks {
 				[ 'fantag_pg_id' => $oldid ],
 				__METHOD__
 			);
-		}
-	}
-
-	/**
-	 * On individual diff views, hide the (undo) link for the time being.
-	 *
-	 * @see https://phabricator.wikimedia.org/T367304
-	 *
-	 * @param MediaWiki\Revision\RevisionRecord $newRevisionRecord
-	 * @param array &$revisionTools The array of revision tools, passed by reference since we want to modify it
-	 * @param MediaWiki\Revision\RevisionRecord $oldRevisionRecord
-	 * @param MediaWiki\User\UserIdentity $user
-	 */
-	public static function onDiffTools( $newRevisionRecord, &$revisionTools, $oldRevisionRecord, $user ) {
-		// @phan-suppress-next-line PhanUndeclaredMethod I have no idea. Just shut up. This works fine on my 1.39 box.
-		if ( $newRevisionRecord->getPage()->inNamespace( NS_FANTAG ) && isset( $revisionTools['mw-diff-undo'] ) ) {
-			unset( $revisionTools['mw-diff-undo'] );
-		}
-	}
-
-	/**
-	 * On action=history, hide the (undo) link for the time being.
-	 *
-	 * For MW 1.39, needs this: https://gerrit.wikimedia.org/r/c/mediawiki/core/+/1044901
-	 *
-	 * @see https://phabricator.wikimedia.org/T367304
-	 *
-	 * @param MediaWiki\Revision\RevisionRecord $revRecord
-	 * @param array &$tools The array of revision tools, passed by reference since we want to modify it
-	 * @param MediaWiki\Revision\RevisionRecord|null $previousRevRecord Can be null
-	 * @param MediaWiki\User\UserIdentity $user
-	 */
-	public static function onHistoryTools( $revRecord, &$tools, $previousRevRecord, $user ) {
-		// @phan-suppress-next-line PhanUndeclaredMethod I have no idea. Just shut up. This works fine on my 1.39 box.
-		if ( $revRecord->getPage()->inNamespace( NS_FANTAG ) && isset( $tools['mw-undo'] ) ) {
-			unset( $tools['mw-undo'] );
 		}
 	}
 
@@ -115,6 +132,117 @@ class FanBoxHooks {
 				);
 			}
 		}
+	}
+
+	/**
+	 * Complements the above function - handles the undeletion of UserBox: pages.
+	 *
+	 * @note For MW 1.40+ this needs to be swapped to the PageUndeleteComplete hook (which is 1.40+).
+	 * @see https://phabricator.wikimedia.org/T367809
+	 *
+	 * @param Title $title
+	 * @param bool $create Whether or not the restoration caused the page to be created (i.e. it didn't exist before)
+	 * @param string $comment Undeletion reason supplied by the person undeleting the page
+	 * @param int $oldPageId ID of page previously deleted (from archive table). This ID will be used for the restored page.
+	 * @param array $restoredPages Set of page IDs that have revisions restored for the undelete, with
+	 *   keys being page IDs and values are 'true'.
+	 */
+	public static function onArticleUndelete( $title, bool $create, string $comment, int $oldPageId, array $restoredPages ) {
+		if ( $title->inNamespace( NS_FANTAG ) && $create ) {
+			$lookupService = MediaWiki\MediaWikiServices::getInstance()->getRevisionLookup();
+			$currentRevision = $lookupService->getRevisionByTitle( $title );
+			if ( !$currentRevision ) {
+				// ?!?
+				return;
+			}
+
+			$currentContent = $currentRevision->getContent( MediaWiki\Revision\SlotRecord::MAIN );
+			if ( !$currentContent ) {
+				return;
+			}
+
+			'@phan-var Content $currentContent';
+			if ( method_exists( $currentContent, 'getText' ) ) {
+				// MW 1.39+ (at least)
+				// @phan-suppress-next-line PhanUndeclaredMethod It's...not supposed to be undeclared
+				$oldText = $currentContent->getText();
+			} else {
+				$oldText = ContentHandler::getContentText( $currentContent );
+			}
+
+			if ( !$oldText ) {
+				// ?!?
+				return;
+			}
+			$fb = ( new FanBox( $title ) )->setVariablesFromText( $oldText );
+
+			$dbw = wfGetDB( DB_PRIMARY );
+
+			$actor = RequestContext::getMain()->getUser()->getActorId();
+			$firstRev = $lookupService->getFirstRevision( $title );
+			$firstTS = null;
+			if ( $firstRev !== null ) {
+				$firstTS = $firstRev->getTimestamp();
+				$actor = $firstRev->getUser();
+				if ( $actor !== null ) {
+					// FIXME:  Deprecated: Use of MediaWiki\User\UserIdentityValue::getActorId was deprecated in MediaWiki 1.36.
+					# Wikimedia\AtEase\AtEase::suppressWarnings();
+					# $actor = $actor->getActorId();
+					# Wikimedia\AtEase\AtEase::restoreWarnings();
+					// WTF is the difference between "findActorId" and "acquireActorId"? That's some real nice method naming there...
+					$actor = MediaWiki\MediaWikiServices::getInstance()->getActorNormalization()->acquireActorId( $actor, $dbw );
+				}
+			}
+
+			$dbw->insert(
+				'fantag',
+				[
+					'fantag_title' => $title->getText(),
+					'fantag_pg_id' => $oldPageId,
+					'fantag_left_text' => $fb->getFanBoxLeftText(),
+					'fantag_left_textcolor' => $fb->getFanBoxLeftTextColor(),
+					'fantag_left_bgcolor' => $fb->getFanBoxLeftBgColor(),
+					'fantag_right_text' => $fb->getFanBoxRightText(),
+					'fantag_right_textcolor' => $fb->getFanBoxRightTextColor(),
+					'fantag_right_bgcolor' => $fb->getFanBoxRightBgColor(),
+					'fantag_actor' => $actor,
+					'fantag_date' => $dbw->timestamp( ( $firstTS ?? wfTimestampNow() ) ),
+					'fantag_image_name' => $fb->getFanBoxImage(),
+					'fantag_left_textsize' => $fb->getFanBoxLeftTextSize(),
+					'fantag_right_textsize' => $fb->getFanBoxRightTextSize()
+				],
+				__METHOD__,
+				// For good measure:
+				[ 'IGNORE' ]
+			);
+		}
+	}
+
+	/**
+	 * Prevent editing UserBox: pages via the API (api.php).
+	 *
+	 * @param ApiBase $module
+	 * @param User $user
+	 * @param IApiMessage|Message|string|array &$message
+	 * @return bool
+	 */
+	public static function onApiCheckCanExecute( $module, $user, &$message ) {
+		$moduleName = $module->getModuleName();
+
+		if ( $moduleName == 'edit' ) {
+			$params = $module->extractRequestParams();
+			$pageObj = $module->getTitleOrPageId( $params );
+			$titleObj = $pageObj->getTitle();
+
+			if ( $titleObj->inNamespace( NS_FANTAG ) ) {
+				$message = 'fanbox-error-no-api-edit';
+				return false;
+			}
+
+			return true;
+		}
+
+		return true;
 	}
 
 	/**
@@ -169,18 +297,39 @@ class FanBoxHooks {
 	public static function fantagFromTitle( Title $title, &$article, $context ) {
 		if ( $title->getNamespace() == NS_FANTAG ) {
 			$out = $context->getOutput();
+			$request = $context->getRequest();
+
 			// Add CSS
 			$out->addModuleStyles( 'ext.fanBoxes.styles' );
 
 			// Prevent normal edit attempts
-			if ( $context->getRequest()->getVal( 'action' ) == 'edit' ) {
-				$addTitle = SpecialPage::getTitleFor( 'UserBoxes' );
+			if ( $request->getVal( 'action' ) == 'edit' ) {
+				$editorSpecialPage = SpecialPage::getTitleFor( 'UserBoxes' );
 				$fan = FanBox::newFromName( $title->getText() );
+
 				if ( !$fan->exists() ) {
-					$out->redirect( $addTitle->getFullURL( 'destName=' . $fan->getName() ) );
+					$out->redirect( $editorSpecialPage->getFullURL( 'destName=' . $fan->getName() ) );
 				} else {
-					$update = SpecialPage::getTitleFor( 'UserBoxes' );
-					$out->redirect( $update->getFullURL( 'id=' . $title->getArticleID() ) );
+					$params = [
+						'id' => $title->getArticleID()
+					];
+
+					// Support the oldid, undo & undoafter parameters for editing non-current versions of a UserBox
+					// (undoafter gets mapped back to oldid by SpecialFanBoxes.php anyway, but still)
+					$oldId = $request->getInt( 'oldid' );
+					$undo = $request->getInt( 'undo' );
+					$undoAfter = $request->getInt( 'undoafter' );
+					if ( $oldId ) {
+						$params['oldid'] = $oldId;
+					}
+					if ( $undo ) {
+						$params['undo'] = $undo;
+					}
+					if ( $undoAfter ) {
+						$params['undoafter'] = $undoAfter;
+					}
+
+					$out->redirect( $editorSpecialPage->getFullURL( $params ) );
 				}
 			}
 
