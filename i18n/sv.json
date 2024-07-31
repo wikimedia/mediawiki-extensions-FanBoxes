@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Jack Phoenix",
 			"Sabelöga",
 			"WikiPhoenix"
 		]
@@ -18,6 +19,23 @@
 	"fanbox-mustenter-left": "Du måste antingen skriva in text eller en bild för den vänstra sidan",
 	"fanbox-prev": "Föreg.",
 	"fanbox-next": "Nästa",
+	"fanbox-addfan-title": "Skapa en användarruta",
+	"fanbox-createfor": "Skapa en användarruta för $1",
+	"fanbox-createfannotloggedin": "Du måste logga in för att skapa en användarruta.",
+	"fanbox-updatefan": "Redigera användarruta för \"$1\"",
 	"fanbox-title": "Titel",
-	"user-fanbox-title": "Användarrutor"
+	"fanboxes-image-picker-select": "Välj",
+	"fanbox-upload-new-image": "Ladda upp ny bild",
+	"fanbox-update-button": "Redigera",
+	"fanbox-userbox-category": "Användarrutor",
+	"fanbox-summary-new": "ny användarruta",
+	"fanbox-back-link": "< Tillbaka till $1s sida",
+	"fanbox-count": "$1 har {{PLURAL:$2|en användarruta|$2 användarrutor}}.",
+	"fanbox-remove": "Ta bort",
+	"fanbox-nav-header": "Användarrutor",
+	"fanbox-woops-title": "Hoppsan!",
+	"user-fanbox-title": "Användarrutor",
+	"userboxes": "Skapa en användarruta",
+	"right-create-userbox": "Skapa användarrutor med [[Special:UserBoxes]]",
+	"action-create-userbox": "skapa användarrutor med [[Special:UserBoxes]]"
 }

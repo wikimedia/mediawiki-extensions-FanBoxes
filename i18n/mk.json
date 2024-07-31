@@ -76,6 +76,7 @@
 	"fanbox-top-list-is-empty": "Засега нема најпопуларни кориснички кутии. [[Special:UserBoxes|Создајте корисничка кутија!]]",
 	"right-create-userbox": "Создавање на кориснички кутии преку [[Special:UserBoxes]]",
 	"action-create-userbox": "создавање на кориснички кутии преку [[Special:UserBoxes]]",
+	"fanbox-error-no-api-edit": "Моментално приложникот не може да се корисит за уредување на UserBox: pages currently. Место тоа, користете <code>Special:UserBoxes</code>.",
 	"apihelp-fanboxes-summary": "Заднински извршник за додатокот Обожавателски кутии (FanBoxes)",
 	"apihelp-fanboxes-param-what": "Што да направите?",
 	"apihelp-fanboxes-param-addRemove": "1 за да додадете корисничка кутија во кориснички профил, 2 за да ја избришете",

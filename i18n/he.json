@@ -78,6 +78,7 @@
 	"fanbox-top-list-is-empty": "אין עדיין תיבות משתמשות מובילות. [[Special:UserBoxes|יצירת תיבת משתמש!]]",
 	"right-create-userbox": "יצירת תיבות משתמש באמצעות [[Special:UserBoxes]]",
 	"action-create-userbox": "ליצור תיבות משתמש באמצעות [[Special:UserBoxes]]",
+	"fanbox-error-no-api-edit": "ה־API אינו יכול לשמש לעריכת דפי UserBox:. נא להשתמש ב־<code>Special:UserBoxes</code>.",
 	"apihelp-fanboxes-summary": "API בשרת עבור ההרחבה FanBoxes",
 	"apihelp-fanboxes-param-what": "מה לעשות?",
 	"apihelp-fanboxes-param-addRemove": "1 כדי להוסיף תיבת משתמש לפרופיל משתמש, 2 כדי למחוק אותה",
