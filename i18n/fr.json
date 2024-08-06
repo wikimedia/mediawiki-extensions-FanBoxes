@@ -4,6 +4,7 @@
 			"Amire80",
 			"Gomoko",
 			"Jack Phoenix",
+			"Méthodes Bulebe Hangi",
 			"Verdy p",
 			"Wladek92"
 		]
@@ -81,6 +82,7 @@
 	"fanbox-top-list-is-empty": "Il n’y a encore aucune boîte utilisateur à classer. [[Special:UserBoxes|Créez une boîte utilisateur !]]",
 	"right-create-userbox": "Créer des boîtes utilisateur avec [[Special:UserBoxes|Spécial:BoîtesUtilisateur]]",
 	"action-create-userbox": "créer des boîtes utilisateur avec [[Special:UserBoxes|Spécial:BoîtesUtilisateur]]",
+	"fanbox-error-no-api-edit": "L'API ne peut pas être utilisée pour modifier UserBox: pages actuellement. Veuillez utiliser <code>Special:UserBoxes</code> à la place.",
 	"apihelp-fanboxes-summary": "API du serveur arrière pour l’extension FanBoxes",
 	"apihelp-fanboxes-param-what": "Quoi faire ?",
 	"apihelp-fanboxes-param-addRemove": "1 pour ajouter une boîte utilisateur à un profil d’utilisateur, 2 pour la retirer",
