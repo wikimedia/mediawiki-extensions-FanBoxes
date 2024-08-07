@@ -77,6 +77,7 @@
 	"fanbox-top-list-is-empty": "這裡尚未有使用者方塊。[[Special:UserBoxes|建立一個使用者方塊！]]",
 	"right-create-userbox": "透過 [[Special:UserBoxes]] 建立使用者方塊",
 	"action-create-userbox": "透過 [[Special:UserBoxes]] 建立使用者方塊",
+	"fanbox-error-no-api-edit": "目前 API 無法用來編輯 UserBox: 頁面。請改用<code>Special:UserBoxes</code>。",
 	"apihelp-fanboxes-summary": "用於 FanBoxes 擴充的後端 API",
 	"apihelp-fanboxes-param-what": "要做什麼？",
 	"apihelp-fanboxes-param-addRemove": "1 是添加一個使用者方塊到使用者個人檔案，2 是刪除掉",
