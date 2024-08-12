@@ -11,7 +11,8 @@
 			"Zabe",
 			"Abcdefg",
 			"Lukasaiko",
-			"Justman10000"
+			"Justman10000",
+			"TomatoCake"
 		]
 	},
 	"fanbox-desc": "Eine neue Art, Userboxen zu erstellen und zu verwenden, basierend auf speziellen Seiten",
@@ -85,6 +86,7 @@
 	"userboxes": "Benutzerbox erstellen",
 	"fanbox-top-list-is-empty": "Es existieren noch keine Top-Benutzerboxen. [[Special:UserBoxes|Erstelle eine Benutzerbox!]]",
 	"right-create-userbox": "Erstelle Benutzerboxen über [[Special:UserBoxes]]",
+	"action-create-userbox": "Benutzerboxen auf [[Special:UserBoxes]] zu erstellen",
 	"apihelp-fanboxes-summary": "Backend-API für die FanBoxen-Erweiterung",
 	"apihelp-fanboxes-param-what": "Was ist zu tun?",
 	"apihelp-fanboxes-param-addRemove": "1 um eine Benutzerbox zu einem Profil hizuzufügen,\n2 um sie zu löschen",
