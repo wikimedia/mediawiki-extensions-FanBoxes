@@ -254,7 +254,7 @@ class FanBox {
 		$fantag_left_textsize, $fantag_right_textsize, $categories, User $user,
 		$summary = ''
 	) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$descTitle = $this->getTitle();
 		$desc = wfMessage( 'fanbox-summary-new' )->inContentLanguage()->parse();
@@ -350,7 +350,7 @@ class FanBox {
 	 * @param int $userft_fantag_id Fantag ID number
 	 */
 	public function addUserFan( User $user, $userft_fantag_id ) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->insert(
 			'user_fantag',
 			[
@@ -430,7 +430,7 @@ class FanBox {
 		$fantag_right_textsize, $fanboxId, $categories, $user, $summary = '',
 		$skipWikiPageUpdates = false
 	) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$dbw->update(
 			'fantag',
@@ -504,7 +504,7 @@ class FanBox {
 	 * @param int $userft_fantag_id Fantag ID number
 	 */
 	function removeUserFanBox( User $user, $userft_fantag_id ) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->delete(
 			'user_fantag',
 			[
@@ -522,7 +522,7 @@ class FanBox {
 	 * @param int $number
 	 */
 	function changeCount( $fanBoxId, $number ) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$count = (int)$dbw->selectField(
 			'fantag',
@@ -614,7 +614,7 @@ class FanBox {
 	 * indicating we've done that so we know not to hit the DB again.
 	 */
 	function loadFromDB() {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		// $this->revisionId is a revision.rev_id and it does NOT correspond to "oldid" in URL!
 		if ( $this->revisionId ) {
@@ -823,7 +823,7 @@ class FanBox {
 	 * @return int
 	 */
 	public function checkIfUserHasFanBox( User $user ) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$check_fanbox_count = $dbw->selectField(
 			'user_fantag',
 			'COUNT(*) AS count',

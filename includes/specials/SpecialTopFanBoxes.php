@@ -410,7 +410,7 @@ class TopFanBoxes extends SpecialPage {
 	 * @return array
 	 */
 	function getTopFanboxes( $orderBy ) {
-		$dbr = wfGetDB( DB_PRIMARY );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$res = $dbr->select(
 			'fantag',
@@ -456,7 +456,7 @@ class TopFanBoxes extends SpecialPage {
 	 * @return int
 	 */
 	function checkIfUserHasFanbox( $userft_fantag_id ) {
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$row = $dbr->selectRow(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
@@ -478,7 +478,7 @@ class TopFanBoxes extends SpecialPage {
 	 * @return array[]
 	 */
 	public function getFanBoxByCategory( $category ) {
-		$dbr = wfGetDB( DB_PRIMARY );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$res = $dbr->select(
 			[ 'fantag', 'categorylinks' ],

@@ -114,7 +114,7 @@ class FanBoxes extends SpecialPage {
 				$update_fan = new FanBox( $title );
 
 				// Get categories
-				$dbr = wfGetDB( DB_REPLICA );
+				$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 				$res = $dbr->select(
 					'categorylinks',
 					'cl_to',

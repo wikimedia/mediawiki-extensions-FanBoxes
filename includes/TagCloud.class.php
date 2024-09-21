@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 use Wikimedia\AtEase\AtEase;
 
 /**
@@ -27,7 +28,7 @@ class TagCloud {
 	}
 
 	public function initialize() {
-		$dbr = wfGetDB( DB_PRIMARY );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$res = $dbr->select(
 			'category',
 			[ 'cat_title', 'cat_pages' ],

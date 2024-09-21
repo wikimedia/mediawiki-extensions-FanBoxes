@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * FanBoxes API module
  *
@@ -96,7 +98,7 @@ class ApiFanBoxes extends ApiBase {
 		$msgKey = '';
 		$number = 0;
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		if ( $addRemove == 1 ) {
 			$number = +1;

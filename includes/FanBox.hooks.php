@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * FanBox extension's hooked functions. All class methods are obviously public
  * and static.
@@ -83,7 +86,7 @@ class FanBoxHooks {
 		MediaWiki\Revision\RevisionRecord $revision
 	) {
 		if ( $old->getNamespace() == NS_FANTAG ) {
-			$dbw = wfGetDB( DB_PRIMARY );
+			$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 			$dbw->update(
 				'fantag',
 				[ 'fantag_title' => $new->getText() ],
@@ -103,7 +106,7 @@ class FanBoxHooks {
 	 */
 	public static function deleteFanBox( $article, $user, $reason ) {
 		if ( $article->getTitle()->getNamespace() == NS_FANTAG ) {
-			$dbw = wfGetDB( DB_PRIMARY );
+			$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 			if ( method_exists( $article, 'getId' ) ) {
 				// @phan-suppress-next-line PhanUndeclaredMethod
 				$pageId = $article->getId();
@@ -176,7 +179,7 @@ class FanBoxHooks {
 			}
 			$fb = ( new FanBox( $title ) )->setVariablesFromText( $oldText );
 
-			$dbw = wfGetDB( DB_PRIMARY );
+			$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 			$actor = RequestContext::getMain()->getUser()->getActorId();
 			$firstRev = $lookupService->getFirstRevision( $title );

@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * This class handles the views of UserBox: pages.
  *
@@ -152,7 +155,7 @@ class FanBoxPage extends Article {
 	function getFanBoxHolders() {
 		$pageTitleId = $this->getTitle()->getArticleID();
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$res = $dbr->select(
 			[ 'user_fantag', 'fantag' ],
 			[ 'DISTINCT userft_actor' ],

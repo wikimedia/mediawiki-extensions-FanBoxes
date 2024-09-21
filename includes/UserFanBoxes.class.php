@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * Functions for handling the displaying of an individual user's fanboxes.
  *
@@ -37,7 +40,7 @@ class UserFanBoxes {
 	 * @return array
 	 */
 	public function getUserFanboxes( $limit = 0, $page = 0 ) {
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 
 		$params = [];
 		$params['ORDER BY'] = 'userft_date DESC';
@@ -99,7 +102,7 @@ class UserFanBoxes {
 	 * @return int Amount of fanboxes the user has, or 0 if they have none
 	 */
 	public function getFanBoxCount() {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$row = $dbw->selectRow(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
@@ -122,7 +125,7 @@ class UserFanBoxes {
 	 * @return int
 	 */
 	public function checkIfUserHasFanbox( $userft_fantag_id ) {
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$row = $dbw->selectRow(
 			'user_fantag',
 			[ 'COUNT(*) AS count' ],
