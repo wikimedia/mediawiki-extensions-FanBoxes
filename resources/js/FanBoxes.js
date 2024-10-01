@@ -490,7 +490,7 @@
 				'fanboxPopUpBox' + $fantagId,
 				'individualFanbox' + $fantagId
 			);
-			FanBoxes.showMessage( 2, $( this ).data( 'fanbox-title' ), $fantagId );
+			FanBoxes.showMessage( 2, $( this ).data( 'mw-fanbox-title' ), $fantagId );
 		} );
 
 		$( 'input.fanbox-add-doesnt-have-button' ).on( 'click', function () {
@@ -499,7 +499,7 @@
 				'fanboxPopUpBox' + $fantagId,
 				'individualFanbox' + $fantagId
 			);
-			FanBoxes.showMessage( 1, $( this ).data( 'fanbox-title' ), $fantagId );
+			FanBoxes.showMessage( 1, $( this ).data( 'mw-fanbox-title' ), $fantagId );
 		} );
 	} );
 

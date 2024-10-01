@@ -862,7 +862,7 @@ class FanBox {
 					'</td>
 				<tr>
 					<td align="center">
-					<input type="button" class="fanbox-remove-has-button" data-fanbox-title="' . $fanboxTitle . '" value="' . wfMessage( 'fanbox-remove' )->escaped() . '" size="20" />
+					<input type="button" class="fanbox-remove-has-button" data-mw-fanbox-title="' . htmlspecialchars( $fanboxTitle, ENT_QUOTES ) . '" value="' . wfMessage( 'fanbox-remove' )->escaped() . '" size="20" />
 					<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="20" />
 				</td>
 			</table>
@@ -892,7 +892,7 @@ class FanBox {
 				</tr>
 				<tr>
 					<td align="center">
-						<input type="button" class="fanbox-add-doesnt-have-button" data-fanbox-title="' . $fanboxTitle . '" value="' . wfMessage( 'fanbox-add' )->escaped() . '" size="20" />
+						<input type="button" class="fanbox-add-doesnt-have-button" data-mw-fanbox-title="' . htmlspecialchars( $fanboxTitle, ENT_QUOTES ) . '" value="' . wfMessage( 'fanbox-add' )->escaped() . '" size="20" />
 						<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="20" />
 					</td>
 				</tr>
