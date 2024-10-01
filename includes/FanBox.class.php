@@ -254,7 +254,8 @@ class FanBox {
 		$fantag_left_textsize, $fantag_right_textsize, $categories, User $user,
 		$summary = ''
 	) {
-		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$services = MediaWikiServices::getInstance();
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$descTitle = $this->getTitle();
 		$desc = wfMessage( 'fanbox-summary-new' )->inContentLanguage()->parse();
@@ -262,7 +263,6 @@ class FanBox {
 			$desc = $summary;
 		}
 		$article = new Article( $descTitle );
-		$services = MediaWikiServices::getInstance();
 
 		$categories_wiki = '';
 		if ( $categories ) {
@@ -274,13 +274,8 @@ class FanBox {
 					trim( $category ) . "]]\n";
 			}
 		}
-		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
-			// MW 1.36+
-			$page = $services->getWikiPageFactory()->newFromTitle( $this->title );
-		} else {
-			// @phan-suppress-next-line PhanUndeclaredStaticMethod
-			$page = WikiPage::factory( $this->title );
-		}
+
+		$page = $services->getWikiPageFactory()->newFromTitle( $this->title );
 
 		if ( $descTitle->exists() ) {
 			# Invalidate the cache for the description page
@@ -308,13 +303,8 @@ class FanBox {
 				"\n__NOEDITSECTION__",
 				$page->getTitle()
 			);
-			if ( method_exists( $page, 'doUserEditContent' ) ) {
-				// MW 1.36+
-				$page->doUserEditContent( $pageContent, $user, $desc );
-			} else {
-				// @phan-suppress-next-line PhanUndeclaredMethod
-				$page->doEditContent( $pageContent, $desc, /*$flags =*/ 0, /*$originalRevId =*/ false, $user );
-			}
+
+			$page->doUserEditContent( $pageContent, $user, $desc );
 		}
 
 		# Test to see if the row exists using INSERT IGNORE
@@ -430,7 +420,8 @@ class FanBox {
 		$fantag_right_textsize, $fanboxId, $categories, $user, $summary = '',
 		$skipWikiPageUpdates = false
 	) {
-		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$services = MediaWikiServices::getInstance();
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$dbw->update(
 			'fantag',
@@ -449,7 +440,7 @@ class FanBox {
 			__METHOD__
 		);
 
-		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+		$cache = $services->getMainWANObjectCache();
 		$key = $cache->makeKey( 'fantag', 'page', $this->name );
 		$cache->delete( $key );
 
@@ -464,19 +455,14 @@ class FanBox {
 			} else {
 				$categories_a = $categories;
 			}
-			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+			$contLang = $services->getContentLanguage();
 			foreach ( $categories_a as $category ) {
 				$categories_wiki .= '[[' . $contLang->getNsText( NS_CATEGORY ) .
 					':' . trim( $category ) . "]]\n";
 			}
 		}
-		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
-			// MW 1.36+
-			$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $this->title );
-		} else {
-			// @phan-suppress-next-line PhanUndeclaredStaticMethod
-			$page = WikiPage::factory( $this->title );
-		}
+
+		$page = $services->getWikiPageFactory()->newFromTitle( $this->title );
 
 		$pageContent = ContentHandler::makeContent(
 			$this->buildWikiText() . "\n" .
@@ -488,13 +474,8 @@ class FanBox {
 		if ( !$summary ) {
 			$summary = wfMessage( 'fanbox-summary-update' )->inContentLanguage()->parse();
 		}
-		if ( method_exists( $page, 'doUserEditContent' ) ) {
-			// MW 1.36+
-			$page->doUserEditContent( $pageContent, $user, $summary );
-		} else {
-			// @phan-suppress-next-line PhanUndeclaredMethod
-			$page->doEditContent( $pageContent, $summary );
-		}
+
+		$page->doUserEditContent( $pageContent, $user, $summary );
 	}
 
 	/**
@@ -548,7 +529,8 @@ class FanBox {
 	private function loadFromCache() {
 		$this->dataLoaded = false;
 
-		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+		$services = MediaWikiServices::getInstance();
+		$cache = $services->getMainWANObjectCache();
 		$key = $cache->makeKey( 'fantag', 'page', $this->name );
 		$data = $cache->get( $key );
 
@@ -569,7 +551,7 @@ class FanBox {
 			$this->exists = true;
 		}
 
-		$stats = MediaWikiServices::getInstance()->getStatsdDataFactory();
+		$stats = $services->getStatsdDataFactory();
 		if ( $this->dataLoaded ) {
 			wfDebug( "loaded Fan:{$this->name} from cache\n" );
 			$stats->increment( 'fantag_cache_hit' );
@@ -614,12 +596,13 @@ class FanBox {
 	 * indicating we've done that so we know not to hit the DB again.
 	 */
 	function loadFromDB() {
-		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$services = MediaWikiServices::getInstance();
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		// $this->revisionId is a revision.rev_id and it does NOT correspond to "oldid" in URL!
 		if ( $this->revisionId ) {
 			// Old version -> load from the text table
-			$rev = MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionById( $this->revisionId );
+			$rev = $services->getRevisionLookup()->getRevisionById( $this->revisionId );
 
 			if ( $rev ) {
 				$content = $rev->getContent(

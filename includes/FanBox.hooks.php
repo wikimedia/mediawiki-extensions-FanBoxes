@@ -152,7 +152,8 @@ class FanBoxHooks {
 	 */
 	public static function onArticleUndelete( $title, bool $create, string $comment, int $oldPageId, array $restoredPages ) {
 		if ( $title->inNamespace( NS_FANTAG ) && $create ) {
-			$lookupService = MediaWiki\MediaWikiServices::getInstance()->getRevisionLookup();
+			$services = MediaWikiServices::getInstance();
+			$lookupService = $services->getRevisionLookup();
 			$currentRevision = $lookupService->getRevisionByTitle( $title );
 			if ( !$currentRevision ) {
 				// ?!?
@@ -179,7 +180,7 @@ class FanBoxHooks {
 			}
 			$fb = ( new FanBox( $title ) )->setVariablesFromText( $oldText );
 
-			$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+			$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 			$actor = RequestContext::getMain()->getUser()->getActorId();
 			$firstRev = $lookupService->getFirstRevision( $title );
@@ -193,7 +194,7 @@ class FanBoxHooks {
 					# $actor = $actor->getActorId();
 					# Wikimedia\AtEase\AtEase::restoreWarnings();
 					// WTF is the difference between "findActorId" and "acquireActorId"? That's some real nice method naming there...
-					$actor = MediaWiki\MediaWikiServices::getInstance()->getActorNormalization()->acquireActorId( $actor, $dbw );
+					$actor = $services->getActorNormalization()->acquireActorId( $actor, $dbw );
 				}
 			}
 
@@ -361,13 +362,7 @@ class FanBoxHooks {
 	public static function embedFanBox( $input, $argv, $parser ) {
 		global $wgHooks;
 
-		if ( method_exists( $parser, 'getUserIdentity' ) ) {
-			// MW 1.36+
-			$user = MediaWiki\MediaWikiServices::getInstance()->getUserFactory()->newFromUserIdentity( $parser->getUserIdentity() );
-		} else {
-			// @phan-suppress-next-line PhanUndeclaredMethod
-			$user = $parser->getUser();
-		}
+		$user = MediaWikiServices::getInstance()->getUserFactory()->newFromUserIdentity( $parser->getUserIdentity() );
 		$parser->getOutput()->updateCacheExpiry( 0 );
 
 		// @todo FIXME: why not just use $parser->getOutput()->addModules/addModuleStyles()? --ashley, 14 November 2020
