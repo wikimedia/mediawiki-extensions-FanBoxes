@@ -566,7 +566,7 @@ class FanBoxes extends SpecialPage {
 	 */
 	private function getCategories( WebRequest $request ) {
 		$cats = $request->getVal( 'pageCtg' );
-		if ( !empty( $cats ) ) {
+		if ( $cats ) {
 			return $cats;
 		} else {
 			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
@@ -579,7 +579,7 @@ class FanBoxes extends SpecialPage {
 				}
 			}
 
-			if ( !empty( $categories ) ) {
+			if ( $categories ) {
 				return implode( "\n", $categories );
 			}
 
