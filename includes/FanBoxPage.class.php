@@ -69,7 +69,7 @@ class FanBoxPage extends Article {
 		$oldId = $request->getInt( 'oldid' );
 		$direction = $request->getText( 'direction' );
 		if ( $oldId ) {
-			if ( $direction || $diff && !is_numeric( $diff ) ) {
+			if ( $direction || ( $diff && !is_numeric( $diff ) ) ) {
 				$lookupService = $services->getRevisionLookup();
 				$currentRevision = $lookupService->getRevisionById( $oldId );
 				$oldId = $currentRevision->getId();
