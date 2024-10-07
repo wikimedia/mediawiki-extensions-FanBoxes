@@ -76,6 +76,7 @@
 	"fanbox-top-list-is-empty": "Il non ha ancora cassas de usator popular. [[Special:UserBoxes|Crea un cassa de usator!]]",
 	"right-create-userbox": "Crear cassas de usator via [[Special:UserBoxes]]",
 	"action-create-userbox": "crear cassas de usator via [[Special:UserBoxes]]",
+	"fanbox-error-no-api-edit": "Non es actualmente possibile modificar paginas UserBox: per medio del API. Per favor usa <code>Special:UserBoxes</code> in su loco.",
 	"apihelp-fanboxes-summary": "API del motor pro le extension FanBoxes",
 	"apihelp-fanboxes-param-what": "Que facer?",
 	"apihelp-fanboxes-param-addRemove": "1 pro adder un cassa de usator a un profilo de usator, 2 pro deler lo",
