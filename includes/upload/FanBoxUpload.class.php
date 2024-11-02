@@ -34,7 +34,7 @@ class FanBoxUpload extends UploadFromFile {
 	}
 
 	/** @inheritDoc */
-	public function doStashFile( User $user = null ) {
+	public function doStashFile( ?User $user = null ) {
 		return parent::doStashFile( $user );
 	}
 }
