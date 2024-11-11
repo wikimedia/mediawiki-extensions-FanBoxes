@@ -3,7 +3,8 @@
 		"authors": [
 			"Asma",
 			"محمد أحمد عبد الفتاح",
-			"Alshamiri1"
+			"Alshamiri1",
+			"Meno25"
 		]
 	},
 	"fanbox-desc": "طريقة جديدة لإنشاء مربعات المستخدمين واستخدامها ، بناءً على الصفحات الخاصة",
@@ -61,7 +62,7 @@
 	"fanbox-remove": "إزالة",
 	"fanbox-remove-fanbox": "إزالة هذا المربع من صفحة المستخدم الخاصة بك؟",
 	"fanbox-add-fanbox": "أضف هذا المربع إلى صفحة المستخدم الخاصة بك؟",
-	"fanbox-add-fanbox-login": "تريد إضافة هذا إلى صفحة المستخدم الخاصة بك؟ [[خاص: UserLogin | تسجيل الدخول.]]",
+	"fanbox-add-fanbox-login": "تريد إضافة هذا إلى صفحة المستخدم الخاصة بك؟ [[Special:UserLogin| تسجيل الدخول.]]",
 	"fanbox-nav-header": "صناديق المستخدم",
 	"fanbox-successful-add": "لقد قمت بإضافة صندوق المستخدم هذا إلى صفحة المستخدم الخاصة بك.",
 	"fanbox-successful-remove": "لقد قمت بإزالة صندوق المستخدم هذا من صفحة المستخدم الخاصة بك.",
@@ -70,8 +71,8 @@
 	"fanbox-woops-title": "عذرًا!",
 	"user-fanbox-title": "صناديق المستخدم",
 	"userboxes": "أنشئ صندوق مستخدم",
-	"fanbox-top-list-is-empty": "لا توجد صناديق مستخدم عليا حتى الآن. [[Special: UserBoxes | إنشاء صندوق مستخدم!]]",
-	"right-create-userbox": "إنشاء مربعات للمستخدم عبر [[Special: UserBoxes]]",
+	"fanbox-top-list-is-empty": "لا توجد صناديق مستخدم عليا حتى الآن. [[Special:UserBoxes|إنشاء صندوق مستخدم!]]",
+	"right-create-userbox": "إنشاء مربعات للمستخدم عبر [[Special:UserBoxes]]",
 	"apihelp-fanboxes-summary": "واجهة برمجة تطبيقات Backend لملحق FanBoxes",
 	"apihelp-fanboxes-param-what": "ماذا أفعل؟",
 	"apihelp-fanboxes-param-addRemove": "1 لإضافة صندوق مستخدم إلى ملف تعريف مستخدم ، 2 لحذفه",
