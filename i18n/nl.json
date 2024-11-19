@@ -79,6 +79,7 @@
 	"fanbox-top-list-is-empty": "Er is nog geen top van gebruikersboxen. [[Special:UserBoxes|Maak een gebruikersbox!]]",
 	"right-create-userbox": "Gebruikersboxen aanmaken via [[Special:UserBoxes]]",
 	"action-create-userbox": "gebruikersboxen aan te maken via [[Special:UserBoxes]]",
+	"fanbox-error-no-api-edit": "De API kan momenteel niet worden gebruikt om “UserBox:”-pagina’s te bewerken. Gebruik in plaats daarvan <code>Special:UserBoxes</code>.",
 	"apihelp-fanboxes-summary": "Backend API voor de FanBoxes-uitbreiding",
 	"apihelp-fanboxes-param-what": "Wat te doen?",
 	"apihelp-fanboxes-param-addRemove": "1 om een gebruikersbox aan een gebruikersprofiel toe te voegen, 2 om deze te verwijderen",
