@@ -99,7 +99,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 			window.parent.FanBoxes.completeImageUpload();
 			return true;
 		} else {
-			alert( '" . str_replace( "\n", ' ', wfMessage( 'emptyfile' )->plain() ) . "' );
+			alert( '" . str_replace( "\n", ' ', wfMessage( 'emptyfile' )->escaped() ) . "' );
 			return false;
 		}
 	}
