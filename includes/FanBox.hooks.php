@@ -1,6 +1,8 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Title\Title;
 
 /**
  * FanBox extension's hooked functions. All class methods are obviously public
@@ -101,7 +103,7 @@ class FanBoxHooks {
 	 * records associated with that page.
 	 *
 	 * @param Article $article Instance of Article or its descendant class
-	 * @param User $user The User performing the page deletion [unused]
+	 * @param MediaWiki\User\User $user The User performing the page deletion [unused]
 	 * @param string $reason User-supplied reason for the deletion [unused]
 	 */
 	public static function deleteFanBox( $article, $user, $reason ) {
@@ -140,19 +142,30 @@ class FanBoxHooks {
 	/**
 	 * Complements the above function - handles the undeletion of UserBox: pages.
 	 *
-	 * @note For MW 1.40+ this needs to be swapped to the PageUndeleteComplete hook (which is 1.40+).
-	 * @see https://phabricator.wikimedia.org/T367809
-	 *
-	 * @param Title $title
-	 * @param bool $create Whether or not the restoration caused the page to be created (i.e. it didn't exist before)
-	 * @param string $comment Undeletion reason supplied by the person undeleting the page
-	 * @param int $oldPageId ID of page previously deleted (from archive table). This ID will be used for the restored page.
-	 * @param array $restoredPages Set of page IDs that have revisions restored for the undelete, with
-	 *   keys being page IDs and values are 'true'.
+	 * @param MediaWiki\Page\ProperPageIdentity $page
+	 * @param MediaWiki\Permissions\Authority $restorer
+	 * @param string $reason Undeletion reason supplied by the person undeleting the page
+	 * @param MediaWiki\Revision\RevisionRecord $restoredRev
+	 * @param ManualLogEntry $logEntry
+	 * @param int $restoredRevisionCount Number of revisions restored during the undeletion
+	 * @param bool $created Whether or not the restoration caused the page to be created (i.e. it didn't exist before)
+	 * @param array $restoredPageIds Array of undeleted page IDs
+	 * @suppress PhanTypeMismatchArgumentNullable Because life is too short to worry about these...
 	 */
-	public static function onArticleUndelete( $title, bool $create, string $comment, int $oldPageId, array $restoredPages ) {
-		if ( $title->inNamespace( NS_FANTAG ) && $create ) {
-			$services = MediaWikiServices::getInstance();
+	public static function onPageUndeleteComplete(
+		MediaWiki\Page\ProperPageIdentity $page,
+		MediaWiki\Permissions\Authority $restorer,
+		string $reason,
+		MediaWiki\Revision\RevisionRecord $restoredRev,
+		ManualLogEntry $logEntry,
+		int $restoredRevisionCount,
+		bool $created,
+		array $restoredPageIds
+	) {
+		$services = MediaWikiServices::getInstance();
+		$title = $services->getTitleFactory()->castFromPageIdentity( $page );
+
+		if ( $title->inNamespace( NS_FANTAG ) && $created ) {
 			$lookupService = $services->getRevisionLookup();
 			$currentRevision = $lookupService->getRevisionByTitle( $title );
 			if ( !$currentRevision ) {
@@ -166,18 +179,13 @@ class FanBoxHooks {
 			}
 
 			'@phan-var Content $currentContent';
-			if ( method_exists( $currentContent, 'getText' ) ) {
-				// MW 1.39+ (at least)
-				// @phan-suppress-next-line PhanUndeclaredMethod It's...not supposed to be undeclared
-				$oldText = $currentContent->getText();
-			} else {
-				$oldText = ContentHandler::getContentText( $currentContent );
-			}
-
+			// @phan-suppress-next-line PhanUndeclaredMethod It's...not supposed to be undeclared
+			$oldText = $currentContent->getText();
 			if ( !$oldText ) {
 				// ?!?
 				return;
 			}
+
 			$fb = ( new FanBox( $title ) )->setVariablesFromText( $oldText );
 
 			$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
@@ -189,10 +197,6 @@ class FanBoxHooks {
 				$firstTS = $firstRev->getTimestamp();
 				$actor = $firstRev->getUser();
 				if ( $actor !== null ) {
-					// FIXME:  Deprecated: Use of MediaWiki\User\UserIdentityValue::getActorId was deprecated in MediaWiki 1.36.
-					# Wikimedia\AtEase\AtEase::suppressWarnings();
-					# $actor = $actor->getActorId();
-					# Wikimedia\AtEase\AtEase::restoreWarnings();
 					// WTF is the difference between "findActorId" and "acquireActorId"? That's some real nice method naming there...
 					$actor = $services->getActorNormalization()->acquireActorId( $actor, $dbw );
 				}
@@ -202,7 +206,7 @@ class FanBoxHooks {
 				'fantag',
 				[
 					'fantag_title' => $title->getText(),
-					'fantag_pg_id' => $oldPageId,
+					'fantag_pg_id' => $restoredPageIds[0], // @todo CHECKME!
 					'fantag_left_text' => $fb->getFanBoxLeftText(),
 					'fantag_left_textcolor' => $fb->getFanBoxLeftTextColor(),
 					'fantag_left_bgcolor' => $fb->getFanBoxLeftBgColor(),
@@ -225,8 +229,8 @@ class FanBoxHooks {
 	/**
 	 * Prevent editing UserBox: pages via the API (api.php).
 	 *
-	 * @param ApiBase $module
-	 * @param User $user
+	 * @param MediaWiki\Api\ApiBase $module
+	 * @param MediaWiki\User\User $user
 	 * @param IApiMessage|Message|string|array &$message
 	 * @return bool
 	 */
@@ -252,12 +256,12 @@ class FanBoxHooks {
 	/**
 	 * Convert [[Fan:Fan Name]] tags to <fan></fan> hook
 	 *
-	 * @param Parser $parser Unused
+	 * @param MediaWiki\Parser\Parser $parser Unused
 	 * @param string &$text Text to search for [[Fan:]] links
-	 * @param StripState $strip_state Unused
+	 * @param MediaWiki\Parser\StripState $strip_state Unused
 	 */
 	public static function transformFanBoxTags( $parser, &$text, $strip_state ) {
-		$contLang = MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 		$fantitle = $contLang->getNsText( NS_FANTAG );
 		$pattern = "@(\[\[$fantitle)([^\]]*?)].*?\]@si";
 		$text = preg_replace_callback( $pattern, 'FanBoxHooks::renderFanBoxTag', $text );
@@ -294,7 +298,7 @@ class FanBoxHooks {
 	 * Calls FanBoxPage instead of standard Article for pages in the NS_FANTAG
 	 * namespace.
 	 *
-	 * @param Title $title
+	 * @param MediaWiki\Title\Title $title
 	 * @param Article|WikiPage|FanBoxPage &$article
 	 * @param RequestContext $context
 	 */
@@ -344,7 +348,7 @@ class FanBoxHooks {
 	/**
 	 * Register the new <fan> hook with the parser.
 	 *
-	 * @param Parser $parser
+	 * @param MediaWiki\Parser\Parser $parser
 	 */
 	public static function registerFanTag( $parser ) {
 		$parser->setHook( 'fan', [ 'FanBoxHooks', 'embedFanBox' ] );
@@ -356,22 +360,22 @@ class FanBoxHooks {
 	 *
 	 * @param string $input
 	 * @param array $argv User-supplied arguments
-	 * @param Parser $parser
+	 * @param MediaWiki\Parser\Parser $parser
 	 * @return string HTML
 	 */
 	public static function embedFanBox( $input, $argv, $parser ) {
-		global $wgHooks;
-
-		$user = MediaWikiServices::getInstance()->getUserFactory()->newFromUserIdentity( $parser->getUserIdentity() );
-		$parser->getOutput()->updateCacheExpiry( 0 );
-
-		// @todo FIXME: why not just use $parser->getOutput()->addModules/addModuleStyles()? --ashley, 14 November 2020
-		$wgHooks['BeforePageDisplay'][] = 'FanBoxHooks::addFanBoxScripts';
-
 		$fan_name = $argv['name'];
 		if ( !$fan_name ) {
 			return '';
 		}
+
+		$user = MediaWikiServices::getInstance()->getUserFactory()->newFromUserIdentity( $parser->getUserIdentity() );
+		$parserOutput = $parser->getOutput();
+
+		$parserOutput->updateCacheExpiry( 0 );
+
+		$parserOutput->addModules( [ 'ext.fanBoxes.scripts' ] );
+		$parserOutput->addModuleStyles( [ 'ext.fanBoxes.styles' ] );
 
 		$fan = FanBox::newFromName( $fan_name );
 
@@ -399,21 +403,10 @@ class FanBoxHooks {
 	}
 
 	/**
-	 * Add FanBox's CSS and JS into the page output.
-	 *
-	 * @param OutputPage $out
-	 * @param Skin $skin
-	 */
-	public static function addFanBoxScripts( $out, $skin ) {
-		$out->addModuleStyles( 'ext.fanBoxes.styles' );
-		$out->addModules( 'ext.fanBoxes.scripts' );
-	}
-
-	/**
 	 * Creates the necessary database tables when the user runs
 	 * maintenance/update.php, the core MediaWiki updater script.
 	 *
-	 * @param DatabaseUpdater $updater
+	 * @param MediaWiki\Installer\DatabaseUpdater $updater
 	 */
 	public static function onLoadExtensionSchemaUpdates( $updater ) {
 		$dir = __DIR__ . '/../sql';
@@ -466,14 +459,9 @@ class FanBoxHooks {
 			$db->fieldExists( 'user_fantag', 'userft_user_name', __METHOD__ )
 		) {
 			// 3) populate the columns with correct values
-			// PITFALL WARNING! Do NOT change this to $updater->runMaintenance,
-			// THEY ARE NOT THE SAME THING and this MUST be using addExtensionUpdate
-			// instead for the code to work as desired!
-			// HT Skizzerz
 			$updater->addExtensionUpdate( [
 				'runMaintenance',
-				'MigrateOldFanBoxesUserColumnsToActor',
-				'../maintenance/migrateOldFanBoxesUserColumnsToActor.php'
+				'MigrateOldFanBoxesUserColumnsToActor'
 			] );
 
 			// 4) drop old columns + indexes

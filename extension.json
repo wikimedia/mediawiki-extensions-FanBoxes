@@ -1,6 +1,6 @@
 {
 	"name": "FanBoxes",
-	"version": "3.6.1",
+	"version": "3.7",
 	"author": [
 		"Aaron Wright",
 		"David Pean",
@@ -12,7 +12,7 @@
 	"descriptionmsg": "fanbox-desc",
 	"type": "other",
 	"requires": {
-		"MediaWiki": ">= 1.38"
+		"MediaWiki": ">= 1.43"
 	},
 	"config": {
 		"FanBoxPageDisplay": {
@@ -74,7 +74,7 @@
 		"PageMoveComplete": "FanBoxHooks::updateFanBoxTitle",
 		"PageSaveComplete": "FanBoxHooks::onPageSaveComplete",
 		"ArticleDelete": "FanBoxHooks::deleteFanBox",
-		"ArticleUndelete": "FanBoxHooks::onArticleUndelete",
+		"PageUndeleteComplete": "FanBoxHooks::onPageUndeleteComplete",
 		"ArticleFromTitle": "FanBoxHooks::fantagFromTitle",
 		"ParserBeforeInternalParse": "FanBoxHooks::transformFanBoxTags",
 		"ParserBeforePreprocess": "FanBoxHooks::transformFanBoxTags",

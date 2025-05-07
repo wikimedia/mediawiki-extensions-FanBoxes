@@ -14,7 +14,7 @@ require_once "$IP/maintenance/Maintenance.php";
  *
  * @since January 2020
  */
-class MigrateOldFanBoxesUserColumnsToActor extends LoggedUpdateMaintenance {
+class MigrateOldFanBoxesUserColumnsToActor extends MediaWiki\Maintenance\LoggedUpdateMaintenance {
 	public function __construct() {
 		parent::__construct();
 		$this->addDescription( 'Migrates data from old _user_name/_user_id columns in fantag and user_fantag tables to the new actor columns.' );

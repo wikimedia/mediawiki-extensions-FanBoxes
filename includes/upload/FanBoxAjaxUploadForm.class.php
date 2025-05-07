@@ -1,5 +1,8 @@
 <?php
 
+use MediaWiki\Html\Html;
+use MediaWiki\HTMLForm\HTMLForm;
+
 class FanBoxAjaxUploadForm extends UploadForm {
 
 	/**
@@ -50,15 +53,7 @@ class FanBoxAjaxUploadForm extends UploadForm {
 	 */
 	function displayForm( $submitResult ) {
 		parent::displayForm( $submitResult );
-		$out = $this->getOutput();
-		if ( method_exists( $out, 'allowClickjacking' ) ) {
-			// Up to MW 1.41
-			// @phan-suppress-next-line PhanUndeclaredMethod
-			$out->allowClickjacking();
-		} else {
-			// MW 1.41+
-			$out->setPreventClickjacking( false );
-		}
+		$this->getOutput()->setPreventClickjacking( false );
 	}
 
 	/**

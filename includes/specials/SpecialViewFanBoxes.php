@@ -8,6 +8,8 @@
  */
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Title\Title;
 
 class ViewFanBoxes extends SpecialPage {
 
@@ -46,7 +48,8 @@ class ViewFanBoxes extends SpecialPage {
 			return;
 		}
 
-		$tagParser = MediaWikiServices::getInstance()->getParserFactory()->create();
+		$services = MediaWikiServices::getInstance();
+		$tagParser = $services->getParserFactory()->create();
 
 		// Add CSS & JS
 		$out->addModuleStyles( 'ext.fanBoxes.styles' );
@@ -62,15 +65,8 @@ class ViewFanBoxes extends SpecialPage {
 		if ( !$user_name ) {
 			$user_name = $currentUser->getName();
 		}
-		if ( method_exists( MediaWikiServices::class, 'getUserIdentityLookup' ) ) {
-			// MW 1.36+
-			$userIdentity = MediaWikiServices::getInstance()->getUserIdentityLookup()
-				->getUserIdentityByName( $user_name );
-			$user_id = $userIdentity ? $userIdentity->getId() : null;
-		} else {
-			// @phan-suppress-next-line PhanUndeclaredStaticMethod
-			$user_id = User::idFromName( $user_name );
-		}
+		$userIdentity = $services->getUserIdentityLookup()->getUserIdentityByName( $user_name );
+		$user_id = $userIdentity ? $userIdentity->getId() : null;
 		$user = Title::makeTitle( NS_USER, $user_name );
 
 		// Error message for username that does not exist (from URL)
@@ -104,7 +100,7 @@ class ViewFanBoxes extends SpecialPage {
 
 		if ( $userFanboxes ) {
 			$x = 1;
-			$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
+			$repoGroup = $services->getRepoGroup();
 
 			foreach ( $userFanboxes as $userfanbox ) {
 				$check_user_fanbox = $userfan->checkIfUserHasFanbox( $userfanbox['fantag_id'] );

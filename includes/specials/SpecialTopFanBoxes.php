@@ -8,6 +8,8 @@
  */
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Title\Title;
 
 class TopFanBoxes extends SpecialPage {
 
@@ -286,7 +288,7 @@ class TopFanBoxes extends SpecialPage {
 				$fantag_title = Title::makeTitle( NS_FANTAG, $categoryfanbox['fantag_title'] );
 
 				// Get creator
-				$creator = User::newFromActorId( $categoryfanbox['fantag_actor'] );
+				$creator = $services->getUserFactory()->newFromActorId( $categoryfanbox['fantag_actor'] );
 				$userftuserid = $creator->getId();
 				$user_title = $creator->getUserPage();
 				$avatar = new wAvatar( $userftuserid, 'm' );

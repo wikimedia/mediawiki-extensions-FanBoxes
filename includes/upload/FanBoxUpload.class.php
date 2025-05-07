@@ -7,7 +7,8 @@
 class FanBoxUpload extends UploadFromFile {
 	/**
 	 * Create a form of UploadBase depending on wpSourceType and initializes it
-	 * @param WebRequest &$request
+	 *
+	 * @param MediaWiki\Request\WebRequest &$request
 	 * @param string|null $type
 	 * @return self
 	 */
@@ -18,7 +19,7 @@ class FanBoxUpload extends UploadFromFile {
 	}
 
 	/**
-	 * @param WebRequest &$request
+	 * @param MediaWiki\Request\WebRequest &$request
 	 * @return void
 	 */
 	function initializeFromRequest( &$request ) {
@@ -34,7 +35,7 @@ class FanBoxUpload extends UploadFromFile {
 	}
 
 	/** @inheritDoc */
-	public function doStashFile( ?User $user = null ) {
+	public function doStashFile( ?MediaWiki\User\User $user = null ) {
 		return parent::doStashFile( $user );
 	}
 }

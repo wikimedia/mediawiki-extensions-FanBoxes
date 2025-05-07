@@ -7,7 +7,11 @@
  * @ingroup Extensions
  */
 
+use MediaWiki\Html\Html;
+use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Title\Title;
 
 class FanBoxes extends SpecialPage {
 	/** @var int The numeric ID (fantag.fantag_id) of the UserBox that we're editing; 0 when creating a brand new UserBox */

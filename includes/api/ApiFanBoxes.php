@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use Wikimedia\ParamValidator\ParamValidator;
 
 /**
  * FanBoxes API module
@@ -9,7 +10,7 @@ use MediaWiki\MediaWikiServices;
  * @ingroup API
  * @see https://www.mediawiki.org/wiki/API:Extensions#ApiSampleApiExtension.php
  */
-class ApiFanBoxes extends ApiBase {
+class ApiFanBoxes extends MediaWiki\Api\ApiBase {
 
 	public function execute() {
 		// Get the request parameters
@@ -148,19 +149,19 @@ class ApiFanBoxes extends ApiBase {
 	public function getAllowedParams() {
 		return [
 			'what' => [
-				ApiBase::PARAM_TYPE => 'string',
-				ApiBase::PARAM_REQUIRED => true
+				ParamValidator::PARAM_TYPE => 'string',
+				ParamValidator::PARAM_REQUIRED => true
 			],
 			'addRemove' => [
-				ApiBase::PARAM_TYPE => 'integer',
-				ApiBase::PARAM_REQUIRED => true
+				ParamValidator::PARAM_TYPE => 'integer',
+				ParamValidator::PARAM_REQUIRED => true
 			],
 			'fantagId' => [
-				ApiBase::PARAM_TYPE => 'integer',
-				ApiBase::PARAM_REQUIRED => true
+				ParamValidator::PARAM_TYPE => 'integer',
+				ParamValidator::PARAM_REQUIRED => true
 			],
 			'title' => [
-				ApiBase::PARAM_TYPE => 'string',
+				ParamValidator::PARAM_TYPE => 'string',
 			],
 		];
 	}

@@ -6,13 +6,15 @@
  */
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
+use MediaWiki\User\User;
 
 class FanBox {
 
 	/** @var string UserBox page name in DBkey format (i.e. underscores instead of spaces) */
 	public $name;
 
-	/** @var Title Title object referring to the UserBox page */
+	/** @var MediaWiki\Title\Title Title object referring to the UserBox page */
 	public $title;
 
 	/** @var bool Does the UserBox in question actually...exist? */
@@ -68,7 +70,7 @@ class FanBox {
 	/**
 	 * Constructor
 	 *
-	 * @param Title $title
+	 * @param MediaWiki\Title\Title $title
 	 * @throws MWException on invalid Title
 	 */
 	public function __construct( $title ) {
@@ -112,13 +114,8 @@ class FanBox {
 		}
 
 		'@phan-var Content $oldContent';
-		if ( method_exists( $oldContent, 'getText' ) ) {
-			// MW 1.39+ (at least)
-			// @phan-suppress-next-line PhanUndeclaredMethod It's...not supposed to be undeclared
-			$oldText = $oldContent->getText();
-		} else {
-			$oldText = ContentHandler::getContentText( $oldContent );
-		}
+		// @phan-suppress-next-line PhanUndeclaredMethod It's...not supposed to be undeclared
+		$oldText = $oldContent->getText();
 
 		$title = $oldRevision->getPage();
 
@@ -336,7 +333,7 @@ class FanBox {
 	/**
 	 * Insert info into user_fantag table when user creates fantag or grabs it
 	 *
-	 * @param User $user
+	 * @param MediaWiki\User\User $user
 	 * @param int $userft_fantag_id Fantag ID number
 	 */
 	public function addUserFan( User $user, $userft_fantag_id ) {
@@ -379,7 +376,7 @@ class FanBox {
 	/**
 	 * Get base category string, i.e. DEFAULTSORT + "Userboxes by <user name>" category.
 	 *
-	 * @param User $user User object to use if the fanbox's creator cannot be loaded
+	 * @param MediaWiki\User\User $user User object to use if the fanbox's creator cannot be loaded
 	 * @return string Wikitext
 	 */
 	public function getBaseCategories( User $user ) {
@@ -481,7 +478,7 @@ class FanBox {
 	/**
 	 * Remove fantag from user_fantag table when user removes it
 	 *
-	 * @param User $user
+	 * @param MediaWiki\User\User $user
 	 * @param int $userft_fantag_id Fantag ID number
 	 */
 	function removeUserFanBox( User $user, $userft_fantag_id ) {
@@ -802,7 +799,7 @@ class FanBox {
 	/**
 	 * Check if user has fanbox and output the right (add vs. remove) popup box
 	 *
-	 * @param User $user
+	 * @param MediaWiki\User\User $user
 	 * @return int
 	 */
 	public function checkIfUserHasFanBox( User $user ) {

@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\User;
 
 /**
  * Functions for handling the displaying of an individual user's fanboxes.
@@ -13,20 +14,21 @@ use MediaWiki\MediaWikiServices;
 class UserFanBoxes {
 
 	/**
-	 * @var User User object whose userboxes we're dealing with here
+	 * @var MediaWiki\User\User User object whose userboxes we're dealing with here
 	 */
 	public $user;
 
 	/**
 	 * Constructor
 	 *
-	 * @param User|string $user User object (preferred) or user name (legacy b/c)
+	 * @param MediaWiki\User\User|string $user User object (preferred) or user name (legacy b/c)
 	 */
 	public function __construct( $user ) {
 		if ( $user instanceof User ) {
 			$this->user = $user;
 		} else {
-			$this->user = User::newFromName( $user );
+			// @phan-suppress-next-line PhanPossiblyNullTypeMismatchProperty I sure hope it's not null.
+			$this->user = MediaWikiServices::getInstance()->getUserFactory()->newFromName( $user );
 		}
 	}
 

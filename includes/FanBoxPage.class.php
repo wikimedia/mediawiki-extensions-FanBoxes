@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 /**
  * This class handles the views of UserBox: pages.
@@ -16,7 +17,7 @@ class FanBoxPage extends Article {
 	public $fan;
 
 	/**
-	 * @param Title $title
+	 * @param MediaWiki\Title\Title $title
 	 */
 	function __construct( Title $title ) {
 		parent::__construct( $title );
@@ -49,7 +50,7 @@ class FanBoxPage extends Article {
 			'ext.fanBoxes.fanboxpage'
 		] );
 
-		$services = MediaWiki\MediaWikiServices::getInstance();
+		$services = MediaWikiServices::getInstance();
 
 		// For diff views, show the diff *above* (not _below_) the page content
 		// @see https://phabricator.wikimedia.org/T367305
@@ -185,9 +186,10 @@ class FanBoxPage extends Article {
 	function fanBoxHolders() {
 		$output = '';
 		$fanboxHolders = $this->getFanBoxHolders();
+		$userFactory = MediaWikiServices::getInstance()->getUserFactory();
 
 		foreach ( $fanboxHolders as $fanboxHolder ) {
-			$actor = User::newFromActorId( $fanboxHolder['userft_actor'] );
+			$actor = $userFactory->newFromActorId( $fanboxHolder['userft_actor'] );
 			$avatar = new wAvatar( $actor->getId(), 'ml' );
 			$output .= "<a href=\"" . htmlspecialchars( $actor->getUserPage()->getFullURL() ) . "\">
 				{$avatar->getAvatarURL()}

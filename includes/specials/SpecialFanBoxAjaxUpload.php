@@ -14,7 +14,7 @@
  * @note Based on 1.16 core SpecialUpload.php (GPL-licensed) by Bryan et al.
  * @property FanBoxUpload $mUpload
  */
-class SpecialFanBoxAjaxUpload extends SpecialUpload {
+class SpecialFanBoxAjaxUpload extends MediaWiki\Specials\SpecialUpload {
 
 	public function __construct() {
 		parent::__construct();
@@ -85,14 +85,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 
 		// Allow framing so that after uploading an image, we can actually show
 		// it to the user :)
-		if ( method_exists( $out, 'allowClickjacking' ) ) {
-			// Up to MW 1.41
-			// @phan-suppress-next-line PhanUndeclaredMethod
-			$out->allowClickjacking();
-		} else {
-			// MW 1.41+
-			$out->setPreventClickjacking( false );
-		}
+		$out->setPreventClickjacking( false );
 
 		# Check uploading enabled
 		if ( !UploadBase::isEnabled() ) {
@@ -144,7 +137,7 @@ class SpecialFanBoxAjaxUpload extends SpecialUpload {
 	 * @param string $message HTML string to add to the form
 	 * @param string $sessionKey Session key in case this is a stashed upload
 	 * @param bool $hideIgnoreWarning
-	 * @return UploadForm
+	 * @return FanBoxAjaxUploadForm
 	 */
 	protected function getUploadForm( $message = '', $sessionKey = '', $hideIgnoreWarning = false ) {
 		# Initialize form

@@ -8,12 +8,13 @@
  */
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 class UserBoxesHook {
 	/**
 	 * Register the <userboxes> tag with the Parser.
 	 *
-	 * @param Parser $parser
+	 * @param MediaWiki\Parser\Parser $parser
 	 */
 	public static function onParserFirstCallInit( $parser ) {
 		$parser->setHook( 'userboxes', [ 'UserBoxesHook', 'renderUserBoxesHook' ] );
@@ -24,7 +25,7 @@ class UserBoxesHook {
 	 *
 	 * @param string $input User-supplied input
 	 * @param array $args Tag arguments, if any
-	 * @param Parser $parser
+	 * @param MediaWiki\Parser\Parser $parser
 	 * @return string HTML
 	 */
 	public static function renderUserBoxesHook( $input, $args, $parser ) {
