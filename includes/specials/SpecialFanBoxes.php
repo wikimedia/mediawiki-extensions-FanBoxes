@@ -500,7 +500,7 @@ class FanBoxes extends SpecialPage {
 		$tagcloud = '<div id="create-tagcloud">';
 		$tagnumber = 0;
 		$tabcounter = 1;
-		if ( isset( $cloud->tags ) && $cloud->tags ) {
+		if ( $cloud->tags ) {
 			foreach ( $cloud->tags as $tag => $att ) {
 				$tag = str_replace( 'Fans', '', $tag );
 				$tag = trim( $tag );
@@ -521,7 +521,7 @@ class FanBoxes extends SpecialPage {
 		// No-JS version, "borrowed" from CreateAPage and slightly tweaked (nothing
 		// functional, just regular code cleanup), main container div ID changed, ...
 		$tagcloud .= '<noscript>';
-		if ( isset( $cloud->tags ) ) {
+		if ( $cloud->tags ) {
 			$tagcloud .= '<div id="create-tagcloud-nojs">';
 			$xnum = 0;
 			$array_category = [];

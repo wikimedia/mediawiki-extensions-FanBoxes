@@ -1,6 +1,6 @@
-jQuery( function () {
+jQuery( () => {
 	// eslint-disable-next-line no-undef
-	var colorPickerTest = new YAHOO.widget.ColorPicker( 'colorpickerholder', {
+	const colorPickerTest = new YAHOO.widget.ColorPicker( 'colorpickerholder', {
 		showhsvcontrols: true,
 		showhexcontrols: true,
 		images: {
@@ -10,7 +10,7 @@ jQuery( function () {
 	} );
 
 	colorPickerTest.on( 'rgbChange', function () {
-		var sColor = '#' + this.get( 'hex' ),
+		let sColor = '#' + this.get( 'hex' ),
 			documentForm;
 
 		documentForm = document.form1;

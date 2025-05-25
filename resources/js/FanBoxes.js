@@ -1,9 +1,9 @@
 ( function ( mw, $ ) {
 
-	var FanBoxes = {
+	const FanBoxes = {
 		// Display right side of fanbox as user inputs info
 		displayRightSide: function () {
-			var rightSideOutput = document.form1.inputRightSide.value;
+			const rightSideOutput = document.form1.inputRightSide.value;
 			document.getElementById( 'fanBoxRightSideOutput2' ).innerHTML = rightSideOutput;
 		},
 
@@ -12,7 +12,7 @@
 		 * (just in case he previously uploaded an image)
 		 */
 		displayLeftSide: function () {
-			var leftSideOutput = document.form1.inputLeftSide.value;
+			const leftSideOutput = document.form1.inputLeftSide.value;
 			document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = leftSideOutput;
 			document.getElementById( 'fantag_image_name' ).value = '';
 		},
@@ -22,7 +22,7 @@
 		 * image again, he can just click it
 		 */
 		insertImageToLeft: function () {
-			var imageElement = document.getElementById( 'fanbox_image' );
+			const imageElement = document.getElementById( 'fanbox_image' );
 			document.getElementById( 'fantag_image_name' ).value = imageElement.value;
 			document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = imageElement.innerHTML;
 			document.getElementById( 'inputLeftSide' ).value = '';
@@ -39,7 +39,7 @@
 
 		// Limits the left side fanbox so user can't type in tons of characters without a space
 		leftSideFanBoxFormat: function () {
-			var str_left_side = document.form1.inputLeftSide.value,
+			const str_left_side = document.form1.inputLeftSide.value,
 				str_left_side_length = document.form1.inputLeftSide.value.length,
 				space_position = str_left_side.substring(
 					str_left_side_length - 5, str_left_side_length ).search( ' ' );
@@ -71,7 +71,7 @@
 		 * space
 		 */
 		rightSideFanBoxFormat: function () {
-			var str_right_side = document.form1.inputRightSide.value,
+			const str_right_side = document.form1.inputRightSide.value,
 				str_right_side_length = document.form1.inputRightSide.value.length,
 				space_position = str_right_side.substring(
 					str_right_side_length - 17, str_right_side_length ).search( ' ' );
@@ -107,7 +107,7 @@
 		 * @param fanBox
 		 */
 		openFanBoxPopup: function ( popupBox, fanBox ) {
-			var $popupBox = $( '#' + popupBox ),
+			const $popupBox = $( '#' + popupBox ),
 				$fanBox = $( '#' + fanBox );
 			if ( $popupBox.is( ':visible' ) ) {
 				$popupBox.hide();
@@ -122,7 +122,7 @@
 		},
 
 		closeFanboxAdd: function ( popupBox, fanBox ) {
-			var $popupBox = $( '#' + popupBox ),
+			const $popupBox = $( '#' + popupBox ),
 				$fanBox = $( '#' + fanBox );
 			$popupBox.hide();
 			$fanBox.show();
@@ -173,7 +173,7 @@
 					fantagId: fantagId,
 					format: 'json'
 				},
-				function ( data ) {
+				( data ) => {
 					$( '#show-message-container' + fantagId ).html( data.fanboxes.result ).fadeIn( 1000 );
 				}
 			);
@@ -186,7 +186,7 @@
 		 * @todo FIXME: the animations suck
 		 */
 		showAddRemoveMessageUserPage: function ( addRemove, id, style ) {
-			var $container = $( '#show-message-container' + id );
+			const $container = $( '#show-message-container' + id );
 			$container.fadeOut( 1000 );
 
 			$.post(
@@ -197,7 +197,7 @@
 					fantagId: id,
 					format: 'json'
 				},
-				function ( data ) {
+				( data ) => {
 					$container.html(
 						// eslint-disable-next-line mediawiki/msg-doc
 						'<div class="' + style + '">' + mw.msg( data.fanboxes.result ) + '</div>'
@@ -226,13 +226,13 @@
 				return;
 			}
 
-			var title = document.getElementById( 'wpTitle' ).value;
+			let title = document.getElementById( 'wpTitle' ).value;
 			if ( !title ) {
 				alert( mw.msg( 'fanbox-mustenter-title' ) );
 				return;
 			}
 
-			if ( title.indexOf( '#' ) > -1 ) {
+			if ( title.includes( '#' ) ) {
 				alert( mw.msg( 'fanbox-hash' ) );
 				return;
 			}
@@ -245,7 +245,7 @@
 				titles: mw.config.get( 'wgFormattedNamespaces' )[ 600 ] + ':' + title,
 				format: 'json',
 				formatversion: 2
-			} ).done( function ( data ) {
+			} ).done( ( data ) => {
 				// Missing page means that we can create it, obviously!
 				if ( data.query.pages[ 0 ] && data.query.pages[ 0 ].missing === true ) {
 					document.form1.submit();
@@ -279,14 +279,14 @@
 		},
 
 		resetUpload: function () {
-			var frame = document.getElementById( 'imageUpload-frame' );
+			const frame = document.getElementById( 'imageUpload-frame' );
 			frame.src = mw.config.get( 'wgScriptPath' ) + '/index.php?title=Special:FanBoxAjaxUpload';
 			frame.style.display = 'block';
 			frame.style.visibility = 'visible';
 		},
 
 		completeImageUpload: function () {
-			var html = '<div style="margin:0 0 10px 0;"><img height="30" width="30" src="' +
+			const html = '<div style="margin:0 0 10px 0;"><img height="30" width="30" src="' +
 				mw.config.get( 'wgExtensionAssetsPath' ) + '/FanBoxes/resources/images/ajax-loader-white.gif" alt="" /></div>';
 			document.getElementById( 'fanbox_image' ).innerHTML = html;
 			document.getElementById( 'fanBoxLeftSideOutput2' ).innerHTML = html;
@@ -313,17 +313,17 @@
 	// @see https://phabricator.wikimedia.org/T158228#3030457
 	window.FanBoxes = FanBoxes;
 
-	$( function () {
+	$( () => {
 		if ( mw.config.get( 'wgCanonicalSpecialPageName' ) === 'UserBoxes' ) {
-			$( 'div#fanbox_image' ).on( 'click', function () {
+			$( 'div#fanbox_image' ).on( 'click', () => {
 				FanBoxes.insertImageToLeft();
 			} );
 
-			$( 'span#addImage' ).on( 'click', function () {
+			$( 'span#addImage' ).on( 'click', () => {
 				FanBoxes.displayAddImage( 'create-fanbox-image', 'addImage', 'closeImage' );
 			} );
 
-			$( 'span#closeImage' ).on( 'click', function () {
+			$( 'span#closeImage' ).on( 'click', () => {
 				FanBoxes.displayAddImage( 'create-fanbox-image', 'closeImage', 'addImage' );
 			} );
 
@@ -377,7 +377,7 @@
 				}
 			} );
 
-			$( 'div.create-fanbox-buttons input[type="submit"]' ).on( 'click', function () {
+			$( 'div.create-fanbox-buttons input[type="submit"]' ).on( 'click', () => {
 				if ( mw.util.getParamValue( 'id' ) ) {
 					// Editing an existing UserBox
 					FanBoxes.createFantagSimple();
@@ -399,7 +399,7 @@
 		// Special:TopUserBoxes, Special:ViewUserBoxes, <userboxes /> parser hook,
 		// and /extensions/SocialProfile/UserProfile/UserProfilePage.php
 		$( 'body' ).on( 'click', 'input.fanbox-cancel-button', function () {
-			var $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+			const $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 			FanBoxes.closeFanboxAdd(
 				'fanboxPopUpBox' + $fantagId,
 				'individualFanbox' + $fantagId
@@ -409,7 +409,7 @@
 		// FanBoxClass.php (UserBox: pages), Special:TopUserBoxes, Special:ViewUserBoxes
 		if ( mw.config.get( 'wgCanonicalSpecialPageName' ) !== 'UserBoxes' ) {
 			$( 'body' ).on( 'click', 'table.fanBoxTable', function () {
-				var $element;
+				let $element;
 				if ( $( this ).parent().attr( 'id' ) ) {
 					// FanBoxClass.php case
 					$element = $( this ).parent();
@@ -418,7 +418,7 @@
 					$element = $( this ).parent().parent().parent();
 				}
 
-				var $fantagId = $element.attr( 'id' ).replace( /individualFanbox/, '' );
+				const $fantagId = $element.attr( 'id' ).replace( /individualFanbox/, '' );
 				FanBoxes.openFanBoxPopup(
 					'fanboxPopUpBox' + $fantagId,
 					'individualFanbox' + $fantagId
@@ -428,7 +428,7 @@
 
 		// UserBoxesHook.php (<userboxes /> parser hook) & /extensions/SocialProfile/UserProfile/UserProfilePage.php
 		$( 'body' ).on( 'click', 'table.fanBoxTableProfile', function () {
-			var $fantagId, $element;
+			let $fantagId, $element;
 
 			// UserBoxesHook.php
 			if ( $( '.relativeposition' ).length > 0 ) {
@@ -446,7 +446,7 @@
 		} );
 
 		$( 'input.fanbox-add-button-half' ).on( 'click', function () {
-			var $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+			const $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 			FanBoxes.closeFanboxAdd(
 				'fanboxPopUpBox' + $fantagId,
 				'individualFanbox' + $fantagId
@@ -455,7 +455,7 @@
 		} );
 
 		$( 'input.fanbox-remove-button-half' ).on( 'click', function () {
-			var $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+			const $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 			FanBoxes.closeFanboxAdd(
 				'fanboxPopUpBox' + $fantagId,
 				'individualFanbox' + $fantagId
@@ -466,7 +466,7 @@
 		// "Add this box to your user page?"/"Remove this box from your user page?"
 		// (the add/remove buttons) on Special:TopUserBoxes & Special:ViewUserBoxes
 		$( 'input.fanbox-add-button' ).on( 'click', function () {
-			var $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+			const $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 			FanBoxes.closeFanboxAdd(
 				'fanboxPopUpBox' + $fantagId,
 				'individualFanbox' + $fantagId
@@ -475,7 +475,7 @@
 		} );
 
 		$( 'input.fanbox-remove-button' ).on( 'click', function () {
-			var $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+			const $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 			FanBoxes.closeFanboxAdd(
 				'fanboxPopUpBox' + $fantagId,
 				'individualFanbox' + $fantagId
@@ -485,7 +485,7 @@
 
 		// FanBoxClass.php
 		$( 'input.fanbox-remove-has-button' ).on( 'click', function () {
-			var $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+			const $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 			FanBoxes.closeFanboxAdd(
 				'fanboxPopUpBox' + $fantagId,
 				'individualFanbox' + $fantagId
@@ -494,7 +494,7 @@
 		} );
 
 		$( 'input.fanbox-add-doesnt-have-button' ).on( 'click', function () {
-			var $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
+			const $fantagId = $( this ).parents( 'div:eq(0)' ).attr( 'id' ).replace( /fanboxPopUpBox/, '' );
 			FanBoxes.closeFanboxAdd(
 				'fanboxPopUpBox' + $fantagId,
 				'individualFanbox' + $fantagId
