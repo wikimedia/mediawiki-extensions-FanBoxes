@@ -1,0 +1,26 @@
+{
+	"@metadata": {
+		"authors": [
+			"Умар"
+		]
+	},
+	"fanbox-add": "ТӀетоха",
+	"fanbox-addtext": "Текст тӀетоха",
+	"fanbox-categories-label": "Категореш",
+	"fanbox-create-button": "Кхолла",
+	"fanbox-created-by": "кхоьллина:",
+	"fanbox-perma": "перма",
+	"fanbox-prev": "Хьалх.",
+	"fanbox-next": "Кхин дӀа",
+	"fanbox-title": "Корта",
+	"fanboxes-image-picker": "Сурт харжар",
+	"fanboxes-image-picker-select": "Харжа",
+	"fanbox-update-button": "Нисйан",
+	"fanbox-embed": "Чутоха",
+	"fanbox-add-colors": "ТӀетоха беснаш",
+	"fanbox-remove": "ДӀайаккха",
+	"fanbox-top-fanboxes-link": "Топ юзербоксаш",
+	"fanbox-woops-title": "Упс!",
+	"topuserboxes": "Топ юзербоксаш",
+	"viewuserboxes": "Юзербоксаш хьажа"
+}
