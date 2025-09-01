@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Aca",
 			"Winston Sung"
 		]
 	},
@@ -44,7 +45,7 @@
 	"fanbox-leftsideimage": "Dodaj sliku",
 	"fanbox-leftsideimageinstructions": "(umjesto teksta, možete dodati sliku na lijevu stranu)",
 	"fanbox-maxchars-sixty": "Najviše znakova: 60",
-	"fanbox-upload-new-image": "Otpremi novu sliku",
+	"fanbox-upload-new-image": "Postavi novu sliku",
 	"fanbox-update-button": "Uredi",
 	"fanbox-userdoesnotexist": "Korisnik koga pokušavate da vidite ne postoji.",
 	"fanbox-woops": "Ups, desilo nešto se nepredviđeno!",
