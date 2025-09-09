@@ -76,6 +76,7 @@
 	"fanbox-top-list-is-empty": "Det er ingen populære brukerbokser ennå. [[Special:UserBoxes|Opprett en brukerboks!]]",
 	"right-create-userbox": "Opprette brukerbokser via [[Special:UserBoxes]]",
 	"action-create-userbox": "opprette brukerbokser via [[Special:UserBoxes]]",
+	"fanbox-error-no-api-edit": "API-et kan ikke brukes for å redigere UserBox-sider. Bruk <code>Special:UserBoxes</code> i stedet.",
 	"apihelp-fanboxes-summary": "Bakstykke-API for utvidelsen FanBoxes",
 	"apihelp-fanboxes-param-what": "Hva skal gjøres?",
 	"apihelp-fanboxes-param-addRemove": "1 for å legge til en brukerboks til en brukerprofil, 2 for å fjerne en",
