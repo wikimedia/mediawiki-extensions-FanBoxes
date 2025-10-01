@@ -4,7 +4,8 @@
 			"Alshamiri1",
 			"Asma",
 			"Meno25",
-			"محمد أحمد عبد الفتاح"
+			"محمد أحمد عبد الفتاح",
+			"Hubaishan"
 		]
 	},
 	"fanbox-desc": "طريقة جديدة لإنشاء مربعات المستخدمين واستخدامها ، بناءً على الصفحات الخاصة",
@@ -14,7 +15,7 @@
 	"fanbox-categories-label": "التصنيفات",
 	"fanbox-choose-another": "الرجاء اختيار عنوان آخر",
 	"fanbox-create-button": "أنشئ",
-	"fanbox-created-by": "انشأ من قبل:",
+	"fanbox-created-by": "أنشأه:",
 	"fanbox-hash": "# هو حرف غير صالح للعنوان.",
 	"fanbox-members": "{{PLURAL:$1| عضو واحد | أعضاء $1 }}",
 	"fanbox-mustenter-left": "يجب إدخال نص أو صورة للجانب الأيسر",
