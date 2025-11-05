@@ -600,7 +600,7 @@ class FanBoxes extends SpecialPage {
 	 */
 	private function getUndoSummary() {
 		$title = Title::newFromID( $this->fanboxId );
-		$revStore = MediaWIkiServices::getInstance()->getRevisionStore();
+		$revStore = MediaWikiServices::getInstance()->getRevisionStore();
 		$request = $this->getRequest();
 		$undo = $request->getInt( 'undo' );
 		$undoafter = $request->getInt( 'undoafter' );
