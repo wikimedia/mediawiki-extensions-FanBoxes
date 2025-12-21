@@ -34,7 +34,7 @@ class MigrateOldFanBoxesUserColumnsToActor extends MediaWiki\Maintenance\LoggedU
 	 *
 	 * @return string
 	 */
-	protected function updateSkippedMessage() {
+	public function updateSkippedMessage() {
 		return 'fantag and user_fantag have already been migrated to use the actor columns.';
 	}
 
