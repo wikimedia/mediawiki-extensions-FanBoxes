@@ -17,6 +17,7 @@
 	"fanbox-created-by": "创建由：",
 	"fanbox-hash": "# 是对于标题为无效的字符。",
 	"fanbox-members": "{{PLURAL:$1|1个成员|$1个成员}}",
+	"fanbox-mustenter-left": "您必须对左侧输入文本或是图片",
 	"fanbox-mustenter-right": "您必须输入右侧的文本",
 	"fanbox-mustenter-right-or": "您必须输入右侧的文本",
 	"fanbox-mustenter-title": "你必须输入标题",
@@ -27,6 +28,7 @@
 	"fanbox-createfor": "创建$1的用户框",
 	"fanbox-createfannotloggedin": "您必须登录才能创建用户框。",
 	"fanbox-updatefan": "编辑“$1”的用户框",
+	"fanbox-instructions": "挑选用于用户框的标题，接着添加文本（或是图片）与色彩到左侧与右侧，然后按下创建！就是这么简单！",
 	"fanbox-title": "标题",
 	"fanbox-leftsidetext": "左侧",
 	"fanbox-display-image": "（添加一张图片）",
@@ -74,5 +76,14 @@
 	"topuserboxes": "热门用户框",
 	"viewuserboxes": "查看用户框",
 	"userboxes": "创建一个用户框",
-	"apihelp-fanboxes-param-what": "要做什么？"
+	"fanbox-top-list-is-empty": "这里尚未有用户框。[[Special:UserBoxes|创建一个用户框！]]",
+	"right-create-userbox": "通过[[Special:UserBoxes]]创建用户框",
+	"action-create-userbox": "通过[[Special:UserBoxes]]创建用户框",
+	"fanbox-error-no-api-edit": "目前API无法用来编辑UserBox：页面。请改用<code>Special:UserBoxes</code>。",
+	"apihelp-fanboxes-summary": "用于FanBoxes扩展的后端API",
+	"apihelp-fanboxes-param-what": "要做什么？",
+	"apihelp-fanboxes-param-addRemove": "1是添加一个用户框到用户个人文件，2是删除掉",
+	"apihelp-fanboxes-param-style": "成功div元素的类别",
+	"apihelp-fanboxes-param-fantagId": "用户框标识符（数字）",
+	"apihelp-fanboxes-param-title": "您想要添加或移除消息的页面名称（在用户框的命名空间里）"
 }
