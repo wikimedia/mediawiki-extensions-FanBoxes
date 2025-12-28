@@ -221,11 +221,25 @@ class SpecialFanBoxAjaxUpload extends MediaWiki\Specials\SpecialUpload {
 		}
 
 		// Verify permissions for this title
-		$permErrors = $this->mUpload->verifyTitlePermissions( $this->getUser() );
-		if ( $permErrors !== true ) {
-			$code = array_shift( $permErrors[0] );
-			$this->showRecoverableUploadError( $this->msg( $code, $permErrors[0] )->parse() );
-			return;
+		if ( method_exists( $this->mUpload, 'authorizeUpload' ) ) {
+			// MW 1.44+
+			$status = $this->mUpload->authorizeUpload( $this->getUser() );
+			if ( !$status->isGood() ) {
+				$this->showRecoverableUploadError(
+					$this->getOutput()->parseAsInterface(
+						Status::wrap( $status )->getWikiText( false, false, $this->getLanguage() )
+					)
+				);
+				return;
+			}
+		} else {
+			// @phan-suppress-next-line PhanUndeclaredMethod
+			$permErrors = $this->mUpload->verifyTitlePermissions( $this->getUser() );
+			if ( $permErrors !== true ) {
+				$code = array_shift( $permErrors[0] );
+				$this->showRecoverableUploadError( $this->msg( $code, $permErrors[0] )->parse() );
+				return;
+			}
 		}
 
 		$this->mLocalFile = $this->mUpload->getLocalFile();
