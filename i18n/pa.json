@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Bgo eiu"
+			"Bgo eiu",
+			"Cabal"
 		]
 	},
-	"fanbox-categories-label": "ਸ਼੍ਰੇਣੀਆਂ"
+	"fanbox-categories-label": "ਸ਼੍ਰੇਣੀਆਂ",
+	"fanbox-created-by": "ਵੱਲੋਂ ਸਿਰਜਿਆ:"
 }
