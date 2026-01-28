@@ -1,8 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Rail"
+			"Rail",
+			"Woytecr"
 		]
 	},
+	"fanbox-desc": "Nowy sposób tworzenia i używania userboksów, oparty na stronach specjalnych",
+	"fanbox-add": "Dodaj",
+	"fanbox-addtext": "Dodaj tekst",
 	"user-fanbox-title": "Userboksy"
 }
