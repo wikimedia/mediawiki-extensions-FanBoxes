@@ -2,7 +2,6 @@
 
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
-use Wikimedia\AtEase\AtEase;
 
 /**
  * @copyright Copyright © 2007, Wikia Inc.
@@ -40,18 +39,17 @@ class TagCloud {
 				'LIMIT' => $this->limit
 			]
 		);
-		AtEase::suppressWarnings(); // prevent PHP from bitching about strtotime()
 		foreach ( $res as $row ) {
 			$tag_name = Title::makeTitle( NS_CATEGORY, $row->cat_title );
 			$tag_text = $tag_name->getText();
-			if ( strtotime( $tag_text ) == '' ) { // don't want dates to show up
+			// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+			if ( @strtotime( $tag_text ) == '' ) { // don't want dates to show up
 				if ( $row->cat_pages > $this->tags_highest_count ) {
 					$this->tags_highest_count = $row->cat_pages;
 				}
 				$this->tags[$tag_text] = [ 'count' => $row->cat_pages ];
 			}
 		}
-		AtEase::restoreWarnings();
 
 		// sort tag array by key (tag name)
 		if ( $this->tags_highest_count == 0 ) {
