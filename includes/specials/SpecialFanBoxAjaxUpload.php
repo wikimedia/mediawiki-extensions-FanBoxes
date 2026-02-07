@@ -180,7 +180,7 @@ class SpecialFanBoxAjaxUpload extends MediaWiki\Specials\SpecialUpload {
 			'<div class="error">' . $message . "</div>\n";
 
 		$form = $this->getUploadForm( $message, $sessionKey );
-		$form->setSubmitText( $this->msg( 'upload-tryagain' )->escaped() );
+		$form->setSubmitText( $this->msg( 'upload-tryagain' )->text() );
 		$this->showUploadForm( $form );
 	}
 
