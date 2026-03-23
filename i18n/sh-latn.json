@@ -13,7 +13,7 @@
 	"fanbox-choose-another": "Izaberite drugi naslov",
 	"fanbox-create-button": "Napravi",
 	"fanbox-created-by": "napravljeno od strane:",
-	"fanbox-hash": "# je nevažeći karakter za naslov.",
+	"fanbox-hash": "# je neispravan znak za naslov.",
 	"fanbox-members": "{{PLURAL:$1|jedan pripadnik|$1 pripadnika}}",
 	"fanbox-mustenter-left": "Morate unijeti tekst ili sliku za lijevu stranu",
 	"fanbox-mustenter-right": "Morate unijeti tekst za desnu stranu",
