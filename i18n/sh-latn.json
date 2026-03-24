@@ -74,7 +74,7 @@
 	"fanbox-top-list-is-empty": "Još nema najboljih korisničkih kutijica. [[Special:UserBoxes|Napravite korisničku kutijicu!]]",
 	"right-create-userbox": "Pravljenje korisničkih kutijica putem [[Special:UserBoxes]]",
 	"action-create-userbox": "pravljenje korisničkih kutijica putem [[Special:UserBoxes]]",
-	"apihelp-fanboxes-summary": "Pozadinski izvršnik za proširenje Kutije za ventilatore (FanBoxes)",
+	"apihelp-fanboxes-summary": "Pozadinski API za dodatak FanBoxes",
 	"apihelp-fanboxes-param-addRemove": "1 za dodavanje korisničke kutijice u korisnički profil, 2 za brisanje",
 	"apihelp-fanboxes-param-title": "Naziv stranice (u imenskom prostoru za korisničke kutijice) na koju želite dodati ili ukloniti poruke"
 }
