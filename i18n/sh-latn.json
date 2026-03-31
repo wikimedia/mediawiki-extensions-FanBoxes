@@ -51,9 +51,9 @@
 	"fanbox-woops": "Ups, desilo nešto se nepredviđeno!",
 	"fanbox-userbox-category": "Korisnički okvirići",
 	"fanbox-summary-new": "novi korisnički okvirić",
-	"fanbox-summary-update": "podnovi korisnički okvirić",
+	"fanbox-summary-update": "ažuriraj korisničku kutiju",
 	"fanbox-addfan-exists": "Već postoji korisnički okvirić s ovim naslovom. Izaberite drugi.",
-	"fanbox-list-title": "Spisak korisničkih okvirića za $1",
+	"fanbox-list-title": "Lista korisničkih kutija za $1",
 	"fanbox-back-link": "< Nazad na stranicu korisnika $1",
 	"fanbox-count": "$1 ima $2 {{PLURAL:$2|korisnički okvirić|korisničkih okvirića}}.",
 	"fanbox-embed": "Ugradi",
@@ -74,7 +74,7 @@
 	"fanbox-top-list-is-empty": "Još nema najboljih korisničkih kutijica. [[Special:UserBoxes|Napravite korisničku kutijicu!]]",
 	"right-create-userbox": "Pravljenje korisničkih kutijica putem [[Special:UserBoxes]]",
 	"action-create-userbox": "pravljenje korisničkih kutijica putem [[Special:UserBoxes]]",
-	"apihelp-fanboxes-summary": "Pozadinski izvršnik za proširenje Kutije za ventilatore (FanBoxes)",
+	"apihelp-fanboxes-summary": "Pozadinski API za dodatak FanBoxes",
 	"apihelp-fanboxes-param-addRemove": "1 za dodavanje korisničke kutijice u korisnički profil, 2 za brisanje",
 	"apihelp-fanboxes-param-title": "Naziv stranice (u imenskom prostoru za korisničke kutijice) na koju želite dodati ili ukloniti poruke"
 }
