@@ -3,7 +3,8 @@
 		"authors": [
 			"DDPAT",
 			"Ice bulldog",
-			"Ата"
+			"Ата",
+			"Movses"
 		]
 	},
 	"fanbox-desc": "Новий спосіб створення та використання юзербоксів на основі спеціальних сторінок",
@@ -79,6 +80,7 @@
 	"fanbox-top-list-is-empty": "Поки що немає кращих юзербоксів. [[Special:UserBoxes|Створити юзербокс!]]",
 	"right-create-userbox": "Створити юзербокси за допомогою [[Special:UserBoxes]]",
 	"action-create-userbox": "створити юзербокси за допомогою [[Special:UserBoxes]]",
+	"fanbox-error-no-api-edit": "API наразі не можна використовувати для редагування сторінок UserBox. Будь ласка, використовуйте замість цього <code>Special:UserBoxes</code>.",
 	"apihelp-fanboxes-summary": "Backend API для розширення FanBoxes",
 	"apihelp-fanboxes-param-what": "Що робити?",
 	"apihelp-fanboxes-param-addRemove": "1 додати юзербокс на сторінку користувача, 2 для видалення",
