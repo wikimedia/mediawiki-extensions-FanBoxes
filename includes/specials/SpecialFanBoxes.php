@@ -21,7 +21,12 @@ class FanBoxes extends SpecialPage {
 	 * Constructor
 	 */
 	public function __construct() {
-		parent::__construct( 'UserBoxes', 'create-userbox' );
+		parent::__construct( 'UserBoxes' );
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'create-userbox';
 	}
 
 	public function doesWrites() {
