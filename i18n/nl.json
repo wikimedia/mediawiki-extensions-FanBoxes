@@ -15,7 +15,7 @@
 	"fanbox-choose-another": "Kies een andere titel",
 	"fanbox-create-button": "Aanmaken",
 	"fanbox-created-by": "gemaakt door:",
-	"fanbox-hash": "# is een ongeldig teken voor de titel.",
+	"fanbox-hash": "# is een foutief teken voor de titel.",
 	"fanbox-members": "{{PLURAL:$1|één lid|$1 leden}}",
 	"fanbox-mustenter-left": "Voor de linkerkant moet u tekst of een afbeelding invoeren",
 	"fanbox-mustenter-right": "U moet tekst invoeren voor de rechterkant",

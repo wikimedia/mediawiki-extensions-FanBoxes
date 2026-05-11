@@ -5,6 +5,7 @@
 			"Ykhwong"
 		]
 	},
+	"fanbox-desc": "특수 페이지를 기반으로 하는 새로운 유저박스 생성 및 사용 방식",
 	"fanbox-add": "추가",
 	"fanbox-addtext": "텍스트 추가",
 	"fanbox-categories-help": "분류는 사이트의 정보를 정리하는데 도움을 줍니다. 여러 분류를 추가하려면 분류를 쉼표로 구분하십시오.",
@@ -76,7 +77,11 @@
 	"fanbox-top-list-is-empty": "아직 유저박스가 없습니다. [[Special:UserBoxes|유저박스를 하나 만드세요!]]",
 	"right-create-userbox": "[[Special:UserBoxes]]를 통해 유저박스 만들기",
 	"action-create-userbox": "[[Special:UserBoxes]]를 통해 유저박스 만들기",
+	"fanbox-error-no-api-edit": "현재 API를 통해 UserBox: 문서를 편집하는 것은 불가능합니다. 대신 <code>Special:UserBoxes</code>을 사용해 주세요.",
 	"apihelp-fanboxes-summary": "FanBoxes 확장 기능용 백엔드 API",
 	"apihelp-fanboxes-param-what": "어떻게 할까요?",
-	"apihelp-fanboxes-param-fantagId": "유저박스 식별자 (숫자)"
+	"apihelp-fanboxes-param-addRemove": "사용자 프로필에 유저박스를 추가하려면 1, 유저박스를 삭제하려면 2",
+	"apihelp-fanboxes-param-style": "성공 div 요소를 위한 클래스",
+	"apihelp-fanboxes-param-fantagId": "유저박스 식별자 (숫자)",
+	"apihelp-fanboxes-param-title": "메시지를 추가하거나 삭제하려는 문서 이름 (유저박스 이름공간 내)"
 }
