@@ -83,5 +83,5 @@
 	"apihelp-fanboxes-param-addRemove": "사용자 프로필에 유저박스를 추가하려면 1, 유저박스를 삭제하려면 2",
 	"apihelp-fanboxes-param-style": "성공 div 요소를 위한 클래스",
 	"apihelp-fanboxes-param-fantagId": "유저박스 식별자 (숫자)",
-	"apihelp-fanboxes-param-title": "메시지를 추가하거나 삭제하려는 문서 이름 (유저박스 이름공간 내)"
+	"apihelp-fanboxes-param-title": "메시지를 추가하거나 제거하려는 문서 이름 (유저박스 이름공간 내)"
 }
