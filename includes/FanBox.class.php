@@ -734,7 +734,7 @@ class FanBox {
 			$fantag_leftside = $tagParser->parse(
 				$fantag_leftside,
 				$this->title,
-				$wgOut->parserOptions(),
+				ParserOptions::newFromContext( $wgOut->getContext() ),
 				false
 			);
 			$fantag_leftside = $fantag_leftside->getText();
@@ -776,7 +776,7 @@ class FanBox {
 
 		$right_text = $this->getFanBoxRightText();
 		$right_text = $tagParser->parse(
-			$right_text, $this->title, $wgOut->parserOptions(), false
+			$right_text, $this->title, ParserOptions::newFromContext( $wgOut->getContext() ), false
 		);
 		$right_text = $right_text->getText();
 

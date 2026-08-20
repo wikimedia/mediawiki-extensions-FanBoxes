@@ -126,7 +126,7 @@ class ViewFanBoxes extends SpecialPage {
 					$fantag_leftside = $userfanbox['fantag_left_text'];
 					$fantag_leftside = $tagParser->parse(
 						$fantag_leftside, $this->getPageTitle(),
-						$out->parserOptions(), false
+						ParserOptions::newFromContext( $out->getContext() ), false
 					);
 					$fantag_leftside = $fantag_leftside->getText();
 				}
@@ -154,7 +154,7 @@ class ViewFanBoxes extends SpecialPage {
 				$right_text = $tagParser->parse(
 					$right_text,
 					$this->getPageTitle(),
-					$out->parserOptions(),
+					ParserOptions::newFromContext( $out->getContext() ),
 					false
 				);
 				$right_text = $right_text->getText();

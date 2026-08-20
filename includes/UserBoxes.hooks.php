@@ -85,8 +85,8 @@ class UserBoxesHook {
 					$fantag_leftside = $fanbox['fantag_left_text'];
 					$fantag_leftside = $tagParser->parse(
 						$fantag_leftside,
-						$parser->getTitle(),
-						$wgOut->parserOptions(),
+						$parser->getPage(),
+						ParserOptions::newFromContext( $wgOut->getContext() ),
 						false
 					);
 					$fantag_leftside = $fantag_leftside->getText();
@@ -113,8 +113,8 @@ class UserBoxesHook {
 				$right_text = $fanbox['fantag_right_text'];
 				$right_text = $tagParser->parse(
 					$right_text,
-					$parser->getTitle(),
-					$wgOut->parserOptions(),
+					$parser->getPage(),
+					ParserOptions::newFromContext( $wgOut->getContext() ),
 					false
 				);
 				$right_text = $right_text->getText();
