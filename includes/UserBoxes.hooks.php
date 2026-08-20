@@ -134,7 +134,7 @@ class UserBoxesHook {
 				<div class="individual-fanbox" id="individualFanbox' . (int)$fanbox['fantag_id'] . '">
 				<div class="show-message-container-profile" id="show-message-container' . (int)$fanbox['fantag_id'] . '">
 					<div class="relativeposition">' . $permaLink .
-					'<table class="fanBoxTableProfile" border="0" cellpadding="0" cellspacing="0">
+					'<table class="fanBoxTableProfile">
 						<tr>
 							<td id="fanBoxLeftSideOutputProfile" style="color:' . htmlspecialchars( $fanbox['fantag_left_textcolor'], ENT_QUOTES ) . "; font-size:$leftFontSize; background-color:" . htmlspecialchars( $fanbox['fantag_left_bgcolor'], ENT_QUOTES ) . ';">' . $fantag_leftside . '</td>
 							<td id="fanBoxRightSideOutputProfile" style="color:' . htmlspecialchars( $fanbox['fantag_right_textcolor'], ENT_QUOTES ) . "; font-size:$rightFontSize; background-color:" . htmlspecialchars( $fanbox['fantag_right_bgcolor'], ENT_QUOTES ) . ';">' . $right_text . '</td>
@@ -148,14 +148,14 @@ class UserBoxesHook {
 					if ( $check_user_fanbox == 0 ) {
 						$output .= '
 					<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . (int)$fanbox['fantag_id'] . '">
-					<table cellpadding="0" cellspacing="0">
+					<table>
 						<tr>
-							<td style="font-size:10px" align="center">' .
+							<td class="fanbox-pop-up-box-profile-confirmation">' .
 								wfMessage( 'fanbox-add-fanbox' )->escaped() .
 							'</td>
 						</tr>
 						<tr>
-							<td align="center">
+							<td>
 								<input type="button" class="fanbox-add-button-half" value="' . wfMessage( 'fanbox-add' )->escaped() . '" size="10" />
 								<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="10" />
 							</td>
@@ -165,14 +165,14 @@ class UserBoxesHook {
 					} else {
 						$output .= '
 					<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . (int)$fanbox['fantag_id'] . '">
-					<table cellpadding="0" cellspacing="0">
+					<table>
 						<tr>
-							<td style="font-size:10px" align="center">' .
+							<td class="fanbox-pop-up-box-profile-confirmation">' .
 								wfMessage( 'fanbox-remove-fanbox' )->escaped() .
 							'</td>
 						</tr>
 						<tr>
-							<td align="center">
+							<td>
 								<input type="button" class="fanbox-remove-button-half" value="' . wfMessage( 'fanbox-remove' )->escaped() . '" size="10" />
 								<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="10" />
 							</td>
@@ -184,13 +184,13 @@ class UserBoxesHook {
 
 				if ( $user->getId() == 0 ) {
 					$output .= '<div class="fanbox-pop-up-box-profile" id="fanboxPopUpBox' . (int)$fanbox['fantag_id'] . '">
-					<table cellpadding="0" cellspacing="0">
+					<table>
 						<tr>
-							<td style="font-size: 10px" align="center">' .
+							<td class="fanbox-pop-up-box-profile-confirmation">' .
 								wfMessage( 'fanbox-add-fanbox-login' )->parse() .
 							'</td>
 							<tr>
-								<td align="center">
+								<td>
 									<input type="button" class="fanbox-cancel-button" value="' . wfMessage( 'cancel' )->escaped() . '" size="10" />
 								</td>
 							</tr>

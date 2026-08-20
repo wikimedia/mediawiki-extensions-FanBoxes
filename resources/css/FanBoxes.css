@@ -138,11 +138,29 @@
 	border: 1px solid #dcdcdc;
 }
 
+.fanbox-pop-up-box-profile td,
+.fanbox-pop-up-box-profile th {
+	text-align: center;
+	padding: 0;
+	border-spacing: 0;
+}
+
+.fanbox-pop-up-box-profile-confirmation {
+	font-size: 10px;
+}
+
 .fanBoxTableProfile {
 	cursor: pointer;
 	width: 100%;
 	height: 100%;
 	line-height: 1;
+}
+
+.fanBoxTableProfile td,
+.fanBoxTableProfile th {
+	padding: 0;
+	border-spacing: 0;
+	border: 0;
 }
 
 .show-message-container {
