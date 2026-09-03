@@ -199,7 +199,6 @@
 				},
 				( data ) => {
 					$container.html(
-						// eslint-disable-next-line mediawiki/msg-doc
 						'<div class="' + style + '">' + mw.msg( data.fanboxes.result ) + '</div>'
 					).fadeIn( 1000 );
 				}
