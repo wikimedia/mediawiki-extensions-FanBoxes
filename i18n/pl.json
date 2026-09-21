@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"PanWor",
 			"Rail",
 			"Woytecr"
 		]
@@ -62,7 +63,7 @@
 	"fanbox-nav-header": "Userboksy",
 	"fanbox-most-recent-fanboxes-link": "Najnowsze userboksy",
 	"fanbox-successful-add": "Dodałeś ten userboks do swojej strony użytkownika.",
-	"fanbox-successful-remove": "Usunąłeś ten userboks ze swojej strony użytkownika.",
+	"fanbox-successful-remove": "Usunięto tego userboksa z Twojej strony użytkownika.",
 	"fanbox-users-with-fanbox": "Fani z tym userboksem",
 	"fanbox-users-with-fanbox-message": "Inni ludzie zainteresowani tym samym",
 	"user-fanbox-title": "Userboksy",
