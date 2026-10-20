@@ -152,7 +152,7 @@
 /* Ensure that the button or buttons do not overflow
  * @todo FIXME: this is just so ugly on so many different levels...but it works
  */
-body.user-anon .fanbox-pop-up-box-profile td[align="center"] {
+body.user-anon .fanbox-pop-up-box-profile td[ align='center' ] {
 	display: block;
 	position: relative;
 	top: -15px;
